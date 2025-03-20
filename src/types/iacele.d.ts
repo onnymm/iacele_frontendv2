@@ -20,6 +20,22 @@ declare namespace IACele {
         };
     };
 
+    declare namespace UI {
+
+        interface Input {
+            value?: string;
+            onValueChange?: React.Dispatch<React.SetStateAction<string>>;
+        };
+
+        interface CoreInput extends Input {
+            label: string;
+            icon?: React.FC<React.SVGProps<SVGSVGElement>>;
+            type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
+            endContent?: React.ReactNode;
+            name: string;
+        };
+    };
+
     declare namespace Core {
 
         declare namespace Security {
