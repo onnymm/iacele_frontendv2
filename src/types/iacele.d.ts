@@ -19,4 +19,20 @@ declare namespace IACele {
             setToken: React.Dispatch<React.SetStateAction<string | null>>;
         };
     };
+
+    declare namespace Core {
+
+        declare namespace Security {
+
+            interface AuthenticationHeaders {
+                headers: {
+                    accept: string;
+                    "Content-Type"?: string;
+                    "Authorization"?: string;
+                }
+            };
+
+            type AuthenticationAction = (username: string, password: string) => (Promise<boolean>);
+        };
+    };
 };
