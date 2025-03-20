@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ambiente virtual
+.env
+
+# Generador de documentación
+docGenerator.js
