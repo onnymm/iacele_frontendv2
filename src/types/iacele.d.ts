@@ -48,7 +48,26 @@ declare namespace IACele {
                 }
             };
 
-            type AuthenticationAction = (username: string, password: string) => (Promise<boolean>);
+            type AuthenticationAction = (
+                username: string,
+                password: string,
+                setError: React.Dispatch<React.SetStateAction<string>>
+            ) => (Promise<void>);
+        };
+    };
+
+    declare namespace API {
+
+        declare namespace Response {
+
+            interface Authentication {
+                'access_token': string;
+                'token_type': 'bearer';
+            };
+
+            interface Error {
+                detail: string;
+            };
         };
     };
 };
