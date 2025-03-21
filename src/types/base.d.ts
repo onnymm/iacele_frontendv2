@@ -1,3 +1,3 @@
 interface GenericInvolverComponent {
     children: ReactNode;
-}
+};
