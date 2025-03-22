@@ -33,11 +33,11 @@ declare namespace IACele {
         };
 
         interface CoreInput extends Input {
-            label: string;
-            icon?: React.FC<React.SVGProps<SVGSVGElement>>;
-            type?: React.InputHTMLAttributes<HTMLInputElement>['type'];
-            endContent?: React.ReactNode;
-            name: string;
+            name: string; // Nombre del campo en el formulario.
+            label: string; // Nombre descriptivo del campo, visible en la interfaz.
+            type?: React.InputHTMLAttributes<HTMLInputElement>['type']; // Tipo de campo.
+            icon?: React.FC<React.SVGProps<SVGSVGElement>>; // Ícono a renderizar en el campo.
+            endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
         };
     };
 
@@ -50,13 +50,13 @@ declare namespace IACele {
                     accept: string;
                     "Content-Type"?: string;
                     "Authorization"?: string;
-                }
+                };
             };
 
             type AuthenticationAction = (
                 username: string,
                 password: string,
-                setError: React.Dispatch<React.SetStateAction<string>>
+                setError: React.Dispatch<React.SetStateAction<string>>,
             ) => (Promise<void>);
         };
     };

@@ -24,14 +24,10 @@ import { AxiosError, AxiosResponse } from "axios";
 const useUserAuthentication = (): IACele.Core.Security.AuthenticationAction => {
 
     // Obtención de función de cambio de estado del token
-    const { setToken } = useContext<IACele.Context.Token>(TokenContext)
+    const { setToken } = useContext<IACele.Context.Token>(TokenContext);
 
     // Función a retornar
-    const userLogin: (
-        username: string,
-        password: string,
-        setError: React.Dispatch<React.SetStateAction<string>>,
-    ) => (Promise<void>) = async (
+    const userLogin: IACele.Core.Security.AuthenticationAction = async (
         username,
         password,
         setError,

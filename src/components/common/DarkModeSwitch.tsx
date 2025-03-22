@@ -39,5 +39,5 @@ const ThumbIcon: React.FC<{isSelected: boolean}> = ({
 
     return (
         <IconToRender className="fill-gray-500" />
-    )
-}
+    );
+};

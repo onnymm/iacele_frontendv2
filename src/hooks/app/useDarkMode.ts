@@ -39,7 +39,7 @@ const useDarkMode: () => (IACele.Context.DarkMode) = () => {
 
                 // Retorno de la configuración guardada, convertida a booleano
                 return Boolean( keyValue[storedDarkMode] );
-            }
+            };
 
             // En caso de no existir se toma la configuración del tema del dispositivo
             const systemDarkMode = (
@@ -63,7 +63,7 @@ const useDarkMode: () => (IACele.Context.DarkMode) = () => {
             // Si el modo oscuro está desactivado
             } else {
                 document.documentElement.classList.remove(THEME.DARK);
-            }
+            };
 
             // Se guarda la configuración actual
             localStorage.setItem(LOCAL_STORAGE.DARK_MODE, String(darkMode));

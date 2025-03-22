@@ -15,7 +15,7 @@ interface MiniGrapperParams extends GenericInvolverComponent {
  *  - [ `boolean` ] `groupDivisions`: Indicador de si los elementos
  *  <{@link Group} /> contenidos renderizarán una línea divisora.
 */
-const MiniGrapper: (config: MiniGrapperParams) => (React.JSX.Element) = ({
+const MiniGrapper: React.FC<MiniGrapperParams> = ({
     children,
     groupDivisions = false,
 }) => {

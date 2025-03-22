@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import userTemplate from "../constants/userTemplate";
 import fetchUser from "./fetchUser";
 import { TokenContext } from "../contexts/tokenContext";
-import { UserContext } from "../contexts/UserContext";
+import { UserContext } from "../contexts/userContext";
+import LOCAL_STORAGE from "../constants/app/localStorage";
 
 /**
  *  ## Proveedor de autenticación
@@ -18,12 +19,12 @@ import { UserContext } from "../contexts/UserContext";
  *  - [ {@link React.JSX.Element} ] `children`: Componente de aplicación a
  *  envolver.
  */ 
-const AuthProvider: (config: GenericInvolverComponent) => (React.JSX.Element) = ({
+const AuthProvider: React.FC<GenericInvolverComponent> = ({
     children,
 }) => {
 
     // Se intenta obtener el token desde el dispositivo
-    const [ token, setToken ] = useState<string | null>( localStorage.getItem("userToken") );
+    const [ token, setToken ] = useState<string | null>( localStorage.getItem(LOCAL_STORAGE.USER_TOKEN) );
 
     // Inicialización del usuario actual
     const [ user, setUser ] = useState<IACele.Application.CurrentUserData>(userTemplate);
@@ -39,9 +40,9 @@ const AuthProvider: (config: GenericInvolverComponent) => (React.JSX.Element) = 
     useEffect(
         () => {
             if ( token ) {
-                localStorage.setItem("userToken", token );
+                localStorage.setItem(LOCAL_STORAGE.USER_TOKEN, token );
             } else {
-                localStorage.removeItem("userToken");
+                localStorage.removeItem(LOCAL_STORAGE.USER_TOKEN);
             }
         }, [token]
     );

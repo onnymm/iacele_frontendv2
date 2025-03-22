@@ -2,9 +2,9 @@
 
 interface GroupParams extends GenericInvolverComponent {
     title?: string; // Título del grupo de componentes.
-}
+};
 
-const Group: (config: GroupParams) => (React.JSX.Element) = ({
+const Group: React.FC<GroupParams> = ({
     children,
     title,
 }) => {

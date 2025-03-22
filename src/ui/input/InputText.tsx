@@ -1,19 +1,39 @@
 import { Input } from "@heroui/react";
 import { useState } from "react";
 
+/** 
+ *  ## Campo de texto
+ *  Este componente renderiza un campo de texto construido sobre el componente
+ *  {@link Input} para usarse como plantilla.
+ *  
+ *  `< tsx />` Se autocierra.
+ *  
+ *  ### Parámetros de entrada
+ *  - [ `string` ] `name`: Nombre del campo en el formulario.
+ *  - [ `string` ] `label`: Nombre descriptivo del campo, visible en la
+ *  interfaz.
+ *  - [ {@link React.InputHTMLAttributes<HTMLInputElement>['type']} ] `type`:
+ *  Tipo de campo.
+ *  - [ {@link React.FC<React.SVGProps<SVGSVGElement>>} ] `icon`: Ícono a
+ *  renderizar en el campo.
+ *  - [ {@link React.ReactNode} ] `endContent`: Componente a renderizar en la
+ *  parte final del campo.
+ */ 
 const InputText: React.FC<IACele.UI.CoreInput> = ({
+    name,
+    label,
     value,
+    type = 'text',
     onValueChange,
     icon: Icon,
     endContent,
-    label,
-    type = 'text',
-    name,
 }) => {
 
+    // Inicialización de estado de enfoque
     const [ isFocused, setIsFocused ] = useState<boolean>(false);
 
     return (
+        // Control del borde del campo
         <div className={`${isFocused ? 'border-primary-500' : 'border-gray-500/20 hover:border-primary-500/50'} relative h-10 border-2 rounded-lg transition-colors duration-100`}>
             <Input
                 className={'border-none'}
@@ -29,6 +49,7 @@ const InputText: React.FC<IACele.UI.CoreInput> = ({
                 endContent={endContent}
                 name={name}
             />
+            {/* Ícono a renderizar */}
             {Icon &&
                 <div className="top-0 absolute flex flex-row items-center size-full pointer-events-none">
                     <Icon className={`${isFocused ? 'fill-primary-500' : 'fill-gray-500'} ml-2 min-w-6 h-6 transition-colors duration-100`} />

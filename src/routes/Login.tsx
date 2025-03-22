@@ -14,7 +14,7 @@ const Login = (): (React.JSX.Element) => {
     // Obtención de valores del contexto
     const { token } = useContext<IACele.Context.Token>(TokenContext);
     // Función para redireccionar cuando el usuario se autentique
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     // Obtención de función de autenticación
     const userLogin = useUserAuthentication();
@@ -24,6 +24,7 @@ const Login = (): (React.JSX.Element) => {
     const [ password, setPassword ] = useState<string>('');
     const [ errorMessage, setErrorMessage ] = useState<string>('');
 
+    // Función a ejecutar cuando el formulario se envía
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -31,14 +32,18 @@ const Login = (): (React.JSX.Element) => {
         const { username, password } = Object.fromEntries(new FormData(event.currentTarget));
 
         // Envío de datos
-        await userLogin(username as string, password as string, setErrorMessage);
-    }
+        await userLogin(
+            username as string,
+            password as string,
+            setErrorMessage
+        );
+    };
 
     useEffect(
         () => {
             if ( token ) navigate('/');
         }, [token, navigate]
-    )
+    );
 
     return (
         <Form

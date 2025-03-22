@@ -27,10 +27,11 @@ const fetchUser: (config: UserAuthentication) => (Promise<void>) = async ({
     setUser,
 }) => {
 
+    // Si no existe un token de usuario se usa la plantilla predefinida para evitar errores
     if ( !token ) {
         setUser(userTemplate);
         return;
-    }
+    };
 
     try {
         // Envío de solicitud al api
@@ -46,8 +47,8 @@ const fetchUser: (config: UserAuthentication) => (Promise<void>) = async ({
             setUser(userTemplate);
         } else {
             console.error("Hubo un problema al autenticar el usuario:", error)
-        }
-    }
+        };
+    };
 };
 
 export default fetchUser;
