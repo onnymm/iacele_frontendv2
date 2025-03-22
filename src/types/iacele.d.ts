@@ -18,6 +18,11 @@ declare namespace IACele {
             token: string | null;
             setToken: React.Dispatch<React.SetStateAction<string | null>>;
         };
+
+        interface DarkMode {
+            darkMode: boolean;
+            setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+        };
     };
 
     declare namespace UI {
@@ -68,6 +73,14 @@ declare namespace IACele {
             interface Error {
                 detail: string;
             };
+        };
+    };
+
+    declare namespace Browser {
+
+        declare namespace LocalStorage {
+
+            type DarkModeValue = 'false' | 'true' | null;
         };
     };
 };
