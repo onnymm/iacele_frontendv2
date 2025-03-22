@@ -17,7 +17,7 @@ const InputText: React.FC<IACele.UI.CoreInput> = ({
         <div className={`${isFocused ? 'border-primary-500' : 'border-gray-500/20 hover:border-primary-500/50'} relative h-10 border-2 rounded-lg transition-colors duration-100`}>
             <Input
                 className={'border-none'}
-                classNames={{input: `ml-6 pt-3 h-full ${type === 'password' ? 'tracking-widest' : ''}`, label: `font-semibold group-data-[focus-within=true]:text-primary-500 ml-6 group-data-[filled-within=true]:scale-85 group-data-[filled-within=true]:-translate-y-[calc(50%_+_theme(fontSize.tiny)/2_-_6px_-_theme(borderWidth.medium))] transition duration-100`, base: 'h-full', inputWrapper: 'border-none h-full py-0', }}
+                classNames={{input: `ml-6 pt-3 h-full ${type === 'password' ? 'tracking-[0.25em]' : ''}`, label: `font-semibold group-data-[focus-within=true]:text-primary-500 ml-6 group-data-[filled-within=true]:scale-85 group-data-[filled-within=true]:-translate-y-[calc(50%_+_theme(fontSize.tiny)/2_-_6px_-_theme(borderWidth.medium))] transition duration-100`, base: 'h-full', inputWrapper: 'border-none h-full py-0', }}
                 label={label}
                 size="sm"
                 variant="bordered"
