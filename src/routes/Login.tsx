@@ -1,12 +1,20 @@
 import { Alert, Button, Form } from "@heroui/react";
 import Group from "../components/layout/Group";
 import MiniGrapper from "../components/layout/MiniGrapper";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InputUser from "../ui/input/InputUser";
 import InputPassword from "../ui/input/InputPassword";
 import useUserAuthentication from "../hooks/app/useUserAuthentication";
+import DarkModeSwitch from "../components/common/DarkModeSwitch";
+import { TokenContext } from "../contexts/tokenContext";
+import { useNavigate } from "react-router";
 
 const Login = (): (React.JSX.Element) => {
+
+    // Obtención de valores del contexto
+    const { token } = useContext<IACele.Context.Token>(TokenContext);
+    // Función para redireccionar cuando el usuario se autentique
+    const navigate = useNavigate()
 
     // Obtención de función de autenticación
     const userLogin = useUserAuthentication();
@@ -26,6 +34,12 @@ const Login = (): (React.JSX.Element) => {
         await userLogin(username as string, password as string, setErrorMessage);
     }
 
+    useEffect(
+        () => {
+            if ( token ) navigate('/');
+        }, [token, navigate]
+    )
+
     return (
         <Form
             onSubmit={onSubmit}
@@ -41,6 +55,9 @@ const Login = (): (React.JSX.Element) => {
                             {errorMessage}
                         </Alert>
                     }
+                    <div className="flex justify-end pt-2 w-full">
+                        <DarkModeSwitch />
+                    </div>
                 </Group>
             </MiniGrapper>
         </Form>

@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router"
 import App from "./App"
 import Home from "./routes/Home"
+import Login from "./routes/Login";
 
 /** 
  *  ## Ruteador
@@ -19,6 +20,7 @@ const Router = (): (React.JSX.Element) => {
             <Route element={<App />}>
                 <Route index element={<Home />} />
             </Route>
+            <Route path="/login" element={<Login />} />
         </Routes>
     );
 };

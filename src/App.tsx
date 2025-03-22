@@ -1,5 +1,7 @@
 import { Button } from "@heroui/react";
-import { Outlet } from "react-router";
+import { useContext, useEffect } from "react";
+import { Outlet, useNavigate } from "react-router";
+import { TokenContext } from "./contexts/tokenContext";
 
 /** 
  *  ## Aplicación de IACele
@@ -11,6 +13,16 @@ import { Outlet } from "react-router";
  *  Este componente no requiere parámetros de entrada.
  */ 
 const App = (): (React.JSX.Element) => {
+
+    // Obtención de valores del contexto
+    const { token } = useContext<IACele.Context.Token>(TokenContext)
+    const navigate = useNavigate()
+
+    useEffect(
+        () => {
+            if ( !token ) navigate('/login');
+        }, [token, navigate]
+    );
 
     return (
         <div>

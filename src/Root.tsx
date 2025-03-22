@@ -2,6 +2,8 @@
 import { BrowserRouter } from "react-router";
 import Router from "./router";
 import { HeroUIProvider } from "@heroui/react";
+import useDarkMode from "./hooks/app/useDarkMode";
+import DarkModeContext from "./contexts/darkModeContext";
 
 /** 
  *  ## Raíz de iaCele
@@ -14,12 +16,17 @@ import { HeroUIProvider } from "@heroui/react";
  */ 
 const Root = (): (React.JSX.Element) => {
 
+    // Obtención de valores para proveedor de contexto
+    const { darkMode, setDarkMode } = useDarkMode();
+
     return (
-        <HeroUIProvider>
-            <BrowserRouter>
-                <Router />
-            </BrowserRouter>
-        </HeroUIProvider>
+        <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
+            <HeroUIProvider>
+                <BrowserRouter>
+                    <Router />
+                </BrowserRouter>
+            </HeroUIProvider>
+        </DarkModeContext.Provider>
     );
 };
 
