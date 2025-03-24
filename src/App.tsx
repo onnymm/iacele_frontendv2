@@ -1,7 +1,7 @@
-import { Button } from "@heroui/react";
 import { useContext, useEffect } from "react";
-import { Outlet, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { TokenContext } from "./contexts/tokenContext";
+import Navbar from "./components/common/navbar/Navbar";
 
 /** 
  *  ## Aplicación de IACele
@@ -25,11 +25,9 @@ const App = (): (React.JSX.Element) => {
     );
 
     return (
-        <div>
-            <Button color="primary">
-                Botón
-            </Button>
-            <Outlet />
+        <div className="relative h-full">
+            {/* Barra superior */}
+            <Navbar />
         </div>
     );
 };

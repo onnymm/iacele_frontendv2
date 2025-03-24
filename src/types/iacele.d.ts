@@ -23,6 +23,13 @@ declare namespace IACele {
             darkMode: boolean;
             setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
         };
+
+        interface SidebarDisplay {
+            isSidebarLocked: boolean;
+            setIsSidebarLocked: React.Dispatch<React.SetStateAction<boolean>>;
+            isSidebarOpen: boolean;
+            setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+        };
     };
 
     declare namespace UI {
