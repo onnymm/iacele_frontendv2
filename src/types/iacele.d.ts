@@ -30,6 +30,11 @@ declare namespace IACele {
             isSidebarOpen: boolean;
             setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
         };
+
+        interface Navbar {
+            dynamicControls: React.JSX.Element | null;
+            setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
+        };
     };
 
     declare namespace UI {
