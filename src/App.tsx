@@ -2,6 +2,7 @@ import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { TokenContext } from "./contexts/tokenContext";
 import Navbar from "./components/common/navbar/Navbar";
+import Sidebar from "./components/common/sidebar/Sidebar";
 
 /** 
  *  ## Aplicación de IACele
@@ -28,6 +29,9 @@ const App = (): (React.JSX.Element) => {
         <div className="relative h-full">
             {/* Barra superior */}
             <Navbar />
+
+            {/* Barra lateral */}
+            <Sidebar />
         </div>
     );
 };
