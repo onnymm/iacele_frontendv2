@@ -35,6 +35,10 @@ declare namespace IACele {
             dynamicControls: React.JSX.Element | null;
             setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
         };
+
+        interface AppContent {
+            appContentRef: React.RefObject<HTMLElement | null>;
+        };
     };
 
     declare namespace UI {
