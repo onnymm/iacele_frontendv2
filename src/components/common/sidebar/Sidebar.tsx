@@ -3,7 +3,7 @@ import SidebarContext from "../../../contexts/sidebarContext";
 import useClickOutside from "../../../hooks/app/useClickOutside";
 import ButtonLockSidebar from "./ButtonLockSidebar";
 import Button from "../components/Button";
-import IconKeyboardArrowLeft from "../../icons/IconKeyboardArrowLeft";
+import { ArrowBackIosNewRounded } from "@mui/icons-material";
 
 const Sidebar = (): (React.JSX.Element) => {
 
@@ -33,7 +33,7 @@ const Sidebar = (): (React.JSX.Element) => {
                 <div className="flex sm:flex-row flex-row-reverse justify-between items-center px-4 w-72 h-20">
                     <h1 id="navbar-logo" className="flex justify-center items-center size-full">iaCele</h1>
                     <div className={`${isSidebarLocked ? "opacity-0 pointer-events-none" : "opacity-100"} transition-opacity size-12`}>
-                        <Button icon={IconKeyboardArrowLeft} callback={() => setIsSidebarOpen(false)} />
+                        <Button icon={ArrowBackIosNewRounded} callback={() => setIsSidebarOpen(false)} />
                     </div>
                 </div>
                 <div id="sidebar-content" className="h-full">

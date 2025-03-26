@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import SidebarContext from "../../../contexts/sidebarContext";
-import IconLock from "../../icons/IconLock";
+import { LockOutlineRounded } from "@mui/icons-material";
 
 /** 
  *  ## Bloqueo de barra lateral
@@ -23,7 +23,7 @@ const ButtonLockSidebar: () => (React.JSX.Element) = () => {
             className={`${isSidebarLocked ? "bg-slate-900" : ""} hidden sm:block hover:bg-slate-900 rounded-md size-10`}
         >
             <div className="p-2 size-full">
-                <IconLock className="fill-white sm:size-6" />
+                <LockOutlineRounded className="fill-white sm:size-6" />
             </div>
         </button>
     );

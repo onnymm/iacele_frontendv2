@@ -1,8 +1,6 @@
 import { useState } from "react";
-import IconLock from "../../components/icons/IconLock"
 import InputText from "./InputText"
-import IconEye from "../../components/icons/IconEye";
-import IconEyeClosed from "../../components/icons/IcoonEyeClosed";
+import { LockOutlineRounded, SvgIconComponent, VisibilityOffRounded, VisibilityRounded } from "@mui/icons-material";
 
 /** 
  *  ## Campo de contraseña
@@ -35,9 +33,9 @@ const InputPassword: React.FC<IACele.UI.Input> = ({
             onValueChange={onValueChange}
             name="password"
             label="Contraseña"
-            icon={IconLock}
+            icon={LockOutlineRounded}
             type={isVisiblePassword ? 'text' : 'password'}
-            endContent={<IconToggle onClick={toggleVisibility} icon={isVisiblePassword ? IconEyeClosed : IconEye} />}
+            endContent={<IconToggle onClick={toggleVisibility} icon={isVisiblePassword ? VisibilityRounded : VisibilityOffRounded} />}
         />
     );
 };
@@ -45,7 +43,7 @@ const InputPassword: React.FC<IACele.UI.Input> = ({
 export default InputPassword;
 
 interface ToggleIcon {
-    icon: React.FC<React.SVGProps<SVGSVGElement>>; // Ícono a renderizar dependiendo del estado de visibilidad.
+    icon: SvgIconComponent // Ícono a renderizar dependiendo del estado de visibilidad.
     onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void // Función a ejecutar cuando se da clic en el botón.
 }
 
@@ -70,7 +68,7 @@ const IconToggle: React.FC<ToggleIcon> = ({
 
     return (
         <button onClick={onClick} type="button" className="top-0 right-0 absolute mr-2 h-full">
-            <Icon className="fill-gray-500 group-data-[focus-within=true]:fill-primary-500 min-w-6 h-6 transition-colors duration-100 pointer-events-auto" />
+            <Icon className="min-w-6 h-6 text-gray-500 group-data-[focus-within=true]:text-primary-500 transition-colors duration-100 pointer-events-auto" />
         </button>
     )
 }

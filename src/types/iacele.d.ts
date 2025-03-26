@@ -52,7 +52,7 @@ declare namespace IACele {
             name: string; // Nombre del campo en el formulario.
             label: string; // Nombre descriptivo del campo, visible en la interfaz.
             type?: React.InputHTMLAttributes<HTMLInputElement>['type']; // Tipo de campo.
-            icon?: React.FC<React.SVGProps<SVGSVGElement>>; // Ícono a renderizar en el campo.
+            icon?: React.FC<React.SVGProps<SVGSVGElement>> | SvgIconComponent; // Ícono a renderizar en el campo.
             endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
         };
     };

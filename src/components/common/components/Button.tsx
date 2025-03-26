@@ -1,7 +1,8 @@
+import { SvgIconComponent } from "@mui/icons-material";
 import React from "react";
 
 interface BaseInterfaceButton {
-    icon: React.FC<React.SVGProps<SVGElement>>;
+    icon: React.FC<React.SVGProps<SVGElement>> | SvgIconComponent;
     callback: () => (void);
 }
 
@@ -24,7 +25,7 @@ const Button: (config: BaseInterfaceButton) => (React.JSX.Element) = ({
     return (
         <button onClick={callback} className="size-12">
             <div className="p-2 size-full">
-                <Icon className="fill-white size-8" />
+                <Icon sx={{fontSize: 32}} className="text-white" />
             </div>
         </button>
     );

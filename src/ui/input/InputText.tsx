@@ -52,7 +52,7 @@ const InputText: React.FC<IACele.UI.CoreInput> = ({
             {/* Ícono a renderizar */}
             {Icon &&
                 <div className="top-0 absolute flex flex-row items-center size-full pointer-events-none">
-                    <Icon className={`${isFocused ? 'fill-primary-500' : 'fill-gray-500'} ml-2 min-w-6 h-6 transition-colors duration-100`} />
+                    <Icon className={`${isFocused ? 'text-primary-500' : 'text-gray-500'} ml-2 min-w-6 h-6 transition-colors duration-100`} />
                 </div>
             }
         </div>

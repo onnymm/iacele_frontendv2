@@ -1,4 +1,4 @@
-import IconUser from "../../components/icons/IconUser";
+import { PersonRounded } from "@mui/icons-material";
 import InputText from "./InputText"
 
 /** 
@@ -23,7 +23,7 @@ const InputUser: React.FC<IACele.UI.Input> = ({
             value={value}
             onValueChange={onValueChange}
             name="username"
-            icon={IconUser}
+            icon={PersonRounded}
             label="Usuario"
         />
     );

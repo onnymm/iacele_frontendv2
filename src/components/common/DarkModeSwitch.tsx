@@ -1,8 +1,7 @@
 import { Switch } from "@heroui/react"
 import { useContext } from "react"
 import DarkModeContext from "../../contexts/darkModeContext"
-import IconMoon from "../icons/IconMoon";
-import IconSun from "../icons/IconSun";
+import { BedtimeRounded, WbSunnyRounded } from "@mui/icons-material";
 
 /** 
  *  ## Switch de modo oscuro
@@ -33,11 +32,11 @@ const ThumbIcon: React.FC<{isSelected: boolean}> = ({
     // Ícono a renderizar
     const IconToRender = (
         isSelected
-            ? IconMoon
-            : IconSun
+            ? BedtimeRounded
+            : WbSunnyRounded
     );
 
     return (
-        <IconToRender className="fill-gray-500" />
+        <IconToRender className="text-gray-500" sx={{ fontSize: 12}} />
     );
 };
