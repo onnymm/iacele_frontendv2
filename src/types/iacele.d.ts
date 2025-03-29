@@ -6,9 +6,9 @@ declare namespace IACele {
             id: number | undefined;
             user: string;
             name: string;
-            odoo_id: number | undefined;
-            "create_date": string;
-            "write_date": string;
+            odooId: number | undefined;
+            createDate: string;
+            writeDate: string;
         };
     };
 
@@ -43,6 +43,9 @@ declare namespace IACele {
 
     declare namespace UI {
 
+        // Color de decoración de valor de vista
+        type DecorationColor = "default" | "secondary" | "success" | "warning" | "danger" | undefined;
+
         interface Input {
             value?: string;
             onValueChange?: React.Dispatch<React.SetStateAction<string>>;
@@ -54,6 +57,29 @@ declare namespace IACele {
             type?: React.InputHTMLAttributes<HTMLInputElement>['type']; // Tipo de campo.
             icon?: React.FC<React.SVGProps<SVGSVGElement>> | SvgIconComponent; // Ícono a renderizar en el campo.
             endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
+        };
+    };
+
+    declare namespace API {
+
+        declare namespace Response {
+
+            interface Authentication {
+                accessToken: string;
+                tokenType: 'bearer';
+            };
+
+            interface Error {
+                detail: string;
+            };
+        };
+    };
+
+    declare namespace Browser {
+
+        declare namespace LocalStorage {
+
+            type DarkModeValue = 'false' | 'true' | null;
         };
     };
 
@@ -74,29 +100,6 @@ declare namespace IACele {
                 password: string,
                 setError: React.Dispatch<React.SetStateAction<string>>,
             ) => (Promise<void>);
-        };
-    };
-
-    declare namespace API {
-
-        declare namespace Response {
-
-            interface Authentication {
-                'access_token': string;
-                'token_type': 'bearer';
-            };
-
-            interface Error {
-                detail: string;
-            };
-        };
-    };
-
-    declare namespace Browser {
-
-        declare namespace LocalStorage {
-
-            type DarkModeValue = 'false' | 'true' | null;
         };
     };
 };
