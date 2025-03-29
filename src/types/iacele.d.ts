@@ -190,15 +190,18 @@ declare namespace IACele {
         // Respuestas comunes del backend
         declare namespace Response {
 
+            // Autenticación
             interface Authentication {
                 accessToken: string;
                 tokenType: 'bearer';
             };
 
+            // Error
             interface Error {
                 detail: string;
             };
 
+            // Objetos de registros
             interface Records<T extends DataTypes.GenericRecord> {
                 data: T[];
                 count: number;
@@ -216,8 +219,10 @@ declare namespace IACele {
 
     declare namespace Browser {
 
+        // Valores del almacenamiento local del navegador
         declare namespace LocalStorage {
 
+            // Modo oscuro
             type DarkModeValue = 'false' | 'true' | null;
         };
     };
@@ -240,5 +245,60 @@ declare namespace IACele {
                 setError: React.Dispatch<React.SetStateAction<string>>,
             ) => (Promise<void>);
         };
+
+        // Sección de widgets de vista
+        declare namespace Widget {
+
+            // Declaración de widget de vista
+            interface WidgetDeclaration {
+                value: API.DataTypes._RecordValue;
+                key: string;
+                tableName: IACele.API.Database.TableName;
+                record: IACele.View.GenericRecord;
+                color: IACele.UI.DecorationColor;
+            };
+
+            // Función que recibe declaración widget de vista
+            type WidgetConstructor = (config: WidgetDeclaration) => (React.JSX.Element);
+
+            // Destructuración dinámica de la llave de un objeto de registro de base de datos
+            interface _KeyDynamicDestructuration {
+                [ key: string ]: API.DataTypes._RecordValue;
+            };
+
+            // Componente de widget
+            type _Widget = React.FC<_KeyDynamicDestructuration>;
+
+            // Función receptora de atributos para ser usados en widget a renderizar
+            type PropsReceiverForWidget = (
+                (
+                    key: string,
+                    options: Options,
+                    tableName: IACele.API.Database.TableName,
+                    id: API.DataTypes.GenericRecord,
+                ) => (_Widget)
+            );
+
+            interface WidgetPreset {
+                chip: PropsReceiverForWidget;
+                toggle: PropsReceiverForWidget;
+                codeline: PropsReceiverForWidget;
+            };
+
+            type WidgetPresetKey = keyof WidgetPreset;
+
+                // Opciones de decoración de valor
+            type _DecorationOption = (record: API.DataTypes.GenericRecord) => (boolean);
+
+            // Interfaz de opciones de decoración
+            interface Options {
+                info?: _DecorationOption;
+                success?: _DecorationOption;
+                warning?: _DecorationOption;
+                danger?: _DecorationOption;
+            };
+
+        };
+
     };
 };
