@@ -34,8 +34,8 @@ const App = (): (React.JSX.Element) => {
             <Navbar />
 
             {/* Contenido de la aplicación */}
-            <div className="flex flex-row flex-shrink h-[calc(100%_-_4rem)] max-h-[calc(100%_-_4rem)]">
-                <div className={`${isSidebarOpen && isSidebarLocked ? "w-72" : "w-0"} h-full transition-width duration-300`}/>
+            <div className={`${isSidebarOpen && isSidebarLocked ? "ui-navbar-active" : ""} group flex flex-row flex-shrink h-[calc(100%_-_7rem)]`}>
+                <div id="sidebar-block" className={`${isSidebarOpen && isSidebarLocked ? "w-72" : "w-0"} h-full transition-width duration-300`}/>
                 {/* Se contiene sólo esta parte para evitar renderizaciones innecesarias */}
                 <Content />
             </div>
