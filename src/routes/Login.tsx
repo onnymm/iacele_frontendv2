@@ -8,8 +8,12 @@ import useUserAuthentication from "../hooks/app/useUserAuthentication";
 import DarkModeSwitch from "../components/common/DarkModeSwitch";
 import { TokenContext } from "../contexts/tokenContext";
 import { useNavigate } from "react-router";
+import useViewName from "../hooks/app/usePageName";
 
 const Login = (): (React.JSX.Element) => {
+
+    // Obtención de la función de cambio de estado para establecer el nombre de la vista
+    const { setViewName } = useViewName();
 
     // Obtención de valores del contexto
     const { token } = useContext<IACele.Context.Token>(TokenContext);
@@ -38,6 +42,12 @@ const Login = (): (React.JSX.Element) => {
             setErrorMessage
         );
     };
+
+    useEffect(
+        () => {
+            setViewName('Iniciar sesión');
+        }, [setViewName]
+    );
 
     useEffect(
         () => {
