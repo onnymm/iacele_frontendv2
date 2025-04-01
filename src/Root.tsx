@@ -7,6 +7,8 @@ import DarkModeContext from "./contexts/darkModeContext";
 import { useState } from "react";
 import NavbarContext from "./contexts/navbarContext";
 import SidebarContext from "./contexts/sidebarContext";
+import PageNameContext from "./contexts/pageNameContext";
+import APP_NAME from "./constants/app/name";
 
 /** 
  *  ## Raíz de iaCele
@@ -26,15 +28,18 @@ const Root = (): (React.JSX.Element) => {
     const [ dynamicControls, setDynamicControls ] = useState<React.JSX.Element | null>(null);
     const [ isSidebarOpen, setIsSidebarOpen ] = useState<boolean>(false);
     const [ isSidebarLocked, setIsSidebarLocked ] = useState<boolean>(false);
+    const [ pageName, setPageName ] = useState<string | null>(APP_NAME);
 
     return (
         <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
             <HeroUIProvider>
                 <NavbarContext.Provider value={{ dynamicControls, setDynamicControls }}>
                 <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked }}>
+                <PageNameContext.Provider value={{ pageName, setPageName }}>
                     <BrowserRouter>
                         <Router />
                     </BrowserRouter>
+                </PageNameContext.Provider>
                 </SidebarContext.Provider>
                 </NavbarContext.Provider>
             </HeroUIProvider>

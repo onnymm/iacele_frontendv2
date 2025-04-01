@@ -39,6 +39,11 @@ declare namespace IACele {
         interface AppContent {
             appContentRef: React.RefObject<HTMLElement | null>;
         };
+
+        interface PageName {
+            pageName: string | null;
+            setPageName: React.Dispatch<React.SetStateAction<string | null>>;
+        };
     };
 
     declare namespace UI {
