@@ -18,4 +18,8 @@ body {
     button.ui-interactive {
         @apply active:scale-90 transition;
     }
+
+    .ui-sorteable-column:hover > .ui-sorteable-indicator {
+        @apply opacity-100;
+    }
 }
