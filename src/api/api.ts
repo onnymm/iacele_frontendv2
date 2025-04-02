@@ -120,7 +120,7 @@ class APIManager {
         searchCriteria = [],
         fields = [],
         page = 0,
-        itemsPerPage = 5,
+        itemsPerPage = 40,
         sortby,
         ascending = true,
     }: IACele.API.Request.TreeSearchRead) => {
@@ -129,6 +129,13 @@ class APIManager {
         const offset = page * itemsPerPage
         // Se usa el valor de registros por página para el límite
         const limit = itemsPerPage
+
+        // Se convierte el valor a snake_case
+        if ( typeof sortby === 'string' ) {
+            sortby = this.toSnake(sortby)
+        } else if ( typeof sortby === 'object') {
+            sortby = sortby.map( (key) => this.toSnake(key) )
+        }
 
         const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
             getBackendUrl(API_PATH.SEARCH_READ),
@@ -146,6 +153,12 @@ class APIManager {
 
         return (response.data);
     };
+
+    private toSnake = (text: string) => {
+        return (
+            text.replace(/([A-Z])/, '_$1').toLowerCase()
+        )
+    }
 };
 
 const api = new APIManager();
