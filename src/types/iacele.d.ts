@@ -1,3 +1,5 @@
+// import { SharedSelection } from "@heroui/react";
+
 declare namespace IACele {
 
     declare namespace Application {
@@ -62,6 +64,22 @@ declare namespace IACele {
             type?: React.InputHTMLAttributes<HTMLInputElement>['type']; // Tipo de campo.
             icon?: React.FC<React.SVGProps<SVGSVGElement>> | SvgIconComponent; // Ícono a renderizar en el campo.
             endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
+        };
+
+        interface SelectOption {
+            key: string;
+            label: string;
+        };
+
+        interface SelectOptions {
+            toggleableKeys: SelectOption[]; // Arreglo de opciones seleccionables
+            selectedKeys: Set<string>; // Opciones activas
+            setSelectedKeys: (keys: SharedSelection) => void; // Función de cambio de estado de llaves activas
+        };
+
+        interface SelectTemplate extends IACele.UI.SelectOptions {
+            trigger: React.JSX.Element; // Componente para desplegar el Select
+            selectionMode: 'single' | 'multiple'; // Tipo de selección de opciones
         };
     };
 
