@@ -46,6 +46,12 @@ declare namespace IACele {
             pageName: string | null;
             setPageName: React.Dispatch<React.SetStateAction<string | null>>;
         };
+
+        interface SortingField {
+            sortingFieldKey: string | null;
+            selectedSortingDirection: Set<IACele.View.SortingDirectionValue>;
+            toggleSortingColumn: (key: string) => void;
+        };
     };
 
     declare namespace UI {
@@ -323,5 +329,61 @@ declare namespace IACele {
 
         };
 
+    };
+
+    // Vista de datos
+    declare namespace View {
+
+        type SortingDirectionValue = 'asc' | 'desc';
+
+        // Interfaz dinámica que usa los atributos de un registro individual
+        type ComponentProps<T extends API.DataTypes.GenericRecord> = Partial<Record<keyof T, API.DataTypes._RecordValue>>;
+
+        // Vista de tabla
+        declare namespace List {
+            // Componente que renderiza uno o más atributos de un registro en una vista de tabla o kanban
+            type _ColumnComponent<T extends API.DataTypes.GenericRecord> = ( (config: ComponentProps<T>) => (React.JSX.Element | undefined) );
+
+            // Configuración de renderización de una columna y sus valores en la vista
+            interface _TableColumnConfig<T extends API.DataTypes.GenericRecord> {
+                key: keyof T;
+                label: string;
+                component?: _ColumnComponent<T> | keyof WidgetPreset;
+                options?: Core.Widget.Options;
+                visible?: boolean;
+                canSort?: boolean;
+            };
+
+            // Configuración de vista de tabla
+            type ViewConfig<T extends API.DataTypes.GenericRecord> = _TableColumnConfig<T>[];
+
+            // Interfaz de componente de vista de tabla
+            interface _DynamicParams<T extends API.DataTypes.GenericRecord> {
+                tableName: IACele.API.Database.TableName;
+                viewConfig: ViewConfig<T>;
+                emptyContent: string;
+            };
+
+            // Componente de vista de tabla
+            type Params = <T extends API.DataTypes.GenericRecord>(config: _DynamicParams<T>) => (React.JSX.Element);
+
+            interface TableCell {
+                columns: ViewConfig<API.DataTypes.GenericRecord>,
+                columnKey: string | number,
+                record: API.DataTypes.GenericRecord,
+                tableName: API.Database.TableName,
+            };
+
+            interface InteractiveColumn {
+                viewConfig: IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>;
+                columnKey: string;
+                label: string;
+                ascendingDirection: Set<SortingDirectionValue>;
+            };
+
+            interface SortingIndicator {
+                direction: Set<SortingDirectionValue>;
+            };
+        };
     };
 };
