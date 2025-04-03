@@ -76,7 +76,7 @@ const List: IACele.View.List.Params = ({
     );
 
     return (
-        <div className="hidden sm:block">
+        <div className="hidden sm:block h-full">
             <Tree
                 emptyContent={emptyContent}
                 loading={loading}
