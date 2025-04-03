@@ -24,7 +24,7 @@ const SortingIndicator: React.FC<IACele.View.List.SortingIndicator> = ({
     );
 
     return (
-        <Icon fontSize="small" className="text-white" />
+        <Icon fontSize="small" className="dark:text-white" />
     );
 };
 
