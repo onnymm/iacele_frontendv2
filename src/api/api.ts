@@ -9,7 +9,13 @@ type IACeleResponse<T extends IACele.API.DataTypes.GenericRecord> = AxiosRespons
 
 class APIManager {
 
-    constructor () {}
+    private _setAppLoading: IACele.Context.AppLoading['setAppLoading'];
+
+    constructor (
+        setAppLoading: IACele.Context.AppLoading['setAppLoading'],
+    ) {
+        this._setAppLoading = setAppLoading;
+    };
 
     /** 
      *  ## Lectura de registro
@@ -27,21 +33,25 @@ class APIManager {
         id,
     }: IACele.API.Request.Read) => {
 
-        const response = await iaCeleAxios.get<string, AxiosResponse<IACele.API.Database.Table[K][]>, IACele.API.Request.Read>(
-            getBackendUrl(API_PATH.READ),
-            {
-                params: {
-                    'record_ids': id,
-                    'table_name': tableName,
-                },
-                authenticate: true,
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.get<string, AxiosResponse<IACele.API.Database.Table[K][]>, IACele.API.Request.Read>(
+                    getBackendUrl(API_PATH.READ),
+                    {
+                        params: {
+                            'record_ids': id,
+                            'table_name': tableName,
+                        },
+                        authenticate: true,
+                    }
+                );
+
+                // Destructuración del registro a retornar
+                const [ record ] = response.data;
+                return (record);
             }
         );
-
-        // Destructuración del registro a retornar
-        const [ record ] = response.data;
-        return (record);
-    }
+    };
 
     /** 
      *  ## Búsqueda y visualización de registros
@@ -77,21 +87,25 @@ class APIManager {
         }: IACele.API.Request.SearchRead,
     ) => {
 
-        const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
-            getBackendUrl(API_PATH.SEARCH_READ),
-            {
-                tableName,
-                searchCriteria,
-                fields,
-                offset,
-                limit,
-                sortby,
-                ascending,
-            },
-            { authenticate: true }
-        );
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
+                    getBackendUrl(API_PATH.SEARCH_READ),
+                    {
+                        tableName,
+                        searchCriteria,
+                        fields,
+                        offset,
+                        limit,
+                        sortby,
+                        ascending,
+                    },
+                    { authenticate: true }
+                );
 
-        return (response.data);
+                return (response.data);
+            }
+        );
     };
 
     /** 
@@ -115,17 +129,21 @@ class APIManager {
         dataToWrite,
     }: IACele.API.Request.Update) => {
 
-        const response = await iaCeleAxios.patch<string, AxiosResponse<boolean>, IACele.API.Request.Update>(
-            getBackendUrl(API_PATH.UPDATE),
-            {
-                tableName,
-                recordId,
-                dataToWrite,
-            },
-            { authenticate: true }
-        );
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.patch<string, AxiosResponse<boolean>, IACele.API.Request.Update>(
+                    getBackendUrl(API_PATH.UPDATE),
+                    {
+                        tableName,
+                        recordId,
+                        dataToWrite,
+                    },
+                    { authenticate: true }
+                );
 
-        return (response.data);
+                return (response.data);
+            }
+        );
     };
 
     /** 
@@ -157,42 +175,51 @@ class APIManager {
         ascending = true,
     }: IACele.API.Request.TreeSearchRead) => {
 
-        // Cálculo del desfase de registros
-        const offset = page * itemsPerPage
-        // Se usa el valor de registros por página para el límite
-        const limit = itemsPerPage
+        return await this.execute(
+            async () => {
+                // Cálculo del desfase de registros
+                const offset = page * itemsPerPage
+                // Se usa el valor de registros por página para el límite
+                const limit = itemsPerPage
 
-        // Se convierte el valor a snake_case
-        if ( typeof sortby === 'string' ) {
-            sortby = this.toSnake(sortby)
-        } else if ( typeof sortby === 'object') {
-            sortby = sortby.map( (key) => this.toSnake(key) )
-        }
+                // Se convierte el valor a snake_case
+                if ( typeof sortby === 'string' ) {
+                    sortby = this.toSnake(sortby)
+                } else if ( typeof sortby === 'object') {
+                    sortby = sortby.map( (key) => this.toSnake(key) )
+                }
 
-        const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
-            getBackendUrl(API_PATH.SEARCH_READ),
-            {
-                tableName,
-                searchCriteria,
-                fields,
-                offset,
-                limit,
-                sortby,
-                ascending,
-            },
-            { authenticate: true }
-        );
+                const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
+                    getBackendUrl(API_PATH.SEARCH_READ),
+                    {
+                        tableName,
+                        searchCriteria,
+                        fields,
+                        offset,
+                        limit,
+                        sortby,
+                        ascending,
+                    },
+                    { authenticate: true }
+                );
 
-        return (response.data);
+                return (response.data);
+            }
+        )
     };
 
     private toSnake = (text: string) => {
-        return (
-            text.replace(/([A-Z])/, '_$1').toLowerCase()
-        )
-    }
+        return ( text.replace(/([A-Z])/, '_$1').toLowerCase() );
+    };
+
+    private execute = async <T>( callback: () => Promise<T> ) => {
+        // Se establece el estado de carga a verdadero
+        this._setAppLoading(true);
+        // Obtención de los datos desde el backend
+        const data = await callback();
+        // Se establece el estado de carga a falso
+        return data;
+    };
 };
 
-const api = new APIManager();
-
-export default api;
+export default APIManager;

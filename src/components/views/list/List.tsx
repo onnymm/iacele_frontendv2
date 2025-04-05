@@ -3,10 +3,10 @@ import NavbarContext from "../../../contexts/navbarContext";
 import useViewName from "../../../hooks/app/usePageName";
 import useVisibleColumns from "../../../hooks/views/useVisibleColumns";
 import useSortingFields from "../../../hooks/views/useSortingFields";
-import api from "../../../api/api";
-import TABLE_NAME from "../../../constants/views/names";
 import Tree from "../tree/Tree";
 import ToggleVisibleColumns from "../tree/components/ToggleVisibleColumns";
+import { TABLE_NAME } from "../../../constants/views/names";
+import useAPI from "../../../hooks/app/useAPI";
 
 const List: IACele.View.List.Params = ({
     tableName,
@@ -22,6 +22,8 @@ const List: IACele.View.List.Params = ({
     const { tableColumns, toggleableColumns, visibleColumns, setVisibleColumns } = useVisibleColumns(viewConfig as IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>);
     // Obtención de estados para ordenamiento de columnas
     const { sortingFieldKey, selectedSortingDirection, toggleSortingColumn } = useSortingFields();
+    // Obtención de instancia de API
+    const api = useAPI();
 
     // Inicialización de estado de registros
     const [ records, setRecords ] = useState<IACele.API.DataTypes.GenericRecord[]>([]);
@@ -42,7 +44,7 @@ const List: IACele.View.List.Params = ({
             setRecords(response.data);
             // Se desactiva el estado de carga
             setLoading(false);
-        }, [tableName, sortingFieldKey, selectedSortingDirection]
+        }, [tableName, sortingFieldKey, selectedSortingDirection, api]
     );
 
     useEffect(
@@ -76,17 +78,19 @@ const List: IACele.View.List.Params = ({
     );
 
     return (
-        <div className="hidden sm:block h-full">
-            <Tree
-                emptyContent={emptyContent}
-                loading={loading}
-                records={records}
-                selectedSortingDirection={selectedSortingDirection}
-                sortingFieldKey={sortingFieldKey}
-                tableColumns={tableColumns}
-                tableName={tableName}
-                toggleSortingColumn={toggleSortingColumn}
-            />
+        <div className="h-full">
+            <div className="hidden sm:block h-full">
+                <Tree
+                    emptyContent={emptyContent}
+                    loading={loading}
+                    records={records}
+                    selectedSortingDirection={selectedSortingDirection}
+                    sortingFieldKey={sortingFieldKey}
+                    tableColumns={tableColumns}
+                    tableName={tableName}
+                    toggleSortingColumn={toggleSortingColumn}
+                />
+            </div>
         </div>
     );
 };

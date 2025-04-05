@@ -52,6 +52,11 @@ declare namespace IACele {
             selectedSortingDirection: Set<IACele.View.SortingDirectionValue>;
             toggleSortingColumn: (key: string) => void;
         };
+
+        interface AppLoading {
+            appLoading: boolean;
+            setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
+        };
     };
 
     declare namespace UI {
@@ -117,7 +122,7 @@ declare namespace IACele {
                     id: number;
                     invoiceLineId: number;
                     invoiceId: number;
-                    invoideDate: string;
+                    invoiceDate: string;
                     name: string;
                     invoiceOrigin: string;
 
@@ -174,7 +179,7 @@ declare namespace IACele {
             type _RecordValue = string | number | string | boolean | null | number[];
 
             // Objeto de un registro en la base de datos
-            type GenericRecord =Record<string, _RecordValue>;
+            type GenericRecord = Record<string, _RecordValue>;
 
             // Operador de comparación para queries SQL
             type _ComparisonOperator = '=' | '!=' | '>' | '>=' | '<' | '<=' | '><' | 'in' | 'not in' | 'ilike' | 'not ilike' | '~' | '~*';
@@ -193,6 +198,10 @@ declare namespace IACele {
             interface _Base {
                 tableName: IACele.API.Database.TableName;
             };
+
+            interface Read extends _Base {
+                id: number;
+            }
 
             // Petición de búsqueda y lectura base
             interface _BaseSearchRead extends _Base {
