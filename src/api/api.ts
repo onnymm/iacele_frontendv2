@@ -12,6 +12,38 @@ class APIManager {
     constructor () {}
 
     /** 
+     *  ## Lectura de registro
+     *  Este método permite leer un registro en base a una tabla de la base de
+     *  datos y una ID provista.
+     *  Parámetros de entrada:
+     *  
+     *  ### Parámetros de entrada
+     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
+     *  en la base de datos.
+     *  - [ `number` ] `id`: ID del registro a leer.
+     */ 
+    read = async<K extends keyof IACele.API.Database.Table>({
+        tableName,
+        id,
+    }: IACele.API.Request.Read) => {
+
+        const response = await iaCeleAxios.get<string, AxiosResponse<IACele.API.Database.Table[K][]>, IACele.API.Request.Read>(
+            getBackendUrl(API_PATH.READ),
+            {
+                params: {
+                    'record_ids': id,
+                    'table_name': tableName,
+                },
+                authenticate: true,
+            }
+        );
+
+        // Destructuración del registro a retornar
+        const [ record ] = response.data;
+        return (record);
+    }
+
+    /** 
      *  ## Búsqueda y visualización de registros
      *  Este método permite buscar y leer registros desde una tabla en la base de
      *  datos del backend.
