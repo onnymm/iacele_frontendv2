@@ -147,6 +147,40 @@ class APIManager {
     };
 
     /** 
+     *  ## Eliminación de registro
+     *  Este método permite eliminar un registro de la base de datos en base a una
+     *  tabla y una ID provista.
+     *  Parámetros de entrada:
+     *  
+     *  ### Parámetros de entrada
+     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
+     *  en la base de datos.
+     *  - [ `number` ] `id`: ID del registro a eliminar.
+     */ 
+    delete = async ({
+        tableName,
+        id,
+    }: IACele.API.Request.Read) => {
+
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.delete<string, AxiosResponse<boolean>, IACele.API.Request.Read>(
+                    getBackendUrl(API_PATH.READ),
+                    {
+                        params: {
+                            'record_ids': id,
+                            'table_name': tableName,
+                        },
+                        authenticate: true,
+                    }
+                );
+
+                return response.data;
+            }
+        );
+    };
+
+    /** 
      *  ## Obtención de registros para vista de tabla
      *  Este método permite buscar y leer registros desde una tabla en la base de
      *  datos del backend y realizar acciones de paginación.
