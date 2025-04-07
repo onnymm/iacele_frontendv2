@@ -61,6 +61,10 @@ declare namespace IACele {
 
     declare namespace UI {
 
+        interface GenericInvolverComponent {
+            children: React.ReactNode;
+        };
+
         type SharedSelection = ('all' | Set<string | number>) & {
             anchorKey?: string;
             currentKey?: string;
@@ -97,6 +101,11 @@ declare namespace IACele {
             trigger: React.JSX.Element; // Componente para desplegar el Select
             selectionMode: 'single' | 'multiple'; // Tipo de selección de opciones
         };
+
+        interface Group extends IACele.UI.GenericInvolverComponent {
+            label?: string;
+        }
+
     };
 
     declare namespace API {
