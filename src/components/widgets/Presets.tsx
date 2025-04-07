@@ -1,7 +1,7 @@
 import { Chip, Switch } from "@heroui/react";
 import widgetBuilder from "./widgetBuilder";
 import { useState } from "react";
-import api from "../../api/api";
+import useAPI from "../../hooks/app/useAPI";
 
 const chip = widgetBuilder(
     ({ value, color }) => ( <Chip size="sm" color={color}> {value} </Chip> )
@@ -15,6 +15,8 @@ const toggle = widgetBuilder(
         record,
         color,
     }) => {
+
+        const api = useAPI();
 
         const [ toggleValue, setToggleValue ] = useState<boolean>(value as boolean);
 
