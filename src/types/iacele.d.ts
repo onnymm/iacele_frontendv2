@@ -57,6 +57,12 @@ declare namespace IACele {
             appLoading: boolean;
             setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
         };
+
+        interface RecordForm {
+            tableName: API.Database.TableName;
+            record: API.DataTypes.GenericRecord | null;
+            formReadonly?: boolean;
+        };
     };
 
     declare namespace UI {
@@ -103,9 +109,14 @@ declare namespace IACele {
         };
 
         interface Group extends IACele.UI.GenericInvolverComponent {
-            label?: string;
+            label?: string; // Título del grupo.
         }
 
+        interface Field<K extends API.Database.TableName> {
+            name: keyof API.DataTypes.TableFieldsProps<K>;
+            label?: string;
+            readonly?: boolean;
+        };
     };
 
     declare namespace API {
@@ -198,6 +209,25 @@ declare namespace IACele {
 
             // Estructura de tripletas para queries SQL
             type _TripletStructure = [string, _ComparisonOperator, _RecordValue];
+
+            type FieldType = (
+                | 'char'
+                | 'integer'
+                | 'float'
+                | 'boolean'
+                | 'date'
+                | 'datetime'
+                | 'time'
+                | 'percentage'
+                | 'monetary'
+            );
+
+            interface FieldProps {
+                name: string;
+                type: FieldType;
+            };
+
+            type TableFieldsProps<T extends IACele.API.Database.TableName> = Record<keyof IACele.API.Database.Table[T], IACele.API.DataTypes.FieldProps>;
         };
 
         // Peticiones comunes al backend
@@ -348,6 +378,69 @@ declare namespace IACele {
                 success?: _DecorationOption;
                 warning?: _DecorationOption;
                 danger?: _DecorationOption;
+            };
+
+        };
+
+        declare namespace UI {
+
+            interface Form<T extends API.Database.TableName> {
+                children: (children: Field.FormChildren<T>) => (React.ReactNode); // Función que renderiza la vista de formulario.
+                id: number; // ID del registro a visualizar.
+                table: API.Database.TableName; // Nombre de la tabla del registro a visualizar.
+                readonly?: boolean; // Vista de solo lectura.
+            };
+
+            declare namespace Field {
+
+                // Tipo de dato en campo editable por teclado
+                type KeyboardType = 'integer' | 'float' | 'monetary' | 'char' | 'date' | 'percentage';
+
+                // Tipo de dato en todos los campos
+                type GenericType = KeyboardType | 'boolean' | 'time' | 'datetime';
+
+                interface Props {
+                    name: string;
+                    type: IACele.Core.UI.Field.GenericType;
+                };
+
+                type FieldNames<T extends IACele.API.Database.TableName> = Record<keyof API.Database.Table[T], Props>;
+
+                type TableFieldNames = {
+                    [ K in API.Database.TableName ]: FieldNames<K>
+                };
+
+                interface _BaseInput {
+                    defaultValue: string; // Valor inicial del campo
+                    valueValidation?: (value: string) => (true | null); // Función para validar la entrada de datos en el campo.
+                    errorMessage: string; // Mensaje de error a renderizar si la validación no pasa.
+                    isInvalid: boolean; // Estado de si el campo contiene datos inválidos.
+                    setValue: React.Dispatch<React.SetStateAction<string | null>>; // Manejo de estado para uso en envío de datos en formulario.
+                };
+
+                interface KeyboardInput extends _BaseInput {
+                    type: KeyboardType; // Tipo de dato a renderizar (solo de tipo de teclado).
+                };
+
+                interface GenericInput extends _BaseInput {
+                    type: IACele.API.DataTypes.FieldType; // Tipo de dato a renderizar.
+                };
+
+                type KeyboardTypeToInput = Record<IACele.Core.UI.Field.KeyboardType, React.InputHTMLAttributes<HTMLInputElement>['type']>
+
+                interface Params<T extends IACele.API.Database.TableName> {
+                    name: keyof IACele.API.Database.Table[T]
+                    readonly?: boolean;
+                };
+
+                interface FormChildren<T extends API.Database.TableName> {
+                    Page: React.FC<{ children: React.ReactNode }>;
+                    Header: React.FC<{ children: React.ReactNode }>;
+                    Sheet: React.FC<{ children: React.ReactNode }>;
+                    Field: React.FC<Params<T>>;
+                    Group: React.FC<UI.Group>;
+                };
+
             };
 
         };
