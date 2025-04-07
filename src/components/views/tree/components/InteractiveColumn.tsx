@@ -50,7 +50,7 @@ const InteractiveColumn: React.FC<IACele.View.List.InteractiveColumn> = ({
     };
 
     return (
-        <div onClick={sortCallback} className={`${isSorting ? 'bg-primary-500/20 dark:bg-primary-500/50 backdrop-brightness-50' : ''} ${isSorteable ? 'group ui-sorteable-column cursor-pointer hover:backdrop-brightness-[200%] hover:bg-primary-500/50 dark:hover:bg-primary-500/50' : ''} px-3 bg-white font-normal text-sm dark:text-white dark:bg-[#1f2f3f]/80 backdrop-brightness-[110%] pointer-events-auto transition-colors shadow-sm backdrop-blur-sm size-full flex flex-row items-center justify-between`}>
+        <div onClick={sortCallback} className={`${isSorting ? 'bg-primary-500/20 dark:bg-primary-500/60 backdrop-brightness-100' : ''} ${isSorteable ? 'group ui-sorteable-column cursor-pointer hover:backdrop-brightness-[100%] hover:bg-primary-500/50 dark:hover:bg-primary-500/50' : ''} px-3 bg-white font-normal text-sm dark:text-white dark:bg-[#1f2f3f]/40 backdrop-brightness-[10%] pointer-events-auto transition-colors shadow-sm backdrop-blur-sm size-full flex flex-row items-center justify-between`}>
             <span className="pr-2">{label}</span>
             {sortingFieldKey === columnKey &&
                 <SortingIndicator direction={selectedSortingDirection} />

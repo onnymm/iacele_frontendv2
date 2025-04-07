@@ -51,7 +51,7 @@ const Tree: React.FC<TreeParams> = ({
 
     return (
         <div className="flex flex-col gap-2 h-full overflow-hidden">
-            <div className="bg-white dark:bg-[#1f2f3f] p-2 rounded-2xl h-full">
+            <div className="bg-white dark:bg-[#1f2f3f] p-2 h-full">
                 <SortingFieldContext.Provider value={{ sortingFieldKey, selectedSortingDirection, toggleSortingColumn }}>
                     <Table
                         isHeaderSticky
@@ -60,7 +60,7 @@ const Tree: React.FC<TreeParams> = ({
                         classNames={{
                             table: 'h-full overflow-y-scroll',
                             base: 'h-full',
-                            wrapper: 'p-0 bg-transparent h-full',
+                            wrapper: 'p-0 rounded-lg bg-transparent h-full rounded-none',
                             th: 'shadow-sm p-0 bg-transparent',
                             tr: 'transition-transform-colors hover:bg-primary-500',
                             thead: '*:hover:bg-transparent',
@@ -78,7 +78,7 @@ const Tree: React.FC<TreeParams> = ({
                         <TableBody isLoading={loading} loadingContent={<Spinner />} items={records} emptyContent={emptyContent}>
                             {
                                 (record) => (
-                                    <TableRow className="hover:cursor-pointer">
+                                    <TableRow>
                                         {
                                             (columnKey) => (
                                                 <TableCell>
@@ -87,7 +87,7 @@ const Tree: React.FC<TreeParams> = ({
                                                         columnKey={columnKey as string}
                                                         record={record}
                                                         tableName={tableName}
-                                                        />
+                                                    />
                                                 </TableCell>
                                             )
                                         }
