@@ -4,28 +4,28 @@ import { useState } from "react";
 import useAPI from "../../hooks/app/useAPI";
 
 const chip = widgetBuilder(
-    ({ value, color }) => ( <Chip size="sm" color={color}> {value} </Chip> )
+    ({ defaultValue: value, color }) => ( <Chip size="sm" color={color}> {value} </Chip> )
 );
 
 const toggle = widgetBuilder(
     ({
-        value,
-        key,
-        tableName,
+        defaultValue,
+        defaultProp,
+        table,
         record,
         color,
     }) => {
 
-        const api = useAPI();
+        const { api } = useAPI();
 
-        const [ toggleValue, setToggleValue ] = useState<boolean>(value as boolean);
+        const [ toggleValue, setToggleValue ] = useState<boolean>(defaultValue as boolean);
 
         const onValueChange = () => {
             setToggleValue( (prevState) => (!prevState) );
             api.update({
-                tableName: (tableName),
+                tableName: table,
                 recordId: (record.id as number),
-                dataToWrite: {[ key ]: !toggleValue}
+                dataToWrite: {[ defaultProp ]: !toggleValue}
             });
         };
 
@@ -41,12 +41,12 @@ const toggle = widgetBuilder(
 );
 
 const codeline = widgetBuilder(
-    ({value, color}) => (<Chip className="font-mono" size="sm" radius="sm" color={color}>{value}</Chip>)
+    ({defaultValue: value, color}) => (<Chip className="font-mono" size="sm" radius="sm" color={color}>{value}</Chip>)
 );
 
 // ----------------------------------------------------------------------------
 
-const widgets: IACele.Core.Widget.WidgetPreset = {
+const widgets = {
     chip,
     toggle,
     codeline,

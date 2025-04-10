@@ -8,15 +8,15 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/r
  *  `< tsx />` Se autocierra.
  *   
  *  ### Parámetros de entrada
- *  - [ {@link SelectOption[]} ] `toggleableKeys`: Arreglo de opciones 
- *  seleccionables
- *  - [ {@link Set<string>} ] `selectedKeys`: Opciones activas
- *  - [ `undefined` ] `setSelectedKeys`: Función de cambio de estado de llaves 
- *  activas
- *  - [ {@link React.JSX.Element} ] `trigger`: Componente para desplegar el 
- *  Select
- *  - [ {@link 'single' | 'multiple'} ] `selectionMode`: Tipo de selección de 
- *  opciones
+ *  - [ {@link SelectOption[]} ] `toggleableKeys`: Arreglo de opciones
+ *  seleccionables.
+ *  - [ {@link Set<string>} ] `selectedKeys`: Opciones activas.
+ *  - [ `undefined` ] `setSelectedKeys`: Función de cambio de estado de llaves
+ *  activas.
+ *  - [ {@link React.JSX.Element} ] `trigger`: Componente para desplegar el
+ *  Select.
+ *  - [ {@link 'single' | 'multiple'} ] `selectionMode`: Tipo de selección de
+ *  opciones.
  */ 
 const SelectTemplate: React.FC<IACele.UI.SelectTemplate> = ({
     toggleableKeys,
@@ -41,7 +41,7 @@ const SelectTemplate: React.FC<IACele.UI.SelectTemplate> = ({
                 {
                     toggleableKeys.map(
                         (option) => (
-                            <DropdownItem color="primary" key={option.key}>{option.label}</DropdownItem>
+                            <DropdownItem color="primary" key={option.name}>{option.label}</DropdownItem>
                         )
                     )
                 }

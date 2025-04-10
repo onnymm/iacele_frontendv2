@@ -1,15 +1,13 @@
 import { useCallback, useState } from "react";
 import Tree from "../../components/views/tree/Tree"; // eslint-disable-line
-
 /** 
  *  ## Campos de ordenamiento
- *  Este componente renderiza Este Custom Hook crea los estados y funciones de
- *  cambio de estado para establecer y renderizar el campo de ordenamiento en
- *  el componente {@link Tree}.
+ *  Este Custom Hook crea los estados y funciones de cambio de estado para
+ *  establecer y renderizar el campo de ordenamiento en el componente
+ *  {@link Tree}.
  *  
- *  `< tsx />` Se autocierra.
- *  
- *  ### Parámetros de entrada
+ *  ### Retorno
+ *  Este Custom Hook retorna:
  *  - [ {@link Set<string>} ] `selectedSortingField`: Conjunto que contiene el
  *  campo de ordenamiento.
  *  - [ {@link React.Dispatch<React.SetStateAction<Set<string>>>} ]
@@ -18,26 +16,26 @@ import Tree from "../../components/views/tree/Tree"; // eslint-disable-line
  *  - [ {@link Set<IACele.View.SortingDirectionValue>} ]
  *  `selectedSortingDirection`: Conjunto que contiene la dirección de
  *  ordenamiento.
- *  - [ {@link React.Dispatch<React.SetStateAction<Set<IACele.View.SortingDirectionValue>>>} ]
+ *  - [ {@link React.Dispatchs<React.SetStateAction<Set<IACele.View.SortingDirectionValue>>>} ]
  * `setSelectedSortingDirection`: Función de cambio de estado de conjunto que
  *  contiene la dirección de ordenamiento.
- *  - [ {@link string | null} ] `sortingFieldKey`: Indicador de columna de
+ *  - [ `string | null` ] `sortingFieldKey`: Indicador de columna de
  *  ordenamiento.
  *  - [ `undefined` ] `toggleSortingColumn`: Función para establecer el campo
  *  de ordenamiento.
  */ 
-const useSortingFields = () => {
+const useSortingFields = <T extends IACele.API.Database.TableName>() => {
 
     // Inicialización de conjunto para estado de campo de ordenamiento
-    const [ selectedSortingField, setSelectedSortingField ] = useState<Set<string>>(new Set([]));
+    const [ selectedSortingField, setSelectedSortingField ] = useState<Set<keyof IACele.API.Database.Table[T]>>(new Set([]));
     // Inicialización de dirección de ordenamiento
-    const [ selectedSortingDirection, setSelectedSortingDirection ] = useState<Set<IACele.View.SortingDirectionValue>>(new Set(['asc']));
+    const [ selectedSortingDirection, setSelectedSortingDirection ] = useState<Set<IACele.View._SortingDirectionValue>>(new Set(['asc']));
     // Inicialización de campo de ordenamiento
-    const [ sortingFieldKey, setSortingFieldKey ] = useState<string | null>(null);
+    const [ sortingFieldKey, setSortingFieldKey ] = useState<keyof IACele.API.Database.Table[T] | null>(null);
 
     // Función para establecer el campo de ordenamiento
     const toggleSortingColumn = useCallback(
-        (key: string) => {
+        (key: keyof IACele.View.RecordInDatabase<T>) => {
 
             // Si el nuevo campo de ordenamiento es distinto al actual...
             if ( sortingFieldKey !== key ) {

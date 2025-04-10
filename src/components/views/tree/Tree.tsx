@@ -1,19 +1,7 @@
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
-import RenderCell from "./components/RenderCell";
 import SortingFieldContext from "../../../contexts/sortingFieldContext";
 import InteractiveColumn from "./components/InteractiveColumn";
-
-interface TreeParams {
-    tableName: IACele.API.Database.TableName; // Nombre de la tabla de donde se obtienen los datos.
-    tableColumns: IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>[]; // Configuración de columnas.
-    selectedSortingDirection: Set<IACele.View.SortingDirectionValue>; // Conjunto que contiene la dirección de ordenamiento.
-    sortingFieldKey: string | null; // Llave de columna que ordena los datos actualmente.
-    toggleSortingColumn: (key: string) => void; // Función que establece la columna de ordenamiento.
-    emptyContent: string; // Leyenda de contenido vacío.
-    loading: boolean; // Estado de carga.
-    records: IACele.API.DataTypes.GenericRecord[]; // Arreglo de objetos que contienen los datos de un registro de la base de datos.
-};
-
+import RenderCell from "./components/RenderCell";
 /** 
  *  ## Vista de Árbol/Tabla.
  *  Este componente renderiza una vista de ábol/tabla para visualizar múltiples
@@ -22,37 +10,37 @@ interface TreeParams {
  *  `< tsx />` Se autocierra.
  *  
  *  ### Parámetros de entrada
- *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
- *  de donde se obtienen los datos.
- *  - [ {@link IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>[]}
- *  ] `tableColumns`: Configuración de columnas.
- *  - [ {@link Set<IACele.View.SortingDirectionValue>} ]
- *  `selectedSortingDirection`: Conjunto que contiene la dirección de
- *  ordenamiento.
- *  - [ {@link string | null} ] `sortingFieldKey`: Llave de columna que ordena
- *  los datos actualmente.
- *  - [ `undefined` ] `toggleSortingColumn`: Función que establece la columna
+ *  - [ {@link IACele.API.Database.TableName Table} ] `table`: Nombre de la tabla de base de datos para extraer
+ *  los nombres de los campos.
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig} ] `viewConfig`: Configuración de vista de
+ *  columnas de la tabla.
+ *  - [ {@link Set<SortingDirectionValue>} ] `selectedSortingDirection`:
+ *  Conjunto que contiene el valor de dirección de ordenamiento de datos.
+ *  - [ {@link IACele.View.RecordInDatabase keyof API.Database.Table | null} ] `sortingFieldKey`: Llave
+ *  que indica el campo por el cual los datos están siendo ordenados
+ *  actualmente.
+ *  - [ `undefined` ] `toggleSortingColumn`: Función para establecer el campo
  *  de ordenamiento.
- *  - [ `string` ] `emptyContent`: Leyenda de contenido vacío.
+ *  - [ `string` ] `emptyContent`: Leyenda para mostrar cuando no existan datos
+ *  a mostrar.
  *  - [ `boolean` ] `loading`: Estado de carga.
- *  - [ {@link IACele.API.DataTypes.GenericRecord[]} ] `records`: Arreglo de
- *  objetos que contienen los datos de un registro de la base de datos.
+ *  - [ {@link IACele.API.Database.Table RecordInDatabase[ ]} ] `records`: Datos a mostrar.
  */ 
-const Tree: React.FC<TreeParams> = ({
-    tableName,
-    tableColumns,
+const Tree = <T extends IACele.API.Database.TableName>({
+    table,
+    viewConfig,
     selectedSortingDirection,
     sortingFieldKey,
     toggleSortingColumn,
     emptyContent,
     loading,
     records,
-}) => {
+}: IACele.View.Tree.Component<T>) => {
 
     return (
         <div className="flex flex-col gap-2 h-full overflow-hidden">
             <div className="bg-white dark:bg-[#1f2f3f] p-2 h-full">
-                <SortingFieldContext.Provider value={{ sortingFieldKey, selectedSortingDirection, toggleSortingColumn }}>
+                <SortingFieldContext.Provider value={{ sortingFieldKey, selectedSortingDirection, toggleSortingColumn: toggleSortingColumn as (key: string | number | symbol) => void }}>
                     <Table
                         isHeaderSticky
                         hideHeader={!records}
@@ -66,11 +54,11 @@ const Tree: React.FC<TreeParams> = ({
                             thead: '*:hover:bg-transparent',
                         }}
                     >
-                        <TableHeader columns={tableColumns}>
+                        <TableHeader columns={viewConfig}>
                             {
                                 (column) => (
-                                    <TableColumn>
-                                        <InteractiveColumn viewConfig={tableColumns} columnKey={column.key} label={column.label} ascendingDirection={selectedSortingDirection} />
+                                    <TableColumn key={column.name as string}>
+                                        <InteractiveColumn<T> table={table} viewConfig={viewConfig} columnKey={column.name} label={column.label} />
                                     </TableColumn>
                                 )
                             }
@@ -80,16 +68,18 @@ const Tree: React.FC<TreeParams> = ({
                                 (record) => (
                                     <TableRow>
                                         {
-                                            (columnKey) => (
-                                                <TableCell>
-                                                    <RenderCell
-                                                        columns={tableColumns as IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>}
-                                                        columnKey={columnKey as string}
-                                                        record={record}
-                                                        tableName={tableName}
-                                                    />
-                                                </TableCell>
-                                            )
+                                            (columnKey) => {
+                                                return (
+                                                    <TableCell>
+                                                        <RenderCell
+                                                            viewConfig={viewConfig}
+                                                            columnKey={columnKey as keyof IACele.API.Database.Table[T]}
+                                                            record={record}
+                                                            table={table}
+                                                        />
+                                                    </TableCell>
+                                                )
+                                            }
                                         }
                                     </TableRow>
                                 )

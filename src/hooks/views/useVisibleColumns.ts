@@ -1,28 +1,39 @@
 import { SharedSelection } from "@heroui/react"
 import { useMemo, useState } from "react"
-import Tree from "../../components/views/tree/Tree" // eslint-disable-line
+import { tableProperties } from "../../constants/views/names";
+import TreeView from "../../components/views/tree/TreeView"; // eslint-disable-line
 
 /** 
  *  ## Columnas visibles
  *  Este Custom Hook crea los estados y funciones de cambio de estado para
- *  mostrar y ocultar columnas en el componente {@link Tree}.
- *  
- *  `< tsx />` Se autocierra.
+ *  mostrar y ocultar columnas en el componente {@link TreeView}.
  *  
  *  ### Parámetros de entrada
- *  - [ {@link
- *  IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>[]}
- *  ] `tableColumns`: Columnas visibles filtradas.
- *  - [ {@link
- *  IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>} ]
- *  `toggleableColumns`: Columnas ocultables/mostrables.
- *  - [ {@link Set<string>} ] `visibleColumns`: Conjunto de llaves de columnas
- *  visibles.
- *  - [ `undefined` ] `setVisibleColumns`: Función de cambio de estado de
- *  conjunto de llaves de columnas visibles.
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig} ] `columns`:
+ *  Configuración de
+ *  columnas para vista de tabla.
+ *  - [ {@link IACele.API.Database.TableName T} ] `table`: Nombre de la tabla
+ *  de base de datos para extraer los nombres de los campos.
+ *  
+ *  ### Retorno
+ *  Este Custom Hook retorna:
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig} ] `tableColumns`:
+ *  Arreglo de objetos iterables por el componente de tabla, filtrado solo por
+ *  columnas visibles.
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig} ] `toggleableColumns`:
+ *  Arreglo de columnas que se pueden ocultar y mostrar.
+ *  - [ {@link IACele.API.Database.TableName keyof RecordInDatabase} ]
+ *  `visibleColumns`: Columnas visibles.
+ *  - [ `function` ]: `setVisibleColumns`: Función para manejar los cambios de
+ *  columnas visibles.
+ *  
+ *  @param columns Configuración de columnas para vista de tabla.
+ *  @param table Nombre de la tabla de base de datos para extraer los nombres
+ *  de los campos.
  */ 
-const useVisibleColumns = (
-    columns: IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>
+const useVisibleColumns = <T extends IACele.API.Database.TableName>(
+    columns: IACele.View.Tree.ViewConfig<T>,
+    table: T,
 ) => {
 
     // Inicialización de columnas que se pueden ocultar y mostrar
@@ -33,7 +44,7 @@ const useVisibleColumns = (
     )
 
     // Inicialización de columnas visibles
-    const [ visibleColumns, setVisibleColumns ] = useState<Set<string>>(
+    const [ visibleColumns, setVisibleColumns ] = useState<Set<keyof IACele.API.Database.Table[T]>>(
         () => (
             // Inicialización de un conjunto
             new Set(
@@ -44,7 +55,7 @@ const useVisibleColumns = (
                 )
                 .map(
                     // Extracción de su llave
-                    (column) => (column.key)
+                    (column) => (column.name)
                 )
             )
         )
@@ -55,8 +66,19 @@ const useVisibleColumns = (
         columns
         .filter(
             (column) => (
-                visibleColumns.has(column.key as string) || column.visible === undefined
+                visibleColumns.has(column.name) || column.visible === undefined
             )
+        )
+        .map(
+            (column) => {
+                column.label = (
+                    column.label !== undefined
+                        ? column.label
+                        : tableProperties[table][column.name].name
+                );
+
+                return column;
+            }
         )
     );
 
@@ -66,6 +88,6 @@ const useVisibleColumns = (
         visibleColumns,
         setVisibleColumns: (setVisibleColumns as (keys: SharedSelection) => void)
     };
-}
+};
 
 export default useVisibleColumns;

@@ -10,33 +10,36 @@ import Tree from "../Tree"; // eslint-disable-line
  *  `< tsx />` Se autocierra.
  *  
  *  ### Parámetros de entrada
- *  - [ {@link ViewConfig<API.DataTypes.GenericRecord>} ] `columns`:
- *  Configuración de columnas.
- *  - [ `string` ] `columnKey`: Llave de columna actual.
- *  - [ {@link API.DataTypes.GenericRecord} ] `record`: Objeto que contiene los
- *  datos de un registro de la base de datos.
- *  - [ {@link API.Database.TableName} ] `tableName`: Nombre de la tabla de
- *  donde se obtienen los datos.
+ *  - [ {@link IACele.API.Database.TableName T} ] `table`: Nombre de la tabla de base de datos para extraer
+ *  los nombres de los campos.
+ *  - [ {@link IACele.View.RecordInDatabase keyof Table} ] `columnKey`: Llave del campo de
+ *  la tabla de base de datos a renderizar como columna.
+ *  - [ {@link IACele.API.Database.Table RecordInDatabase} ] `record`: Registro de la base de datos
+ *  del que se tomarán valores para renderizar un componente.
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig} ] `viewConfig`: Configuración de vista de
+ *  columnas de la tabla.
  */ 
-const RenderCell: React.FC<IACele.View.List.TableCell> = ({
-    columns,
+const RenderCell = <T extends IACele.API.Database.TableName>({
+    viewConfig,
     columnKey,
     record,
-    tableName,
-}) => {
+    table,
+}: IACele.View.Tree.CellRender<T>) => {
 
     // Obtención de objeto de declaración de columna actual
-    const columnConfig = columns.find( (item) => (item.key === columnKey) ) as IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>
+    const columnConfig = viewConfig.find( (item) => (item.name === columnKey) ) as IACele.View.Tree.Field<T>;
     // Obtención del componente del objeto actual de declaración
-    const component = columns.find( (item) => (item.key === columnKey) )?.component;
+    const component = viewConfig.find( (item) => (item.name === columnKey) )?.widget;
 
     // Si la declaración del widget es literal...
     if ( typeof component === 'string' ) {
+
+        const widgetCallback = widgets[(component as keyof IACele.View.Widget.Presets<T>)]
         // Inicialización del widget
-        const WidgetComponent = widgets[(component as IACele.Core.Widget.WidgetPresetKey)](
-            columnConfig.key,
-            columnConfig.options ? columnConfig.options : {},
-            tableName,
+        const WidgetComponent = widgetCallback(
+            columnConfig.name as string,
+            columnConfig.colorDecoration ?? {},
+            table,
             record,
         )
         // Retorno del widget renderizado
@@ -53,8 +56,9 @@ const RenderCell: React.FC<IACele.View.List.TableCell> = ({
     // Si no existe declaración del widget
     } else {
         // Se retorna el valor por sí mismo
-        return getKeyValue(record, columnKey);
+        return getKeyValue(record, columnKey as string);
     };
 };
 
 export default RenderCell;
+

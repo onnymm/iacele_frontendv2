@@ -12,8 +12,8 @@ import { KeyboardArrowDownRounded, KeyboardArrowUpRounded } from "@mui/icons-mat
  *  - [ {@link Set<SortingDirectionValue>} ] `direction`: Conjunto que contiene
  *  la dirección de ordenamiento.
  */ 
-const SortingIndicator: React.FC<IACele.View.List.SortingIndicator> = ({
-    direction
+const SortingIndicator: React.FC<IACele.View.SortingIndicator> = ({
+    direction,
 }) => {
 
     // Definición del ícono en base a la dirección de ordenamiento

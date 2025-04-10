@@ -12,8 +12,8 @@ const ToggleVisibleColumns: React.FC<IACele.UI.SelectOptions> = ({
     return (
         <div>
 
-            {/* Vista de escritorio */}
-            <div className="sm:hidden block">
+            {/* Vista móvil */}
+            {/* <div className="sm:hidden block">
                 <SelectTemplate
                     selectionMode="multiple"
                     toggleableKeys={toggleableKeys}
@@ -29,9 +29,9 @@ const ToggleVisibleColumns: React.FC<IACele.UI.SelectOptions> = ({
                         />
                     }
                 />
-            </div>
+            </div> */}
 
-            {/* Vista móvil */}
+            {/* Vista de escritorio */}
             <div className="hidden sm:block">
                 <SelectTemplate
                     selectionMode="multiple"
@@ -40,7 +40,7 @@ const ToggleVisibleColumns: React.FC<IACele.UI.SelectOptions> = ({
                     setSelectedKeys={setSelectedKeys}
                     trigger={
                         <Button
-                            size='md'
+                            size='sm'
                             variant="solid"
                             className="bg-transparent"
                             startContent={<TableView className="outline-none" />}

@@ -1,8 +1,8 @@
-import { useContext, useMemo } from "react";
-import SortingIndicator from "./SortingIndicator";
-import SortingFieldContext from "../../../../contexts/sortingFieldContext";
+import { useCallback, useContext, useMemo } from "react";
 import { UnfoldMoreRounded } from "@mui/icons-material";
-import Tree from "../Tree"; // eslint-disable-line
+import SortingFieldContext from "../../../../contexts/sortingFieldContext";
+import { tableProperties } from "../../../../constants/views/names";
+import SortingIndicator from "./SortingIndicator";
 
 /** 
  *  ## Columna interactiva
@@ -12,18 +12,21 @@ import Tree from "../Tree"; // eslint-disable-line
  *  `< tsx />` Se autocierra.
  *  
  *  ### Parámetros de entrada
- *  - [ {@link IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>}
- *  ] `viewConfig`: Configuración de columnas.
- *  - [ `string` ] `columnKey`: Llave de columna actual.
- *  - [ `string` ] `label`: Nombre visible de la columna.
- *  - [ {@link Set<SortingDirectionValue>} ] `ascendingDirection`: Conjunto que
- *  contiene la dirección de ordenamiento.
- */
-const InteractiveColumn: React.FC<IACele.View.List.InteractiveColumn> = ({
+ *  - [ {@link IACele.API.Database.TableName T} ] `table`: Nombre de la tabla de base de datos para extraer 
+ *  los nombres de los campos.
+ *  - [ {@link IACele.API.Database.Table keyof IACele.View.RecordInDatabase} ] `columnKey`: Llave del campo de 
+ *  la tabla de base de datos a renderizar como columna.
+ *  - [ `string` ] `label`: Nombre explícito del campo en caso de querer 
+ *  reemplazar su nombre prestablecido.
+ *  - [ {@link IACele.View.Tree.ViewConfig ViewConfig } ] `viewConfig`: Configuración de vista de 
+ *  columnas de la tabla.
+ */ 
+const InteractiveColumn = <T extends IACele.API.Database.TableName>({
+    viewConfig,
     columnKey,
     label,
-    viewConfig,
-}) => {
+    table,
+}: IACele.View.Tree.InteractiveColumn<T>) => {
 
     // Obtención de estados desde el contexto para ordenamiento de columnas
     const { sortingFieldKey, selectedSortingDirection, toggleSortingColumn } = useContext(SortingFieldContext);
@@ -35,7 +38,7 @@ const InteractiveColumn: React.FC<IACele.View.List.InteractiveColumn> = ({
         () => {
 
             // Obtención de los parámetros de la columna
-            const columnParams = viewConfig.find( (item) => (item.key) === columnKey ) as IACele.View.List._TableColumnConfig<IACele.API.DataTypes.GenericRecord>;
+            const columnParams = viewConfig.find( (item) => (item.name) === columnKey ) as IACele.View.Tree.Field<T>;
 
             // Retorno de si la columna puede ordenar datos
             return ( columnParams.canSort !== false );
@@ -43,15 +46,24 @@ const InteractiveColumn: React.FC<IACele.View.List.InteractiveColumn> = ({
     );
 
     // Función para ejecutar en clic
-    const sortCallback = () => {
-        if ( !isSorteable ) return;
+    const sortCallback = useCallback(
+        () => {
+            if ( !isSorteable ) return;
+    
+            toggleSortingColumn(columnKey as string);
+        }, [isSorteable, toggleSortingColumn, columnKey]
+    );
 
-        toggleSortingColumn(columnKey);
-    };
+    // Leyenda computada
+    const computedLabel = (
+        label
+            ? label
+            : tableProperties[table as T][columnKey].name
+    );
 
     return (
         <div onClick={sortCallback} className={`${isSorting ? 'bg-primary-500/20 dark:bg-primary-500/60 backdrop-brightness-100' : ''} ${isSorteable ? 'group ui-sorteable-column cursor-pointer hover:backdrop-brightness-[100%] hover:bg-primary-500/50 dark:hover:bg-primary-500/50' : ''} px-3 bg-white font-normal text-sm dark:text-white dark:bg-[#1f2f3f]/40 backdrop-brightness-[10%] pointer-events-auto transition-colors shadow-sm backdrop-blur-sm size-full flex flex-row items-center justify-between`}>
-            <span className="pr-2">{label}</span>
+            <span className="pr-2">{computedLabel}</span>
             {sortingFieldKey === columnKey &&
                 <SortingIndicator direction={selectedSortingDirection} />
             }

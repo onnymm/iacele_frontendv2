@@ -11,7 +11,7 @@ import APP_NAME from "../../constants/app/name";
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const useViewName = () => {
+const useViewName = (): IACele.Hook.PageName => {
 
     // Obtención de la función de cambio de estado del nombre
     const { setPageName } = useContext(PageNameContext);

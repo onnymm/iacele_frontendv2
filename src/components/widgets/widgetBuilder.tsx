@@ -1,18 +1,18 @@
 import { useMemo } from "react";
 import computeColor from "./computeColor";
 
-const widgetBuilder = (widget: IACele.Core.Widget.WidgetConstructor) => {
+const widgetBuilder = <T extends IACele.API.Database.TableName>(widget: IACele.View.Widget.Component<T>) => {
 
     // Función que recibe los atributos para crear el widget
-    const propsReceiver: IACele.Core.Widget.PropsReceiverForWidget = (
-        key,
+    const propsReceiver: IACele.View.Widget.PropsReceiver = (
+        defaultProp,
         options,
-        tableName,
+        table,
         record,
     ) => {
 
         // Constructor de widget dinámico
-        const DynamicWidget: IACele.Core.Widget._Widget = ({ [ key ]: value }) => {
+        const DynamicWidget: IACele.View.Widget.Callback = ({ [ defaultProp ]: defaultValue }) => {
 
             // Color computado
             const color = useMemo(
@@ -20,7 +20,7 @@ const widgetBuilder = (widget: IACele.Core.Widget.WidgetConstructor) => {
             );
 
             // Creación y retorno de widget final
-            return widget({ value, key, tableName, record, color });
+            return widget({ table , record, defaultValue, defaultProp, color, } as unknown as IACele.View.Widget.Declaration<T>);
         };
 
         // Se retorna el widget definido para ser renderizado

@@ -18,9 +18,9 @@
  *  - {@link IACele.UI.DecorationColor} `color`: Color computado para ser
  *  utilizado en un componente UI.
  */ 
-const computeColor: (
-    record: IACele.API.DataTypes.GenericRecord,
-    options: IACele.Core.Widget.Options,
+const computeColor: <T extends IACele.API.Database.TableName>(
+    record: IACele.API.Database.Table[T],
+    options: IACele.View.Widget.Decoration<T>,
 ) => (IACele.UI.DecorationColor) = (record, options) => {
 
     // Inicialización del color en valor default

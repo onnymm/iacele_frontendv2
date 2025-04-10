@@ -75,7 +75,7 @@ class APIManager {
      *  - [ `boolean | boolean[]` ]  ascending: Dirección de ordenamiento
      *  ascendente (opcional).
      */ 
-    searchRead = async<T extends IACele.API.DataTypes.GenericRecord = IACele.API.DataTypes.GenericRecord> (
+    searchRead = async<T extends IACele.API.Database.TableName> (
         {
             tableName,
             searchCriteria = [],
@@ -84,12 +84,12 @@ class APIManager {
             limit = undefined,
             sortby= undefined,
             ascending = undefined,
-        }: IACele.API.Request.SearchRead,
+        }: IACele.API.Request.SearchRead<T>,
     ) => {
 
         return await this.execute(
             async () => {
-                const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
+                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<T>>, IACele.API.Request.SearchRead<T>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
                         tableName,
@@ -199,7 +199,7 @@ class APIManager {
      *  - [ `boolean | boolean[]` ]  ascending: Dirección de ordenamiento
      *  ascendente (opcional).
      */ 
-    getDataForTable = async<T extends IACele.API.DataTypes.GenericRecord = IACele.API.DataTypes.GenericRecord> ({
+    getDataForTable = async<T extends IACele.API.Database.TableName> ({
         tableName,
         searchCriteria = [],
         fields = [],
@@ -207,10 +207,14 @@ class APIManager {
         itemsPerPage = 40,
         sortby,
         ascending = true,
-    }: IACele.API.Request.TreeSearchRead) => {
+    }: IACele.API.Request.TreeSearchRead<T>) => {
 
         return await this.execute(
             async () => {
+
+                // Declaración de ordenamiento computado
+                let computedSortby: keyof IACele.View.RecordInDatabase<T> | (keyof IACele.View.RecordInDatabase<T>)[]
+
                 // Cálculo del desfase de registros
                 const offset = page * itemsPerPage
                 // Se usa el valor de registros por página para el límite
@@ -218,12 +222,14 @@ class APIManager {
 
                 // Se convierte el valor a snake_case
                 if ( typeof sortby === 'string' ) {
-                    sortby = this.toSnake(sortby)
+                    computedSortby = this.toSnake<T>(sortby as keyof IACele.View.RecordInDatabase<T>)
                 } else if ( typeof sortby === 'object') {
-                    sortby = sortby.map( (key) => this.toSnake(key) )
+                    computedSortby = (sortby as (keyof IACele.View.RecordInDatabase<T>)[]).map( (key) => this.toSnake<T>(key) )
+                } else {
+                    computedSortby = sortby as keyof IACele.View.RecordInDatabase<T>
                 }
 
-                const response = await iaCeleAxios.post<string, IACeleResponse<T>, IACele.API.Request.SearchRead>(
+                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<T>>, IACele.API.Request.SearchRead<T>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
                         tableName,
@@ -231,7 +237,7 @@ class APIManager {
                         fields,
                         offset,
                         limit,
-                        sortby,
+                        sortby: computedSortby,
                         ascending,
                     },
                     { authenticate: true }
@@ -242,8 +248,8 @@ class APIManager {
         )
     };
 
-    private toSnake = (text: string) => {
-        return ( text.replace(/([A-Z])/, '_$1').toLowerCase() );
+    private toSnake = <T extends IACele.API.Database.TableName>(text: keyof IACele.View.RecordInDatabase<T>): keyof IACele.View.RecordInDatabase<T> => {
+        return ( (text as string).replace(/([A-Z])/, '_$1').toLowerCase() ) as keyof IACele.View.RecordInDatabase<T>;
     };
 
     private execute = async <T>( callback: () => Promise<T> ) => {

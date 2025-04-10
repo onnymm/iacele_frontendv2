@@ -14,60 +14,14 @@ declare namespace IACele {
         };
     };
 
-    declare namespace Context {
-
-        interface Token {
-            token: string | null;
-            setToken: React.Dispatch<React.SetStateAction<string | null>>;
-        };
-
-        interface DarkMode {
-            darkMode: boolean;
-            setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-        };
-
-        interface SidebarDisplay {
-            isSidebarLocked: boolean;
-            setIsSidebarLocked: React.Dispatch<React.SetStateAction<boolean>>;
-            isSidebarOpen: boolean;
-            setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-        };
-
-        interface Navbar {
-            dynamicControls: React.JSX.Element | null;
-            setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
-        };
-
-        interface AppContent {
-            appContentRef: React.RefObject<HTMLElement | null>;
-        };
-
-        interface PageName {
-            pageName: string | null;
-            setPageName: React.Dispatch<React.SetStateAction<string | null>>;
-        };
-
-        interface SortingField {
-            sortingFieldKey: string | null;
-            selectedSortingDirection: Set<IACele.View.SortingDirectionValue>;
-            toggleSortingColumn: (key: string) => void;
-        };
-
-        interface AppLoading {
-            appLoading: boolean;
-            setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
-        };
-
-        interface RecordForm {
-            tableName: API.Database.TableName;
-            record: API.DataTypes.GenericRecord | null;
-            formReadonly?: boolean;
-        };
-    };
-
     declare namespace UI {
 
         interface GenericInvolverComponent {
+            /** 
+             *  ### Componentes hijos
+             *  Componentes hijos que se ingresan entre las etiquetas del componente que
+             *  los renderizará.
+             */ 
             children: React.ReactNode;
         };
 
@@ -93,18 +47,46 @@ declare namespace IACele {
         };
 
         interface SelectOption {
-            key: string;
+            /** 
+             *  ### Llave de opción
+             *  Llave única de la opción actual
+             */ 
+            name: string;
+            /** 
+             *  ### Leyenda de opción
+             *  Esta leyenda muestra el nombre o descripción de la opción actual.
+             */ 
             label: string;
         };
 
         interface SelectOptions {
+            /** 
+             *  ### Opciones disponibles
+             *  Arreglo que contiene todas las opciones disponibles y que renderiza en la
+             *  lista de opciones.
+             */ 
             toggleableKeys: SelectOption[]; // Arreglo de opciones seleccionables
+            /** ### Opciones seleccionadas
+             *  Arreglo que contiene todas las opciones seleccionadas/activas.
+             */ 
             selectedKeys: Set<string>; // Opciones activas
+            /** 
+             *  ### Manejo de estado de opciones seleccionadas
+             *  Esta función realiza la activación o desactivación decolumnas.
+             */ 
             setSelectedKeys: (keys: SharedSelection) => void; // Función de cambio de estado de llaves activas
         };
 
         interface SelectTemplate extends IACele.UI.SelectOptions {
+            /** 
+             *  ### Trigger
+             *  Componente que renderizará las opciones.
+             */ 
             trigger: React.JSX.Element; // Componente para desplegar el Select
+            /** 
+             *  ### Modo de selección
+             *  Modo de selección de opciones: Sencillo o múltiple.
+             */ 
             selectionMode: 'single' | 'multiple'; // Tipo de selección de opciones
         };
 
@@ -243,21 +225,21 @@ declare namespace IACele {
             }
 
             // Petición de búsqueda y lectura base
-            interface _BaseSearchRead extends _Base {
+            interface _BaseSearchRead <T extends IACele.API.Database.TableName> extends _Base {
                 searchCriteria?: IACele.API.Data.CriteriaStructure;
-                fields?: string[];
-                sortby?: string | string[];
+                fields?: (keyof IACele.API.Database.Table[T])[];
+                sortby?: keyof IACele.API.Database.Table[T] | (keyof IACele.API.Database.Table[T])[];
                 ascending?: boolean | boolean[];
             };
 
             // Petición de búsqueda y lectura
-            interface SearchRead extends _BaseSearchRead {
+            interface SearchRead <T extends IACele.API.Database.TableName> extends _BaseSearchRead<T> {
                 offset?: number;
                 limit?: number;
             };
 
             // Petición de búsqueda y lectura para vista de tabla
-            interface TreeSearchRead extends _BaseSearchRead {
+            interface TreeSearchRead <T extends IACele.API.Database.TableName> extends _BaseSearchRead<T> {
                 page?: number;
                 itemsPerPage?: number;
             };
@@ -433,6 +415,11 @@ declare namespace IACele {
                     readonly?: boolean;
                 };
 
+                interface KanbanParams<T extends IACele.API.Database.TableName> extends Params<T>  {
+                    widget?: IACele.Core.Widget.WidgetPresetKey;
+                    label?: string | boolean;
+                }
+
                 interface FormChildren<T extends API.Database.TableName> {
                     Page: React.FC<{ children: React.ReactNode }>;
                     Header: React.FC<{ children: React.ReactNode }>;
@@ -447,59 +434,395 @@ declare namespace IACele {
 
     };
 
-    // Vista de datos
+    // Vistas de datos
     declare namespace View {
 
-        type SortingDirectionValue = 'asc' | 'desc';
+        // Valores de dirección de ordenamiento
+        type _SortingDirectionValue = 'asc' | 'desc';
 
-        // Interfaz dinámica que usa los atributos de un registro individual
-        type ComponentProps<T extends API.DataTypes.GenericRecord> = Partial<Record<keyof T, API.DataTypes._RecordValue>>;
+        // Tipo de dato de dirección de ordenamiento
+        type _SortingDirection = Set<_SortingDirectionValue>
 
-        // Vista de tabla
-        declare namespace List {
-            // Componente que renderiza uno o más atributos de un registro en una vista de tabla o kanban
-            type _ColumnComponent<T extends API.DataTypes.GenericRecord> = ( (config: ComponentProps<T>) => (React.JSX.Element | undefined) );
+        // Interfaz de uso de tabla de base de datos
+        interface _TableUse <T extends API.Database.TableName> {
+            /** 
+             *  ### Tabla de base de datos
+             *  Nombre de tabla de base de datos.
+             */ 
+            table: T; // Nombre de la tabla de base de datos para extraer los nombres de los campos.
+        };
 
-            // Configuración de renderización de una columna y sus valores en la vista
-            interface _TableColumnConfig<T extends API.DataTypes.GenericRecord> {
-                key: keyof T;
-                label: string;
-                component?: _ColumnComponent<T> | keyof WidgetPreset;
-                options?: Core.Widget.Options;
+        // Interfaz de componente que usa muchos registros
+        interface _ManyRecordsUse {
+            /** 
+             *  ### Leyenda de contenido vacío
+             *  Aquí se declara una leyenda que se muestra en las vistas de árbol y kanban
+             *  cuando no existen registros a mostrar.
+             */ 
+            emptyContent: string; // Leyenda para mostrar cuando no existan datos a mostrar.
+        };
+
+        // Unión de interfaces que usan tabla de base de datos y usan muchos registros.
+        type _TableUseAndManyRecordsRenderer<T extends API.Database.TableName> = _TableUse<T> & _ManyRecordsUse;
+
+        /** 
+         *  ### Registro en base de datos
+         *  Este objeto es la declaración de propiedades de un registro de una tabla
+         *  dinámica de base de datos.
+         */ 
+        type RecordInDatabase<T extends API.Database.TableName> = API.Database.Table[T]
+
+        // TIPOS E INTERFACES USADOS POR COMPONENTES
+        // --------------------------------------------------------------------
+
+        interface SortingIndicator {
+            /** 
+             *  ### Dirección de ordenamiento de datos
+             *  Conjunto que contiene la dirección de ordenamiento.
+             */ 
+            direction: _SortingDirection; // Conjunto que contiene la dirección de ordenamiento.
+        };
+
+        // Vista de árbol, interfaces y tipos relacionados
+        declare namespace Tree {
+
+            // Configuración de columnas de tabla
+            type ViewConfig <T extends API.Database.TableName> = Field<T>[];
+
+            // Parámetros comunes de campo
+            interface _FieldCommon {
+                /** 
+                 *  ### Nombre personalizado de campo
+                 *  Nombre explícito de la columna en caso de querer reemplazar su nombre
+                 *  prestablecido.
+                 */ 
+                label?: string; // Nombre explícito de la columna en caso de querer reemplazar su nombre prestablecido.
+            };
+
+            // Parámetros columnes de columna individual
+            interface _IndividualColumnCommon <T extends API.Database.TableName>{
+                /** 
+                 *  ### Llave de campo
+                 *  Llave del campo de la tabla de base de datos a renderizar como columna.
+                 */ 
+                columnKey: keyof RecordInDatabase<T>;
+            };
+
+            // Parámetros comunes en interfaces
+            interface _Common <T extends API.Database.TableName> extends _TableUse<T> {
+                /** 
+                 *  ### Configuración de vista de tabla
+                 *  Objeto que define las propiedades de cada una de las columnas. Los
+                 *  atributos aquí declarados se encuentran en la interfaz {@link Tree.Field Field}.
+                 */ 
+                viewConfig: ViewConfig<T>; // Configuración de vista de columnas de la tabla.
+            };
+
+            // Unión de parámetros comunes y de columna individual
+            type _IndividualColumnAndCommonParams<T extends API.Database.TableName> = _IndividualColumnCommon<T> & _Common<T>;
+
+            // Componentes hijos de la vista
+            interface _Children <T extends API.Database.TableName>{
+                /** 
+                 *  ### Columna de árbol
+                 *  Este componente declara las propiedades de una columna de la vista de
+                 *  árbol del componente {@link Component Tree}.
+                 */ 
+                Field: React.FC<Field<T>>;
+                /** 
+                 *  ### Página de árbol
+                 *  Este componente no renderiza nada por sí solo pero ayuda a contener las
+                 *  declaraciones de propiedades de columna del componente {@link Field}
+                 *  dentro de éste y mantener la sintáxis TSX válida.
+                 */ 
+                Page: React.FC<UI.GenericInvolverComponent>;
+            };
+
+            interface _SortingFields <T extends API.Database.TableName>{
+                /** 
+                 *  ### Dirección de ordenamiento de datos
+                 *  Conjunto que contiene el valor de dirección de ordenamiento de datos.
+                 */ 
+                selectedSortingDirection: _SortingDirection;
+                /** 
+                 *  ### Columna de ordenamiento de datos
+                 *  Llave que indica el campo por el cual los datos están siendo ordenados
+                 *  actualmente.
+                 */ 
+                sortingFieldKey: keyof RecordInDatabase<T> | null;
+                /** 
+                 *  ### Selección de columna para ordenar datos
+                 *  Función para establecer el campo de ordenamiento.
+                 */ 
+                toggleSortingColumn: (key: keyof RecordInDatabase<T>) => (void);
+            }
+
+            // TIPOS E INTERFACES USADOS POR COMPONENTES
+            // ----------------------------------------------------------------
+
+            // Parámetros de componente que obtiene datos de registros desde el backend
+            type ListRendererAndCommon<T extends API.Database.TableName> = _Common<T> & _ManyRecordsUse;
+
+            // Unión de parámetros de componente que obtiene datos de registros desde el backend y ordena datos
+            type _DataSorter<T extends API.Database.TableName> = ListRendererAndCommon<T> & _SortingFields<T>
+
+            // Parámetros de entrada de columna de tabla
+            type InteractiveColumn<T extends API.Database.TableName> = _Common<T> & _FieldCommon & _IndividualColumnCommon<T>;
+
+            // Parámetros de campo de tabla
+            interface Field <T extends API.Database.TableName> extends _FieldCommon {
+                /** 
+                 *  ### Nombre de campo
+                 *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
+                 */ 
+                name: keyof RecordInDatabase<T>;
+                /** 
+                 *  ### Widget para renderización de celda
+                 *  Widget prestablecido o personalizado a usar para renderizar el valor
+                 *  del registro en una tabla de base de datos.
+                 */ 
+                widget?: keyof Widget.Presets<T> | ((props: RecordInDatabase<T>) => (boolean));
+                /** 
+                 *  ### Opciones de color
+                 *  Objeto de funciones que colorean un widget en base a los valores de un
+                 *  registro de base de datos
+                 */ 
+                colorDecoration?: Widget.Decoration<T>;
+                /** 
+                 *  ### Visibilidad inicial de columna
+                 *  Propiedad que indica la visibilidad inicial de la columna Si este valor
+                 *  es diferente de `undefined` la columna podrá mostrarse y ocultarse.
+                 */ 
                 visible?: boolean;
+                /** 
+                 *  ### Puede ordenar datos
+                 *  Esta propiedad indica si la columna puede o no ordenar datos en base a
+                 *  sus valores.
+                 */ 
                 canSort?: boolean;
             };
 
-            // Configuración de vista de tabla
-            type ViewConfig<T extends API.DataTypes.GenericRecord> = _TableColumnConfig<T>[];
-
-            // Interfaz de componente de vista de tabla
-            interface _DynamicParams<T extends API.DataTypes.GenericRecord> {
-                tableName: IACele.API.Database.TableName;
-                viewConfig: ViewConfig<T>;
-                emptyContent: string;
+            // Parámetros de renderizador de celda de tabla
+            interface CellRender <T extends API.Database.TableName> extends _IndividualColumnAndCommonParams<T> {
+                /** 
+                 *  ### Registro de tabla de base de datos
+                 *  Registro de la base de datos del que se tomarán valores para renderizar
+                 *  un componente.
+                 */ 
+                record: RecordInDatabase<T>;
             };
 
-            // Componente de vista de tabla
-            type Params = <T extends API.DataTypes.GenericRecord>(config: _DynamicParams<T>) => (React.JSX.Element);
-
-            interface TableCell {
-                columns: ViewConfig<API.DataTypes.GenericRecord>; // Configuración de columnas.
-                columnKey: string; // Llave de columna actual.
-                record: API.DataTypes.GenericRecord; // Objeto que contiene los datos de un registro de la base de datos.
-                tableName: API.Database.TableName; // Nombre de la tabla de donde se obtienen los datos.
+            // Parámetros de vista de tabla
+            interface Component <T extends API.Database.TableName> extends _DataSorter<T> {
+                /** 
+                 *  ### Estado de carga
+                 *  Estado que indica que los datos se están cargando.
+                 */ 
+                loading: boolean; // Estado de carga.
+                /** 
+                 *  ### Registros de base de datos
+                 *  En este estado se almacena la información obtenida desde el servidor.
+                 */ 
+                records: RecordInDatabase<T>[]; // Datos a mostrar.
             };
 
-            interface InteractiveColumn {
-                viewConfig: IACele.View.List.ViewConfig<IACele.API.DataTypes.GenericRecord>; // Configuración de columnas.
-                columnKey: string; // Llave de columna actual.
-                label: string; // Nombre visible de la columna.
-                ascendingDirection: Set<SortingDirectionValue>; // Conjunto que contiene la dirección de ordenamiento.
+            // Función que renderiza los componentes hijos
+            interface ChildrenRender <T extends API.Database.TableName>{
+                /** 
+                 *  ### Declaración de vista de árbol
+                 *  Función utilizada para el encapsulamiento de componentes que se
+                 *  utilizan en la construcción de la vista de árbol.
+                 */ 
+                children: ({ Field, Page }: _Children<T>) => React.ReactNode;
             };
 
-            interface SortingIndicator {
-                direction: Set<SortingDirectionValue>; // Conjunto que contiene la dirección de ordenamiento.
+        };
+
+        // Vista de lista, interfaces y tipos relacionados
+        declare namespace List {
+
+            // Componentes hijos de la vista
+            interface _Children<T extends IACele.API.Database.TableName>{
+                /** 
+                 *  ### Vista de árbol
+                 *  Este componente se utiliza para declarar la estructura de una vista de
+                 *  árbol usando una función flecha como `children`.
+                 */ 
+                Tree: React.FC<Tree.ChildrenRender<T>>;
+            };
+
+            // TIPOS E INTERFACES USADOS POR COMPONENTES
+            // ----------------------------------------------------------------
+
+            // Parámetros de la vista de lista
+            interface Component <T extends API.Database.TableName> extends _TableUseAndManyRecordsRenderer<T> {
+                /** 
+                 *  ### Declaración de vistas de árbol y kanban
+                 *  Función utilizada para el encapsulamiento de componentes que se
+                 *  utilizan en la construcción de las vistas de árbol y kanban
+                 */ 
+                children: ({ Tree }: _Children<T>) => (React.ReactNode);
+            };
+
+        };
+
+        declare namespace Kanban {
+
+            interface Children <T extends IACele.API.Database.TableName>{
+                Card: React.FC<UI.GenericInvolverComponent>;
+                Section: React.FC<UI.GenericInvolverComponent>;
+                Field: React.FC<IACele.Core.UI.Field.KanbanParams<T>>;
+            };
+
+            type RenderChildren<T extends IACele.API.Database.TableName> = (children: Kanban.Children<T>) => React.ReactNode;
+        };
+
+
+
+        declare namespace Widget {
+
+            // Destructuración dinámica de la llave de un objeto de registro en base de datos
+            interface _PropDynamicDestructuration {
+                [ prop: string ]: API.DataTypes._RecordValue;
+            };
+
+            // Declaración de widget
+            interface Declaration <T extends API.Database.TableName>{
+                table: T;
+                record: API.Database.Table[T]
+                defaultValue: API.DataTypes._RecordValue;
+                defaultProp: string;
+                color: UI.DecorationColor;
+            };
+
+            // Componente de widget
+            type Callback = React.FC<_PropDynamicDestructuration>;
+
+            // Renderizador de widget dinámico
+            type Component<T extends API.Database.TableName> = (props: Declaration<T>) => React.ReactNode;
+
+            // Definición de color de un widget en base a una validación de un argumento o sus atributos entrantes
+            type _DecorationTrigger<T> = (props: T) => (boolean);
+
+            // Interfaz para colorear un widget en base a validaciones de un argumento o sus atributos entrantes
+            interface Decoration<T extends API.Database.TableName> {
+                /** 
+                 *  ### Color `info`
+                 *  Función que valida uno o más valores y colorea el widget de color `info`.
+                 */ 
+                info?: _DecorationTrigger<API.Database.Table[T]>;
+                /** 
+                 *  ### Color `success`
+                 *  Función que valida uno o más valores y colorea el widget de color `success`.
+                 */ 
+                success?: _DecorationTrigger<API.Database.Table[T]>;
+                /** 
+                 *  ### Color `warning`
+                 *  Función que valida uno o más valores y colorea el widget de color `warning`.
+                 */ 
+                warning?: _DecorationTrigger<API.Database.Table[T]>;
+                /** 
+                 *  ### Color `danger`
+                 *  Función que valida uno o más valores y colorea el widget de color `danger`.
+                 */ 
+                danger?: _DecorationTrigger<API.Database.Table[T]>;
+            };
+
+            // Función receptora de atributos para ser usados en widget a renderizar
+            type PropsReceiver = <T extends API.Database.TableName>(
+                name: string,
+                decoration: Decoration<T>,
+                table: T,
+                record: API.Database.Table[T]
+            ) => (Callback)
+
+            // Widgets predefinidos listos para ser usados
+            interface Presets <T extends API.Database.TableName>{
+                chip: PropsReceiver<T>;
+                toggle: PropsReceiver<T>;
+                codeline: PropsReceiver<T>;
             };
         };
     };
+
+    declare namespace Context {
+
+        interface Token {
+            token: string | null;
+            setToken: React.Dispatch<React.SetStateAction<string | null>>;
+        };
+
+        interface DarkMode {
+            darkMode: boolean;
+            setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+        };
+
+        interface SidebarDisplay {
+            isSidebarLocked: boolean;
+            setIsSidebarLocked: React.Dispatch<React.SetStateAction<boolean>>;
+            isSidebarOpen: boolean;
+            setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+        };
+
+        interface Navbar {
+            /** 
+             *  ### Controles dinámicos
+             *  Este estado contiene el componente TSX que se mostrará en la barra de
+             *  navegación de la aplicación.
+             */ 
+            dynamicControls: React.JSX.Element | null;
+            /** 
+             *  ### Establecer controles dinámicos
+             *  Esta función establece un nuevo componente TSX que se mostrará en la barra
+             *  de navegación de la aplicación.
+             */ 
+            setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
+        };
+
+        interface AppContent {
+            appContentRef: React.RefObject<HTMLElement | null>;
+        };
+
+        interface PageName {
+            pageName: string | null;
+            setPageName: React.Dispatch<React.SetStateAction<string | null>>;
+        };
+
+        type SortingField = View.Tree._SortingFields<any>
+
+        interface AppLoading {
+            appLoading: boolean;
+            setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
+        };
+
+        interface RecordForm {
+            tableName: API.Database.TableName;
+            record: API.DataTypes.GenericRecord | null;
+            formReadonly?: boolean;
+        };
+
+        interface ViewConfig <T extends IACele.API.Database.TableName>{
+            /** 
+             *  ### Añadir propiedades para columna de vista de árbol
+             *  Esta función añade la declaración de propiedades para renderizar una
+             *  columna en la vista de árbol del componente {@link View.Tree.Component Tree}
+             */ 
+            pushViewConfig: (config: IACele.View.Tree.Field<T>) => void;
+        };
+
+    };
+
+    declare namespace Hook {
+
+        interface PageName {
+
+            /** 
+             *  ### Nombre de la página
+             *  Esta función establece el nombre de la página, el cual se mostrará en el
+             *  breadcrumb y la pestaña del navegador.
+             */ 
+            setViewName: (name: string | null) => (void)
+        }
+    }
+
 };

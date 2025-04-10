@@ -3,7 +3,7 @@ export const TABLE_NAME: Record<IACele.API.Database.TableName, string> = {
     "commissions.line": "Ventas",
 };
 
-export const table: IACele.Core.UI.Field.TableFieldNames = {
+export const tableProperties: IACele.Core.UI.Field.TableFieldNames = {
     "base.users": {
         id: {
             name: 'ID',
