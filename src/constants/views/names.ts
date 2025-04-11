@@ -124,7 +124,7 @@ export const tableProperties: IACele.Core.UI.Field.TableFieldNames = {
             type: 'integer',
         },
         vendorName: {
-            name: 'Nombre del proveedor',
+            name: 'Proveedor',
             type: 'char',
         },
         purchaseDate: {
