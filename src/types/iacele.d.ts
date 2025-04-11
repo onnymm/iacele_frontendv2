@@ -480,6 +480,38 @@ declare namespace IACele {
          */ 
         type RecordInDatabase<T extends API.Database.TableName> = API.Database.Table[T]
 
+        interface _ViewField <T extends API.Database.TableName>{
+            /** 
+             *  ### Nombre de campo
+             *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
+             */ 
+            name: keyof RecordInDatabase<T>;
+        }
+
+        interface RecordUse<T extends API.Database.TableName> {
+            /** 
+             *  ### Registro de tabla de base de datos
+             *  Registro de la base de datos del que se tomarán valores para renderizar
+             *  un componente.
+             */ 
+            record: RecordInDatabase<T>;
+        };
+
+        // Variación del tipo _TableUse para permitir valores nulos
+        interface _OptionalTableUse <T extends API.Database.TableName> extends _TableUse<T>{
+            table?: T;
+        }
+
+        // Tipo de dato para renderizar
+        type DataType = (
+            | 'char'
+            | 'date'
+            | 'float'
+            | 'integer'
+            | 'monetary'
+            | 'percentage'
+        )
+
         // TIPOS E INTERFACES USADOS POR COMPONENTES
         // --------------------------------------------------------------------
 
@@ -491,21 +523,48 @@ declare namespace IACele {
             direction: _SortingDirection; // Conjunto que contiene la dirección de ordenamiento.
         };
 
+        // Parámetros comunes de campo
+        interface FieldCommon {
+            /** 
+             *  ### Nombre personalizado de campo
+             *  Nombre explícito de la columna en caso de querer reemplazar su nombre
+             *  prestablecido.
+             */ 
+            label?: string; // Nombre explícito de la columna en caso de querer reemplazar su nombre prestablecido.
+        };
+
+        declare namespace Data {
+
+            // Tipo de dato modificable por medio de teclado
+            type KeyboardType = (
+                | 'char'
+                | 'date'
+                | 'float'
+                | 'integer'
+                | 'monetary'
+                | 'percentage'
+            );
+
+            // Tipo de dato genérico
+            type GenericType = (
+                | KeyboardType
+                | 'boolean'
+                | 'time'
+                | 'datetime'
+            );
+
+            // Mapa de tipos de dato de la aplicación a input de HeroUI
+            type KeyboardTypeToInput = Record<IACele.Core.UI.Field.KeyboardType, React.InputHTMLAttributes<HTMLInputElement>['type']>
+        };
+
         // Vista de árbol, interfaces y tipos relacionados
         declare namespace Tree {
 
             // Configuración de columnas de tabla
             type ViewConfig <T extends API.Database.TableName> = Field<T>[];
 
-            // Parámetros comunes de campo
-            interface _FieldCommon {
-                /** 
-                 *  ### Nombre personalizado de campo
-                 *  Nombre explícito de la columna en caso de querer reemplazar su nombre
-                 *  prestablecido.
-                 */ 
-                label?: string; // Nombre explícito de la columna en caso de querer reemplazar su nombre prestablecido.
-            };
+            // Unión de interfaces de uso de nombre y de título de campo
+            type _FieldDeclaration<T extends API.Database.TableName> = _ViewField<T> & FieldCommon
 
             // Parámetros columnes de columna individual
             interface _IndividualColumnCommon <T extends API.Database.TableName>{
@@ -527,7 +586,7 @@ declare namespace IACele {
             };
 
             // Unión de parámetros comunes y de columna individual
-            type _IndividualColumnAndCommonParams<T extends API.Database.TableName> = _IndividualColumnCommon<T> & _Common<T>;
+            type _IndividualColumnAndCommonParams<T extends API.Database.TableName> = RecordUse<T> & _IndividualColumnCommon<T> & _Common<T>;
 
             // Componentes hijos de la vista
             interface _Children <T extends API.Database.TableName>{
@@ -575,15 +634,10 @@ declare namespace IACele {
             type _DataSorter<T extends API.Database.TableName> = ListRendererAndCommon<T> & _SortingFields<T>
 
             // Parámetros de entrada de columna de tabla
-            type InteractiveColumn<T extends API.Database.TableName> = _Common<T> & _FieldCommon & _IndividualColumnCommon<T>;
+            type InteractiveColumn<T extends API.Database.TableName> = _Common<T> & FieldCommon & _IndividualColumnCommon<T>;
 
             // Parámetros de campo de tabla
-            interface Field <T extends API.Database.TableName> extends _FieldCommon {
-                /** 
-                 *  ### Nombre de campo
-                 *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
-                 */ 
-                name: keyof RecordInDatabase<T>;
+            interface Field <T extends API.Database.TableName> extends _FieldDeclaration<T> {
                 /** 
                  *  ### Widget para renderización de celda
                  *  Widget prestablecido o personalizado a usar para renderizar el valor
@@ -611,14 +665,7 @@ declare namespace IACele {
             };
 
             // Parámetros de renderizador de celda de tabla
-            interface CellRender <T extends API.Database.TableName> extends _IndividualColumnAndCommonParams<T> {
-                /** 
-                 *  ### Registro de tabla de base de datos
-                 *  Registro de la base de datos del que se tomarán valores para renderizar
-                 *  un componente.
-                 */ 
-                record: RecordInDatabase<T>;
-            };
+            type CellRender <T extends API.Database.TableName> = _IndividualColumnAndCommonParams<T>;
 
             // Parámetros de vista de tabla
             interface Component <T extends API.Database.TableName> extends _DataSorter<T> {
@@ -685,7 +732,124 @@ declare namespace IACele {
             type RenderChildren<T extends IACele.API.Database.TableName> = (children: Kanban.Children<T>) => React.ReactNode;
         };
 
+        declare namespace Form {
 
+            // Solo lectura
+            interface _ReadOnly {
+                /** 
+                 *  ### Estado de solo lectura
+                 *  Propiedad que restringe el documento a ser de solo lectura.
+                 */ 
+                readonly?: boolean;
+            };
+
+            // Interfaz del componente de campo de formulario
+            type Field<T extends IACele.API.Database.TableName> = View._ViewField<T> & FieldCommon & _ReadOnly;
+
+            // Atributos base de componente de formulario
+            type _BaseComponent<T extends IACele.API.Database.TableName> = View._TableUse<T> & _ReadOnly;
+
+            // Componentes hijos de la vista de formulario
+            interface _Children<T extends IACele.API.Database.TableName> {
+                /** 
+                 *  ### Página de vista
+                 *  Este componente envuelve los componentes {@link Header} {@link Sheet}
+                 *  conforman el esqueleto principal de la vista de formulario.
+                 */ 
+                Page: React.FC<UI.GenericInvolverComponent>;
+                /** 
+                 *  ### Encabezado de formulario
+                 *  En este componente se renderizan botones de acciones que varían en base
+                 *  a la tabla del registro mostrado en la vista de formulario.
+                 */ 
+                Header: React.FC<UI.GenericInvolverComponent>;
+                /** 
+                 *  ### Hoja de formulario
+                 *  En este componente se renderiza la vista de los atributos del registro
+                 *  a mostrar en el formulario, usando los componentes {@link Group} y
+                 *  {@link FieldParams}.
+                 */ 
+                Sheet: React.FC<UI.GenericInvolverComponent>;
+                /** 
+                 *  ### Grupo de campos en formulario
+                 *  Este componente renderiza un grupo para reunir campos de la vista.
+                 */ 
+                Group: React.FC<UI.Group>;
+                /** 
+                 *  ### Campo de formulario
+                 *  Este componente renderiza un campo que muestra el valor de un campo de
+                 *  un registro de tabla de base de datos.
+                 */ 
+                Field: React.FC<Field<T>>;
+            };
+
+            interface Component<T extends IACele.API.Database.TableName> extends _BaseComponent<T> {
+                /** 
+                 *  ## Declaración de vista de formulario
+                 *  Función utilizada para el encapsulamiento de componentes que se
+                 *  utilizan en la construcción de la vista de formulario.
+                 */ 
+                children: ({ Page, Header, Sheet, Group, Field }: _Children<T>) => (React.ReactNode);
+            };
+
+            declare namespace FieldParams {
+
+                // Unión de uso de nombre de campo y datos de registro de base de datos
+                type RecordRender<T extends IACele.API.Database.TableName> = View._ViewField<T> & View.RecordUse<T>
+
+                // Extensión de parámetros de campo de formulario
+                interface Generic<T extends IACele.API.Database.TableName> extends RecordRender<T> {
+                    /** 
+                     *  ### Validación de valor entrante
+                     *  Función que valida si el valor ingresado por el usuario es válido
+                     *  para el campo.
+                     */ 
+                    valueValidation?: (value: string) => (true | null);
+                    /** 
+                     *  ### Mensaje de error
+                     *  Mensaje que indica la razón del error cuando la función de
+                     *  validación no acepta el valor entrante en el campo.
+                     */ 
+                    errorMessage: string;
+                    /** 
+                     *  ### Es inválido
+                     *  Valor que indica el estado del campo
+                     */ 
+                    isInvalid: boolean;
+                    /** 
+                     *  ### Cambio de valor
+                     *  Función de cambio de estado para manejar los cambios del valor
+                     *  ingresado a un campo de teclado.
+                     */ 
+                    setValue: React.Dispatch<React.SetStateAction<string | null>>;
+                    /** 
+                     *  ### Solo lectura
+                     *  Valor que indica que un campo es de solo de lectura
+                     */ 
+                    readonly: boolean;
+                };
+
+                // Interfaz de atributos comunes de input de formulario
+                interface _BaseInput<T extends IACele.API.Database.TableName> extends Generic<T>{
+                    /** 
+                     *  ### Tipo de dato de valor
+                     *  Propiedad que indica el tipo de dato del valor a renderizar.
+                     */ 
+                    type: Data.KeyboardType;
+                }
+
+                // Input genérico
+                interface GenericInput<T extends IACele.API.Database.TableName> extends _BaseInput<T> {
+                    type: Data.GenericType;
+                };
+
+                // Input manipulable por teclado
+                interface KeyboardInput<T extends IACele.API.Database.TableName> extends _BaseInput<T> {
+                    type: Data.KeyboardType;
+                };
+            };
+
+        }
 
         declare namespace Widget {
 
@@ -817,6 +981,8 @@ declare namespace IACele {
              */ 
             pushViewConfig: (config: IACele.View.Tree.Field<T>) => void;
         };
+
+        type OpenRecordPath = View._Open;
 
         type FormField<T extends IACele.API.Database.TableName> = View.RecordUse<T> & View._OptionalTableUse<T> & View.Form._ReadOnly;
 

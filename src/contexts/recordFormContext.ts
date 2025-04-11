@@ -1,9 +1,9 @@
 import { createContext } from "react";
 
-const RecordFormContext = createContext<IACele.Context.RecordForm>({
-    tableName: 'base.users',
+const RecordFormContext = createContext<IACele.Context.FormField<any>>({
+    table: undefined,
     record: null,
-    formReadonly: undefined,
+    readonly: undefined,
 });
 
 export default RecordFormContext;
