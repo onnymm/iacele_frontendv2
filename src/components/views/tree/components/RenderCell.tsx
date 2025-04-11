@@ -20,10 +20,10 @@ import Tree from "../Tree"; // eslint-disable-line
  *  columnas de la tabla.
  */ 
 const RenderCell = <T extends IACele.API.Database.TableName>({
-    viewConfig,
+    table,
     columnKey,
     record,
-    table,
+    viewConfig,
 }: IACele.View.Tree.CellRender<T>) => {
 
     // Obtención de objeto de declaración de columna actual

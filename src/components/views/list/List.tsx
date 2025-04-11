@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import ViewConfigContext from "../../../contexts/ViewConfigContext";
 import TreeView from "../tree/TreeView";
 import ListDataFetcher from "./ListDataFetcher";
+import OpenRecordPath from "../../../contexts/OpenRecordPath";
 
 /** 
  *  ## Lista de registros
@@ -24,6 +25,7 @@ const List = <T extends IACele.API.Database.TableName>({
     table,
     emptyContent,
     children,
+    open,
 }: IACele.View.List.Component<T>) => {
 
     const viewConfig: IACele.View.Tree.ViewConfig<T> = useMemo(
@@ -44,6 +46,7 @@ const List = <T extends IACele.API.Database.TableName>({
 
     return (
         <ViewConfigContext.Provider value={{ pushViewConfig }}>
+        <OpenRecordPath value={{ open }}>
 
             {/* Aquí se genera el objeto viewConfig */}
             {children({ Tree: TreeView<T> })}
@@ -55,6 +58,7 @@ const List = <T extends IACele.API.Database.TableName>({
                 emptyContent={emptyContent}
             />
 
+        </OpenRecordPath>
         </ViewConfigContext.Provider>
     );
 };

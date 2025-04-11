@@ -2,6 +2,9 @@ import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRo
 import SortingFieldContext from "../../../contexts/sortingFieldContext";
 import InteractiveColumn from "./components/InteractiveColumn";
 import RenderCell from "./components/RenderCell";
+import { useCallback, useContext } from "react";
+import OpenRecordPath from "../../../contexts/OpenRecordPath";
+import { useNavigate } from "react-router";
 /** 
  *  ## Vista de Árbol/Tabla.
  *  Este componente renderiza una vista de ábol/tabla para visualizar múltiples
@@ -37,6 +40,8 @@ const Tree = <T extends IACele.API.Database.TableName>({
     records,
 }: IACele.View.Tree.Component<T>) => {
 
+    const { recordPath, openRecord } = useOpenRecord();
+
     return (
         <div className="flex flex-col gap-2 h-full overflow-hidden">
             <div className="bg-white dark:bg-[#1f2f3f] p-2 h-full">
@@ -51,6 +56,7 @@ const Tree = <T extends IACele.API.Database.TableName>({
                             wrapper: 'p-0 rounded-lg bg-transparent h-full rounded-none',
                             th: 'shadow-sm p-0 bg-transparent',
                             tr: 'transition-transform-colors hover:bg-primary-500',
+                            td: 'p-0',
                             thead: '*:hover:bg-transparent',
                         }}
                     >
@@ -70,13 +76,18 @@ const Tree = <T extends IACele.API.Database.TableName>({
                                         {
                                             (columnKey) => {
                                                 return (
-                                                    <TableCell>
-                                                        <RenderCell
-                                                            viewConfig={viewConfig}
-                                                            columnKey={columnKey as keyof IACele.API.Database.Table[T]}
-                                                            record={record}
-                                                            table={table}
-                                                        />
+                                                    <TableCell className="">
+                                                        <div
+                                                            className={`${recordPath ? 'cursor-pointer' : ''} flex flex-row items-center px-4 py-2 h-full w-max min-w-full`}
+                                                            onClick={() => openRecord(record.id)}
+                                                        >
+                                                            <RenderCell
+                                                                viewConfig={viewConfig}
+                                                                columnKey={columnKey as keyof IACele.API.Database.Table[T]}
+                                                                record={record}
+                                                                table={table}
+                                                            />
+                                                        </div>
                                                     </TableCell>
                                                 )
                                             }
@@ -93,3 +104,18 @@ const Tree = <T extends IACele.API.Database.TableName>({
 };
 
 export default Tree;
+
+const useOpenRecord = () => {
+
+    const { open } = useContext(OpenRecordPath);
+
+    const navigate = useNavigate();
+
+    const openRecord = useCallback(
+        (id: number) => {
+            if ( open ) navigate(`${open}?id=${id}`);
+        }, [open, navigate]
+    );
+
+    return { recordPath: open, openRecord }
+}

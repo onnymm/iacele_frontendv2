@@ -462,8 +462,16 @@ declare namespace IACele {
             emptyContent: string; // Leyenda para mostrar cuando no existan datos a mostrar.
         };
 
+        interface _Open {
+            /** 
+             *  ### Abrir en
+             *  Path de redirección para mostrar el detalle del registro.
+             */ 
+            open?: string;
+        }
+
         // Unión de interfaces que usan tabla de base de datos y usan muchos registros.
-        type _TableUseAndManyRecordsRenderer<T extends API.Database.TableName> = _TableUse<T> & _ManyRecordsUse;
+        type _TableUseAndManyRecordsRenderer<T extends API.Database.TableName> = _TableUse<T> & _ManyRecordsUse & _Open;
 
         /** 
          *  ### Registro en base de datos
@@ -809,6 +817,8 @@ declare namespace IACele {
              */ 
             pushViewConfig: (config: IACele.View.Tree.Field<T>) => void;
         };
+
+        type FormField<T extends IACele.API.Database.TableName> = View.RecordUse<T> & View._OptionalTableUse<T> & View.Form._ReadOnly;
 
     };
 
