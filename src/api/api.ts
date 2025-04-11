@@ -24,7 +24,7 @@ class APIManager {
      *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
-     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
+     *  - [ {@link IACele.API.Database.TableName T} ] `tableName`: Nombre de la tabla
      *  en la base de datos.
      *  - [ `number` ] `id`: ID del registro a leer.
      */ 
@@ -35,7 +35,7 @@ class APIManager {
 
         return await this.execute(
             async () => {
-                const response = await iaCeleAxios.get<string, AxiosResponse<IACele.API.Database.Table[K][]>, IACele.API.Request.Read>(
+                const response = await iaCeleAxios.get<string, AxiosResponse<IACele.View.RecordInDatabase<K>[]>, IACele.API.Request.Read>(
                     getBackendUrl(API_PATH.READ),
                     {
                         params: {
@@ -75,7 +75,7 @@ class APIManager {
      *  - [ `boolean | boolean[]` ]  ascending: Dirección de ordenamiento
      *  ascendente (opcional).
      */ 
-    searchRead = async<T extends IACele.API.Database.TableName> (
+    searchRead = async<K extends IACele.API.Database.TableName> (
         {
             tableName,
             searchCriteria = [],
@@ -84,12 +84,12 @@ class APIManager {
             limit = undefined,
             sortby= undefined,
             ascending = undefined,
-        }: IACele.API.Request.SearchRead<T>,
+        }: IACele.API.Request.SearchRead<K>,
     ) => {
 
         return await this.execute(
             async () => {
-                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<T>>, IACele.API.Request.SearchRead<T>>(
+                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<K>>, IACele.API.Request.SearchRead<K>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
                         tableName,
@@ -199,7 +199,7 @@ class APIManager {
      *  - [ `boolean | boolean[]` ]  ascending: Dirección de ordenamiento
      *  ascendente (opcional).
      */ 
-    getDataForTable = async<T extends IACele.API.Database.TableName> ({
+    getDataForTable = async<K extends IACele.API.Database.TableName> ({
         tableName,
         searchCriteria = [],
         fields = [],
@@ -207,13 +207,13 @@ class APIManager {
         itemsPerPage = 40,
         sortby,
         ascending = true,
-    }: IACele.API.Request.TreeSearchRead<T>) => {
+    }: IACele.API.Request.TreeSearchRead<K>) => {
 
         return await this.execute(
             async () => {
 
                 // Declaración de ordenamiento computado
-                let computedSortby: keyof IACele.View.RecordInDatabase<T> | (keyof IACele.View.RecordInDatabase<T>)[]
+                let computedSortby: keyof IACele.View.RecordInDatabase<K> | (keyof IACele.View.RecordInDatabase<K>)[]
 
                 // Cálculo del desfase de registros
                 const offset = page * itemsPerPage
@@ -222,14 +222,14 @@ class APIManager {
 
                 // Se convierte el valor a snake_case
                 if ( typeof sortby === 'string' ) {
-                    computedSortby = this.toSnake<T>(sortby as keyof IACele.View.RecordInDatabase<T>)
+                    computedSortby = this.toSnake<K>(sortby as keyof IACele.View.RecordInDatabase<K>)
                 } else if ( typeof sortby === 'object') {
-                    computedSortby = (sortby as (keyof IACele.View.RecordInDatabase<T>)[]).map( (key) => this.toSnake<T>(key) )
+                    computedSortby = (sortby as (keyof IACele.View.RecordInDatabase<K>)[]).map( (key) => this.toSnake<K>(key) )
                 } else {
-                    computedSortby = sortby as keyof IACele.View.RecordInDatabase<T>
+                    computedSortby = sortby as keyof IACele.View.RecordInDatabase<K>
                 }
 
-                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<T>>, IACele.API.Request.SearchRead<T>>(
+                const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<K>>, IACele.API.Request.SearchRead<K>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
                         tableName,
