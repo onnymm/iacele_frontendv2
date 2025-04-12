@@ -23,7 +23,7 @@ const toggle = widgetBuilder(
         const onValueChange = () => {
             setToggleValue( (prevState) => (!prevState) );
             api.update({
-                tableName: table,
+                table,
                 recordId: (record.id as number),
                 dataToWrite: {[ defaultProp ]: !toggleValue}
             });

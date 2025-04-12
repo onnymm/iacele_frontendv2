@@ -2,6 +2,17 @@
 
 declare namespace IACele {
 
+    declare namespace Common {
+
+        interface _TableUse<K extends API.Database.TableName> {
+            /** 
+             *  ### Tabla de base de datos
+             *  Nombre de tabla de base de datos.
+             */ 
+            table: K;
+        }
+    }
+
     declare namespace Application {
 
         interface CurrentUserData {
@@ -225,42 +236,113 @@ declare namespace IACele {
             type TableFieldsProps<T extends IACele.API.Database.TableName> = Record<keyof IACele.API.Database.Table[T], IACele.API.DataTypes.FieldProps>;
         };
 
-        // Peticiones comunes al backend
+        /** 
+         *  ### Tipos de datos de estructuras de datos
+         *  En este nombre de espacio se centralizan todos los tipos de datos que
+         *  describen estructuras de colecciones de datos enviadas al backend y
+         *  recibidas del mismo.
+         */ 
+        declare namespace Data {
+
+            /** 
+             *  ### Registro en base de datos
+             *  Tipo de dato genérico que describe la estructura de un registro de
+             *  una tabla de base de datos de manera dinámica.
+             */ 
+            type RecordInDatabase<K extends Database.TableName> = Database.Table[K]
+
+            /** ### Atributo de registro en base de datos
+             *  Atributo de registro dinámico de una tabla de base de datos.
+             */ 
+            type RecordAttribute<K extends Database.TableName> = keyof RecordInDatabase<K>
+        }
+
+        /** 
+         *  ### Estructuras de información enviadas al backend
+         *  En este nombre de espacio se centralizan los tipos de dato que se
+         *  envían al backend.
+         */ 
         declare namespace Request {
 
-            // Petición base
-            interface _Base {
-                tableName: IACele.API.Database.TableName;
-            };
-
-            interface Read extends _Base {
+            // Lectura de datos
+            interface Read extends Common._TableUse<K> {
+                /** 
+                 *  ### ID
+                 *  ID de registro de base de datos.
+                 */ 
                 id: number;
             }
 
             // Petición de búsqueda y lectura base
-            interface _BaseSearchRead <T extends IACele.API.Database.TableName> extends _Base {
+            interface _BaseSearchRead <K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
+                /** 
+                 *  ### Criterio de búsqueda
+                 *  Estructura que define una búsqueda en la base de datos del backend.
+                 */ 
                 searchCriteria?: IACele.API.Data.CriteriaStructure;
-                fields?: (keyof IACele.API.Database.Table[T])[];
-                sortby?: keyof IACele.API.Database.Table[T] | (keyof IACele.API.Database.Table[T])[];
+                /** 
+                 *  ### Campos
+                 *  Arreglo de nombres de campos a obtener desde el backend.
+                 */ 
+                fields?: Data.RecordAttribute<K>[];
+                /** 
+                 *  ### Ordenar por
+                 *  Nombre o arreglo de nombres de campo de base de datos para usar como
+                 *  criterio de ordenamiento de datos.
+                 */ 
+                sortby?: Data.RecordAttribute<K> | Data.RecordAttribute<K>[];
+                /** 
+                 *  ### Dirección de ordenamiento
+                 *  Valor booleano o arreglo de valores booleanos que definen si el sentido
+                 *  de ordenamiento es ascendente o no. Este valor debe tener la misma
+                 *  longitud de datos que el valor `sortby` ya que define la dirección de
+                 *  ordenamiento con respecto a un campo del parámetro mencionado.
+                 */ 
                 ascending?: boolean | boolean[];
             };
 
             // Petición de búsqueda y lectura
-            interface SearchRead <T extends IACele.API.Database.TableName> extends _BaseSearchRead<T> {
+            interface SearchRead <K extends IACele.API.Database.TableName> extends _BaseSearchRead<K> {
+                /** 
+                 *  ### Desfase inicial
+                 *  Este valor define desde qué indice de registro retornará el backend.
+                 */ 
                 offset?: number;
+                /** 
+                 *  ### Límite de registros
+                 *  Cantidad máxima de registros a retornar por el backend.
+                 */ 
                 limit?: number;
             };
 
             // Petición de búsqueda y lectura para vista de tabla
-            interface TreeSearchRead <T extends IACele.API.Database.TableName> extends _BaseSearchRead<T> {
+            interface TreeSearchRead <K extends IACele.API.Database.TableName> extends _BaseSearchRead<K> {
+                /** 
+                 *  ### Página de datos
+                 *  Este parámetro se utiliza para paginación de datos. Se obtiene uno de
+                 *  los segmentos de datos divididos por página.
+                 */ 
                 page?: number;
+                /** 
+                 *  ### Cantidad de registros por página. Este parámetro también define el
+                 *  tamaño de cada página a retornar desde el backend.
+                 */ 
                 itemsPerPage?: number;
             };
 
             // Petición de actualización de registro
-            interface Update extends _Base {
+            interface Update extends Common._TableUse<K> {
+                /** 
+                 *  ### ID
+                 *  ID del registro a modificar en la base de datos.
+                 */ 
                 recordId: number;
-                dataToWrite: DataTypes.GenericRecord;
+                /** 
+                 *  ### Datos a modificar
+                 *  Objeto que contiene los nombres de los campos y valores de la tabla de
+                 *  base de datos a la cual pertenece el registro a modificar.
+                 */ 
+                dataToWrite: Partial<Data.RecordInDatabase<K>>;
             };
         };
 
@@ -279,7 +361,7 @@ declare namespace IACele {
             };
 
             // Objetos de registros
-            interface Records<T extends DataTypes.GenericRecord> {
+            interface Records<T extends Data.RecordInDatabase<any>> {
                 data: T[];
                 count: number;
             };
@@ -462,7 +544,7 @@ declare namespace IACele {
              *  ### Tabla de base de datos
              *  Nombre de tabla de base de datos.
              */ 
-            table: T; // Nombre de la tabla de base de datos para extraer los nombres de los campos.
+            table: T;
         };
 
         // Interfaz de componente que usa muchos registros

@@ -59,7 +59,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
             // Obtención de los datos desde el backend
             const record = await api.read<K>({
                 id,
-                tableName: table,
+                table,
             });
 
             // Se establece el valor del registro

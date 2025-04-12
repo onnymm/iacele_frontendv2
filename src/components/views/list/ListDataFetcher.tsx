@@ -50,7 +50,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
         async () => {
             // Obtención de los datos desde el backend
             const response = await api.getDataForTable<T>({
-                tableName: table,
+                table,
                 sortby: sortingFieldKey ? sortingFieldKey : undefined,
                 ascending: selectedSortingDirection.has('asc'),
             });

@@ -29,7 +29,7 @@ class APIManager {
      *  - [ `number` ] `id`: ID del registro a leer.
      */ 
     read = async<K extends keyof IACele.API.Database.Table>({
-        tableName,
+        table,
         id,
     }: IACele.API.Request.Read) => {
 
@@ -40,7 +40,7 @@ class APIManager {
                     {
                         params: {
                             'record_ids': id,
-                            'table_name': tableName,
+                            'table_name': table,
                         },
                         authenticate: true,
                     }
@@ -77,7 +77,7 @@ class APIManager {
      */ 
     searchRead = async<K extends IACele.API.Database.TableName> (
         {
-            tableName,
+            table: tableName,
             searchCriteria = [],
             fields = [],
             offset = undefined,
@@ -92,7 +92,7 @@ class APIManager {
                 const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<K>>, IACele.API.Request.SearchRead<K>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
-                        tableName,
+                        table: tableName,
                         searchCriteria,
                         fields,
                         offset,
@@ -124,7 +124,7 @@ class APIManager {
      *  de valores a modificar masivamente.
      */ 
     update = async ({
-        tableName,
+        table: tableName,
         recordId,
         dataToWrite,
     }: IACele.API.Request.Update) => {
@@ -134,7 +134,7 @@ class APIManager {
                 const response = await iaCeleAxios.patch<string, AxiosResponse<boolean>, IACele.API.Request.Update>(
                     getBackendUrl(API_PATH.UPDATE),
                     {
-                        tableName,
+                        table: tableName,
                         recordId,
                         dataToWrite,
                     },
@@ -158,7 +158,7 @@ class APIManager {
      *  - [ `number` ] `id`: ID del registro a eliminar.
      */ 
     delete = async ({
-        tableName,
+        table: tableName,
         id,
     }: IACele.API.Request.Read) => {
 
@@ -200,7 +200,7 @@ class APIManager {
      *  ascendente (opcional).
      */ 
     getDataForTable = async<K extends IACele.API.Database.TableName> ({
-        tableName,
+        table: tableName,
         searchCriteria = [],
         fields = [],
         page = 0,
@@ -232,7 +232,7 @@ class APIManager {
                 const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<K>>, IACele.API.Request.SearchRead<K>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
                     {
-                        tableName,
+                        table: tableName,
                         searchCriteria,
                         fields,
                         offset,
