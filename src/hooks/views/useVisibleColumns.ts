@@ -1,4 +1,3 @@
-import { SharedSelection } from "@heroui/react"
 import { useMemo, useState } from "react"
 import { tableProperties } from "../../constants/views/names";
 import TreeView from "../../components/views/tree/TreeView"; // eslint-disable-line
@@ -86,7 +85,7 @@ const useVisibleColumns = <T extends IACele.API.Database.TableName>(
         tableColumns,
         toggleableColumns,
         visibleColumns,
-        setVisibleColumns: (setVisibleColumns as (keys: SharedSelection) => void)
+        setVisibleColumns: ( setVisibleColumns as IACele.UI.SelectOptions['setSelectedKeys'] ),
     };
 };
 

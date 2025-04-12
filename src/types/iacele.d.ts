@@ -14,8 +14,23 @@ declare namespace IACele {
         };
     };
 
+    /** 
+     *  ### UI
+     *  Tipos de dato relacionados a la interfaz de usuario de iaCele.
+     */ 
     declare namespace UI {
 
+        // Valor para uso de funciones de cambio de estado que usan conjuntos
+        type _SharedSelection = ('all' | Set<string | number>) & {
+            anchorKey?: string;
+            currentKey?: string;
+        };
+
+        /** 
+         *  ### Componente genérico con componentes hijos
+         *  En este tipo de componente se incluyen componentes hijos entre sus
+         *  etiquetas TSX de apertura y cierre.
+         */ 
         interface GenericInvolverComponent {
             /** 
              *  ### Componentes hijos
@@ -25,19 +40,18 @@ declare namespace IACele {
             children: React.ReactNode;
         };
 
-        type SharedSelection = ('all' | Set<string | number>) & {
-            anchorKey?: string;
-            currentKey?: string;
-        };
-
-        // Color de decoración de valor de vista
+        /** 
+         *  ### Color de decoración
+         *  Color de decoración de de componente/widget en base a su valor.
+         */ 
         type DecorationColor = "default" | "secondary" | "success" | "warning" | "danger" | undefined;
 
         interface Input {
             value?: string;
             onValueChange?: React.Dispatch<React.SetStateAction<string>>;
-        };
+        }
 
+        // Uso para componentes de input en inicio de sesión
         interface CoreInput extends Input {
             name: string; // Nombre del campo en el formulario.
             label: string; // Nombre descriptivo del campo, visible en la interfaz.
@@ -65,16 +79,16 @@ declare namespace IACele {
              *  Arreglo que contiene todas las opciones disponibles y que renderiza en la
              *  lista de opciones.
              */ 
-            toggleableKeys: SelectOption[]; // Arreglo de opciones seleccionables
+            toggleableKeys: SelectOption[];
             /** ### Opciones seleccionadas
              *  Arreglo que contiene todas las opciones seleccionadas/activas.
              */ 
-            selectedKeys: Set<string>; // Opciones activas
+            selectedKeys: Set<string>;
             /** 
              *  ### Manejo de estado de opciones seleccionadas
              *  Esta función realiza la activación o desactivación decolumnas.
              */ 
-            setSelectedKeys: (keys: SharedSelection) => void; // Función de cambio de estado de llaves activas
+            setSelectedKeys: (keys: _SharedSelection) => void;
         };
 
         interface SelectTemplate extends IACele.UI.SelectOptions {
@@ -91,14 +105,13 @@ declare namespace IACele {
         };
 
         interface Group extends IACele.UI.GenericInvolverComponent {
-            label?: string; // Título del grupo.
+            /** 
+             *  ### Título
+             *  Título o encabezado que aparece como nombre del grupo.
+             */ 
+            label?: string;
         }
 
-        interface Field<K extends API.Database.TableName> {
-            name: keyof API.DataTypes.TableFieldsProps<K>;
-            label?: string;
-            readonly?: boolean;
-        };
     };
 
     declare namespace API {
