@@ -95,7 +95,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     );
 
     return (
-        <div>
+        <div className="size-full">
             <div className="hidden sm:block h-full">
                 <Tree<T>
                     emptyContent={emptyContent}
