@@ -4,7 +4,7 @@ import { tableProperties } from "../../constants/views/names";
 import { isKeyboardFieldType, validateValue } from "../../components/views/form/core";
 import ERROR_MESSAGE from "../../constants/ui/fieldErrorMessage";
 
-type FormField<K extends IACele.API.Database.TableName> = IACele.View.Form.FieldParams.GenericInput<K> & IACele.View.FieldCommon;
+type FormField<K extends IACele.API.Database.TableName> = IACele.View.Form.FieldParams.GenericInput<K> & IACele.View.HasOptionalLabel;
 
 /** 
  *  ## Parámetros de campo de formulario

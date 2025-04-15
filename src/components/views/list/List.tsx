@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import {  useCallback, useMemo } from "react";
 import ViewConfigContext from "../../../contexts/ViewConfigContext";
 import TreeView from "../tree/TreeView";
 import ListDataFetcher from "./ListDataFetcher";
@@ -32,6 +32,9 @@ const List = <T extends IACele.API.Database.TableName>({
         () => ([]), []
     );
 
+    // Obtención de las declaraciones de vista de árbol y kanban
+    const [ tree, kanban ] = children;
+
     // Función para añadir configuraciones de columnas
     const pushViewConfig = useCallback(
         (config: IACele.View.Tree.Field<T>) => {
@@ -45,21 +48,21 @@ const List = <T extends IACele.API.Database.TableName>({
     );
 
     return (
-        <ViewConfigContext.Provider value={{ pushViewConfig }}>
         <OpenRecordPath value={{ open }}>
-
-            {/* Aquí se genera el objeto viewConfig */}
-            {children({ Tree: TreeView<T> })}
+            <ViewConfigContext.Provider value={{ pushViewConfig }}>
+                {/* Aquí se genera el objeto viewConfig */}
+                {tree({ Tree: TreeView<T> })}
+            </ViewConfigContext.Provider>
 
             {/* Aquí se utiliza el objeto viewConfig */}
             <ListDataFetcher
                 table={table}
                 viewConfig={viewConfig}
                 emptyContent={emptyContent}
+                kanban={kanban}
             />
 
         </OpenRecordPath>
-        </ViewConfigContext.Provider>
     );
 };
 

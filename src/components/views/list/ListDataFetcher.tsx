@@ -7,6 +7,7 @@ import { TABLE_NAME } from "../../../constants/views/names";
 import ToggleVisibleColumns from "../tree/components/ToggleVisibleColumns";
 import useVisibleColumns from "../../../hooks/views/useVisibleColumns";
 import Tree from "../tree/Tree";
+import KanbanWrapper from "../kanban/KanbanWrapper";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -27,7 +28,8 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     table,
     viewConfig,
     emptyContent,
-}: IACele.View.Tree.ListRendererAndCommon<T>) => {
+    kanban
+}: IACele.View.Tree.KanbanRenderer<T>) => {
 
     // Obtención de función de contexto para colocar contenido JSX en la barra de navegación
     const { setDynamicControls } = useContext(NavbarContext);
@@ -93,17 +95,26 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     );
 
     return (
-        <div className="hidden sm:block h-full">
-            <Tree<T>
-                emptyContent={emptyContent}
-                loading={loading}
-                records={records}
-                selectedSortingDirection={selectedSortingDirection}
-                sortingFieldKey={sortingFieldKey}
-                viewConfig={tableColumns}
-                table={table}
-                toggleSortingColumn={toggleSortingColumn}
-            />
+        <div>
+            <div className="hidden sm:block h-full">
+                <Tree<T>
+                    emptyContent={emptyContent}
+                    loading={loading}
+                    records={records}
+                    selectedSortingDirection={selectedSortingDirection}
+                    sortingFieldKey={sortingFieldKey}
+                    viewConfig={tableColumns}
+                    table={table}
+                    toggleSortingColumn={toggleSortingColumn}
+                />
+            </div>
+            <div className="sm:hidden block h-full">
+                <KanbanWrapper<T>
+                    records={records}
+                    renderer={kanban}
+                    table={table}
+                />
+            </div>
         </div>
     );
 };
