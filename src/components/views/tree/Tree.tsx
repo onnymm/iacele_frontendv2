@@ -2,9 +2,7 @@ import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRo
 import SortingFieldContext from "../../../contexts/sortingFieldContext";
 import InteractiveColumn from "./components/InteractiveColumn";
 import RenderCell from "./components/RenderCell";
-import { useCallback, useContext } from "react";
-import OpenRecordPath from "../../../contexts/OpenRecordPath";
-import { useNavigate } from "react-router";
+import useOpenRecord from "../../../hooks/views/useOpenRecord";
 /** 
  *  ## Vista de Árbol/Tabla.
  *  Este componente renderiza una vista de ábol/tabla para visualizar múltiples
@@ -105,17 +103,4 @@ const Tree = <T extends IACele.API.Database.TableName>({
 
 export default Tree;
 
-const useOpenRecord = () => {
 
-    const { open } = useContext(OpenRecordPath);
-
-    const navigate = useNavigate();
-
-    const openRecord = useCallback(
-        (id: number) => {
-            if ( open ) navigate(`${open}?id=${id}`);
-        }, [open, navigate]
-    );
-
-    return { recordPath: open, openRecord }
-}
