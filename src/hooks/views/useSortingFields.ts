@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Tree from "../../components/views/tree/Tree"; // eslint-disable-line
 /** 
  *  ## Campos de ordenamiento
@@ -24,28 +24,42 @@ import Tree from "../../components/views/tree/Tree"; // eslint-disable-line
  *  - [ `undefined` ] `toggleSortingColumn`: Función para establecer el campo
  *  de ordenamiento.
  */ 
-const useSortingFields = <T extends IACele.API.Database.TableName>() => {
+const useSortingFields = <K extends IACele.API.Database.TableName>(
+    viewConfig: IACele.View.Tree.ViewConfig<K>,
+) => {
 
-    // Inicialización de conjunto para estado de campo de ordenamiento
-    const [ selectedSortingField, setSelectedSortingField ] = useState<Set<keyof IACele.API.Database.Table[T]>>(new Set([]));
+    // Se obtienen los únicos campos que pueden usarse para ordenar datos
+    const sorteableFields = useMemo(
+        () => (
+            viewConfig
+            .filter(
+                (config) => (config.canSort !== false)
+            )
+        ), [viewConfig]
+    );
+
+    // Inicialización de columna seleccionada para ordenamiento
+    const [ sortingField, setSortingField ] = useState<keyof IACele.View.RecordInDatabase<K> | null>(null);
+
+    // Inicialización de llave de campo de ordenamiento de datos actual
+    const [ treeSortingField, setTreeSortingField ] = useState<Set<keyof IACele.View.RecordInDatabase<K>>>(new Set([]));
+
     // Inicialización de dirección de ordenamiento
     const [ selectedSortingDirection, setSelectedSortingDirection ] = useState<Set<IACele.View._SortingDirectionValue>>(new Set(['asc']));
-    // Inicialización de campo de ordenamiento
-    const [ sortingFieldKey, setSortingFieldKey ] = useState<keyof IACele.API.Database.Table[T] | null>(null);
 
-    // Función para establecer el campo de ordenamiento
+    // Función para establecer campo de ordenamiento en vista de árbol
     const toggleSortingColumn = useCallback(
-        (key: keyof IACele.View.RecordInDatabase<T>) => {
+        (key: keyof IACele.View.RecordInDatabase<K>) => {
 
             // Si el nuevo campo de ordenamiento es distinto al actual...
-            if ( sortingFieldKey !== key ) {
+            if ( sortingField !== key ) {
 
                 // Cambio de dirección de ordenamiento a ascendente
                 if ( selectedSortingDirection.has('desc') ) setSelectedSortingDirection( new Set(['asc']) );
                 // Se establece la llave de ordenamiento en el conjunto de llaves
-                setSelectedSortingField(new Set([key]));
+                setTreeSortingField(new Set([key]));
                 // Se establece la llave de ordenamiento en el indicador
-                setSortingFieldKey(key);
+                setSortingField(key);
 
             // Si el nuevo campo de ordenamiento es igual al actual
             } else {
@@ -56,16 +70,28 @@ const useSortingFields = <T extends IACele.API.Database.TableName>() => {
                         ? new Set(['desc'])
                         : new Set(['asc'])
                 );
-            };
-        }, [sortingFieldKey, selectedSortingDirection]
+            }
+        }, [selectedSortingDirection, sortingField]
     );
 
+    useEffect(
+        () => {
+            const values = new Array( ...treeSortingField.values() );
+
+            if ( values.length ) {
+                const [ newKey ] = values;
+                setSortingField(newKey);
+            }
+        }, [treeSortingField]
+    )
+
     return {
-        selectedSortingField,
-        setSelectedSortingField,
+        sortingField,
+        sorteableFields,
+        treeSortingField,
+        setTreeSortingField,
         selectedSortingDirection,
         setSelectedSortingDirection,
-        sortingFieldKey,
         toggleSortingColumn,
     };
 };

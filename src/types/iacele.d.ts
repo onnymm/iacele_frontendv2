@@ -71,12 +71,12 @@ declare namespace IACele {
             endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
         };
 
-        interface SelectOption {
+        interface SelectOption<K> {
             /** 
              *  ### Llave de opción
              *  Llave única de la opción actual
              */ 
-            name: string;
+            name: K;
             /** 
              *  ### Leyenda de opción
              *  Esta leyenda muestra el nombre o descripción de la opción actual.
@@ -84,17 +84,18 @@ declare namespace IACele {
             label: string;
         };
 
-        interface SelectOptions {
+        interface SelectOptions<K> {
             /** 
              *  ### Opciones disponibles
              *  Arreglo que contiene todas las opciones disponibles y que renderiza en la
              *  lista de opciones.
              */ 
-            toggleableKeys: SelectOption[];
-            /** ### Opciones seleccionadas
+            toggleableKeys: SelectOption<K>[];
+            /** 
+             *  ### Opciones seleccionadas
              *  Arreglo que contiene todas las opciones seleccionadas/activas.
              */ 
-            selectedKeys: Set<string>;
+            selectedKeys: Set<K>;
             /** 
              *  ### Manejo de estado de opciones seleccionadas
              *  Esta función realiza la activación o desactivación decolumnas.
@@ -102,7 +103,7 @@ declare namespace IACele {
             setSelectedKeys: (keys: _SharedSelection) => void;
         };
 
-        interface SelectTemplate extends IACele.UI.SelectOptions {
+        interface SelectTemplate<T> extends IACele.UI.SelectOptions<T> {
             /** 
              *  ### Trigger
              *  Componente que renderizará las opciones.
