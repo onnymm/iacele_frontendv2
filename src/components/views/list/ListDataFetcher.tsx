@@ -57,6 +57,8 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     // Función para mostrar los datos en la vista de tabla
     const fetchData = useCallback(
         async () => {
+            // Se activa el estado de carga
+            setLoading(true);
             // Obtención de los datos desde el backend
             const response = await api.getDataForTable<T>({
                 table,
@@ -183,6 +185,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
                     records={records}
                     renderer={kanban}
                     table={table}
+                    loading={loading}
                 />
             </div>
         </div>

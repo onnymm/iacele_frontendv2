@@ -33,7 +33,7 @@ const SelectTemplate = <T extends string | number>({
             </DropdownTrigger>
             <DropdownMenu
                 hideSelectedIcon={false}
-                closeOnSelect={false}
+                closeOnSelect={selectionMode === 'single'}
                 selectionMode={selectionMode}
                 selectedKeys={selectedKeys}
                 onSelectionChange={setSelectedKeys}

@@ -1,3 +1,4 @@
+import { Spinner } from "@heroui/react";
 import RecordKanbanContext from "../../../contexts/recordKanbanContext";
 import TableContext from "../../../contexts/tableContext";
 import Field from "./Field";
@@ -24,19 +25,28 @@ const KanbanWrapper = <K extends IACele.API.Database.TableName>({
     renderer,
     records,
     table,
+    loading,
 }: IACele.View.Kanban.Wrapper<K>) => {
 
     return (
-        <div className="flex flex-col gap-2 p-2">
+        <div className="flex flex-col gap-2 p-2 h-full">
             <TableContext.Provider value={{ table }}>
             {
-                records.map(
-                    (record, i) => (
-                        <RecordKanbanContext.Provider key={i} value={{ record }}>
-                            {renderer({ Kanban, Field: Field<K>, Section })}
-                        </RecordKanbanContext.Provider>
+                !loading
+                    ? (
+                        records.map(
+                            (record, i) => (
+                                <RecordKanbanContext.Provider key={i} value={{ record }}>
+                                    {renderer({ Kanban, Field: Field<K>, Section })}
+                                </RecordKanbanContext.Provider>
+                            )
+                        )
                     )
-                )
+                    : (
+                        <div className="flex justify-center items-center size-full">
+                            <Spinner size="lg" />
+                        </div>
+                    )
             }
             </TableContext.Provider>
         </div>
