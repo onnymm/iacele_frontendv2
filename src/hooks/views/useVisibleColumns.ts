@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react"
-import { tableProperties } from "../../constants/views/names";
 import TreeView from "../../components/views/tree/TreeView"; // eslint-disable-line
 
 /** 
@@ -32,7 +31,6 @@ import TreeView from "../../components/views/tree/TreeView"; // eslint-disable-l
  */ 
 const useVisibleColumns = <T extends IACele.API.Database.TableName>(
     columns: IACele.View.Tree.ViewConfig<T>,
-    table: T,
 ) => {
 
     // Inicialización de columnas que se pueden ocultar y mostrar
@@ -68,24 +66,13 @@ const useVisibleColumns = <T extends IACele.API.Database.TableName>(
                 visibleColumns.has(column.name) || column.visible === undefined
             )
         )
-        .map(
-            (column) => {
-                column.label = (
-                    column.label !== undefined
-                        ? column.label
-                        : tableProperties[table][column.name].name
-                );
-
-                return column;
-            }
-        )
     );
 
     return {
         tableColumns,
         toggleableColumns,
         visibleColumns,
-        setVisibleColumns: ( setVisibleColumns as IACele.UI.SelectOptions['setSelectedKeys'] ),
+        setVisibleColumns: ( setVisibleColumns as IACele.UI.SelectOptions<T>['setSelectedKeys'] ),
     };
 };
 

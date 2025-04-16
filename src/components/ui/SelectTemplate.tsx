@@ -18,13 +18,13 @@ import { Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@heroui/r
  *  - [ {@link 'single' | 'multiple'} ] `selectionMode`: Tipo de selección de
  *  opciones.
  */ 
-const SelectTemplate: React.FC<IACele.UI.SelectTemplate> = ({
+const SelectTemplate = <T extends string | number>({
     toggleableKeys,
     selectedKeys,
     setSelectedKeys,
     trigger,
     selectionMode = 'single'
-}) => {
+}: IACele.UI.SelectTemplate<T>) => {
 
     return (
         <Dropdown className="bg-white dark:bg-[#1f2f3f] backdrop-blur-sm transition-none">
