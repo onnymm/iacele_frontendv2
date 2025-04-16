@@ -66,6 +66,7 @@ const widgetBuilder = <K extends IACele.API.Database.TableName>(widget: IACele.V
             // Obtención de valores para proveer al widget
             const { defaultValue, computedColor, classNameColor } = useDynamicWidget(record, defaultProp, colorDecoration, bypassDefaultColor);
 
+            if ( defaultValue !== undefined && defaultValue !== null )
             // Creación y retorno de widget final
             return (
                 <div className={classNameColor}>
