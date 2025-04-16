@@ -707,6 +707,14 @@ declare namespace IACele {
             type KeyboardTypeToInput = Record<IACele.Core.UI.Field.KeyboardType, React.InputHTMLAttributes<HTMLInputElement>['type']>
         };
 
+        interface _SupportsLoading {
+            /** 
+             *  ### Estado de carga
+             *  Estado que indica que los datos se están cargando.
+             */ 
+            loading: boolean;
+        }
+
         // Vista de árbol, interfaces y tipos relacionados
         declare namespace Tree {
 
@@ -810,14 +818,7 @@ declare namespace IACele {
             type CellRender <K extends API.Database.TableName> = _IndividualColumnAndCommonParams<K>;
 
             // Parámetros de vista de tabla
-            type _BaseComponent<K extends API.Database.TableName> = _DataSorter<K> & _RecordsUse<K>
-            interface Component <K extends API.Database.TableName> extends _BaseComponent<K> {
-                /** 
-                 *  ### Estado de carga
-                 *  Estado que indica que los datos se están cargando.
-                 */ 
-                loading: boolean;
-            };
+            type Component<K extends API.Database.TableName> = _DataSorter<K> & _RecordsUse<K> & _SupportsLoading;
 
             // Función que renderiza los componentes hijos
             interface ChildrenRender <K extends API.Database.TableName>{
@@ -899,7 +900,7 @@ declare namespace IACele {
 
             type ChildrenRenderer<K extends API.Database.TableName> = ({ Kanban, Section, Field }: Kanban._Children<K>) => (React.ReactNode);
 
-            type _BaseWrapper<K extends API.Database.TableName> = _TableUse<K> & _RecordsUse<K> & _SupportsWidget<K>;
+            type _BaseWrapper<K extends API.Database.TableName> = _TableUse<K> & _RecordsUse<K> & _SupportsWidget<K> & _SupportsLoading;
             interface Wrapper<K extends API.Database.TableName> extends _BaseWrapper<K> {
                 /** 
                  *  ### Declaración de vista de kanban
