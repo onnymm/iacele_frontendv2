@@ -4,6 +4,7 @@ import useClickOutside from "../../../hooks/app/useClickOutside";
 import ButtonLockSidebar from "./ButtonLockSidebar";
 import Button from "../components/Button";
 import { ArrowBackIosNewRounded } from "@mui/icons-material";
+import SidebarMenu from "./SidebarMenu";
 
 const Sidebar = (): (React.JSX.Element) => {
 
@@ -37,7 +38,7 @@ const Sidebar = (): (React.JSX.Element) => {
                     </div>
                 </div>
                 <div id="sidebar-content" className="h-full">
-                    
+                    <SidebarMenu />
                 </div>
 
                 {/* Pie de barra lateral */}

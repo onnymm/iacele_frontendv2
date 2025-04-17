@@ -15,6 +15,23 @@ declare namespace IACele {
 
     declare namespace Application {
 
+        interface _SupportsOpen {
+            /** 
+             *  ### Abierto
+             *  Parámetro que indica que el botón está abierto.
+             */ 
+            isOpen;
+        };
+
+        interface _SupportsOnClick {
+            /** 
+             *  ### Función de clic
+             *  Función que se ejecuta cuando se da clic en el componente que la
+             *  recibe.
+             */ 
+            onClick: () => void;
+        }
+
         interface CurrentUserData {
             id: number | undefined;
             user: string;
@@ -22,6 +39,102 @@ declare namespace IACele {
             odooId: number | undefined;
             createDate: string;
             writeDate: string;
+        };
+
+        interface Route {
+            /** 
+             *  ### Ruta
+             *  Dirección de ruta.
+             */ 
+            path: string;
+            /** 
+             *  ### Nombre de ruta
+             *  Nombre de la ruta, que renderizará en la aplicación.
+             */ 
+            name: string;
+        };
+
+        interface RouteGroup {
+            /** 
+             *  ### Nombre
+             *  Nombre de grupo de rutas.
+             */ 
+            name: string;
+            /** 
+             *  ### Ícono de ruta
+             *  Ícono descriptivo para representar la ruta.
+             */ 
+            icon: React.ElementType;
+            /** 
+             *  ### Rutas de grupo
+             *  Matriz de rutas o ruta sencilla que lleva a alguna parte de la
+             *  aplicación.
+             */ 
+            routes: string | Route[];
+        };
+
+        interface RouteSection {
+            /** 
+             *  ### Nombre de sección
+             *  Nombre de la sección de grupo de rutas. Este nombre se renderiza como
+             *  encabezado de los botones de grupos de rutas de la sección.
+             */ 
+            name: string;
+            /** 
+             *  ### Grupos de rutas
+             *  Matriz de grupos de rutas o rutas sencillas que se renderizan como un
+             *  botón que despliega la rutas contenidas o redirección a la ruta
+             *  individual.
+             */ 
+            groups: RouteGroup[];
+        };
+
+        /** 
+         *  ### Menú de barra lateral
+         *  Colección de datos que describe la estructura del menú de la barra lateral
+         *  de la aplicación.
+         */ 
+        type SidebarMenu = RouteSection[];
+
+        type _RouteGroupButton = _SupportsOpen & _SupportsOnClick & RouteGroup;
+        interface RouteGroupButton extends _RouteGroupButton {
+            /** 
+             *  ### La ubicación es activa
+             *  Este parámetro indica si la ubicación actual en la aplicación es la
+             *  misma a la que el componente apunta.
+             */ 
+            isActiveLocation: boolean;
+        };
+
+        interface Routes extends _SupportsOpen {
+            /** 
+             *  ### Altura de lista
+             *  Altura computada para la lista de rutas cuando ésta se despliega.
+             */ 
+            height: number;
+            /** 
+             *  ### Referencia de lista
+             *  Referencia usada para calcular la altura de la lista de rutas.
+             */ 
+            listRef: React.RefObject<HTMLDivElement | null>;
+            /** 
+             *  ### Rutas
+             *  Lista de rutas.
+             */ 
+            routes: Route[];
+            /** 
+             *  ### Función de clic
+             *  Función que se ejecuta cuando el componente un clic.
+             */ 
+            routeOnClick: (route: string) => (void);
+        };
+
+        interface RouteComponent extends _SupportsOnClick {
+            /** 
+             *  ### Ruta
+             *  Objeto que contiene una ruta de URL y el nombre de ésta.
+             */ 
+            route: Route;
         };
     };
 
