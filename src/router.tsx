@@ -2,6 +2,10 @@ import { Route, Routes } from "react-router"
 import App from "./App"
 import Home from "./routes/Home"
 import Login from "./routes/Login";
+import Users from "./routes/views/list/Users";
+import Sales from "./routes/views/list/Sales";
+import User from "./routes/views/form/User";
+import Sale from "./routes/views/form/Sale";
 
 /** 
  *  ## Ruteador
@@ -19,6 +23,12 @@ const Router = (): (React.JSX.Element) => {
         <Routes>
             <Route element={<App />}>
                 <Route index element={<Home />} />
+
+                <Route path="/view/list/sale" element={<Sales />} />
+                <Route path="/view/list/user" element={<Users />} />
+
+                <Route path="/view/form/sale" element={<Sale />} />
+                <Route path="/view/form/user" element={<User />} />
             </Route>
             <Route path="/login" element={<Login />} />
         </Routes>

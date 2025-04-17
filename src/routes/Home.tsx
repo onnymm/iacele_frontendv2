@@ -1,10 +1,10 @@
+import React from "react";
+
 const Home = (): (React.JSX.Element) => {
 
     return (
-        <div>
-            Home
-        </div>
-    );
+        <span>Inicio</span>
+    )
 };
 
 export default Home;
