@@ -4,8 +4,13 @@ const User = () => {
 
     return (
         <Form<'base.users'> table="base.users" readonly>
-            {({ Field, Group, Page, Sheet }) => (
+            {({ Field, Group, Page, Sheet, Header, Action }) => (
                 <Page>
+                    <Header>
+                        <Action color="secondary" name="Activar" execute="activate_user" invisible={({ active }) => (active)} />
+                        <Action color="danger" name="Desactivar" execute="deactivate_user" invisible={({ active }) => (!active)} />
+                        <Action name="Reestablecer contraseña" execute="reset_password" invisible={({ active }) => (!active)} />
+                    </Header>
                     <Sheet>
                         <Group label='Datos básicos'>
                             <Field name="name" />
