@@ -10,6 +10,7 @@ import SidebarContext from "./contexts/sidebarContext";
 import PageNameContext from "./contexts/pageNameContext";
 import APP_NAME from "./constants/app/name";
 import AppLoadingContext from "./contexts/appLoadingContext";
+import useSidebar from "./hooks/app/useSidebar";
 
 /** 
  *  ## Raíz de iaCele
@@ -24,11 +25,11 @@ const Root = (): (React.JSX.Element) => {
 
     // Obtención de valores para proveedor de contexto
     const { darkMode, setDarkMode } = useDarkMode();
+    // Inicialización de valores de apertura y bloqueo de barra lateral
+    const { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked } = useSidebar();
 
     // Inicialización de valores para contexto
     const [ dynamicControls, setDynamicControls ] = useState<React.JSX.Element | null>(null);
-    const [ isSidebarOpen, setIsSidebarOpen ] = useState<boolean>(false);
-    const [ isSidebarLocked, setIsSidebarLocked ] = useState<boolean>(false);
     const [ pageName, setPageName ] = useState<string | null>(APP_NAME);
     const [ appLoading, setAppLoading ] = useState<boolean>(false);
 
