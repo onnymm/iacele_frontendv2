@@ -46,7 +46,7 @@ const Field = <K extends IACele.API.Database.TableName>({
                         computedType === 'boolean'
                             ? (
                                 <div className="pt-2">
-                                    <Checkbox defaultSelected={record[name] as boolean} isDisabled={computedReadonly} />
+                                    <Checkbox isSelected={record[name] as boolean} isDisabled={computedReadonly} />
                                 </div>
                             )
                             : (

@@ -412,14 +412,16 @@ declare namespace IACele {
          */ 
         declare namespace Request {
 
-            // Lectura de datos
-            interface Read extends Common._TableUse<K> {
+            interface _RequiresID {
                 /** 
                  *  ### ID
                  *  ID de registro de base de datos.
                  */ 
-                id: number;
+                recordIds: number;
             }
+
+            // Lectura de datos
+            type Read = Common._TableUse<K> & _RequiresID
 
             // Petición de búsqueda y lectura base
             interface _BaseSearchRead <K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
@@ -492,6 +494,15 @@ declare namespace IACele {
                  */ 
                 dataToWrite: Partial<Data.RecordInDatabase<K>>;
             };
+
+            type _ExecuteAction = Common._TableUse<K> & _RequiresID
+            interface ExecuteAction extends _ExecuteAction {
+                /** 
+                 *  ### Acción a ejecutar
+                 *  Nombre de la acción a ejecutar en el backend.
+                 */ 
+                action: string;
+            }
         };
 
         // Respuestas comunes del backend
@@ -775,6 +786,10 @@ declare namespace IACele {
             colorDecoration?: Widget.Decoration<K>;
         };
 
+        interface _SupportsVisibility<K extends API.Database.TableName> {
+            invisible?: ((props: RecordInDatabase<K>) => (boolean));
+        }
+
         // TIPOS E INTERFACES USADOS POR COMPONENTES
         // --------------------------------------------------------------------
 
@@ -1044,6 +1059,24 @@ declare namespace IACele {
             // Atributos base de componente de formulario
             type _BaseComponent<K extends IACele.API.Database.TableName> = View._TableUse<K> & _ReadOnly;
 
+            interface Action<K extends IACele.API.Database.TableName> extends _SupportsVisibility<K> {
+                /** 
+                 *  ### Nombre
+                 *  Nombre de la acción que se renderizará como leyenda del botón.
+                 */ 
+                name: string;
+                /** 
+                 *  ### Acción a ejecutar
+                 *  Nombre de la acción a ejecutar en el backend.
+                 */ 
+                execute: string;
+                /** 
+                 *  ### Color
+                 *  Color del botón
+                 */ 
+                color?: IACele.UI.DecorationColor;
+            };
+
             // Componentes hijos de la vista de formulario
             interface _Children<K extends IACele.API.Database.TableName> {
                 /** 
@@ -1076,6 +1109,7 @@ declare namespace IACele {
                  *  un registro de tabla de base de datos.
                  */ 
                 Field: React.FC<Field<K>>;
+                Action: React.FC<Action<K>>;
             };
 
             interface Component<K extends IACele.API.Database.TableName> extends _BaseComponent<K> {
@@ -1287,7 +1321,10 @@ declare namespace IACele {
 
         type OpenRecordPath = View._Open;
 
-        type FormField<K extends IACele.API.Database.TableName> = View.RecordUse<K> & View._OptionalTableUse<K> & View.Form._ReadOnly;
+        type _FormField<K extends IACele.API.Database.TableName> = View.RecordUse<K> & View._OptionalTableUse<K> & View.Form._ReadOnly;
+        interface FormField<K extends IACele.API.Database.TableName> extends _FormField<K> {
+            reload: () => void;
+        }
 
         interface RecordKanban<K extends IACele.API.Database.TableName> {
             record: IACele.View.RecordInDatabase<K> | null;

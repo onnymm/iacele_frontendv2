@@ -30,7 +30,7 @@ class APIManager {
      */ 
     read = async<K extends keyof IACele.API.Database.Table>({
         table,
-        id,
+        recordIds: id,
     }: IACele.API.Request.Read) => {
 
         return await this.execute(
@@ -159,7 +159,7 @@ class APIManager {
      */ 
     delete = async ({
         table,
-        id,
+        recordIds: id,
     }: IACele.API.Request.Read) => {
 
         return await this.execute(
@@ -204,7 +204,7 @@ class APIManager {
         searchCriteria = [],
         fields = [],
         page = 0,
-        itemsPerPage = 40,
+        itemsPerPage = 5,
         sortby,
         ascending = true,
     }: IACele.API.Request.TreeSearchRead<K>) => {
@@ -246,6 +246,38 @@ class APIManager {
                 return (response.data);
             }
         )
+    };
+
+    /** 
+     *  ## Ejecución de acción
+     *  Este método permite ejecutar una acción de servidor sobre un registro de
+     *  una tabla en la base de datos.
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `tableName`: Nombre
+     *  de la tabla en la base de datos.
+     *  - [ `number` ] `recordIds`: ID del registro a eliminar.
+     *  - [ `string` ] `action`: Nombre de la acción a ejecutar en el backend.
+     */ 
+    action = async ({
+        table,
+        recordIds,
+        action,
+    }: IACele.API.Request.ExecuteAction) => {
+
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.post<string, boolean, IACele.API.Request.ExecuteAction>(
+                    getBackendUrl(API_PATH.EXECUTE_ACTION),
+                    {
+                        table,
+                        recordIds,
+                        action,
+                    },
+                    { authenticate: true }
+                );
+
+                return response;
+            }
+        );
     };
 
     private toSnake = <T extends IACele.API.Database.TableName>(text: keyof IACele.View.RecordInDatabase<T>): keyof IACele.View.RecordInDatabase<T> => {

@@ -11,6 +11,7 @@ interface RecordOrNull<K extends IACele.API.Database.TableName> {
      *  dinámica de base de datos.
      */ 
     record: IACele.View.RecordInDatabase<K> | null;
+    reload: () => void;
 }
 
 /** 
@@ -51,6 +52,15 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
 
     // Inicialización de estado del registro
     const [ record, setRecord ] = useState<IACele.View.RecordInDatabase<K> | null>(null);
+    // Inicialización de estado de carga
+    const [ baseReload, setBaseReload ] = useState<boolean>(false);
+
+    // Función para ejecutar una recarga de datos
+    const reload = useCallback(
+        () => {
+            setBaseReload( (prev) => (!prev) )
+        }, []
+    )
 
     // Función para mostrar los datos en la vista
     const fetchData = useCallback(
@@ -58,7 +68,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
 
             // Obtención de los datos desde el backend
             const record = await api.read<K>({
-                id,
+                recordIds: id,
                 table,
             });
 
@@ -71,7 +81,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
     useEffect(
         () => {
             fetchData();
-        }, [fetchData]
+        }, [fetchData, baseReload]
     );
 
     // Se establece el nombre de la vista
@@ -81,7 +91,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
         }, [record, setViewName]
     );
 
-    return { record };
+    return { record, reload };
 };
 
 export default useFormRecord;

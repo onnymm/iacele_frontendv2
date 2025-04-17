@@ -5,6 +5,7 @@ import Group from "./Group";
 import Header from "./Header";
 import useFormRecord from "../../../hooks/views/useFormRecord";
 import Field from "./Field";
+import Action from "./Action";
 
 /** 
  *  ## Vista de formulario
@@ -53,14 +54,14 @@ const Form = <T extends IACele.API.Database.TableName>({
 }: IACele.View.Form.Component<T>): React.ReactNode => {
 
     // Obtención del registro a mostrar
-    const { record } = useFormRecord(table);
+    const { record, reload } = useFormRecord(table);
 
     // Si se obtuvo el registro se renderiza el formulario
     if ( record ) {
         return (
             <form className="group p-2 w-full h-min min-h-full ui-view-form">
-                <RecordFormContext.Provider value={{ table, record, readonly }}>
-                    { children({ Page, Header, Sheet, Field, Group }) }
+                <RecordFormContext.Provider value={{ table, record, readonly, reload }}>
+                    {children({ Page, Header, Sheet, Field, Group, Action: Action<T> })}
                 </RecordFormContext.Provider>
             </form>
         );
