@@ -9,10 +9,11 @@ import KanbanWrapper from "../kanban/KanbanWrapper";
 import Sizeable from "../../common/Sizeable";
 import SelectTemplate from "../../ui/SelectTemplate";
 import { Button } from "@heroui/react";
-import { KeyboardArrowDownRounded, KeyboardArrowLeft, KeyboardArrowRight, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
+import { KeyboardArrowDownRounded, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
 import LABEL from "../../../constants/ui/list";
 import settings from "../../../settings/app";
 import APIContext from "../../../contexts/APIContext";
+import Pagination from "./Pagination";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -50,7 +51,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     // Obtención de instancia de API
     const { api } = useContext(APIContext);
     // Obtención de valores y funciones para uso en paginación
-    const { count, setCount, itemsPerPage, page, chucks, prevPage, nextPage } = usePagination();
+    const { count, setCount, itemsPerPage, page, chunks, prevPage, nextPage } = usePagination();
 
     // Inicialización de estado de registros
     const [ records, setRecords ] = useState<IACele.View.RecordInDatabase<T>[]>([]);
@@ -99,21 +100,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
             // Se establece el contenido JSX en la barra de navegación
             setDynamicControls(
                 <div className="flex flex-row gap-1">
-                    <Sizeable>
-                        {({ componentSize, textSize }) => (
-                            <div className="flex flex-row items-center gap-1">
-                                {count > 0 &&
-                                    <span className={`${textSize} mr-1`}>{page} / {chucks}</span>
-                                }
-                                {count > 0 &&
-                                    <Button onPress={prevPage} isDisabled={page === 1} startContent={<KeyboardArrowLeft className="outline-none" />} size={componentSize} isIconOnly />
-                                }
-                                {count > 0 &&
-                                    <Button onPress={nextPage} isDisabled={page === chucks} startContent={<KeyboardArrowRight className="outline-none" />} size={componentSize} isIconOnly />
-                                }
-                            </div>
-                        )}
-                    </Sizeable>
+                    <Pagination count={count} page={page} chunks={chunks} prevPage={prevPage} nextPage={nextPage} />
 
                     {/* Control de ordenamiento de datos */}
                     <Sizeable>
@@ -183,7 +170,7 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
             setDynamicControls,
             count,
             page,
-            chucks,
+            chunks,
             nextPage,
             prevPage,
             toggleableColumns,
@@ -263,7 +250,7 @@ const usePagination = () => {
     const [ page, setPage ] = useState<number>(1);
 
     // Cálculo de cantidad de lotes paginados
-    const chucks = useMemo(
+    const chunks = useMemo(
         () => {
             if ( count ) {
                 const f = count / itemsPerPage
@@ -286,9 +273,9 @@ const usePagination = () => {
     // Página siguiente
     const nextPage = useCallback(
             () => {
-            if ( (page + 1) <= chucks ) setPage(page + 1);
-        }, [chucks, page]
+            if ( (page + 1) <= chunks ) setPage(page + 1);
+        }, [chunks, page]
     );
 
-    return { count, setCount, itemsPerPage, page, chucks, prevPage, nextPage };
+    return { count, setCount, itemsPerPage, page, chunks, prevPage, nextPage };
 };

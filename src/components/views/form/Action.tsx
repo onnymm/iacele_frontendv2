@@ -3,6 +3,7 @@ import RecordFormContext from "../../../contexts/recordFormContext"
 import { Button } from "@heroui/react";
 import Sizeable from "../../common/Sizeable";
 import APIContext from "../../../contexts/APIContext";
+import useAsyncDisabled from "../../../hooks/app/useAsyncDisabled";
 
 const Action = <K extends IACele.API.Database.TableName>({
     name,
@@ -15,6 +16,7 @@ const Action = <K extends IACele.API.Database.TableName>({
     const { table, record, reload } = useContext(RecordFormContext);
     // Obtención de instancia de API
     const { api } = useContext(APIContext);
+    const [ isDisabled ] = useAsyncDisabled(false);
 
     const executeCallback = async () => {
         // Ejecución de la acción en el backend
@@ -28,7 +30,7 @@ const Action = <K extends IACele.API.Database.TableName>({
     return (
         <Sizeable>
             {({ componentSize }) => (
-                <Button onPress={executeCallback} size={componentSize} variant="solid" color={color}>
+                <Button isDisabled={isDisabled} onPress={executeCallback} size={componentSize} variant="solid" color={color}>
                     {name}
                 </Button>
             )}
