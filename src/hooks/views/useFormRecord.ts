@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import useViewName from "../app/usePageName";
-import useAPI from "../app/useAPI";
 import Form from "../../components/views/form/Form"; // eslint-disable-line
+import APIContext from "../../contexts/APIContext";
 
 interface RecordOrNull<K extends IACele.API.Database.TableName> {
     /** 
@@ -48,7 +48,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
     // Obtención de la función de cambio de estado para establecer el nombre de la vista
     const { setViewName } = useViewName();
     // Obtención de instancia de API
-    const { api } = useAPI();
+    const { api } = useContext(APIContext);
 
     // Inicialización de estado del registro
     const [ record, setRecord ] = useState<IACele.View.RecordInDatabase<K> | null>(null);

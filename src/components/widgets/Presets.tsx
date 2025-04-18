@@ -1,9 +1,9 @@
 import { Checkbox, Chip, Switch } from "@heroui/react";
 import widgetBuilder from "./widgetBuilder";
-import { useState } from "react";
-import useAPI from "../../hooks/app/useAPI";
+import { useContext, useState } from "react";
 import Sizeable from "../common/Sizeable";
 import classNameColor from "./utils/classNameColor";
+import APIContext from "../../contexts/APIContext";
 
 const char = widgetBuilder(
     ({ defaultValue }) => (
@@ -64,7 +64,7 @@ const toggle = widgetBuilder(
         color,
     }) => {
 
-        const { api } = useAPI();
+        const { api } = useContext(APIContext);
 
         const [ toggleValue, setToggleValue ] = useState<boolean>(defaultValue as boolean);
 

@@ -1,8 +1,8 @@
 import { useContext } from "react"
 import RecordFormContext from "../../../contexts/recordFormContext"
-import useAPI from "../../../hooks/app/useAPI";
 import { Button } from "@heroui/react";
 import Sizeable from "../../common/Sizeable";
+import APIContext from "../../../contexts/APIContext";
 
 const Action = <K extends IACele.API.Database.TableName>({
     name,
@@ -14,7 +14,7 @@ const Action = <K extends IACele.API.Database.TableName>({
     // Obtención de tabla, registro y estado de carga
     const { table, record, reload } = useContext(RecordFormContext);
     // Obtención de instancia de API
-    const { api } = useAPI();
+    const { api } = useContext(APIContext);
 
     const executeCallback = async () => {
         // Ejecución de la acción en el backend

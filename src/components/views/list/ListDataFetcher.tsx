@@ -1,5 +1,4 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import useAPI from "../../../hooks/app/useAPI";
 import useSortingFields from "../../../hooks/views/useSortingFields";
 import useViewName from "../../../hooks/app/usePageName";
 import NavbarContext from "../../../contexts/navbarContext";
@@ -10,8 +9,10 @@ import KanbanWrapper from "../kanban/KanbanWrapper";
 import Sizeable from "../../common/Sizeable";
 import SelectTemplate from "../../ui/SelectTemplate";
 import { Button } from "@heroui/react";
-import { KeyboardArrowDownRounded, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
+import { KeyboardArrowDownRounded, KeyboardArrowLeft, KeyboardArrowRight, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
 import LABEL from "../../../constants/ui/list";
+import settings from "../../../settings/app";
+import APIContext from "../../../contexts/APIContext";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -47,7 +48,9 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
     // Obtención de estados para ordenamiento de columnas
     const { sortingField, selectedSortingDirection, setSelectedSortingDirection, setTreeSortingField, sorteableFields, toggleSortingColumn, treeSortingField } = useSortingFields<T>(processedViewConfig);
     // Obtención de instancia de API
-    const { api } = useAPI();
+    const { api } = useContext(APIContext);
+    // Obtención de valores y funciones para uso en paginación
+    const { count, setCount, itemsPerPage, page, chucks, prevPage, nextPage } = usePagination();
 
     // Inicialización de estado de registros
     const [ records, setRecords ] = useState<IACele.View.RecordInDatabase<T>[]>([]);
@@ -64,13 +67,17 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
                 table,
                 sortby: sortingField ?? undefined,
                 ascending: selectedSortingDirection.has('asc'),
+                page: page - 1,
+                itemsPerPage,
             });
 
             // Se establecen los datos de los registros en el estado
             setRecords(response.data);
+            // Se establece la cantidad de conteo de registros
+            setCount(response.count)
             // Se desactiva el estado de carga
             setLoading(false);
-        }, [api, selectedSortingDirection, sortingField, table]
+        }, [api, table, sortingField, selectedSortingDirection, page, itemsPerPage, setCount]
     );
 
     // Ejecución de función para mostrar los datos
@@ -91,78 +98,102 @@ const ListDataFetcher = <T extends IACele.API.Database.TableName>({
         () => {
             // Se establece el contenido JSX en la barra de navegación
             setDynamicControls(
-                <Sizeable>
-                    {({ view }) => {
-                        if ( view === 'desktop' ) {
-                            return (
-                                <SelectTemplate
-                                    selectionMode="multiple"
-                                    toggleableKeys={toggleableColumns as unknown as {name: T, label: string}[]}
-                                    selectedKeys={visibleColumns as Set<string>}
-                                    setSelectedKeys={setVisibleColumns}
-                                    trigger={
-                                        <Button
-                                            size='sm'
-                                            variant="solid"
-                                            className="bg-transparent"
-                                            startContent={<TableViewRounded className="outline-none" />}
-                                            endContent={<KeyboardArrowDownRounded className="outline-none" />}
-                                        >
-                                            {LABEL.VISIBLE_COLUMNS}
-                                        </Button>
-                                    }
-                                />
-                            )
-                        } else {
-                            return (
-                                <div className="flex flex-row gap-1">
+                <div className="flex flex-row gap-1">
+                    <Sizeable>
+                        {({ componentSize, textSize }) => (
+                            <div className="flex flex-row items-center gap-1">
+                                {count > 0 &&
+                                    <span className={`${textSize} mr-1`}>{page} / {chucks}</span>
+                                }
+                                {count > 0 &&
+                                    <Button onPress={prevPage} isDisabled={page === 1} startContent={<KeyboardArrowLeft className="outline-none" />} size={componentSize} isIconOnly />
+                                }
+                                {count > 0 &&
+                                    <Button onPress={nextPage} isDisabled={page === chucks} startContent={<KeyboardArrowRight className="outline-none" />} size={componentSize} isIconOnly />
+                                }
+                            </div>
+                        )}
+                    </Sizeable>
+
+                    {/* Control de ordenamiento de datos */}
+                    <Sizeable>
+                        {({ view }) => {
+                            if ( view === 'desktop' ) {
+                                return (
                                     <SelectTemplate
-                                        selectionMode="single"
-                                        toggleableKeys={sorteableFields as unknown as {name: T, label: string}[]}
-                                        selectedKeys={treeSortingField as Set<string>}
-                                        setSelectedKeys={setTreeSortingField as (keys: IACele.UI._SharedSelection) => void}
+                                        selectionMode="multiple"
+                                        toggleableKeys={toggleableColumns as unknown as {name: T, label: string}[]}
+                                        selectedKeys={visibleColumns as Set<string>}
+                                        setSelectedKeys={setVisibleColumns}
                                         trigger={
                                             <Button
                                                 size='sm'
                                                 variant="solid"
                                                 className="bg-transparent"
-                                                isIconOnly
                                                 startContent={<TableViewRounded className="outline-none" />}
-                                            />
+                                                endContent={<KeyboardArrowDownRounded className="outline-none" />}
+                                            >
+                                                {LABEL.VISIBLE_COLUMNS}
+                                            </Button>
                                         }
                                     />
-                                    <SelectTemplate
-                                        selectionMode="single"
-                                        toggleableKeys={[{name: 'asc', label: 'Acendente'}, {name: 'desc', label: 'Descendente'}]}
-                                        selectedKeys={selectedSortingDirection}
-                                        setSelectedKeys={setSelectedSortingDirection as (keys: IACele.UI._SharedSelection) => void}
-                                        trigger={
-                                            <Button
-                                                size='sm'
-                                                variant="solid"
-                                                className="bg-transparent"
-                                                isIconOnly
-                                                startContent={<SwapVertRounded className="outline-none" />}
-                                            />
-                                        }
-                                    />
-                                </div>
-                            )
-                        }
-                    }}
-                </Sizeable>
+                                )
+                            } else {
+                                return (
+                                    <div className="flex flex-row gap-1">
+                                        <SelectTemplate
+                                            selectionMode="single"
+                                            toggleableKeys={sorteableFields as unknown as {name: T, label: string}[]}
+                                            selectedKeys={treeSortingField as Set<string>}
+                                            setSelectedKeys={setTreeSortingField as (keys: IACele.UI._SharedSelection) => void}
+                                            trigger={
+                                                <Button
+                                                    size='sm'
+                                                    variant="solid"
+                                                    className="bg-transparent"
+                                                    isIconOnly
+                                                    startContent={<TableViewRounded className="outline-none" />}
+                                                />
+                                            }
+                                        />
+                                        <SelectTemplate
+                                            selectionMode="single"
+                                            toggleableKeys={[{name: 'asc', label: 'Acendente'}, {name: 'desc', label: 'Descendente'}]}
+                                            selectedKeys={selectedSortingDirection}
+                                            setSelectedKeys={setSelectedSortingDirection as (keys: IACele.UI._SharedSelection) => void}
+                                            trigger={
+                                                <Button
+                                                    size='sm'
+                                                    variant="solid"
+                                                    className="bg-transparent"
+                                                    isIconOnly
+                                                    startContent={<SwapVertRounded className="outline-none" />}
+                                                />
+                                            }
+                                        />
+                                    </div>
+                                )
+                            }
+                        }}
+                    </Sizeable>
+                </div>
             );
             return ( () => setDynamicControls(null) );
         }, [
-            selectedSortingDirection,
             setDynamicControls,
-            setSelectedSortingDirection,
-            setTreeSortingField,
+            count,
+            page,
+            chucks,
+            nextPage,
+            prevPage,
+            toggleableColumns,
+            visibleColumns,
             setVisibleColumns,
             sorteableFields,
-            toggleableColumns,
             treeSortingField,
-            visibleColumns
+            setTreeSortingField,
+            selectedSortingDirection,
+            setSelectedSortingDirection,
         ]
     );
 
@@ -220,4 +251,44 @@ const useProcessViewConfig = <K extends IACele.API.Database.TableName>(
     );
 
     return { processedViewConfig }
+};
+
+const usePagination = () => {
+
+    // Inicialización de conteo de registros
+    const [ count, setCount ] = useState<number>(0);
+    // Inicialización de registros por página
+    const [ itemsPerPage ] = useState<number>(settings.view.defaultItemsPerPage);
+    // Inicialización de estado de páginas
+    const [ page, setPage ] = useState<number>(1);
+
+    // Cálculo de cantidad de lotes paginados
+    const chucks = useMemo(
+        () => {
+            if ( count ) {
+                const f = count / itemsPerPage
+                const e = Math.floor(f);
+                const r = f - e > 0 ? 1 : 0;
+                return e + r;
+            } else {
+                return 1;
+            }
+        }, [count, itemsPerPage]
+    );
+
+    // Página anterior
+    const prevPage = useCallback(
+            () => {
+            if ( (page - 1) > 0 ) setPage(page - 1);
+        }, [page]
+    );
+
+    // Página siguiente
+    const nextPage = useCallback(
+            () => {
+            if ( (page + 1) <= chucks ) setPage(page + 1);
+        }, [chucks, page]
+    );
+
+    return { count, setCount, itemsPerPage, page, chucks, prevPage, nextPage };
 };

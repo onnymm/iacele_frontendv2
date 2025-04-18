@@ -9,10 +9,10 @@ type IACeleResponse<T extends IACele.API.DataTypes.GenericRecord> = AxiosRespons
 
 class APIManager {
 
-    private _setAppLoading: IACele.Context.AppLoading['setAppLoading'];
+    private _setAppLoading: IACele.Context.API['setAppLoading'];
 
     constructor (
-        setAppLoading: IACele.Context.AppLoading['setAppLoading'],
+        setAppLoading: IACele.Context.API['setAppLoading'],
     ) {
         this._setAppLoading = setAppLoading;
     };

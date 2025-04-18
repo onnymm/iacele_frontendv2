@@ -6,7 +6,6 @@ import NavbarContext from "../../../contexts/navbarContext";
 import ButtonNew from "./ButtonNew";
 import Breadcrumb from "./Breadcrumb";
 import Search from "./Search";
-import Paginate from "./Paginate";
 
 /** 
  *  ## Barra superior de interfaz base
@@ -34,7 +33,7 @@ const Navbar = (): (React.JSX.Element) => {
                     <NavbarProfile />
                 </div>
             </div>
-            <div className="grid grid-cols-3 h-10">
+            <div className="flex flex-row justify-between sm:grid sm:grid-cols-3 h-10">
                 <div className="flex flex-row items-center gap-2">
                     <ButtonNew />
                     <Breadcrumb />
@@ -48,7 +47,7 @@ const Navbar = (): (React.JSX.Element) => {
                     </div>
                 </div>
                 <div className="flex flex-row justify-end items-center gap-1">
-                    <Paginate />
+                    {/* <Paginate /> */}
                     {dynamicControls &&
                         <div className="flex flex-row justify-end items-center">{dynamicControls}</div>
                     }

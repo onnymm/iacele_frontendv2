@@ -9,8 +9,9 @@ import NavbarContext from "./contexts/navbarContext";
 import SidebarContext from "./contexts/sidebarContext";
 import PageNameContext from "./contexts/pageNameContext";
 import APP_NAME from "./constants/app/name";
-import AppLoadingContext from "./contexts/appLoadingContext";
+import APIContext from "./contexts/APIContext";
 import useSidebar from "./hooks/app/useSidebar";
+import useAPI from "./hooks/app/useAPI";
 
 /** 
  *  ## Raíz de iaCele
@@ -27,17 +28,18 @@ const Root = (): (React.JSX.Element) => {
     const { darkMode, setDarkMode } = useDarkMode();
     // Inicialización de valores de apertura y bloqueo de barra lateral
     const { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked } = useSidebar();
+    // Inicialización de estado de carga e instancia de API
+    const { appLoading, setAppLoading, api } = useAPI();
 
     // Inicialización de valores para contexto
     const [ dynamicControls, setDynamicControls ] = useState<React.JSX.Element | null>(null);
     const [ pageName, setPageName ] = useState<string | null>(APP_NAME);
-    const [ appLoading, setAppLoading ] = useState<boolean>(false);
 
     return (
         <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
             <HeroUIProvider>
                 <NavbarContext.Provider value={{ dynamicControls, setDynamicControls }}>
-                <AppLoadingContext.Provider value={{ appLoading, setAppLoading }}>
+                <APIContext.Provider value={{ appLoading, setAppLoading, api }}>
                 <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked }}>
                 <PageNameContext.Provider value={{ pageName, setPageName }}>
                     <BrowserRouter>
@@ -45,7 +47,7 @@ const Root = (): (React.JSX.Element) => {
                     </BrowserRouter>
                 </PageNameContext.Provider>
                 </SidebarContext.Provider>
-                </AppLoadingContext.Provider>
+                </APIContext.Provider>
                 </NavbarContext.Provider>
             </HeroUIProvider>
         </DarkModeContext.Provider>

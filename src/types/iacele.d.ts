@@ -1299,7 +1299,7 @@ declare namespace IACele {
 
         type SortingField = View.Tree._SortingFields<any>
 
-        interface AppLoading {
+        interface API {
             appLoading: boolean;
             setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
         };
