@@ -290,6 +290,8 @@ class APIManager {
         // Obtención de los datos desde el backend
         const data = await callback();
         // Se establece el estado de carga a falso
+        this._setAppLoading(false);
+        // Se establece el estado de carga a falso
         return data;
     };
 };
