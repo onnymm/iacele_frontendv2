@@ -8,8 +8,8 @@ const User = () => {
                 <Page>
                     <Header>
                         <Action color="secondary" name="Activar" execute="activate_user" invisible={({ active }) => (active)} />
-                        <Action color="danger" name="Desactivar" execute="deactivate_user" invisible={({ active }) => (!active)} />
-                        <Action name="Reestablecer contraseña" execute="reset_password" invisible={({ active }) => (!active)} />
+                        <Action color="danger" name="Desactivar" execute="deactivate_user" confirm="¿Seguro que deseas desactivar al usuario?" invisible={({ active }) => (!active)} />
+                        <Action name="Reestablecer contraseña" execute="reset_password" notify="Se ha reestablecido la contraseña del usuario." invisible={({ active }) => (!active)} />
                     </Header>
                     <Sheet>
                         <Group label='Datos básicos'>
