@@ -1,36 +1,43 @@
-import { useContext } from "react"
-import RecordFormContext from "../../../contexts/recordFormContext"
 import { Button } from "@heroui/react";
 import Sizeable from "../../common/Sizeable";
-import APIContext from "../../../contexts/APIContext";
-import useAsyncDisabled from "../../../hooks/app/useAsyncDisabled";
+import useAction from "../../../hooks/views/useAction";
 
+/** 
+ *  ## Acción de formulario
+ *  Este componente renderiza un botón que ejecuta una acción de servidor sobre
+ *  el registro que se muestra en el formulario.
+ *  
+ *  ### Parámetros de entrada
+ *  - [ `string` ] `name`: Nombre de la acción que se renderizará como leyenda
+ *  del botón.
+ *  - [ `string` ] `execute`: Nombre de la acción a ejecutar en el backend.
+ *  - [ `function` ] `invisible`: Función que valida el valor de uno o más
+ *  atributos del registro para validar si el componente debe mostrarse o no.
+ *  - [ {@link IACele.UI.DecorationColor DecorationColor} ] `color`: Color del
+ *  botón de acción.
+ *  - [ `string | undefined` ] `confirm`: Mensaje a mostrar en modal para
+ *  confirmar o cancelar la acción.
+ *  - [ `string | undefined` ] `notify`: Mensaje a mostrar en modal para
+ *  notificar que la acción fue ejecutada correctamente.
+ */ 
 const Action = <K extends IACele.API.Database.TableName>({
     name,
     execute,
-    invisible: invisible = () => true,
-    color,
+    invisible = () => false,
+    color = 'default',
+    confirm,
+    notify,
 }: IACele.View.Form.Action<K>) => {
 
-    // Obtención de tabla, registro y estado de carga
-    const { table, record, reload } = useContext(RecordFormContext);
-    // Obtención de instancia de API
-    const { api } = useContext(APIContext);
-    const [ isDisabled ] = useAsyncDisabled(false);
-
-    const executeCallback = async () => {
-        // Ejecución de la acción en el backend
-        const response = await api.action({ table, recordIds: record.id, action: execute });
-        // Si la acción se ejecutó correctamente se realiza una recarga de los datos del formulario
-        if ( response ) reload();
-    };
+    // Obtención de estados y funciones
+    const { isDisabled, executeWithConfirmation, isInvisible } = useAction<K>(execute, invisible, color, confirm, notify);
 
     // Si la validación de invisible no es verdadera se renderiza el componente
-    if ( !invisible(record) )
+    if ( !isInvisible )
     return (
         <Sizeable>
             {({ componentSize }) => (
-                <Button isDisabled={isDisabled} onPress={executeCallback} size={componentSize} variant="solid" color={color}>
+                <Button isDisabled={isDisabled} onPress={executeWithConfirmation} size={componentSize} variant="solid" color={color}>
                     {name}
                 </Button>
             )}

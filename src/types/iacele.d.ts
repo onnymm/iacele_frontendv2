@@ -271,6 +271,44 @@ declare namespace IACele {
 
         };
 
+        declare namespace Modal {
+
+            interface Generic {
+                /** 
+                 *  ### Está abierto
+                 *  Estado que indica que el modal está abierto.
+                 */ 
+                isOpen: boolean;
+                /** 
+                 *  ### No sé
+                 *  Sepa qué hace esta función, proviene de la librería de HeroUI.
+                 */ 
+                onOpenChange: () => void;
+                /** 
+                 *  ### Mensaje a mostrar
+                 *  Mensaje a mostrar en el modal.
+                 */ 
+                message: string;
+            };
+
+            interface Confirm extends Generic {
+                /** 
+                 *  ### Función a ejecutar
+                 *  Función a ejecutar en un botón dentro del modal.
+                 */ 
+                execute: () => void;
+                /** 
+                 *  ### Color UI
+                 *  Color UI de componentes dentro del modal.
+                 */ 
+                color: IACele.UI.DecorationColor;
+            };
+
+        };
+
+
+
+
     };
 
     declare namespace API {
@@ -787,6 +825,11 @@ declare namespace IACele {
         };
 
         interface _SupportsVisibility<K extends API.Database.TableName> {
+            /** 
+             *  ### Es invisible cuando...
+             *  Función que valida el valor de uno o más atributos del
+             *  registro para validar si el componente debe mostrarse o no.
+             */ 
             invisible?: ((props: RecordInDatabase<K>) => (boolean));
         }
 
@@ -1075,6 +1118,17 @@ declare namespace IACele {
                  *  Color del botón
                  */ 
                 color?: IACele.UI.DecorationColor;
+                /** 
+                 *  ### Mensaje de confirmación
+                 *  Mensaje a mostrar en modal para confirmar o cancelar la acción.
+                 */ 
+                confirm?: string;
+                /** 
+                 *  ### Al realizar
+                 *  Mensaje a mostrar en modal para notificar que la acción fue ejecutada
+                 *  correctamente.
+                 */ 
+                notify?: string;
             };
 
             // Componentes hijos de la vista de formulario
@@ -1328,6 +1382,52 @@ declare namespace IACele {
 
         interface RecordKanban<K extends IACele.API.Database.TableName> {
             record: IACele.View.RecordInDatabase<K> | null;
+        };
+
+        interface FormModal {
+            /** 
+             *  ### Está abierto
+             *  Estado que indica que el modal de confirmación está abierto.
+             */ 
+            isConfirmOpen: boolean;
+            /** 
+             *  ### Está abierto
+             *  Estado que indica que el modal de notificación está abierto.
+             */ 
+            isDoneOpen: boolean;
+            /** 
+             *  ### Abrir modal
+             *  Función que abre modal de confirmación.
+             */ 
+            onConfirmOpen: () => void;
+            /** 
+             *  ### Abrir modal
+             *  Función que abre modal de notificación.
+             */ 
+            onDoneOpen: () => void;
+            /** 
+             *  ### Establecer mensaje de confirmación
+             *  Función que establece el mensaje que se muestra en el modal de
+             *  conformación.
+             */ 
+            setConfirmMessage: React.Dispatch<React.SetStateAction<string>>;
+            /** 
+             *  ### Establecer mensaje de notificación
+             *  Función que establece el mensaje que se muestra en el modal de
+             *  notificación.
+             */ 
+            setDoneMessage: React.Dispatch<React.SetStateAction<string>>;
+            /** 
+             *  ### Establecer función a ejecutar
+             *  Función de cambio de estado que establece una función a ser ejecutada
+             *  como valor del estado.
+             */ 
+            setExecute: React.Dispatch<React.SetStateAction<() => void>>;
+            /** 
+             *  ### Establecer color UI
+             *  Función de cambio de estado para establecer un color UI.
+             */ 
+            setColor: React.Dispatch<React.SetStateAction<UI.DecorationColor>>;
         };
 
     };
