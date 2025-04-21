@@ -6,11 +6,10 @@ import Header from "./Header";
 import useFormRecord from "../../../hooks/views/useFormRecord";
 import Field from "./Field";
 import Action from "./Action";
-import { useDisclosure } from "@heroui/react";
-import React, { useState } from "react";
 import FormModal from "../../../contexts/formModalContext";
 import ModalConfirm from "./ModalConfirm";
 import ModalDone from "./ModalDone";
+import useModalForm from "../../../hooks/views/useModalForm";
 
 /** 
  *  ## Vista de formulario
@@ -61,15 +60,22 @@ const Form = <T extends IACele.API.Database.TableName>({
     // Obtención del registro a mostrar
     const { record, reload } = useFormRecord(table);
 
-    // Creación de valores para modal del confirmación
-    const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onOpenChange: onConfirmOpenChange } = useDisclosure();
-    const { isOpen: isDoneOpen, onOpen: onDoneOpen, onOpenChange: onDoneOpenChange } = useDisclosure();
-
-    // Inicialización de estados y funciones de cambio de estado para modales
-    const [ confirmMessage, setConfirmMessage ] = useState<string>('');
-    const [ doneMessage, setDoneMessage ] = useState<string>('');
-    const [ execute, setExecute ] = useState<() => void>(() => (() => null));
-    const [ color, setColor ] = useState<IACele.UI.DecorationColor>();
+    const {
+        isConfirmOpen,
+        onConfirmOpen,
+        onConfirmOpenChange,
+        isDoneOpen,
+        onDoneOpen,
+        onDoneOpenChange,
+        confirmMessage,
+        setConfirmMessage,
+        doneMessage,
+        setDoneMessage,
+        execute,
+        setExecute,
+        color,
+        setColor,
+    } = useModalForm();
 
     // Si se obtuvo el registro se renderiza el formulario
     if ( record ) {
