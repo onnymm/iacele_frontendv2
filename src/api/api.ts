@@ -9,6 +9,11 @@ type IACeleResponse<T extends IACele.API.DataTypes.GenericRecord> = AxiosRespons
 
 class APIManager {
 
+    /** 
+     *  ### Cambio de estado de carga de la aplicación
+     *  Esta función cambia el estado de carga de toda la aplicación, para
+     *  renderizar componentes visuales que se lo indican al usuario.
+     */ 
     private _setAppLoading: IACele.Context.API['setAppLoading'];
 
     constructor (
@@ -24,13 +29,13 @@ class APIManager {
      *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
-     *  - [ {@link IACele.API.Database.TableName T} ] `tableName`: Nombre de la tabla
-     *  en la base de datos.
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en la base de datos.
      *  - [ `number` ] `id`: ID del registro a leer.
      */ 
     read = async<K extends keyof IACele.API.Database.Table>({
         table,
-        recordIds: id,
+        recordIds,
     }: IACele.API.Request.Read) => {
 
         return await this.execute(
@@ -39,8 +44,8 @@ class APIManager {
                     getBackendUrl(API_PATH.READ),
                     {
                         params: {
-                            'record_ids': id,
-                            'table_name': table,
+                            recordIds,
+                            table,
                         },
                         authenticate: true,
                     }
@@ -60,10 +65,10 @@ class APIManager {
      *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
-     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
-     *  en la base de datos.
-     *  - [ {@link IACele.API.Data.CriteriaStructure} ] `searchCriteria`: Criterio
-     *  de búsqueda (opcional).
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de
+     *  la tabla en la base de datos.
+     *  - [ {@link IACele.API.Data.CriteriaStructure CriteriaStructure} ]
+     *  `searchCriteria`: Criterio de búsqueda (opcional).
      *  - [ `string[]` ] `fields`: Campos específicos a visualizar en los
      *  resultados arrojados (opcional).
      *  - [ `number` ] `offset`: Desfase de índice de registros a visualizar
@@ -117,11 +122,11 @@ class APIManager {
      *  
      *  ### Parámetros de entrada
      *  Los parámetros de entrada son:
-     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
-     *  en donde se harán los cambios.
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en donde se harán los cambios.
      *  - [ `number | number[]` ] `recordIds`: ID o lista de IDs a actualizar.
-     *  - [ {@link Record<string, IACele.View.RecordValue>} ] `data`: Diccionario
-     *  de valores a modificar masivamente.
+     *  - [ {@link IACele.View.RecordInDatabase RecordInDatabase} ] `data`:
+     *  Diccionario de valores a modificar masivamente.
      */ 
     update = async ({
         table,
@@ -150,16 +155,15 @@ class APIManager {
      *  ## Eliminación de registro
      *  Este método permite eliminar un registro de la base de datos en base a una
      *  tabla y una ID provista.
-     *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
-     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
-     *  en la base de datos.
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en la base de datos.
      *  - [ `number` ] `id`: ID del registro a eliminar.
      */ 
     delete = async ({
         table,
-        recordIds: id,
+        recordIds,
     }: IACele.API.Request.Read) => {
 
         return await this.execute(
@@ -168,7 +172,7 @@ class APIManager {
                     getBackendUrl(API_PATH.READ),
                     {
                         params: {
-                            'record_ids': id,
+                            recordIds,
                             table,
                         },
                         authenticate: true,
@@ -186,10 +190,10 @@ class APIManager {
      *  datos del backend y realizar acciones de paginación.
      *  
      *  ### Parámetros de entrada
-     *  - [ {@link IACele.API.Database.TableName} ] `tableName`: Nombre de la tabla
-     *  en la base de datos.
-     *  - [ {@link IACele.API.Data.CriteriaStructure} ] `searchCriteria`: Criterio
-     *  de búsqueda (opcional).
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en la base de datos.
+     *  - [ {@link IACele.API.Data.CriteriaStructure CriteriaStructure} ]
+     *  `searchCriteria`: Criterio de búsqueda (opcional).
      *  - [ `string[]` ] `fields`: Campos específicos a visualizar en los
      *  resultados arrojados (opcional).
      *  - [ `number` ] `page`: Página de fragmento de registros a retornar.
@@ -252,8 +256,8 @@ class APIManager {
      *  ## Ejecución de acción
      *  Este método permite ejecutar una acción de servidor sobre un registro de
      *  una tabla en la base de datos.
-     *  - [ {@link IACele.API.Database.TableName TableName} ] `tableName`: Nombre
-     *  de la tabla en la base de datos.
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en la base de datos.
      *  - [ `number` ] `recordIds`: ID del registro a eliminar.
      *  - [ `string` ] `action`: Nombre de la acción a ejecutar en el backend.
      */ 
