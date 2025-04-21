@@ -931,7 +931,7 @@ declare namespace IACele {
                 Page: React.FC<UI.GenericInvolverComponent>;
             };
 
-            interface _SortingFields <K extends API.Database.TableName>{
+            interface SortingFields <K extends API.Database.TableName>{
                 /** 
                  *  ### Dirección de ordenamiento de datos
                  *  Conjunto que contiene el valor de dirección de ordenamiento de datos.
@@ -954,14 +954,17 @@ declare namespace IACele {
             // ----------------------------------------------------------------
 
             // Parámetros de componente que obtiene datos de registros desde el backend
-            type ListRendererAndCommon<K extends API.Database.TableName> = _Common<K> & _SupportsEmptyContent & _SupportsWidget<K>;
-
-            interface KanbanRenderer <K extends API.Database.TableName> extends ListRendererAndCommon<K>{
+            type _ListRenderer<K extends API.Database.TableName> = _Common<K> & _SupportsEmptyContent & _SupportsWidget<K>;
+            interface ListRenderer <K extends API.Database.TableName> extends _ListRenderer<K>{
+                /** 
+                 *  ### Declaración de vista Kanban
+                 *  Esta función sirve para realizar la declaración de la vista Kanban.
+                 */ 
                 kanban: IACele.View.Kanban.ChildrenRenderer<K>
-            }
+            };
 
             // Unión de parámetros de componente que obtiene datos de registros desde el backend y ordena datos
-            type _DataSorter<K extends API.Database.TableName> = ListRendererAndCommon<K> & _SortingFields<K>
+            type _DataSorter<K extends API.Database.TableName> = _ListRenderer<K> & SortingFields<K>
 
             // Parámetros de entrada de columna de tabla
             type InteractiveColumn<K extends API.Database.TableName> = _Common<K> & HasOptionalLabel & _IndividualColumnCommon<K>;
@@ -1306,6 +1309,58 @@ declare namespace IACele {
 
             type FieldWrapper = UI.GenericInvolverComponent & HasOptionalLabel;
         };
+
+        declare namespace Pagination {
+
+            interface Navigation {
+                /** 
+                 *  ### Conteo de registros
+                 *  Este valor contiene la cantidad de registros totales de un resultado de
+                 *  búsqueda.
+                 */ 
+                count: number;
+                /** 
+                 *  ### Página actual
+                 *  Estado que indica la página actual de lectura de una lista de
+                 *  resultados.
+                 */ 
+                currentPage: number;
+                /** 
+                 *  ### Cantidad total de páginas
+                 *  Estado que indica la cantidad total de páginas que se pueden recorrer
+                 *  en una lista de resultados.
+                 */ 
+                totalPages: number;
+                /** 
+                 *  ### Página anterior
+                 *  Función que retrocede una página a la página actual de lctura de una
+                 *  lista de resultados.
+                 */ 
+                prevPage: () => void;
+                /** 
+                 *  ### Página siguiente
+                 *  Función que avanza una página a la página actual de lctura de una lista
+                 *  de resultados.
+                 */ 
+                nextPage: () => void;
+            };
+
+            interface Setters extends Navigation {
+                /** 
+                 *  ### Establecer conteo
+                 *  Esta función de cambio de estado manipula el valor del estado `count`.
+                 */ 
+                setCount: React.Dispatch<React.SetStateAction<number>>;
+                /** 
+                 *  ### Cantidad de registros por página
+                 *  Este estado indica la cantidad máxima de registros que puede contener
+                 *  una página.
+                 */ 
+                itemsPerPage: number;
+            };
+
+        };
+
     };
 
     declare namespace Context {
@@ -1327,19 +1382,22 @@ declare namespace IACele {
             setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
         };
 
-        interface Navbar {
-            /** 
-             *  ### Controles dinámicos
-             *  Este estado contiene el componente TSX que se mostrará en la barra de
-             *  navegación de la aplicación.
-             */ 
-            dynamicControls: React.JSX.Element | null;
+        interface _DynamicControlsSetter {
             /** 
              *  ### Establecer controles dinámicos
              *  Esta función establece un nuevo componente TSX que se mostrará en la barra
              *  de navegación de la aplicación.
              */ 
             setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
+        };
+
+        interface Navbar extends _DynamicControlsSetter {
+            /** 
+             *  ### Controles dinámicos
+             *  Este estado contiene el componente TSX que se mostrará en la barra de
+             *  navegación de la aplicación.
+             */ 
+            dynamicControls: React.JSX.Element | null;
         };
 
         interface AppContent {
@@ -1351,7 +1409,7 @@ declare namespace IACele {
             setPageName: React.Dispatch<React.SetStateAction<string | null>>;
         };
 
-        type SortingField = View.Tree._SortingFields<any>
+        type SortingField = View.Tree.SortingFields<any>
 
         interface API {
             appLoading: boolean;
@@ -1441,8 +1499,69 @@ declare namespace IACele {
              *  Esta función establece el nombre de la página, el cual se mostrará en el
              *  breadcrumb y la pestaña del navegador.
              */ 
-            setViewName: (name: string | null) => (void)
-        }
-    }
+            setViewName: (name: string | null) => (void);
+        };
+
+        interface VisibleColumns<K extends IACele.API.Database.TableName> {
+            /** 
+             *  ### Columnas visibles
+             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
+             *  datos de columnas filtrados solo por las columnas visibles.
+             */ 
+            visibleColumns: View.Tree.ViewConfig<K>;
+            /** 
+             *  ### Columnas mostrables/ocultables
+             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
+             *  datos de columnas filtrados por las columnas que se pueden
+             *  mostrar/ocultar, para usar en componente Select.
+             */ 
+            toggleableColumns: View.Tree.ViewConfig<K>;
+            /** 
+             *  ### Llaves de columnas visibles
+             *  Conjunto de llaves que indica qué columnas están visibles actualmente.
+             */ 
+            visibleColumnsKeys: Set<keyof API.Database.Table[K]>;
+            /** 
+             *  ### Establecer columnas visibles
+             *  Función de cambio de estado que establece columnas visibles.
+             */ 
+            setVisibleColumnsKeys: UI.SelectOptions<K>['setSelectedKeys'];
+        };
+
+        interface SortingFields<K extends API.Database.TableName> extends View.Tree.SortingFields<K> {
+            /** 
+             *  ### Campos ordenables
+             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los campos que
+             *  pueden ordenar datos.
+             */ 
+            sorteableFields: View.Tree.ViewConfig<K>;
+            /** 
+             *  ### Campo de ordenamiento en vista Kanban
+             *  Estado que indica el campo que está ordenando datos actualmente
+             */ 
+            kanbanSortingField: Set<keyof View.RecordInDatabase<K>>;
+            /** 
+             *  ### Establecer campo de ordenamiento en vista de Kanban
+             *  Función para establecer campo de ordenamiento de datos.
+             */ 
+            setKanbanSortingField: React.Dispatch<React.SetStateAction<Set<keyof View.RecordInDatabase<K>>>>;
+            /** 
+             *  ### Establecer dirección de ordenamiento
+             *  Función para establecer la dirección de ordenamiento de datos.
+             */ 
+            setSelectedSortingDirection: React.Dispatch<React.SetStateAction<Set<View._SortingDirectionValue>>>;
+        };
+
+        type ListDataFetcher<K extends API.Database.TableName> = (
+            & View.Tree.SortingFields<K>
+            & View.Pagination.Navigation
+            & View._SupportsLoading
+            & View._RecordsUse<K>
+            & Context._DynamicControlsSetter
+            & Hook.VisibleColumns<K>
+            & Hook.SortingFields<K>
+        );
+
+    };
 
 };
