@@ -6,7 +6,7 @@
  *  
  *  ### Parámetros de entrada
  *  - [ `string` ] `label`: Título del grupo.
- */
+ */ 
 const Group: React.FC<IACele.UI.Group> = ({
     children,
     label,

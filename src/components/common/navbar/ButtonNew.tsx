@@ -25,8 +25,8 @@ const ButtonNew = () => {
                 </Button>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default ButtonNew;
 
@@ -34,5 +34,5 @@ const Icon = () => {
 
     return (
         <AddRounded className="outline-none" />
-    )
-}
+    );
+};

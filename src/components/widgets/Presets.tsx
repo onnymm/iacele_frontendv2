@@ -3,7 +3,7 @@ import widgetBuilder from "./widgetBuilder";
 import { useContext, useState } from "react";
 import Sizeable from "../common/Sizeable";
 import classNameColor from "./utils/classNameColor";
-import APIContext from "../../contexts/APIContext";
+import APIContext from "../../contexts/apiContext";
 
 const char = widgetBuilder(
     ({ defaultValue }) => (

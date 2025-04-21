@@ -19,8 +19,8 @@ const Search = () => {
                 />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Search;
 
@@ -30,5 +30,5 @@ const SendSearch = () => {
         <button>
             <SearchRounded className="outline-none hover:text-primary-500 transition-colors" />
         </button>
-    )
-}
+    );
+};

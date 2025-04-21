@@ -32,7 +32,7 @@ const useAPI = (): APIParams => {
     );
 
     // Se retornan el estado y la instancia creada
-    return { appLoading, setAppLoading, api }
+    return { appLoading, setAppLoading, api };
 };
 
 export default useAPI;

@@ -54,7 +54,7 @@ const Navbar = (): (React.JSX.Element) => {
                 </div>
             </div>
         </nav>
-    )
-}
+    );
+};
 
 export default React.memo(Navbar);

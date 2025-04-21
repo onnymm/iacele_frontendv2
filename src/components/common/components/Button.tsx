@@ -4,7 +4,7 @@ import React from "react";
 interface BaseInterfaceButton {
     icon: React.FC<React.SVGProps<SVGElement>> | SvgIconComponent;
     callback: () => (void);
-}
+};
 
 /** 
  *  ## Botón para barra lateral
@@ -14,7 +14,7 @@ interface BaseInterfaceButton {
  *  `< tsx />` Se autocierra.
  *  
  *  ### Parámetros de entrada
- *  - [ {@link IconType} ] `icon`: Ícono del botón.
+ *  - [ {@link SVGElement} ] `icon`: Ícono del botón.
  *  - [ `() => (void)` ] `callback`: Función a ejecutar.
  */ 
 const Button: (config: BaseInterfaceButton) => (React.JSX.Element) = ({

@@ -70,7 +70,7 @@ const useSortingFields = <K extends IACele.API.Database.TableName>(
                         ? new Set(['desc'])
                         : new Set(['asc'])
                 );
-            }
+            };
         }, [selectedSortingDirection, sortingField]
     );
 
@@ -83,7 +83,7 @@ const useSortingFields = <K extends IACele.API.Database.TableName>(
                 setSortingField(newKey);
             }
         }, [treeSortingField]
-    )
+    );
 
     return {
         sortingField,

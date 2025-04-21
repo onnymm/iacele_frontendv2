@@ -38,7 +38,7 @@ const useVisibleColumns = <T extends IACele.API.Database.TableName>(
         () => columns.filter(
             (column) => ( column.visible !== undefined )
         ), [columns]
-    )
+    );
 
     // Inicialización de columnas visibles
     const [ visibleColumns, setVisibleColumns ] = useState<Set<keyof IACele.API.Database.Table[T]>>(

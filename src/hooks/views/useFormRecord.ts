@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router";
 import useViewName from "../app/usePageName";
 import Form from "../../components/views/form/Form"; // eslint-disable-line
-import APIContext from "../../contexts/APIContext";
+import APIContext from "../../contexts/apiContext";
 
 interface RecordOrNull<K extends IACele.API.Database.TableName> {
     /** 
@@ -60,7 +60,7 @@ const useFormRecord = <K extends IACele.API.Database.TableName>(
         () => {
             setBaseReload( (prev) => (!prev) )
         }, []
-    )
+    );
 
     // Función para mostrar los datos en la vista
     const fetchData = useCallback(

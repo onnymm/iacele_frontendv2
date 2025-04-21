@@ -16,7 +16,7 @@ const ButtonSidebarMenu: () => (React.JSX.Element) = () => {
     const { setIsSidebarOpen } = useContext(SidebarContext);
 
     // Función de interruptor de vista de barra lateral
-    const toggleSidebarVisibility = () => setIsSidebarOpen( (prevState) => (!prevState) )
+    const toggleSidebarVisibility = () => setIsSidebarOpen( (prevState) => (!prevState) );
 
     return (
         <label htmlFor="button-menu" className="flex flex-row justify-center items-center size-14 ui-label-button">

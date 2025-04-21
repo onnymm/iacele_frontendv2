@@ -37,10 +37,10 @@ const RenderCell = <T extends IACele.API.Database.TableName>({
         const widgetCallback = widgets[(component as keyof IACele.View.Widget.Presets<T>)]
         // Inicialización del widget
         const WidgetComponent = widgetCallback(
-            columnConfig.name as string,
+            columnConfig.name,
             columnConfig.colorDecoration ?? {},
             table,
-            record,
+            true,
         )
         // Retorno del widget renderizado
         return <WidgetComponent {...record} />;

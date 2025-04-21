@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import APIContext from "../../contexts/APIContext";
+import APIContext from "../../contexts/apiContext";
 
 /** 
  *  ## Estado deshabilitado por carga de la aplicación

@@ -40,7 +40,7 @@ const useSidebar = () => {
             } else if ( state ) {
                 setBaseIsSidebarOpen(state);
             }
-        }
+        };
     };
 
     // Retorno de los valores de contexto junto con función de control

@@ -20,7 +20,7 @@ const Breadcrumb = () => {
             </div>
             <span className="hidden sm:inline text-xs">{pageName}</span>
         </div>
-    )
-}
+    );
+};
 
 export default Breadcrumb;

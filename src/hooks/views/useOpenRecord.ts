@@ -29,7 +29,7 @@ const useOpenRecord = () => {
         }, [open, navigate]
     );
 
-    return { recordPath: open, openRecord }
+    return { recordPath: open, openRecord };
 };
 
 export default useOpenRecord;

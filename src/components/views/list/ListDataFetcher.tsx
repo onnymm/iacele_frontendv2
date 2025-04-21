@@ -12,7 +12,7 @@ import { Button } from "@heroui/react";
 import { KeyboardArrowDownRounded, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
 import LABEL from "../../../constants/ui/list";
 import settings from "../../../settings/app";
-import APIContext from "../../../contexts/APIContext";
+import APIContext from "../../../contexts/apiContext";
 import Pagination from "./Pagination";
 
 /** 

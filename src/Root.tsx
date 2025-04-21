@@ -9,7 +9,7 @@ import NavbarContext from "./contexts/navbarContext";
 import SidebarContext from "./contexts/sidebarContext";
 import PageNameContext from "./contexts/pageNameContext";
 import APP_NAME from "./constants/app/name";
-import APIContext from "./contexts/APIContext";
+import APIContext from "./contexts/apiContext";
 import useSidebar from "./hooks/app/useSidebar";
 import useAPI from "./hooks/app/useAPI";
 

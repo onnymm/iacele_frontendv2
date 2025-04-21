@@ -16,7 +16,7 @@ const Paginate = () => {
                 <Button isIconOnly endContent={<KeyboardArrowRight className="outline-none" />} />
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Paginate;

@@ -86,7 +86,7 @@ const KeyboardInputField = <K extends IACele.API.Database.TableName>({
         return (
             <div className="flex flex-row items-center w-full h-8 overflow-x-hidden text-sm text-ellipsis text-nowrap">{record[name] as string}</div>
         );
-    }
+    };
 };
 
 export default KeyboardInputField;

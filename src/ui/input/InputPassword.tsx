@@ -45,7 +45,7 @@ export default InputPassword;
 interface ToggleIcon {
     icon: SvgIconComponent // Ícono a renderizar dependiendo del estado de visibilidad.
     onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void // Función a ejecutar cuando se da clic en el botón.
-}
+};
 
 /** 
  *  ## Switch visibilidad de contraseña
@@ -70,5 +70,5 @@ const IconToggle: React.FC<ToggleIcon> = ({
         <button onClick={onClick} type="button" className="top-0 right-0 absolute mr-2 h-full">
             <Icon className="min-w-6 h-6 text-gray-500 group-data-[focus-within=true]:text-primary-500 transition-colors duration-100 pointer-events-auto" />
         </button>
-    )
-}
+    );
+};
