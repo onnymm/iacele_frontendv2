@@ -1,13 +1,8 @@
 import { useEffect } from "react";
 import Tree from "../tree/Tree";
 import KanbanWrapper from "../kanban/KanbanWrapper";
-import Sizeable from "../../common/Sizeable";
-import SelectTemplate from "../../ui/SelectTemplate";
-import { Button } from "@heroui/react";
-import { KeyboardArrowDownRounded, SwapVertRounded, TableViewRounded } from "@mui/icons-material";
-import LABEL from "../../../constants/ui/list";
-import Pagination from "./Pagination";
 import useListDataFetcher from "../../../hooks/views/useListDataFetcher";
+import Controls from "./Controls";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -53,77 +48,27 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
         kanbanSortingField,
         setKanbanSortingField,
         setSelectedSortingDirection,
-    } = useListDataFetcher(table, viewConfig);
+    } = useListDataFetcher<K>(table, viewConfig);
 
     useEffect(
         () => {
             // Se establece el contenido JSX en la barra de navegación
             setDynamicControls(
-                <div className="flex flex-row gap-1">
-                    <Pagination count={count} currentPage={currentPage} totalPages={totalPages} prevPage={prevPage} nextPage={nextPage} />
-
-                    {/* Control de ordenamiento de datos */}
-                    <Sizeable>
-                        {({ view }) => {
-                            if ( view === 'desktop' ) {
-                                return (
-                                    <SelectTemplate
-                                        selectionMode="multiple"
-                                        toggleableKeys={toggleableColumns as unknown as {name: K, label: string}[]}
-                                        selectedKeys={visibleColumnsKeys as Set<string>}
-                                        setSelectedKeys={setVisibleColumnsKeys}
-                                        trigger={
-                                            <Button
-                                                size='sm'
-                                                variant="solid"
-                                                className="bg-transparent"
-                                                startContent={<TableViewRounded className="outline-none" />}
-                                                endContent={<KeyboardArrowDownRounded className="outline-none" />}
-                                            >
-                                                {LABEL.VISIBLE_COLUMNS}
-                                            </Button>
-                                        }
-                                    />
-                                )
-                            } else {
-                                return (
-                                    <div className="flex flex-row gap-1">
-                                        <SelectTemplate
-                                            selectionMode="single"
-                                            toggleableKeys={sorteableFields as unknown as {name: K, label: string}[]}
-                                            selectedKeys={kanbanSortingField as Set<string>}
-                                            setSelectedKeys={setKanbanSortingField as (keys: IACele.UI._SharedSelection) => void}
-                                            trigger={
-                                                <Button
-                                                    size='sm'
-                                                    variant="solid"
-                                                    className="bg-transparent"
-                                                    isIconOnly
-                                                    startContent={<TableViewRounded className="outline-none" />}
-                                                />
-                                            }
-                                        />
-                                        <SelectTemplate
-                                            selectionMode="single"
-                                            toggleableKeys={[{name: 'asc', label: 'Acendente'}, {name: 'desc', label: 'Descendente'}]}
-                                            selectedKeys={selectedSortingDirection}
-                                            setSelectedKeys={setSelectedSortingDirection as (keys: IACele.UI._SharedSelection) => void}
-                                            trigger={
-                                                <Button
-                                                    size='sm'
-                                                    variant="solid"
-                                                    className="bg-transparent"
-                                                    isIconOnly
-                                                    startContent={<SwapVertRounded className="outline-none" />}
-                                                />
-                                            }
-                                        />
-                                    </div>
-                                )
-                            }
-                        }}
-                    </Sizeable>
-                </div>
+                <Controls
+                    count={count}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    prevPage={prevPage}
+                    nextPage={nextPage}
+                    visibleColumnsKeys={visibleColumnsKeys}
+                    toggleableColumns={toggleableColumns}
+                    setVisibleColumnsKeys={setVisibleColumnsKeys}
+                    selectedSortingDirection={selectedSortingDirection}
+                    sorteableFields={sorteableFields}
+                    kanbanSortingField={kanbanSortingField}
+                    setKanbanSortingField={setKanbanSortingField}
+                    setSelectedSortingDirection={setSelectedSortingDirection}
+                />
             );
             return ( () => setDynamicControls(null) );
         }, [
@@ -136,10 +81,10 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
             toggleableColumns,
             visibleColumnsKeys,
             setVisibleColumnsKeys,
+            selectedSortingDirection,
             sorteableFields,
             kanbanSortingField,
             setKanbanSortingField,
-            selectedSortingDirection,
             setSelectedSortingDirection,
         ]
     );

@@ -144,6 +144,14 @@ declare namespace IACele {
      */ 
     declare namespace UI {
 
+        interface _SupportsClassName {
+            /** 
+             *  ### Nombres de clase
+             *  Nombres de clase CSS
+             */ 
+            className?: string;
+        };
+
         // Valor para uso de funciones de cambio de estado que usan conjuntos
         type _SharedSelection = ('all' | Set<string | number>) & {
             anchorKey?: string;
@@ -161,7 +169,7 @@ declare namespace IACele {
              *  Componentes hijos que se ingresan entre las etiquetas del componente que
              *  los renderizará.
              */ 
-            children: React.ReactNode;
+            children?: React.ReactNode;
         };
 
         /** 
@@ -931,12 +939,15 @@ declare namespace IACele {
                 Page: React.FC<UI.GenericInvolverComponent>;
             };
 
-            interface SortingFields <K extends API.Database.TableName>{
+            interface _HasSortingDirection {
                 /** 
                  *  ### Dirección de ordenamiento de datos
                  *  Conjunto que contiene el valor de dirección de ordenamiento de datos.
                  */ 
                 selectedSortingDirection: _SortingDirection;
+            };
+
+            interface SortingFields <K extends API.Database.TableName> extends _HasSortingDirection{
                 /** 
                  *  ### Columna de ordenamiento de datos
                  *  Llave que indica el campo por el cual los datos están siendo ordenados
@@ -1493,7 +1504,6 @@ declare namespace IACele {
     declare namespace Hook {
 
         interface PageName {
-
             /** 
              *  ### Nombre de la página
              *  Esta función establece el nombre de la página, el cual se mostrará en el
@@ -1502,13 +1512,7 @@ declare namespace IACele {
             setViewName: (name: string | null) => (void);
         };
 
-        interface VisibleColumns<K extends IACele.API.Database.TableName> {
-            /** 
-             *  ### Columnas visibles
-             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
-             *  datos de columnas filtrados solo por las columnas visibles.
-             */ 
-            visibleColumns: View.Tree.ViewConfig<K>;
+        interface _ColumnsVisibilityHandling<K extends IACele.API.Database.TableName> {
             /** 
              *  ### Columnas mostrables/ocultables
              *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
@@ -1528,7 +1532,17 @@ declare namespace IACele {
             setVisibleColumnsKeys: UI.SelectOptions<K>['setSelectedKeys'];
         };
 
-        interface SortingFields<K extends API.Database.TableName> extends View.Tree.SortingFields<K> {
+        interface VisibleColumns<K extends IACele.API.Database.TableName> extends _ColumnsVisibilityHandling<K> {
+            /** 
+             *  ### Columnas visibles
+             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
+             *  datos de columnas filtrados solo por las columnas visibles.
+             */ 
+            visibleColumns: View.Tree.ViewConfig<K>;
+        };
+
+        // ------------------
+        interface _SortingFieldHandling<K extends API.Database.TableName> {
             /** 
              *  ### Campos ordenables
              *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los campos que
@@ -1545,12 +1559,18 @@ declare namespace IACele {
              *  Función para establecer campo de ordenamiento de datos.
              */ 
             setKanbanSortingField: React.Dispatch<React.SetStateAction<Set<keyof View.RecordInDatabase<K>>>>;
+        };
+
+        interface _SortingDirectionHandling {
             /** 
              *  ### Establecer dirección de ordenamiento
              *  Función para establecer la dirección de ordenamiento de datos.
              */ 
             setSelectedSortingDirection: React.Dispatch<React.SetStateAction<Set<View._SortingDirectionValue>>>;
         };
+
+        type SortingFields<K extends API.Database.TableName> = View.Tree.SortingFields<K> & _SortingFieldHandling<K> & _SortingDirectionHandling
+        // --------------
 
         type ListDataFetcher<K extends API.Database.TableName> = (
             & View.Tree.SortingFields<K>
