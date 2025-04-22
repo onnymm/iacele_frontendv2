@@ -33,16 +33,16 @@ const Navbar = (): (React.JSX.Element) => {
                     <NavbarProfile />
                 </div>
             </div>
-            <div className="flex flex-row justify-between sm:grid sm:grid-cols-3 h-10">
+            <div className="flex flex-row justify-between lg:grid lg:grid-cols-3 h-10">
                 <div className="flex flex-row items-center gap-2">
                     <ButtonNew />
-                    <Breadcrumb />
-                    <div className="sm:hidden">
+                    <div className="lg:hidden">
                         <Search />
                     </div>
+                    <Breadcrumb />
                 </div>
                 <div className="flex flex-col justify-center">
-                    <div className="hidden sm:block">
+                    <div className="hidden lg:block">
                         <Search />
                     </div>
                 </div>

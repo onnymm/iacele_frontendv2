@@ -1,15 +1,16 @@
-import { Button, Input } from "@heroui/react"
+import { Input } from "@heroui/react"
 import { SearchRounded } from "@mui/icons-material";
+import Button from "../../ui/Button";
 
 /** No implementado */
 const Search = () => {
 
     return (
         <div>
-            <div className="sm:hidden">
+            <div className="lg:hidden">
                 <Button isIconOnly endContent={<SearchRounded />} />
             </div>
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
                 <Input
                     classNames={{input: 'px-2'}}
                     type="text"
