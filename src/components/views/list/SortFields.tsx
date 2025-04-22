@@ -46,9 +46,10 @@ const SortFields = <K extends IACele.API.Database.TableName>({
                         setSelectedKeys={setSelectedSortingDirection as (keys: IACele.UI._SharedSelection) => void}
                         trigger={
                             <Button
-                            className="bg-transparent"
+                                className="bg-transparent"
                                 size={componentSize}
                                 isIconOnly
+                                isDisabled={kanbanSortingField.size === 0}
                                 startContent={<SwapVertRounded className="outline-none" />}
                             />
                         }
