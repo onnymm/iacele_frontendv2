@@ -22,18 +22,21 @@ const Navbar = (): (React.JSX.Element) => {
     const { dynamicControls } = useContext(NavbarContext);
 
     return (
-        <nav className="top-0 z-10 sticky flex flex-col gap-2 bg-white dark:bg-[#1f2f3f] shadow p-2 w-full min-h-16 transition select-none">
-            <div className="flex flex-row justify-between items-center h-12">
+        <nav id="navbar" className="top-0 z-10 sticky flex flex-col gap-2 bg-white dark:bg-[#1f2f3f] shadow p-2 w-full min-h-16 transition select-none">
+            <div id="logo-menu" className="flex flex-row justify-between items-center h-12">
                 <div className="flex flex-row justify-between items-center px-4 w-72 h-full">
                     <h1 id="navbar-logo" className="hidden sm:block">iaCele</h1>
                     <ButtonSidebarMenu />
+                </div>
+                <div className="hidden lg:block w-[30%]">
+                    <Search />
                 </div>
                 <div id="navbar-controls" className="flex flex-row justify-between gap-4 pr-4 sm:w-72 h-full">
                     <DarkModeSwitch />
                     <NavbarProfile />
                 </div>
             </div>
-            <div className="flex flex-row justify-between lg:grid lg:grid-cols-3 h-10">
+            <div className="flex flex-row justify-between h-10">
                 <div className="flex flex-row items-center gap-2">
                     <ButtonNew />
                     <div className="lg:hidden">
@@ -41,13 +44,7 @@ const Navbar = (): (React.JSX.Element) => {
                     </div>
                     <Breadcrumb />
                 </div>
-                <div className="flex flex-col justify-center">
-                    <div className="hidden lg:block">
-                        <Search />
-                    </div>
-                </div>
                 <div className="flex flex-row justify-end items-center gap-1">
-                    {/* <Paginate /> */}
                     {dynamicControls &&
                         <div className="flex flex-row justify-end items-center">{dynamicControls}</div>
                     }
