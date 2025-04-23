@@ -136,6 +136,49 @@ declare namespace IACele {
              */ 
             route: Route;
         };
+
+        interface RecentRoute {
+            /** 
+             *  ### Nombre de ruta
+             *  Nombre a mostrar en breadcrump de la aplicación.
+             */ 
+            name: string;
+            /** 
+             *  ### Ruta
+             *  Ruta de URL a la que se navega para llegar a esta ruta.
+             */ 
+            to: string;
+        };
+
+        interface Breadcrumbs {
+            /** 
+             *  ### Rutas recientes
+             *  Arreglo de las últimas rutas visitadas.
+             */ 
+            recentRoutes: RecentRoute[];
+            /** 
+             *  ### Añadir ruta
+             *  Función para añadir una ruta al arreglo de rutas recientes.
+             */ 
+            addRoute: (route: RecentRoute) => void;
+            /** 
+             *  ### Truncar rutas recientes
+             *  Esta función se usa para cortar las últimas rutas recientes en base a un
+             *  índice, esto sirve cuando el usuario ha dado clic en alguna de las rutas
+             *  mostradas por los breadcrumbs y ya no hay necesidad de mostrar la ruta
+             *  cliqueada ni sus respectivas rutas siguientes en éstos.
+             */ 
+            cutRecent: (index: number) => void;
+        };
+
+        interface BreadcrumbRoute extends RecentRoute {
+            /** 
+             *  ### Índice de ruta
+             *  Valor utilizado para realizar modificaciones al arreglo de rutas recientes.
+             */ 
+            index: number;
+        };
+
     };
 
     /** 
