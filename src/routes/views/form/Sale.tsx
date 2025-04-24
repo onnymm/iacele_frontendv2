@@ -47,7 +47,7 @@ const Sale = () => {
                 </Page>
             )}
         </Form>
-    )
-}
+    );
+};
 
 export default Sale;

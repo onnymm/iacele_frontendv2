@@ -81,7 +81,7 @@ const useSortingFields = <K extends IACele.API.Database.TableName>(
             if ( values.length ) {
                 const [ newKey ] = values;
                 setSortingField(newKey);
-            }
+            };
         }, [kanbanSortingField]
     );
 

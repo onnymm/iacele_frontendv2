@@ -37,10 +37,9 @@ const fetchUser: (config: UserAuthentication) => (Promise<void>) = async ({
         // Envío de solicitud al api
         const response = await iaCeleAxios.get(getBackendUrl('/account/me/'), { authenticate: true });
         setUser(response.data);
-    }
 
     // En caso de no ser autenticado se elimina el token
-    catch ( error ) {
+    } catch ( error ) {
 
         if ( axios.isAxiosError(error) && error.code === "ERR_BAD_REQUEST" ) {
             setToken(null);

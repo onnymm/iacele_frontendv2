@@ -15,7 +15,7 @@ interface BaseInterfaceButton {
  *  
  *  ### Parámetros de entrada
  *  - [ {@link SVGElement} ] `icon`: Ícono del botón.
- *  - [ `() => (void)` ] `callback`: Función a ejecutar.
+ *  - [ `function` ] `callback`: Función a ejecutar.
  */ 
 const Button: (config: BaseInterfaceButton) => (React.JSX.Element) = ({
     icon: Icon,

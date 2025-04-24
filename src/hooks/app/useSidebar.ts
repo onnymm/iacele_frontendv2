@@ -39,7 +39,7 @@ const useSidebar = () => {
                 setBaseIsSidebarOpen(state);
             } else if ( state ) {
                 setBaseIsSidebarOpen(state);
-            }
+            };
         };
     };
 

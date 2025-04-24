@@ -66,4 +66,3 @@ const useKanbanField = <K extends IACele.API.Database.TableName>(
 };
 
 export default useKanbanField;
-

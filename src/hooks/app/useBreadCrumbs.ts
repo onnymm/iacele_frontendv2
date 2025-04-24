@@ -42,7 +42,9 @@ const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
 
     // Se descarta la última ruta para esto ser mostrado en el componente
     const recentRoutes = useMemo(
-        () => routes.slice(0, routes.length - 1), [routes]
+        () => (
+            routes.slice(0, routes.length - 1)
+        ), [routes]
     );
 
     return { recentRoutes, addRoute, cutRecent };

@@ -29,7 +29,7 @@ const User = () => {
                 </Page>
             )}
         </Form>
-    )
-}
+    );
+};
 
 export default User;

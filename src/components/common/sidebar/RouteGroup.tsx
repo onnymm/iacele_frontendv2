@@ -37,7 +37,7 @@ const RouteGroup: React.FC<IACele.Application.RouteGroup> = ({
     };
 
     // Función a ejecutar por el botón de grupo de rutas
-    const groupOnClick: () => (void) = () => {
+    const groupOnClick = () => {
         // Si el grupo sólo es una ruta se navega hacia ella
         if ( typeof routes === 'string' ) {
             // Se ejecuta la función de ruta

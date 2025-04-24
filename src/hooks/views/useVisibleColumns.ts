@@ -32,8 +32,10 @@ const useVisibleColumns = <K extends IACele.API.Database.TableName>(
 
     // Inicialización de columnas que se pueden ocultar y mostrar
     const toggleableColumns = useMemo(
-        () => viewConfig.filter(
-            (column) => ( column.visible !== undefined )
+        () => (
+            viewConfig.filter(
+                (column) => ( column.visible !== undefined )
+            )
         ), [viewConfig]
     );
 

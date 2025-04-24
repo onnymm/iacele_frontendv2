@@ -26,7 +26,6 @@ class APIManager {
      *  ## Lectura de registro
      *  Este método permite leer un registro en base a una tabla de la base de
      *  datos y una ID provista.
-     *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
      *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
@@ -62,7 +61,6 @@ class APIManager {
      *  ## Búsqueda y visualización de registros
      *  Este método permite buscar y leer registros desde una tabla en la base de
      *  datos del backend.
-     *  Parámetros de entrada:
      *  
      *  ### Parámetros de entrada
      *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de
@@ -217,21 +215,21 @@ class APIManager {
             async () => {
 
                 // Declaración de ordenamiento computado
-                let computedSortby: keyof IACele.View.RecordInDatabase<K> | (keyof IACele.View.RecordInDatabase<K>)[]
+                let computedSortby: keyof IACele.View.RecordInDatabase<K> | (keyof IACele.View.RecordInDatabase<K>)[];
 
                 // Cálculo del desfase de registros
-                const offset = page * itemsPerPage
+                const offset = page * itemsPerPage;
                 // Se usa el valor de registros por página para el límite
-                const limit = itemsPerPage
+                const limit = itemsPerPage;
 
                 // Se convierte el valor a snake_case
                 if ( typeof sortby === 'string' ) {
-                    computedSortby = this.toSnake<K>(sortby as keyof IACele.View.RecordInDatabase<K>)
+                    computedSortby = this.toSnake<K>(sortby as keyof IACele.View.RecordInDatabase<K>);
                 } else if ( typeof sortby === 'object') {
-                    computedSortby = (sortby as (keyof IACele.View.RecordInDatabase<K>)[]).map( (key) => this.toSnake<K>(key) )
+                    computedSortby = (sortby as (keyof IACele.View.RecordInDatabase<K>)[]).map( (key) => this.toSnake<K>(key) );
                 } else {
-                    computedSortby = sortby as keyof IACele.View.RecordInDatabase<K>
-                }
+                    computedSortby = sortby as keyof IACele.View.RecordInDatabase<K>;
+                };
 
                 const response = await iaCeleAxios.post<string, IACeleResponse<IACele.View.RecordInDatabase<K>>, IACele.API.Request.SearchRead<K>>(
                     getBackendUrl(API_PATH.SEARCH_READ),
@@ -249,7 +247,7 @@ class APIManager {
 
                 return (response.data);
             }
-        )
+        );
     };
 
     /** 
