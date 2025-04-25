@@ -1,7 +1,7 @@
 import { KeyboardArrowDownRounded, TableViewRounded } from "@mui/icons-material";
 import SelectTemplate from "../../ui/SelectTemplate";
-import Button from "../../ui/Button";
 import LABEL from "../../../constants/ui/list";
+import { Button } from "@heroui/react";
 
 /** 
  *  ## Selección de columnas visibles
@@ -22,6 +22,7 @@ const SelectVisibleColumns = <K extends IACele.API.Database.TableName>({
             setSelectedKeys={setVisibleColumnsKeys}
             trigger={
                 <Button
+                    size="sm"
                     className="bg-transparent"
                     startContent={<TableViewRounded className="outline-none" />}
                     endContent={<KeyboardArrowDownRounded className="outline-none" />}
