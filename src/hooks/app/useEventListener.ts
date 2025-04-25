@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
 /** 
  *  ## Añadir escuchador de eventos
@@ -15,7 +15,7 @@ import { useEffect, useRef } from "react";
  *  dispara.
  */
 const useEventListener = (
-    targetRef: React.RefObject<HTMLElement> | Window | Document,
+    targetRef: React.RefObject<HTMLElement | null> | Window | Document,
     event: keyof DocumentEventMap,
     triggerCallback: EventListener,
 ) => {
