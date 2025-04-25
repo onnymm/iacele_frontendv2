@@ -187,12 +187,28 @@ declare namespace IACele {
      */ 
     declare namespace UI {
 
+        interface _SupportsId {
+            /** 
+             *  ### ID
+             *  ID del componente.
+             */ 
+            id: string;
+        };
+
         interface _SupportsClassName {
             /** 
              *  ### Nombres de clase
-             *  Nombres de clase CSS
+             *  Nombres de clase CSS.
              */ 
             className?: string;
+        };
+
+        interface _Colorizable {
+            /** 
+             *  ### Color de componente
+             *  Color utilizado para colorear componentes de HeroUI.
+             */ 
+            color?: DecorationColor;
         };
 
         // Valor para uso de funciones de cambio de estado que usan conjuntos
@@ -219,7 +235,7 @@ declare namespace IACele {
          *  ### Color de decoración
          *  Color de decoración de de componente/widget en base a su valor.
          */ 
-        type DecorationColor = "default" | "secondary" | "success" | "warning" | "danger" | undefined;
+        type DecorationColor = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
 
         interface Input {
             value?: string;
@@ -287,6 +303,31 @@ declare namespace IACele {
              */ 
             label?: string;
         }
+
+        declare namespace Input {
+
+            type _File = _SupportsId & _Colorizable;
+            interface FileType extends _File {
+                /** 
+                 *  ### Archivo
+                 *  Archivo ingresado al input.
+                 */ 
+                file: File | null;
+                /** 
+                 *  ### Establecer archivo
+                 *  Función de cambio de estado para colocar el archivo cuando éste se ingresa
+                 *  al componente.
+                 */ 
+                setFile: React.Dispatch<React.SetStateAction<File | null>>;
+                /** 
+                 *  ### Formatos aceptados
+                 *  Formatos de archivo aceptados, separados por espacio. Por ejemplo `".png
+                 *  .jpeg .svg"`
+                 */ 
+                accept: string;
+            };
+
+        };
 
         declare namespace Sizeable {
 
