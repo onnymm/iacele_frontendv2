@@ -50,11 +50,13 @@ const Breadcrumb = () => {
                 >
                     {
                         recentRoutes.map(
-                            (route, i) => (
-                                <BreadcrumbItem key={i}>
-                                    <Link name={route.name} to={route.to} index={i} />
-                                </BreadcrumbItem>
-                            )
+                            (route, i) => {
+                                return (
+                                    <BreadcrumbItem key={i}>
+                                        <Link name={route.name} to={0 - (recentRoutes.length - i )} index={i} />
+                                    </BreadcrumbItem>
+                                )
+                            }
                         )
                     }
                 </Breadcrumbs>
