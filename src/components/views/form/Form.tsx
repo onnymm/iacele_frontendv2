@@ -89,7 +89,7 @@ const Form = <T extends IACele.API.Database.TableName>({
                 </RecordFormContext.Provider>
 
                 <ModalConfirm isOpen={isConfirmOpen} onOpenChange={onConfirmOpenChange} execute={execute} color={color} message={confirmMessage} />
-                <ModalDone isOpen={isDoneOpen} onOpenChange={onDoneOpenChange} message={doneMessage} />
+                <ModalDone mode="action" isOpen={isDoneOpen} onOpenChange={onDoneOpenChange} message={doneMessage} />
             </form>
         );
     };

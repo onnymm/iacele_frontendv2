@@ -396,6 +396,15 @@ declare namespace IACele {
                 color: IACele.UI.DecorationColor;
             };
 
+            interface Notify extends Generic {
+                /** 
+                 *  ### Modo de modal
+                 *  Este parámetro indica en dónde se está utilizando el modal para mostrar la
+                 *  leyenda predeterminada correcta.
+                 */ 
+                mode: 'action' | 'task';
+            };
+
         };
 
 

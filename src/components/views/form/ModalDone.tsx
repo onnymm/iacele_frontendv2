@@ -1,5 +1,6 @@
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import Sizeable from "../../common/Sizeable";
+import NOTIFY_LEGEND from "../../../constants/views/notifyLegend";
 
 /** 
  *  ## Modal de notificación
@@ -12,18 +13,22 @@ import Sizeable from "../../common/Sizeable";
  *  de componentes dentro del modal.
  *  - [ `string` ] `message`: Mensaje a mostrar en el modal.
  */ 
-const ModalDone: React.FC<IACele.UI.Modal.Generic> = ({
+const ModalDone: React.FC<IACele.UI.Modal.Notify> = ({
     isOpen,
     onOpenChange,
     message,
+    mode,
 }) => {
+
+    // Obtención de leyenda a mostrar en modal
+    const legend = NOTIFY_LEGEND[mode];
 
     return (
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
             <ModalContent>
                 {(onClose) => (
                     <>
-                        <ModalHeader>Acción ejecutada exitosamente</ModalHeader>
+                        <ModalHeader>{legend}</ModalHeader>
                         <ModalBody>{message}</ModalBody>
                         <ModalFooter>
                             <Sizeable>
