@@ -147,7 +147,7 @@ declare namespace IACele {
              *  ### Ruta
              *  Ruta de URL a la que se navega para llegar a esta ruta.
              */ 
-            to: string;
+            to: number;
         };
 
         interface Breadcrumbs {
