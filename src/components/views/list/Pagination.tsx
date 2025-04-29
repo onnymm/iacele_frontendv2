@@ -23,10 +23,10 @@ const Pagination: React.FC<IACele.View.Pagination.Navigation> = ({
                         <span className={`text-sm mr-1 whitespace-nowrap`}>{currentPage}/{totalPages}</span>
                     }
                     {count > 0 &&
-                        <Button color="primary" onPress={prevPage} isDisabled={prevDisabled} startContent={<KeyboardArrowLeft className="outline-none" />} size={componentSize} isIconOnly />
+                        <Button color="primary" onPress={prevPage} isDisabled={prevDisabled} startContent={<KeyboardArrowLeft className="pointer-events-none" />} size={componentSize} isIconOnly />
                     }
                     {count > 0 &&
-                        <Button color="primary" onPress={nextPage} isDisabled={nextDisabled} startContent={<KeyboardArrowRight className="outline-none" />} size={componentSize} isIconOnly />
+                        <Button color="primary" onPress={nextPage} isDisabled={nextDisabled} startContent={<KeyboardArrowRight className="pointer-events-none" />} size={componentSize} isIconOnly />
                     }
                 </div>
             )}
