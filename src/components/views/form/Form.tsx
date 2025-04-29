@@ -9,7 +9,7 @@ import Action from "./Action";
 import FormModal from "../../../contexts/formModalContext";
 import ModalConfirm from "./ModalConfirm";
 import ModalDone from "./ModalDone";
-import useModalForm from "../../../hooks/views/useModalForm";
+import useModalView from "../../../hooks/views/useModalView";
 
 /** 
  *  ## Vista de formulario
@@ -75,7 +75,7 @@ const Form = <T extends IACele.API.Database.TableName>({
         setExecute,
         color,
         setColor,
-    } = useModalForm();
+    } = useModalView();
 
     // Si se obtuvo el registro se renderiza el formulario
     if ( record ) {

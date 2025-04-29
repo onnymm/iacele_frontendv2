@@ -14,6 +14,7 @@ import useSidebar from "./hooks/app/useSidebar";
 import useAPI from "./hooks/app/useAPI";
 import useBreadcrumbs from "./hooks/app/useBreadCrumbs";
 import BreadcrumbsContext from "./contexts/breadcrumbsContext";
+import MainControlsContext from "./contexts/mainControlsContext";
 
 /** 
  *  ## Raíz de iaCele
@@ -35,6 +36,7 @@ const Root = (): (React.JSX.Element) => {
     const { recentRoutes, addRoute, cutRecent } = useBreadcrumbs();
 
     // Inicialización de valores para contexto
+    const [ mainControls, setMainControls ] = useState<React.ReactNode | null>(null);
     const [ dynamicControls, setDynamicControls ] = useState<React.JSX.Element | null>(null);
     const [ pageName, setPageName ] = useState<string | null>(APP_NAME);
 
@@ -43,6 +45,7 @@ const Root = (): (React.JSX.Element) => {
             <HeroUIProvider>
                 <BreadcrumbsContext.Provider value={{ recentRoutes, addRoute, cutRecent }}>
                 <NavbarContext.Provider value={{ dynamicControls, setDynamicControls }}>
+                <MainControlsContext.Provider value={{ mainControls, setMainControls }}>
                 <APIContext.Provider value={{ appLoading, setAppLoading, api }}>
                 <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked }}>
                 <PageNameContext.Provider value={{ pageName, setPageName }}>
@@ -52,6 +55,7 @@ const Root = (): (React.JSX.Element) => {
                 </PageNameContext.Provider>
                 </SidebarContext.Provider>
                 </APIContext.Provider>
+                </MainControlsContext.Provider>
                 </NavbarContext.Provider>
                 </BreadcrumbsContext.Provider>
             </HeroUIProvider>

@@ -1,8 +1,11 @@
-import {  useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import ViewConfigContext from "../../../contexts/ViewConfigContext";
 import TreeView from "../tree/TreeView";
 import ListDataFetcher from "./ListDataFetcher";
 import OpenRecordPath from "../../../contexts/OpenRecordPath";
+import TasksContext from "../../../contexts/tasksContext";
+import TaskView from "./TaskView";
+import Tasks from "./Tasks";
 
 /** 
  *  ## Lista de registros
@@ -28,12 +31,25 @@ const List = <T extends IACele.API.Database.TableName>({
     open,
 }: IACele.View.List.Component<T>) => {
 
-    const viewConfig: IACele.View.Tree.ViewConfig<T> = useMemo(
+    const tasks: IACele.View.Do[] = useMemo(
         () => ([]), []
     );
 
-    // Obtención de las declaraciones de vista de árbol y kanban
-    const [ tree, kanban ] = children;
+    // Función para añadir parámetros de tareas de servidor
+    const pushTask = useCallback(
+        (task: IACele.View.Do) => {
+
+            // Se busca el parámetro para saber si ya se encuentra en la configuración de tareas
+            const foundTask = tasks.find( (existentTask) => existentTask.name === task.name )
+
+            // Solo si éste no se encuentra, se añade
+            if ( foundTask === undefined ) tasks.push(task);
+        }, [tasks]
+    );
+
+    const viewConfig: IACele.View.Tree.ViewConfig<T> = useMemo(
+        () => ([]), []
+    );
 
     // Función para añadir configuraciones de columnas
     const pushViewConfig = useCallback(
@@ -47,11 +63,23 @@ const List = <T extends IACele.API.Database.TableName>({
         }, [viewConfig]
     );
 
+    // Obtención de las declaraciones de vista de árbol y kanban
+    const [ tasksR, tree, kanban ] = useMemo(
+        () => (
+            children.length === 3
+                ? children
+                : [undefined, ...children]
+        ), [children]
+    ) as IACele.View.List.Component<T>['children'];
+
     return (
-        <OpenRecordPath value={{ open }}>
+        <OpenRecordPath.Provider value={{ open }}>
+            <TasksContext.Provider value={{ pushTask }}>
+                {tasksR && tasksR({ Tasks, Task: TaskView })}
+            </TasksContext.Provider>
             <ViewConfigContext.Provider value={{ pushViewConfig }}>
                 {/* Aquí se genera el objeto viewConfig */}
-                {tree({ Tree: TreeView<T> })}
+                {tree({ Tree: TreeView })}
             </ViewConfigContext.Provider>
 
             {/* Aquí se utiliza el objeto viewConfig */}
@@ -60,9 +88,10 @@ const List = <T extends IACele.API.Database.TableName>({
                 viewConfig={viewConfig}
                 emptyContent={emptyContent}
                 kanban={kanban}
+                tasks={tasks}
             />
 
-        </OpenRecordPath>
+        </OpenRecordPath.Provider>
     );
 };
 

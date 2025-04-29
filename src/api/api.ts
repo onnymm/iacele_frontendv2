@@ -282,6 +282,37 @@ class APIManager {
         );
     };
 
+    /** 
+     *  ## Ejecución de tarea
+     *  Este método permite ejecutar una tarea de servidor sobre una tabla de base
+     *  de datos.
+     *  
+     *  ### Parámetros de entrada
+     *  - [ {@link IACele.API.Database.TableName TableName} ] `table`: Nombre de la
+     *  tabla en la base de datos.
+     *  - [ `string` ] `task`: Nombre de la tarea a ejecutar en el backend.
+     */ 
+    task = async <K extends IACele.API.Database.TableName>({
+        table,
+        task,
+    }: IACele.API.Request.Task<K>) => {
+
+        return await this.execute(
+            async () => {
+                const response = await iaCeleAxios.post<string, boolean, IACele.API.Request.Task<K>>(
+                    getBackendUrl(API_PATH.EXECUTE_TASK),
+                    {
+                        table,
+                        task,
+                    },
+                    { authenticate: true },
+                );
+
+                return response;
+            }
+        );
+    };
+
     private toSnake = <T extends IACele.API.Database.TableName>(text: keyof IACele.View.RecordInDatabase<T>): keyof IACele.View.RecordInDatabase<T> => {
         return ( (text as string).replace(/([A-Z])/, '_$1').toLowerCase() ) as keyof IACele.View.RecordInDatabase<T>;
     };

@@ -1,8 +1,14 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import Tree from "../tree/Tree";
 import KanbanWrapper from "../kanban/KanbanWrapper";
 import useListDataFetcher from "../../../hooks/views/useListDataFetcher";
 import Controls from "./Controls";
+import useModalView from "../../../hooks/views/useModalView";
+import ModalConfirm from "../form/ModalConfirm";
+import ModalDone from "../form/ModalDone";
+import MainControlsContext from "../../../contexts/mainControlsContext";
+import Task from "./Task";
+import FormModal from "../../../contexts/formModalContext";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -26,7 +32,28 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
     viewConfig,
     emptyContent,
     kanban,
+    tasks,
 }: IACele.View.Tree.ListRenderer<K>) => {
+
+    // Obtención de función desde contexto
+    const { setMainControls } = useContext(MainControlsContext);
+
+    const {
+        isConfirmOpen,
+        onConfirmOpen,
+        onConfirmOpenChange,
+        isDoneOpen,
+        onDoneOpen,
+        onDoneOpenChange,
+        confirmMessage,
+        setConfirmMessage,
+        doneMessage,
+        setDoneMessage,
+        execute,
+        setExecute,
+        color,
+        setColor,
+    } = useModalView();
 
     const {
         selectedSortingDirection,
@@ -48,6 +75,7 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
         kanbanSortingField,
         setKanbanSortingField,
         setSelectedSortingDirection,
+        reload,
     } = useListDataFetcher<K>(table, viewConfig);
 
     useEffect(
@@ -89,6 +117,23 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
         ]
     );
 
+    useEffect(
+        () => {
+            setMainControls(
+                <FormModal.Provider value={{ isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setConfirmMessage, setDoneMessage, setExecute, setColor }}>
+                    {
+                        tasks.map(
+                            (task, i) => (
+                                <Task<K> key={i} confirm={task.confirm} notify={task.notify} execute={task.execute} name={task.name} table={table} color={task.color} reload={reload} />
+                            )
+                        )
+                    }
+                </FormModal.Provider>
+            );
+            return ( () => setMainControls( null ) );
+        }, [table, tasks, setMainControls, isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setColor, setConfirmMessage, setDoneMessage, setExecute, reload]
+    );
+
     return (
         <div className="size-full">
             <div className="hidden sm:block h-full">
@@ -111,6 +156,8 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
                     loading={loading}
                 />
             </div>
+            <ModalConfirm isOpen={isConfirmOpen} onOpenChange={onConfirmOpenChange} execute={execute} color={color} message={confirmMessage} />
+            <ModalDone mode="task" isOpen={isDoneOpen} onOpenChange={onDoneOpenChange} message={doneMessage} />
         </div>
     );
 };

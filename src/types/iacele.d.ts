@@ -642,6 +642,14 @@ declare namespace IACele {
                  */ 
                 action: string;
             }
+
+            interface Task<K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
+                /** 
+                 *  ### Nombre
+                 *  Nombre de la tarea a ser ejecutada en la tabla de base de datos.
+                 */ 
+                task: string;
+            }
         };
 
         // Respuestas comunes del backend
@@ -830,6 +838,35 @@ declare namespace IACele {
     // Vistas de datos
     declare namespace View {
 
+        interface Do {
+            /** 
+             *  ### Nombre
+             *  Nombre de la acción que se renderizará como leyenda del botón.
+             */ 
+            name: string;
+            /** 
+             *  ### Acción a ejecutar
+             *  Nombre de la acción a ejecutar en el backend.
+             */ 
+            execute: string;
+            /** 
+             *  ### Color
+             *  Color del botón
+             */ 
+            color?: IACele.UI.DecorationColor;
+            /** 
+             *  ### Mensaje de confirmación
+             *  Mensaje a mostrar en modal para confirmar o cancelar la acción.
+             */ 
+            confirm?: string;
+            /** 
+             *  ### Al realizar
+             *  Mensaje a mostrar en modal para notificar que la acción fue ejecutada
+             *  correctamente.
+             */ 
+            notify?: string;
+        };
+
         // Valores de dirección de ordenamiento
         type _SortingDirectionValue = 'asc' | 'desc';
 
@@ -894,6 +931,14 @@ declare namespace IACele {
              *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
              */ 
             name: keyof RecordInDatabase<K>;
+        }
+
+        interface _Reloads {
+            /** 
+             *  ### Recargar
+             *  Función para realizar una recarga de datos.
+             */ 
+            reload: () => void;
         }
 
         interface RecordUse<K extends API.Database.TableName> {
@@ -1065,6 +1110,12 @@ declare namespace IACele {
                  *  Esta función sirve para realizar la declaración de la vista Kanban.
                  */ 
                 kanban: IACele.View.Kanban.ChildrenRenderer<K>
+                /** 
+                 *  ### Configuración de tareas de servidor
+                 *  Arreglo que contiene la declaración de construcción de botones de tareas de
+                 *  servidor.
+                 */ 
+                tasks: Do[];
             };
 
             // Unión de parámetros de componente que obtiene datos de registros desde el backend y ordena datos
@@ -1126,6 +1177,19 @@ declare namespace IACele {
             // Unión de interfaces que usan tabla de base de datos y usan muchos registros.
             type _BaseComponent<K extends API.Database.TableName> = _TableUse<K> & _SupportsEmptyContent & _Open;
 
+            declare namespace Tasks {
+                interface _ChildrenRenderer {
+                    Task: React.FC<View.Do>;
+                    Tasks: React.FC<UI.GenericInvolverComponent>;
+                };
+
+                interface _Children {
+                    Tasks: ({ Tasks, Task }: React.FC<_ChildrenRenderer>) => React.ReactNode;
+                };
+
+                type Component<K extends API.Database.TableName> = IACele.View.Do & IACele.Common._TableUse<K> & IACele.View._Reloads;
+            }
+
             // TIPOS E INTERFACES USADOS POR COMPONENTES
             // ----------------------------------------------------------------
 
@@ -1137,8 +1201,9 @@ declare namespace IACele {
                  *  utilizan en la construcción de las vistas de árbol y kanban
                  */ 
                 children: [
+                    (({ Tasks, Task }: Tasks._ChildrenRenderer) => React.ReactNode)?,
                     ({ Tree }: _Children<K>) => (React.ReactNode),
-                    IACele.View.Kanban.ChildrenRenderer<K>,
+                    View.Kanban.ChildrenRenderer<K>,
                 ];
             };
 
@@ -1209,34 +1274,7 @@ declare namespace IACele {
             // Atributos base de componente de formulario
             type _BaseComponent<K extends IACele.API.Database.TableName> = View._TableUse<K> & _ReadOnly;
 
-            interface Action<K extends IACele.API.Database.TableName> extends _SupportsVisibility<K> {
-                /** 
-                 *  ### Nombre
-                 *  Nombre de la acción que se renderizará como leyenda del botón.
-                 */ 
-                name: string;
-                /** 
-                 *  ### Acción a ejecutar
-                 *  Nombre de la acción a ejecutar en el backend.
-                 */ 
-                execute: string;
-                /** 
-                 *  ### Color
-                 *  Color del botón
-                 */ 
-                color?: IACele.UI.DecorationColor;
-                /** 
-                 *  ### Mensaje de confirmación
-                 *  Mensaje a mostrar en modal para confirmar o cancelar la acción.
-                 */ 
-                confirm?: string;
-                /** 
-                 *  ### Al realizar
-                 *  Mensaje a mostrar en modal para notificar que la acción fue ejecutada
-                 *  correctamente.
-                 */ 
-                notify?: string;
-            };
+            type Action<K extends IACele.API.Database.TableName> = Do & _SupportsVisibility<K>;
 
             // Componentes hijos de la vista de formulario
             interface _Children<K extends IACele.API.Database.TableName> {
@@ -1592,6 +1630,29 @@ declare namespace IACele {
             setColor: React.Dispatch<React.SetStateAction<UI.DecorationColor>>;
         };
 
+        interface Tasks {
+            /** 
+             *  ### Añadir parámetros de tareas
+             *  Función para añadir parámetros de tareas a la lista de tareas de vista de
+             *  Lista.
+             */ 
+            pushTask: (task: IACele.View.Do) => void;
+        };
+
+        interface MainControls {
+            /** 
+             *  ### Controles principales
+             *  Componente de controles principales de la barra de navegación.
+             */ 
+            mainControls: React.ReactNode | null;
+            /** 
+             *  ### Establecer controles principales
+             *  Función de cambio de estado para establecer el componente de controles
+             *  principales de la barra de navegación.
+             */ 
+            setMainControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
+        };
+
     };
 
     declare namespace Hook {
@@ -1673,6 +1734,7 @@ declare namespace IACele {
             & Context._DynamicControlsSetter
             & Hook.VisibleColumns<K>
             & Hook.SortingFields<K>
+            & View._Reloads
         );
 
     };

@@ -23,7 +23,7 @@ interface ModalFormParams {
  *  Este Custom Hook crea e inicializa todos los estados, funciones y funciones
  *  de cambio de estado para usarse en el modal del formulario.
  */ 
-const useModalForm = (): ModalFormParams => {
+const useModalView = (): ModalFormParams => {
 
     // Creación de valores para modal del confirmación
     const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onOpenChange: onConfirmOpenChange } = useDisclosure();
@@ -53,4 +53,4 @@ const useModalForm = (): ModalFormParams => {
     };
 };
 
-export default useModalForm;
+export default useModalView;

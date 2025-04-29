@@ -57,6 +57,15 @@ const useListDataFetcher = <K extends IACele.API.Database.TableName>(
     const [ records, setRecords ] = useState<IACele.View.RecordInDatabase<K>[]>([]);
     // Inicialización de estado de carga
     const [ loading, setLoading ] = useState<boolean>(true);
+    // Inicialización de estado de carga
+    const [ baseReload, setBaseReload ] = useState<boolean>(false);
+
+    // Función para ejecutar una recarga de datos
+    const reload = useCallback(
+        () => {
+            setBaseReload( (prev) => (!prev) )
+        }, []
+    );
 
     // Función para mostrar los datos en la vista de tabla
     const fetchData = useCallback(
@@ -85,7 +94,7 @@ const useListDataFetcher = <K extends IACele.API.Database.TableName>(
     useEffect(
         () => {
             fetchData();
-        }, [fetchData]
+        }, [fetchData, baseReload]
     );
 
     useEffect(
@@ -115,6 +124,7 @@ const useListDataFetcher = <K extends IACele.API.Database.TableName>(
         kanbanSortingField,
         setKanbanSortingField,
         setSelectedSortingDirection,
+        reload,
     };
 };
 
