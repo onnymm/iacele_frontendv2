@@ -10,8 +10,9 @@ declare namespace IACele {
              *  Nombre de tabla de base de datos.
              */ 
             table: K;
-        }
-    }
+        };
+
+    };
 
     declare namespace Application {
 
@@ -30,7 +31,7 @@ declare namespace IACele {
              *  recibe.
              */ 
             onClick: () => void;
-        }
+        };
 
         interface CurrentUserData {
             id: number | undefined;
@@ -240,7 +241,7 @@ declare namespace IACele {
         interface Input {
             value?: string;
             onValueChange?: React.Dispatch<React.SetStateAction<string>>;
-        }
+        };
 
         // Uso para componentes de input en inicio de sesión
         interface CoreInput extends Input {
@@ -302,7 +303,7 @@ declare namespace IACele {
              *  Título o encabezado que aparece como nombre del grupo.
              */ 
             label?: string;
-        }
+        };
 
         declare namespace Input {
 
@@ -542,7 +543,7 @@ declare namespace IACele {
              *  Atributo de registro dinámico de una tabla de base de datos.
              */ 
             type RecordAttribute<K extends Database.TableName> = keyof RecordInDatabase<K>
-        }
+        };
 
         /** 
          *  ### Estructuras de información enviadas al backend
@@ -557,7 +558,7 @@ declare namespace IACele {
                  *  ID de registro de base de datos.
                  */ 
                 recordIds: number;
-            }
+            };
 
             // Lectura de datos
             type Read = Common._TableUse<K> & _RequiresID
@@ -641,7 +642,7 @@ declare namespace IACele {
                  *  Nombre de la acción a ejecutar en el backend.
                  */ 
                 action: string;
-            }
+            };
 
             interface Task<K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
                 /** 
@@ -649,7 +650,7 @@ declare namespace IACele {
                  *  Nombre de la tarea a ser ejecutada en la tabla de base de datos.
                  */ 
                 task: string;
-            }
+            };
         };
 
         // Respuestas comunes del backend
@@ -819,7 +820,7 @@ declare namespace IACele {
                 interface KanbanParams<K extends IACele.API.Database.TableName> extends Params<K>  {
                     widget?: IACele.Core.Widget.WidgetPresetKey;
                     label?: string | boolean;
-                }
+                };
 
                 interface FormChildren<K extends API.Database.TableName> {
                     Page: React.FC<{ children: React.ReactNode }>;
@@ -905,7 +906,7 @@ declare namespace IACele {
              *  En este estado se almacena la información obtenida desde el servidor.
              */ 
             records: RecordInDatabase<K>[];
-        }
+        };
 
         // Interfaz de componente que usa muchos registros
         interface _SupportsEmptyContent {
@@ -923,7 +924,7 @@ declare namespace IACele {
              *  Path de redirección para mostrar el detalle del registro.
              */ 
             open?: string;
-        }
+        };
 
         interface _FieldName <K extends API.Database.TableName>{
             /** 
@@ -931,7 +932,7 @@ declare namespace IACele {
              *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
              */ 
             name: keyof RecordInDatabase<K>;
-        }
+        };
 
         interface _Reloads {
             /** 
@@ -939,7 +940,7 @@ declare namespace IACele {
              *  Función para realizar una recarga de datos.
              */ 
             reload: () => void;
-        }
+        };
 
         interface RecordUse<K extends API.Database.TableName> {
             /** 
@@ -953,7 +954,7 @@ declare namespace IACele {
         // Variación del tipo _TableUse para permitir valores nulos
         interface _OptionalTableUse <K extends API.Database.TableName> extends _TableUse<K>{
             table?: K;
-        }
+        };
 
         interface _SupportsWidget<K extends API.Database.TableName>{
             /** 
@@ -977,7 +978,7 @@ declare namespace IACele {
              *  registro para validar si el componente debe mostrarse o no.
              */ 
             invisible?: ((props: RecordInDatabase<K>) => (boolean));
-        }
+        };
 
         // TIPOS E INTERFACES USADOS POR COMPONENTES
         // --------------------------------------------------------------------
@@ -1030,7 +1031,7 @@ declare namespace IACele {
              *  Estado que indica que los datos se están cargando.
              */ 
             loading: boolean;
-        }
+        };
 
         // Vista de árbol, interfaces y tipos relacionados
         declare namespace Tree {
@@ -1097,7 +1098,7 @@ declare namespace IACele {
                  *  Función para establecer el campo de ordenamiento.
                  */ 
                 toggleSortingColumn: (key: keyof RecordInDatabase<K>) => (void);
-            }
+            };
 
             // TIPOS E INTERFACES USADOS POR COMPONENTES
             // ----------------------------------------------------------------
@@ -1188,7 +1189,7 @@ declare namespace IACele {
                 };
 
                 type Component<K extends API.Database.TableName> = IACele.View.Do & IACele.Common._TableUse<K> & IACele.View._Reloads;
-            }
+            };
 
             // TIPOS E INTERFACES USADOS POR COMPONENTES
             // ----------------------------------------------------------------
@@ -1364,7 +1365,7 @@ declare namespace IACele {
                      *  Propiedad que indica el tipo de dato del valor a renderizar.
                      */ 
                     type: Data.KeyboardType;
-                }
+                };
 
                 // Input genérico
                 interface GenericInput<K extends IACele.API.Database.TableName> extends _BaseInput<K> {
@@ -1377,7 +1378,7 @@ declare namespace IACele {
                 };
             };
 
-        }
+        };
 
         declare namespace Widget {
 
@@ -1568,7 +1569,8 @@ declare namespace IACele {
             /** 
              *  ### Añadir propiedades para columna de vista de árbol
              *  Esta función añade la declaración de propiedades para renderizar una
-             *  columna en la vista de árbol del componente {@link View.Tree.Component Tree}
+             *  columna en la vista de árbol del componente
+             *  {@link View.Tree.Component Tree}.
              */ 
             pushViewConfig: (config: IACele.View.Tree.Field<K>) => void;
         };
@@ -1578,7 +1580,7 @@ declare namespace IACele {
         type _FormField<K extends IACele.API.Database.TableName> = View.RecordUse<K> & View._OptionalTableUse<K> & View.Form._ReadOnly;
         interface FormField<K extends IACele.API.Database.TableName> extends _FormField<K> {
             reload: () => void;
-        }
+        };
 
         interface RecordKanban<K extends IACele.API.Database.TableName> {
             record: IACele.View.RecordInDatabase<K> | null;
