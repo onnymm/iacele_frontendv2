@@ -1,5 +1,5 @@
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
-import Sizeable from "../../common/Sizeable";
+import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
+import Button from "../../ui/Button";
 
 /** 
  *  ## Modal de confirmación
@@ -38,14 +38,8 @@ const ModalConfirm: React.FC<IACele.UI.Modal.Confirm> = ({
                             <ModalHeader>Confirmación</ModalHeader>
                             <ModalBody>{message}</ModalBody>
                             <ModalFooter>
-                                <Sizeable>
-                                    {({ componentSize }) => (
-                                        <>
-                                            <Button size={componentSize} onPress={onClose}>Cancelar</Button>
-                                            <Button size={componentSize} onPress={onConfirm} color={color !== 'default' ? color : 'primary'}>Aceptar</Button>
-                                        </>
-                                    )}
-                                </Sizeable>
+                                <Button onPress={onClose}>Cancelar</Button>
+                                <Button onPress={onConfirm} color={color !== 'default' ? color : 'primary'}>Aceptar</Button>
                             </ModalFooter>
                         </>
                     )

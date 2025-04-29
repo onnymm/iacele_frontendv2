@@ -8,7 +8,7 @@ const Search = () => {
     return (
         <div className="flex items-center">
             <div className="lg:hidden flex items-center">
-                <Button onPress={() => null} isIconOnly endContent={<SearchRounded />} />
+                <Button onPress={() => null} isIconOnly endContent={<SearchRounded className="pointer-events-none" />} />
             </div>
             <div className="hidden lg:block">
                 <Input
