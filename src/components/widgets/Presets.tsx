@@ -2,7 +2,6 @@ import { Checkbox, Chip, Switch } from "@heroui/react";
 import widgetBuilder from "./widgetBuilder";
 import { useContext, useState } from "react";
 import Sizeable from "../common/Sizeable";
-import classNameColor from "./utils/classNameColor";
 import APIContext from "../../contexts/apiContext";
 
 const char = widgetBuilder(
@@ -103,12 +102,11 @@ const codeline = widgetBuilder(
 );
 
 const monetary = widgetBuilder(
-    ({ defaultValue, color }) => (
+    ({ defaultValue }) => (
         <Sizeable>
             {({ textSize }) => (
-                <div className={`${classNameColor(color)} ${textSize} flex flex-row gap-1`}>
-                    <span>$</span>
-                    {(defaultValue as number).toFixed(2)}
+                <div className={`${textSize} flex flex-row gap-1`}>
+                    {defaultValue?.toLocaleString('es-MX', {style: 'currency', currency: 'MXN'})}
                 </div>
             )}
         </Sizeable>
@@ -116,10 +114,10 @@ const monetary = widgetBuilder(
 );
 
 const percentage = widgetBuilder(
-    ({ defaultValue, color }) => (
+    ({ defaultValue }) => (
         <Sizeable>
             {({ textSize }) => (
-                <div className={`${classNameColor(color)} ${textSize} flex flex-row gap-2`}>
+                <div className={`${textSize} flex flex-row gap-2`}>
                     {(defaultValue as number).toFixed(2)}
                     <span>%</span>
                 </div>
