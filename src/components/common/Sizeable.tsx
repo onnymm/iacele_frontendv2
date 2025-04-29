@@ -32,13 +32,13 @@ const Sizeable: React.FC<IACele.UI.Sizeable.SizeableParams> = ({
 }) => {
 
     return (
-        <div>
+        <div className="h-min">
             {/* Renderización para componente visible en móvil */}
-            <div className="sm:hidden">
+            <div className="sm:hidden flex items-center">
                 {children({ view: 'mobile', componentSize: 'md', textSize: 'text-medium' })}
             </div>
             {/* Renderización para componente visible en escritorio */}
-            <div className="hidden sm:block">
+            <div className="hidden sm:flex items-center">
                 {children({ view: 'desktop', componentSize: 'sm', textSize: 'text-sm' })}
             </div>
         </div>

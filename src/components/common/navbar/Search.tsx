@@ -6,9 +6,9 @@ import Button from "../../ui/Button";
 const Search = () => {
 
     return (
-        <div>
-            <div className="lg:hidden">
-                <Button isIconOnly endContent={<SearchRounded />} />
+        <div className="flex items-center">
+            <div className="lg:hidden flex items-center">
+                <Button onPress={() => null} isIconOnly endContent={<SearchRounded />} />
             </div>
             <div className="hidden lg:block">
                 <Input

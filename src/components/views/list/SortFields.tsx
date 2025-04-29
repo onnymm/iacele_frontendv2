@@ -24,7 +24,7 @@ const SortFields = <K extends IACele.API.Database.TableName>({
     return (
         <Sizeable>
             {({ componentSize }) => (
-                <div className="flex flex-row gap-1">
+                <div className="flex flex-row items-center gap-1">
                     <SelectTemplate
                         selectionMode="single"
                         toggleableKeys={sorteableFields as unknown as {name: K, label: string}[]}
@@ -36,7 +36,7 @@ const SortFields = <K extends IACele.API.Database.TableName>({
                                 size={componentSize}
                                 isIconOnly
                                 startContent={<TableViewRounded className="outline-none" />}
-                                />
+                            />
                         }
                     />
                     <SelectTemplate

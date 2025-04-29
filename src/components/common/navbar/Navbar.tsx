@@ -44,10 +44,10 @@ const Navbar = (): (React.JSX.Element) => {
             <div className="flex flex-row flex-shrink">
                 <div className={`${isSidebarOpen && isSidebarLocked ? "w-72" : "w-0"} h-full transition-width duration-300`}/>
                 <div className="flex flex-row flex-grow justify-between h-10">
-                    <div className="flex flex-row items-center gap-2">
+                    <div className="flex flex-row items-center gap-1">
                         <ButtonNew />
                         {mainControls}
-                        <div className="lg:hidden">
+                        <div className="lg:hidden flex flex-row items-center h-full">
                             <Search />
                         </div>
                         <Breadcrumb />
