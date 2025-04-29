@@ -4,6 +4,11 @@ const Users = () => {
 
     return (
         <List table="base.users" emptyContent="No hay datos" open="/view/form/user">
+            {({ Tasks, Task }) => (
+                <Tasks>
+                    <Task execute="update_users" name="Actualizar" color="secondary" confirm="Usuarios actualizados." />
+                </Tasks>
+            )}
             {({ Tree }) => (
 
                 <Tree>
