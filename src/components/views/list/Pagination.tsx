@@ -17,10 +17,10 @@ const Pagination: React.FC<IACele.View.Pagination.Navigation> = ({
 
     return (
         <Sizeable>
-            {({ componentSize, textSize }) => (
+            {({ componentSize }) => (
                 <div className="flex flex-row items-center gap-1">
                     {count > 0 &&
-                        <span className={`${textSize} mr-1`}>{currentPage} / {totalPages}</span>
+                        <span className={`text-sm mr-1 whitespace-nowrap`}>{currentPage}/{totalPages}</span>
                     }
                     {count > 0 &&
                         <Button color="primary" onPress={prevPage} isDisabled={prevDisabled} startContent={<KeyboardArrowLeft className="outline-none" />} size={componentSize} isIconOnly />
