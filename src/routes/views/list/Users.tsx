@@ -4,16 +4,16 @@ const Users = () => {
 
     return (
         <List table="base.users" emptyContent="No hay datos" open="/view/form/user">
+
             {({ Tasks, Task }) => (
                 <Tasks>
-                    <Task execute="update_users" name="Actualizar" color="secondary" confirm="Usuarios actualizados." />
+                    <Task execute="update_users" name="Actualizar" color="secondary" confirm="¿Deseas actualizar la lista de usuarios?" />
                 </Tasks>
             )}
-            {({ Tree }) => (
 
+            {({ Tree }) => (
                 <Tree>
                     {({ Page, Field }) => (
-
                         <Page>
                             <Field name="id" />
                             <Field name="user" widget='chip' colorDecoration={{ success: ({ active }) => (active), warning: ({ active }) => (!active) }} />
@@ -22,11 +22,10 @@ const Users = () => {
                             <Field name="odooId" widget='codeline' />
                             <Field name="password" visible={false} />
                         </Page>
-
                     )}
                 </Tree>
-
             )}
+
             {({ Kanban, Field, Section }) => (
                 <Kanban>
                     <Section>
@@ -39,6 +38,7 @@ const Users = () => {
                     </Section>
                 </Kanban>
             )}
+
         </List>
     );
 };

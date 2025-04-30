@@ -4,6 +4,7 @@ const Sales = () => {
 
     return (
         <List table="commissions.line" emptyContent="No hay datos" open="/view/form/sale">
+            {() => null}
             {({ Tree }) => (
 
                 <Tree>
@@ -13,17 +14,17 @@ const Sales = () => {
                             <Field name="internalReference" widget='codeline' />
                             <Field name="productName" />
                             <Field name="quantity" />
-                            <Field name="priceUnit" />
-                            <Field name="priceSubtotal" />
+                            <Field name="priceUnit" widget='monetary' />
+                            <Field name="priceSubtotal" widget='monetary' visible={true} />
 
-                            <Field name="purchaseName" widget='chip' colorDecoration={{ info: ({ purchaseName }) => (/P\d{5}/.test(purchaseName)), warning: ({ purchaseName }) => (purchaseName === 'SAE') }} />
-                            <Field name="vendorName" />
-                            <Field name="productCost" />
-                            <Field name="costSubtotal" />
+                            <Field name="purchaseName" visible={false} widget='chip' colorDecoration={{ info: ({ purchaseName }) => (/P\d{5}/.test(purchaseName)), warning: ({ purchaseName }) => (purchaseName === 'SAE') }} />
+                            <Field name="vendorName" visible={true} />
+                            <Field name="productCost" widget='monetary' visible={false} />
+                            <Field name="costSubtotal" widget='monetary' />
 
-                            <Field name="utilitySubtotal" />
-                            <Field name="totalUtilityPct" />
-                            <Field name="margin" />
+                            <Field name="utilitySubtotal" widget='monetary' />
+                            <Field name="totalUtilityPct" widget='percentage' visible={true} />
+                            <Field name="margin" widget='percentage' visible={true} />
                         </Page>
 
                     )}
