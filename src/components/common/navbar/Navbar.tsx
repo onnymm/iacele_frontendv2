@@ -9,6 +9,7 @@ import Search from "./Search";
 import MainControlsContext from "../../../contexts/mainControlsContext";
 import SidebarContext from "../../../contexts/sidebarContext";
 import Sizeable from "../Sizeable";
+import { useNavigate } from "react-router";
 
 /** 
  *  ## Barra superior de interfaz base
@@ -27,15 +28,18 @@ const Navbar = (): (React.JSX.Element) => {
     // Obtención de valores desde el contexto
     const { isSidebarOpen, isSidebarLocked } = useContext(SidebarContext)
 
+    // Obtención de función de navegación
+    const navigate = useNavigate();
+
     return (
         <nav id="navbar" className="top-0 z-10 sticky flex flex-col gap-2 bg-white dark:bg-[#1f2f3f] shadow p-2 w-full min-h-16 transition select-none">
 
             <div id="navbar-header" className="flex flex-row justify-between items-center h-12">
                 <div className="flex flex-row justify-between items-center px-4 sm:w-72 h-full">
-                    <h1 id="navbar-logo" className="hidden sm:block">iaCele</h1>
+                    <h1 onClick={() => navigate('/')} id="navbar-logo" className="hidden sm:block cursor-pointer">iaCele</h1>
                     <ButtonSidebarMenu />
                 </div>
-                <h1 id="navbar-logo" className="sm:hidden block">iaCele</h1>
+                <h1 onClick={() => navigate('/')} id="navbar-logo" className="sm:hidden block cursor-pointer">iaCele</h1>
                 <div className="hidden lg:block w-[30%]">
                     <Search />
                 </div>
