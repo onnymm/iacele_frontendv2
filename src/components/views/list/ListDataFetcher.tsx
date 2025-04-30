@@ -7,8 +7,8 @@ import useModalView from "../../../hooks/views/useModalView";
 import ModalConfirm from "../form/ModalConfirm";
 import ModalDone from "../form/ModalDone";
 import MainControlsContext from "../../../contexts/mainControlsContext";
-import Task from "./Task";
 import FormModal from "../../../contexts/formModalContext";
+import TasksPanel from "./TasksPanel";
 
 /** 
  *  ## Obtención y renderización de lista de datos
@@ -121,13 +121,7 @@ const ListDataFetcher = <K extends IACele.API.Database.TableName>({
         () => {
             setMainControls(
                 <FormModal.Provider value={{ isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setConfirmMessage, setDoneMessage, setExecute, setColor }}>
-                    {
-                        tasks.map(
-                            (task, i) => (
-                                <Task<K> key={i} confirm={task.confirm} notify={task.notify} execute={task.execute} name={task.name} table={table} color={task.color} reload={reload} />
-                            )
-                        )
-                    }
+                    <TasksPanel table={table} tasks={tasks} reload={reload} />
                 </FormModal.Provider>
             );
             return ( () => setMainControls( null ) );

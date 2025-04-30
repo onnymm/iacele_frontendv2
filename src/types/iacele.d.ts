@@ -1187,10 +1187,18 @@ declare namespace IACele {
                 };
 
                 interface _Children {
-                    Tasks: ({ Tasks, Task }: React.FC<_ChildrenRenderer>) => React.ReactNode;
+                    Tasks: ({ Tasks, Task }: _ChildrenRenderer) => React.ReactNode;
                 };
 
                 type Component<K extends API.Database.TableName> = IACele.View.Do & IACele.Common._TableUse<K> & IACele.View._Reloads;
+            };
+
+            type _TaskBase<K extends API.Database.TableName> = Common._TableUse<K> & _Reloads;
+            interface  TaskItem<K extends API.Database.TableName> extends _TaskBase<K> {
+                task: View.Do;
+            };
+            interface  TaskPanel<K extends API.Database.TableName> extends _TaskBase<K> {
+                tasks: View.Do[];
             };
 
             // TIPOS E INTERFACES USADOS POR COMPONENTES
