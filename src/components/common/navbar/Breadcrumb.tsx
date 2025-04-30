@@ -18,44 +18,44 @@ const Breadcrumb = () => {
 
     return (
         <div className="flex flex-col">
-                <Breadcrumbs
-                    itemsAfterCollapse={2}
-                    itemsBeforeCollapse={1}
-                    maxItems={4}
-                    renderEllipsis={
-                        ({ items, separator }) => (
-                            <div className="flex items-center" key={1}>
-                                <Dropdown>
-                                    <DropdownTrigger>
-                                        <Button className="h-5" isIconOnly variant="solid" size="sm" endContent={<MoreHoriz className="pointer-events-none" />} />
-                                    </DropdownTrigger>
-                                    <DropdownMenu>
-                                        {items.map(
-                                            (item, i) => (
-                                                <DropdownItem key={i} aria-label={String(i)}>
-                                                    {item.children}
-                                                </DropdownItem>
-                                            )
-                                        )}
-                                    </DropdownMenu>
-                                </Dropdown>
-                                {separator}
-                            </div>
-                        )
-                    }
-                >
-                    {
-                        recentRoutes.map(
-                            (route, i) => {
-                                return (
-                                    <BreadcrumbItem key={i}>
-                                        <Link name={route.name} to={0 - (recentRoutes.length - i )} index={i} />
-                                    </BreadcrumbItem>
-                                )
-                            }
-                        )
-                    }
-                </Breadcrumbs>
+            <Breadcrumbs
+                itemsAfterCollapse={2}
+                itemsBeforeCollapse={1}
+                maxItems={4}
+                renderEllipsis={
+                    ({ items, separator }) => (
+                        <div className="flex items-center" key={1}>
+                            <Dropdown>
+                                <DropdownTrigger>
+                                    <Button className="h-5" isIconOnly variant="solid" size="sm" endContent={<MoreHoriz className="pointer-events-none" />} />
+                                </DropdownTrigger>
+                                <DropdownMenu>
+                                    {items.map(
+                                        (item, i) => (
+                                            <DropdownItem key={i} aria-label={String(i)}>
+                                                {item.children}
+                                            </DropdownItem>
+                                        )
+                                    )}
+                                </DropdownMenu>
+                            </Dropdown>
+                            {separator}
+                        </div>
+                    )
+                }
+            >
+                {
+                    recentRoutes.map(
+                        (route, i) => {
+                            return (
+                                <BreadcrumbItem key={i}>
+                                    <Link name={route.name} to={0 - (recentRoutes.length - i )} index={i} />
+                                </BreadcrumbItem>
+                            )
+                        }
+                    )
+                }
+            </Breadcrumbs>
 
             {/* Título de la página actual */}
             <span className="inline text-xs">{pageName}</span>

@@ -24,7 +24,7 @@ const Link: React.FC<IACele.Application.BreadcrumbRoute> = ({
             // Se trunca lista de rutas al índice actual
             cutRecent(index);
             // Se realiza la navegación
-            navigate(to);
+            navigate(to as string);
         }, [cutRecent, index, navigate, to]
     );
 

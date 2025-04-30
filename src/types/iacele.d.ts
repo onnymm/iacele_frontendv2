@@ -148,7 +148,7 @@ declare namespace IACele {
              *  ### Ruta
              *  Ruta de URL a la que se navega para llegar a esta ruta.
              */ 
-            to: number;
+            to: string;
         };
 
         interface Breadcrumbs {
@@ -178,6 +178,8 @@ declare namespace IACele {
              *  Valor utilizado para realizar modificaciones al arreglo de rutas recientes.
              */ 
             index: number;
+            // Sobreescritura del tipo de dato
+            to: string | number;
         };
 
     };

@@ -12,8 +12,6 @@ import APP_NAME from "./constants/app/name";
 import APIContext from "./contexts/apiContext";
 import useSidebar from "./hooks/app/useSidebar";
 import useAPI from "./hooks/app/useAPI";
-import useBreadcrumbs from "./hooks/app/useBreadCrumbs";
-import BreadcrumbsContext from "./contexts/breadcrumbsContext";
 import MainControlsContext from "./contexts/mainControlsContext";
 
 /** 
@@ -32,8 +30,6 @@ const Root = (): (React.JSX.Element) => {
     const { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked } = useSidebar();
     // Inicialización de estado de carga e instancia de API
     const { appLoading, setAppLoading, api } = useAPI();
-    // Inicialización de estados y funciones personalizadas para breadcrumbs
-    const { recentRoutes, addRoute, cutRecent } = useBreadcrumbs();
 
     // Inicialización de valores para contexto
     const [ mainControls, setMainControls ] = useState<React.ReactNode | null>(null);
@@ -43,7 +39,6 @@ const Root = (): (React.JSX.Element) => {
     return (
         <DarkModeContext.Provider value={{ darkMode, setDarkMode }}>
             <HeroUIProvider>
-                <BreadcrumbsContext.Provider value={{ recentRoutes, addRoute, cutRecent }}>
                 <NavbarContext.Provider value={{ dynamicControls, setDynamicControls }}>
                 <MainControlsContext.Provider value={{ mainControls, setMainControls }}>
                 <APIContext.Provider value={{ appLoading, setAppLoading, api }}>
@@ -57,7 +52,6 @@ const Root = (): (React.JSX.Element) => {
                 </APIContext.Provider>
                 </MainControlsContext.Provider>
                 </NavbarContext.Provider>
-                </BreadcrumbsContext.Provider>
             </HeroUIProvider>
         </DarkModeContext.Provider>
     );
