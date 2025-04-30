@@ -4,7 +4,6 @@ import React, { useContext } from "react";
 import PageNameContext from "../../../contexts/pageNameContext";
 import BreadcrumbsContext from "../../../contexts/breadcrumbsContext";
 import Link from "./Link";
-import Sizeable from "../Sizeable";
 
 /** 
  *  ## Migas de pan
@@ -19,9 +18,6 @@ const Breadcrumb = () => {
 
     return (
         <div className="flex flex-col">
-
-            {/* Apariencia en escritorio */}
-            <div className="hidden md:block">
                 <Breadcrumbs
                     itemsAfterCollapse={2}
                     itemsBeforeCollapse={1}
@@ -31,7 +27,7 @@ const Breadcrumb = () => {
                             <div className="flex items-center" key={1}>
                                 <Dropdown>
                                     <DropdownTrigger>
-                                        <Button isIconOnly variant="solid" size="sm" endContent={<MoreHoriz className="pointer-events-none" />} />
+                                        <Button className="h-5" isIconOnly variant="solid" size="sm" endContent={<MoreHoriz className="pointer-events-none" />} />
                                     </DropdownTrigger>
                                     <DropdownMenu>
                                         {items.map(
@@ -60,34 +56,9 @@ const Breadcrumb = () => {
                         )
                     }
                 </Breadcrumbs>
-            </div>
-
-            {/* Apariencia en móvil */}
-            <div className="md:hidden">
-                {recentRoutes.length > 0 &&
-                    <Sizeable>
-                        {({ componentSize }) => (
-                            <Dropdown>
-                                <DropdownTrigger>
-                                    <Button isIconOnly variant="solid" size={componentSize} endContent={<MoreHoriz className="pointer-events-none" />} />
-                                </DropdownTrigger>
-                                <DropdownMenu>
-                                    {recentRoutes.map(
-                                        (item, i) => (
-                                            <DropdownItem key={i} aria-label={String(i)}>
-                                                <Link key={i} index={i} {...item} />
-                                            </DropdownItem>
-                                        )
-                                    )}
-                                </DropdownMenu>
-                            </Dropdown>
-                        )}
-                    </Sizeable>
-                }
-            </div>
 
             {/* Título de la página actual */}
-            <span className="hidden md:inline text-xs">{pageName}</span>
+            <span className="inline text-xs">{pageName}</span>
         </div>
     );
 };
