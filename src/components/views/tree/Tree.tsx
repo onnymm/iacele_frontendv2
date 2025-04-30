@@ -42,14 +42,14 @@ const Tree = <T extends IACele.API.Database.TableName>({
 
     return (
         <div className="flex flex-col gap-2 h-full overflow-hidden">
-            <div className="bg-white dark:bg-[#1f2f3f] p-2 h-full">
+            <div className="p-2 h-full">
                 <SortingFieldContext.Provider value={{ sortingFieldKey, selectedSortingDirection, toggleSortingColumn: toggleSortingColumn as (key: string | number | symbol) => void }}>
                     <Table
                         isHeaderSticky
                         hideHeader={!records}
                         aria-label="Tabla"
                         classNames={{
-                            table: 'h-full overflow-y-scroll',
+                            table: 'h-full overflow-y-scroll bg-white dark:bg-[#1f2f3f]',
                             base: 'h-full',
                             wrapper: 'p-0 rounded-lg bg-transparent h-full rounded-none',
                             th: 'shadow-sm p-0 bg-transparent',
