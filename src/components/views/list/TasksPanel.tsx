@@ -2,12 +2,16 @@ import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@
 import Sizeable from "../../common/Sizeable";
 import Task from "./Task";
 import TaskItem from "./TaskItem";
+import useAsyncDisabled from "../../../hooks/app/useAsyncDisabled";
 
 const TasksPanel = <K extends IACele.API.Database.TableName>({
     table,
     tasks,
     reload,
 }: IACele.View.List.TaskPanel<K>) => {
+
+    // Creación de deshabilitado asíncrono
+    const [ isDisabled ] = useAsyncDisabled(false);
 
     return (
         <Sizeable>
@@ -21,7 +25,7 @@ const TasksPanel = <K extends IACele.API.Database.TableName>({
                     : tasks.length > 0 && (
                         <Dropdown>
                             <DropdownTrigger>
-                                <Button size="md" color="primary">Tareas</Button>
+                                <Button isDisabled={isDisabled} size="md" color="primary">Tareas</Button>
                             </DropdownTrigger>
                             <DropdownMenu>
                                 {

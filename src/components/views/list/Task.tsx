@@ -1,5 +1,6 @@
 import Button from "../../ui/Button";
 import useTask from "../../../hooks/views/useTask";
+import useAsyncDisabled from "../../../hooks/app/useAsyncDisabled";
 
 /** 
  *  ## Tarea de servidor
@@ -27,8 +28,11 @@ const Task = <K extends IACele.API.Database.TableName>({
         reload,
     );
 
+    // Creación de deshabilitado asíncrono
+    const [ isDisabled ] = useAsyncDisabled(false);
+
     return (
-        <Button onPress={executeWithConfirmation} color={color}>
+        <Button isDisabled={isDisabled} onPress={executeWithConfirmation} color={color}>
             {name}
         </Button>
     );

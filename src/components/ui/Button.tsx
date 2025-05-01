@@ -8,6 +8,7 @@ interface ButtonParams extends _ButtonParams {
     startContent?: React.ReactNode;
     endContent?: React.ReactNode;
     onPress: () => void;
+    isDisabled?: boolean;
 };
 
 const Button: React.FC<ButtonParams> = ({
@@ -18,6 +19,7 @@ const Button: React.FC<ButtonParams> = ({
     children,
     color,
     onPress,
+    isDisabled = false,
 }) => {
 
     return (
@@ -32,6 +34,7 @@ const Button: React.FC<ButtonParams> = ({
                     endContent={endContent}
                     color={color}
                     onPress={onPress}
+                    isDisabled={isDisabled}
                 >
                     {children}
                 </HeroButton>
