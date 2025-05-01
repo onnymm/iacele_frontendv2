@@ -10,6 +10,9 @@ import FormModal from "../../../contexts/formModalContext";
 import ModalConfirm from "./ModalConfirm";
 import ModalDone from "./ModalDone";
 import useModalView from "../../../hooks/views/useModalView";
+import React, { useContext, useEffect } from "react";
+import MainControlsContext from "../../../contexts/mainControlsContext";
+import Options from "./Options";
 
 /** 
  *  ## Vista de formulario
@@ -51,11 +54,12 @@ import useModalView from "../../../hooks/views/useModalView";
  *  registro a visualizar.
  *  - [ `boolean` ] `readonly`: Vista de solo lectura.
  */ 
-const Form = <T extends IACele.API.Database.TableName>({
+const Form = <K extends IACele.API.Database.TableName>({
     children,
     table,
     readonly,
-}: IACele.View.Form.Component<T>): React.ReactNode => {
+    canDelete = true,
+}: IACele.View.Form.Component<K>): React.ReactNode => {
 
     // Obtención del registro a mostrar
     const { record, reload } = useFormRecord(table);
@@ -77,6 +81,23 @@ const Form = <T extends IACele.API.Database.TableName>({
         setColor,
     } = useModalView();
 
+    // Obtención de función desde el contexto
+    const { setMainControls } = useContext(MainControlsContext);
+
+    useEffect(
+        () => {
+            // Si existe registro y éste se puede eliminar...
+            if ( record && canDelete )
+            setMainControls(
+                <FormModal.Provider value={{ isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setConfirmMessage, setDoneMessage, setExecute, setColor }}>
+                    <Options canDelete={canDelete} id={record.id} table={table} />
+                </FormModal.Provider>
+            );
+
+            return ( () => setMainControls(null) );
+        }, [canDelete, record, setMainControls, table, isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setColor, setConfirmMessage, setDoneMessage, setExecute]
+    );
+
     // Si se obtuvo el registro se renderiza el formulario
     if ( record ) {
         return (
@@ -84,7 +105,7 @@ const Form = <T extends IACele.API.Database.TableName>({
 
                 <RecordFormContext.Provider value={{ table, record, readonly, reload }}>
                 <FormModal.Provider value={{ isConfirmOpen, isDoneOpen, onConfirmOpen, onDoneOpen, setConfirmMessage, setDoneMessage, setExecute, setColor }}>
-                    {children({ Page, Header, Sheet, Field, Group, Action: Action<T> })}
+                    {children({ Page, Header, Sheet, Field, Group, Action: Action<K> })}
                 </FormModal.Provider>
                 </RecordFormContext.Provider>
 

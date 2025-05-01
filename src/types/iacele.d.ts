@@ -563,7 +563,7 @@ declare namespace IACele {
             };
 
             // Lectura de datos
-            type Read = Common._TableUse<K> & _RequiresID
+            type Read<K extends IACele.API.Database.TableName> = Common._TableUse<K> & _RequiresID
 
             // Petición de búsqueda y lectura base
             interface _BaseSearchRead <K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
@@ -1279,6 +1279,23 @@ declare namespace IACele {
                 readonly?: boolean;
             };
 
+            interface _CanDelete {
+                /** 
+                 *  ### Puede eliminarse
+                 *  Parámetro que indica que si el registro puede eliminarse.
+                 */ 
+                canDelete: boolean;
+            };
+
+            type _Options<K extends IACele.API.Database.TableName> = _CanDelete & Common._TableUse<K>;
+            interface Options<K extends IACele.API.Database.TableName> extends _Options<K> {
+                /** 
+                 *  ### ID de registro
+                 *  ID del registro a manipular.
+                 */ 
+                id: number;
+            };
+
             // Interfaz del componente de campo de formulario
             type Field<K extends IACele.API.Database.TableName> = View._FieldName<K> & HasOptionalLabel & _ReadOnly;
 
@@ -1322,7 +1339,8 @@ declare namespace IACele {
                 Action: React.FC<Action<K>>;
             };
 
-            interface Component<K extends IACele.API.Database.TableName> extends _BaseComponent<K> {
+            type _Component<K extends IACele.API.Database.TableName> = _CanDelete & _BaseComponent<K>;
+            interface Component<K extends IACele.API.Database.TableName> extends _Component<K> {
                 /** 
                  *  ## Declaración de vista de formulario
                  *  Función utilizada para el encapsulamiento de componentes que se

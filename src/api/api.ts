@@ -35,11 +35,11 @@ class APIManager {
     read = async<K extends keyof IACele.API.Database.Table>({
         table,
         recordIds,
-    }: IACele.API.Request.Read) => {
+    }: IACele.API.Request.Read<K>) => {
 
         return await this.execute(
             async () => {
-                const response = await iaCeleAxios.get<string, AxiosResponse<IACele.View.RecordInDatabase<K>[]>, IACele.API.Request.Read>(
+                const response = await iaCeleAxios.get<string, AxiosResponse<IACele.View.RecordInDatabase<K>[]>, IACele.API.Request.Read<K>>(
                     getBackendUrl(API_PATH.READ),
                     {
                         params: {
@@ -75,7 +75,7 @@ class APIManager {
      *  (opcional).
      *  - [ `string | string[]` ] `sortby`: Campo o campos como criterio de
      *  ordenamiento de registros (opcional).
-     *  - [ `boolean | boolean[]` ]  ascending: Dirección de ordenamiento
+     *  - [ `boolean | boolean[]` ] `ascending`: Dirección de ordenamiento
      *  ascendente (opcional).
      */ 
     searchRead = async<K extends IACele.API.Database.TableName> (
@@ -159,17 +159,17 @@ class APIManager {
      *  tabla en la base de datos.
      *  - [ `number` ] `id`: ID del registro a eliminar.
      */ 
-    delete = async ({
+    delete = async <K extends IACele.API.Database.TableName>({
         table,
         recordIds,
-    }: IACele.API.Request.Read) => {
+    }: IACele.API.Request.Read<K>) => {
 
         return await this.execute(
             async () => {
-                const response = await iaCeleAxios.delete<string, AxiosResponse<boolean>, IACele.API.Request.Read>(
-                    getBackendUrl(API_PATH.READ),
+                const response = await iaCeleAxios.delete<string, AxiosResponse<boolean>, IACele.API.Request.Read<K>>(
+                    getBackendUrl(API_PATH.DELETE),
                     {
-                        params: {
+                        data: {
                             recordIds,
                             table,
                         },
