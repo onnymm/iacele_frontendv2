@@ -3,7 +3,7 @@ import Form from "../../../components/views/form/Form"
 const Sale = () => {
 
     return (
-        <Form table='commissions.line' readonly >
+        <Form table='commissions.line' readonly canDelete >
             {({ Field, Page, Sheet, Group }) => (
                 <Page>
                     <Sheet>
