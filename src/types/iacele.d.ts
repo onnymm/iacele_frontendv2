@@ -1284,7 +1284,7 @@ declare namespace IACele {
                  *  ### Puede eliminarse
                  *  Parámetro que indica que si el registro puede eliminarse.
                  */ 
-                canDelete: boolean;
+                canDelete?: boolean;
             };
 
             type _Options<K extends IACele.API.Database.TableName> = _CanDelete & Common._TableUse<K>;
