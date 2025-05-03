@@ -31,7 +31,7 @@ const useViewName = (): IACele.Hook.PageName => {
                 // Cambio de nombre de la pestaña
                 document.title = `${name} | ${APP_NAME}`;
                 // Se agrega la ruta al breadcrumb
-                addRoute({ name, to: location.pathname + location.search })
+                addRoute({ name, to: location.pathname + location.search, data: {} })
             } else {
                 // Se establece el nombre de la aplicación por defecto
                 document.title = APP_NAME;

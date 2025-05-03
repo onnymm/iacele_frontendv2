@@ -29,7 +29,7 @@ const App = (): (React.JSX.Element) => {
     const { mainControls } = useContext(MainControlsContext);
 
     // Inicialización de estados y funciones personalizadas para breadcrumbs
-    const { recentRoutes, addRoute, cutRecent } = useBreadcrumbs();
+    const { recentRoutes, addRoute, cutRecent, setRouteData, recoverData } = useBreadcrumbs();
 
     useEffect(
         () => {
@@ -38,7 +38,7 @@ const App = (): (React.JSX.Element) => {
     );
 
     return (
-        <BreadcrumbsContext.Provider value={{ recentRoutes, addRoute, cutRecent }}>
+        <BreadcrumbsContext.Provider value={{ recentRoutes, addRoute, cutRecent, setRouteData, recoverData }}>
             <div className="relative h-full">
                 {/* Barra superior */}
                 <Navbar />

@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import Tree from "../../components/views/tree/Tree"; // eslint-disable-line
+import BreadcrumbsContext from "../../contexts/breadcrumbsContext";
 /** 
  *  ## Campos de ordenamiento
  *  Este Custom Hook crea los estados y funciones de cambio de estado para
@@ -38,14 +39,32 @@ const useSortingFields = <K extends IACele.API.Database.TableName>(
         ), [viewConfig]
     );
 
+    const { recoverData } = useContext(BreadcrumbsContext)
+
     // Inicialización de columna seleccionada para ordenamiento
-    const [ sortingFieldKey, setSortingField ] = useState<keyof IACele.View.RecordInDatabase<K> | null>(null);
+    const [ sortingFieldKey, setSortingField ] = useState<keyof IACele.View.RecordInDatabase<K> | null>(
+        () => {
+            // Obtención de los datos desde la ruta
+            const data = recoverData<{sortingFieldKey: keyof IACele.View.RecordInDatabase<K>}>();
+            // Obtención del valor guardado para el estado
+            if ( data.sortingFieldKey ) return data.sortingFieldKey;
+            return null;
+        }
+    );
 
     // Inicialización de llave de campo de ordenamiento de datos actual
     const [ kanbanSortingField, setKanbanSortingField ] = useState<Set<keyof IACele.View.RecordInDatabase<K>>>(new Set([]));
 
     // Inicialización de dirección de ordenamiento
-    const [ selectedSortingDirection, setSelectedSortingDirection ] = useState<Set<IACele.View._SortingDirectionValue>>(new Set(['asc']));
+    const [ selectedSortingDirection, setSelectedSortingDirection ] = useState<Set<IACele.View._SortingDirectionValue>>(
+        () => {
+            // Obtención de los datos desde la ruta
+            const data = recoverData<{selectedSortingDirection: Set<IACele.View._SortingDirectionValue>}>();
+            // Obtención del valor guardado para el estado
+            if ( data.selectedSortingDirection ) return data.selectedSortingDirection;
+            return ( new Set(['asc']) );
+        }
+    );
 
     // Función para establecer campo de ordenamiento en vista de árbol
     const toggleSortingColumn = useCallback(

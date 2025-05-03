@@ -149,6 +149,12 @@ declare namespace IACele {
              *  Ruta de URL a la que se navega para llegar a esta ruta.
              */ 
             to: string;
+            /** 
+             *  ### Datos
+             *  Valores de estado de la página que se pueden recuperar para obtener la
+             *  última configuración de ésta como página, campo de ordenamiento, etc..
+             */ 
+            data: Record<string, any>;
         };
 
         interface Breadcrumbs {
@@ -170,6 +176,18 @@ declare namespace IACele {
              *  cliqueada ni sus respectivas rutas siguientes en éstos.
              */ 
             cutRecent: (index: number) => void;
+            /** 
+             *  ### Guardar valor de estado
+             *  Esta función permite guardar el valor más actualizado que se podrá
+             *  recuperar si se vuelve a visitar la página desde las rutas recientes.
+             */ 
+            setRouteData: <T>(key: string, value: T) => void;
+            /** 
+             *  ### Recuperar valor de estado
+             *  Esta función permite recuperar el último valor guardado de la página actual
+             *  cuando se visita ésta desde las rutas recientes.
+             */ 
+            recoverData: <T>() => T;
         };
 
         interface BreadcrumbRoute extends RecentRoute {

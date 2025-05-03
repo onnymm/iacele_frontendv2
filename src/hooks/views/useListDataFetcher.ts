@@ -7,6 +7,7 @@ import APIContext from "../../contexts/apiContext";
 import usePagination from "./usePagination";
 import useSortingFields from "./useSortingFields";
 import ListDataFetcher from "../../components/views/list/ListDataFetcher"; // eslint-disable-line
+import BreadcrumbsContext from "../../contexts/breadcrumbsContext";
 
 /** 
  *  ## Obtención de datos
@@ -42,6 +43,8 @@ const useListDataFetcher = <K extends IACele.API.Database.TableName>(
 
     // Obtención de función de contexto para colocar contenido JSX en la barra de navegación
     const { setDynamicControls } = useContext(NavbarContext);
+
+    const { setRouteData } = useContext(BreadcrumbsContext)
     // Obtención de la función de cambio de estado para establecer el nombre de la vista
     const { setViewName } = useViewName();
     // Obtención de estados para visibilidad de columnas
@@ -102,6 +105,23 @@ const useListDataFetcher = <K extends IACele.API.Database.TableName>(
             // Se establece el nombre de la vista
             setViewName(TABLE_NAME[table]);
         }, [setViewName, table]
+    );
+
+    // Se guardan los valores a memorizar en ruta
+    useEffect(
+        () => {
+            setRouteData<number>('page', currentPage);
+        }, [setRouteData, currentPage]
+    );
+    useEffect(
+        () => {
+            setRouteData<keyof IACele.View.RecordInDatabase<K> | null>('sortingFieldKey', sortingFieldKey)
+        }, [setRouteData, sortingFieldKey]
+    );
+    useEffect(
+        () => {
+            setRouteData<Set<IACele.View._SortingDirectionValue>>('selectedSortingDirection', selectedSortingDirection);
+        }, [setRouteData, selectedSortingDirection]
     );
 
     return {

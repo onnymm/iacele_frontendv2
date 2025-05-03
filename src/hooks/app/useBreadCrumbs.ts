@@ -10,8 +10,13 @@ import { useLocation } from "react-router";
  */ 
 const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
 
+    // Estado inicial memoizado para evitar efectos innecesarios
+    const initialRoutes = useMemo<IACele.Application.RecentRoute[]>(
+        () => ([]), []
+    );
+
     // Inicialización de estado de matriz de rutas recientes
-    const [ routes, setRoutes ] = useState<IACele.Application.RecentRoute[]>([]);
+    const [ routes, setRoutes ] = useState<IACele.Application.RecentRoute[]>(initialRoutes);
     // Obtención de localización actual en la aplicación
     const location  = useLocation();
 
@@ -39,9 +44,46 @@ const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
     // Función para truncar lista de rutas recientes en base a índice
     const cutRecent = useCallback(
         (index: number) => {
-            setRoutes( (prev) => (prev.slice(0, index)) );
+            setRoutes( (prev) => (prev.slice(0, index + 1)) );
         }, []
     );
+
+    // Función para guardar los datos de la página actual
+    const setRouteData = useCallback(
+        <T>(key: string, value: T) => {
+            // Si existe ruta, se guardan los datos
+            if ( routes.length )
+            // Se establecen los datos en la ruta
+            routes[routes.length - 1].data[key] = value;
+        }, [routes]
+    );
+
+    // Función para recuperar los datos de la página actual
+    const recoverData = <T>(): T => {
+
+        // Se crea la ruta completa en cadena de texto
+        const completePath = location.pathname + location.search;
+
+        // Obtención de la ruta actual, evitando errores por uso de efectos tardíos
+        const currentRoute = (
+            // Si hay rutas...
+            routes.length > 0
+                // Si la última ruta coincide con la cadena de texto...
+                ? routes[routes.length - 1].to === completePath
+                    ? routes[routes.length - 1]
+                    : routes.length > 1
+                        // Si la penúltima ruta coincide con la cadena de texto...
+                        ? routes[routes.length - 2].to === completePath
+                            ? routes[routes.length - 2]
+
+                            // Se retornan datos vacíos si no existen coincidencias
+                            : {data: {}} as IACele.Application.RecentRoute
+                        : {data: {}} as IACele.Application.RecentRoute
+                : {data: {}} as IACele.Application.RecentRoute
+        );
+
+        return currentRoute.data as T;
+    };
 
     // Se descarta la última ruta para esto ser mostrado en el componente
     const recentRoutes = useMemo(
@@ -69,7 +111,7 @@ const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
         }, [location.pathname, location.search, recentRoutes]
     )
 
-    return { recentRoutes, addRoute, cutRecent };
+    return { recentRoutes, addRoute, cutRecent, setRouteData, recoverData };
 };
 
 export default useBreadcrumbs;
