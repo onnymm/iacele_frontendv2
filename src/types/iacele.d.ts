@@ -157,7 +157,7 @@ declare namespace IACele {
             data: Record<string, any>;
         };
 
-        interface Breadcrumbs {
+        interface RouteMemory {
             /** 
              *  ### Rutas recientes
              *  Arreglo de las últimas rutas visitadas.

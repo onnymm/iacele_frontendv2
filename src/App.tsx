@@ -7,8 +7,8 @@ import Content from "./Content";
 import SidebarContext from "./contexts/sidebarContext";
 import NavbarContext from "./contexts/navbarContext";
 import MainControlsContext from "./contexts/mainControlsContext";
-import useBreadcrumbs from "./hooks/app/useBreadCrumbs";
-import BreadcrumbsContext from "./contexts/breadcrumbsContext";
+import useRouteMemory from "./hooks/app/useRouteMemory";
+import RouteMemoryContext from "./contexts/breadcrumbsContext";
 
 /** 
  *  ## Aplicación de IACele
@@ -29,7 +29,7 @@ const App = (): (React.JSX.Element) => {
     const { mainControls } = useContext(MainControlsContext);
 
     // Inicialización de estados y funciones personalizadas para breadcrumbs
-    const { recentRoutes, addRoute, cutRecent, setRouteData, recoverData } = useBreadcrumbs();
+    const { recentRoutes, addRoute, cutRecent, setRouteData, recoverData } = useRouteMemory();
 
     useEffect(
         () => {
@@ -38,7 +38,7 @@ const App = (): (React.JSX.Element) => {
     );
 
     return (
-        <BreadcrumbsContext.Provider value={{ recentRoutes, addRoute, cutRecent, setRouteData, recoverData }}>
+        <RouteMemoryContext.Provider value={{ recentRoutes, addRoute, cutRecent, setRouteData, recoverData }}>
             <div className="relative h-full">
                 {/* Barra superior */}
                 <Navbar />
@@ -53,7 +53,7 @@ const App = (): (React.JSX.Element) => {
                 {/* Barra lateral */}
                 <Sidebar />
             </div>
-        </BreadcrumbsContext.Provider>
+        </RouteMemoryContext.Provider>
     );
 };
 

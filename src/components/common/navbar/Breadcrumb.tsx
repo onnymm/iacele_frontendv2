@@ -2,7 +2,7 @@ import { BreadcrumbItem, Breadcrumbs, Button, Dropdown, DropdownItem, DropdownMe
 import { MoreHoriz } from "@mui/icons-material";
 import React, { useContext } from "react";
 import PageNameContext from "../../../contexts/pageNameContext";
-import BreadcrumbsContext from "../../../contexts/breadcrumbsContext";
+import RouteMemoryContext from "../../../contexts/breadcrumbsContext";
 import Link from "./Link";
 
 /** 
@@ -14,7 +14,7 @@ const Breadcrumb = () => {
     // Obtención de nombre de página desde el contexto
     const { pageName } = useContext(PageNameContext);
     // Obtención de arreglo de rutas recientes
-    const { recentRoutes } = useContext(BreadcrumbsContext);
+    const { recentRoutes } = useContext(RouteMemoryContext);
 
     return (
         <div className="flex flex-col">

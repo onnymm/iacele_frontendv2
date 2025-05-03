@@ -1,9 +1,11 @@
 import { createContext } from "react";
 
-const BreadcrumbsContext = createContext<IACele.Application.Breadcrumbs>({
+const RouteMemoryContext = createContext<IACele.Application.RouteMemory>({
     recentRoutes: [],
     addRoute: () => null,
     cutRecent: () => null,
+    setRouteData: () => null,
+    recoverData: ( () => null ) as <T>() => T,
 });
 
-export default BreadcrumbsContext;
+export default RouteMemoryContext;

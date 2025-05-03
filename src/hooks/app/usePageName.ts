@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import PageNameContext from "../../contexts/pageNameContext";
 import APP_NAME from "../../constants/app/name";
-import BreadcrumbsContext from "../../contexts/breadcrumbsContext";
+import RouteMemoryContext from "../../contexts/breadcrumbsContext";
 import { useLocation } from "react-router";
 
 /** 
@@ -18,7 +18,7 @@ const useViewName = (): IACele.Hook.PageName => {
     // Obtención de la función de cambio de estado del nombre
     const { setPageName } = useContext(PageNameContext);
     // Obtención de función para agregar ruta a breadcrumb
-    const { addRoute } = useContext(BreadcrumbsContext);
+    const { addRoute } = useContext(RouteMemoryContext);
     // Obtención de ubicación
     const location = useLocation();
 

@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { useNavigate } from "react-router";
-import BreadcrumbsContext from "../../../contexts/breadcrumbsContext";
+import RouteMemoryContext from "../../../contexts/breadcrumbsContext";
 import Breadcrumb from "./Breadcrumb"; // eslint-disable-line
 
 /** 
@@ -17,7 +17,7 @@ const Link: React.FC<IACele.Application.BreadcrumbRoute> = ({
     // Obtención de función de navegación
     const navigate = useNavigate();
     // Obtención de función para truncar arreglo de rutas
-    const { cutRecent } = useContext(BreadcrumbsContext);
+    const { cutRecent } = useContext(RouteMemoryContext);
 
     const callback = useCallback(
         () => {

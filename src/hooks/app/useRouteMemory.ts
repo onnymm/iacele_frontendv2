@@ -3,12 +3,14 @@ import Breadcrumb from "../../components/common/navbar/Breadcrumb"; // eslint-di
 import { useLocation } from "react-router";
 
 /** 
- *  ## Breadcrumbs
+ *  ## Memoria de rutas
  *  Este Custom Hook inicializa los estados y las funciones personalizadas que
  *  se utilizan para gestionar las rutas recientes renderizadas en el
- *  componente {@link Breadcrumb}.
+ *  componente {@link Breadcrumb} así como funciones que permiten guardar
+ *  valores de estados para ser recuperados si el usuario regresa a la página
+ *  usando el componente de rutas recientes.
  */ 
-const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
+const useRouteMemory = (): IACele.Application.RouteMemory => {
 
     // Estado inicial memoizado para evitar efectos innecesarios
     const initialRoutes = useMemo<IACele.Application.RecentRoute[]>(
@@ -114,4 +116,4 @@ const useBreadcrumbs = (): IACele.Application.Breadcrumbs => {
     return { recentRoutes, addRoute, cutRecent, setRouteData, recoverData };
 };
 
-export default useBreadcrumbs;
+export default useRouteMemory;
