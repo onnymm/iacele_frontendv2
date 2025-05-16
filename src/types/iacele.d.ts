@@ -1701,6 +1701,11 @@ declare namespace IACele {
             setMainControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
         };
 
+        interface SuperiorControls {
+            superiorControls: React.ReactNode | null;
+            setSuperiorControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
+        };
+
     };
 
     declare namespace Hook {
