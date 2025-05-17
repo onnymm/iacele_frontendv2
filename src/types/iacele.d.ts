@@ -516,13 +516,13 @@ declare namespace IACele {
             type GenericRecord = Record<string, _RecordValue>;
 
             // Operador de comparación para queries SQL
-            type _ComparisonOperator = '=' | '!=' | '>' | '>=' | '<' | '<=' | '><' | 'in' | 'not in' | 'ilike' | 'not ilike' | '~' | '~*';
+            type ComparisonOperator = '=' | '!=' | '>' | '>=' | '<' | '<=' | '><' | 'in' | 'not in' | 'ilike' | 'not ilike' | '~' | '~*';
 
             // Operador lógico para queries SQL
             type _LogicOperator = '&' | '|';
 
             // Estructura de tripletas para queries SQL
-            type _TripletStructure = [string, _ComparisonOperator, _RecordValue];
+            type _TripletStructure = [string, ComparisonOperator, _RecordValue];
 
             type FieldType = (
                 | 'char'
@@ -1021,6 +1021,417 @@ declare namespace IACele {
             label?: string; // Nombre explícito de la columna en caso de querer reemplazar su nombre prestablecido.
         };
 
+        /** 
+         *  ### Búsqueda y buscadores
+         *  Tipado para la sección de búsqueda en vistas de la aplicación.
+         */ 
+        declare namespace Search {
+
+            /** 
+             *  ### Valor de registro
+             *  Tipo de dato permitido como valor en los filtros de búsqueda. Puede
+             *  representar textos, números, valores booleanos, nulos o arreglos de
+             *  enteros.
+             */ 
+            type Value = string | number | string | boolean | null | number[];
+
+            /** 
+             *  ### Operador de comparación
+             *  Operador utilizado para comparar un campo de la base de datos como un valor
+             *  en un filtro de búsqueda. Los valores disponibles son:
+                - `'='`: Igual a
+                - `'!='`: Diferente de
+                - `'>'`: Mayor a
+                - `'>='`: Mayor o igual a
+                - `'<'`: Menor a
+                - `'<='`: Menor o igual a
+                - `'><'`: Entre
+                - `'in'`: Está en
+                - `'not in'`: No está en
+                - `'ilike'`: Contiene
+                - `'not ilike'`: No contiene
+                - `'~'`: Es similar a (Incluye RegEx)
+                - `'~*'`: Es similar a (Incluye RegEx, sin diferencia de mayúsculas o minúsculas)
+             */ 
+            type ComparisonOperator = (
+                // Igual a
+                | '='
+                // Diferente de
+                | '!='
+                // Mayor a
+                | '>'
+                // Mayor o igual a
+                | '>='
+                // Menor a
+                | '<'
+                // Menor o igual a
+                | '<='
+                // Entre
+                | '><'
+                // Está en
+                | 'in'
+                // No está en
+                | 'not in'
+                // Contiene
+                | 'ilike'
+                // No contiene
+                | 'not ilike'
+                // Es similar a (Incluye RegEx)
+                | '~'
+                // Es similar a (Incluye RegEx, sin diferencia de mayúsculas o minúsculas)
+                | '~*'
+            );
+
+            /** 
+             *  ### Operador lógico
+             *  Operador que permite combinar múltiples condiciones de búsqueda, como *y*
+             *  (`'&'`) u *o* (`'|'`).
+             */ 
+            type LogicOperator = '&' | '|';
+
+            /** 
+             *  ### Tripleta de búsqueda
+             *  Filtro individual compuesto por un campo, un operador de comparación y un
+             *  valor. Por ejemplo:
+             *  ```
+             *  ["user_id", "=", 18]
+             *  ```
+             */ 
+            type Triplet<K extends API.Database.TableName> = [
+                // Campo de base de datos
+                keyof API.Database.Table[K],
+                // Operador de comparación
+                ComparisonOperator,
+                // Valor de atributo de registro
+                Value,
+            ];
+
+            /** 
+             *  ### Criterio de búsqueda
+             *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
+             *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
+             *  estructura anidada.
+             *  Ejemplo:
+             *  ```ts
+             *  [
+             *      '&',
+             *          ['active', '=', true],
+             *          ['name', 'ilike', 'Onnymm'],
+             *  ]
+             *  ```
+             */ 
+            type CriteriaStructure<K extends API.Database.TableName> = (LogicOperator | Triplet<K>)[];
+
+            /** 
+             *  ### Tripleta traducida
+             *  Tripleta convertida a lenguaje humano para ser renderizada en la interfaz
+             *  visual.
+             *  ```ts
+             *  interface TranslatedTriplet {
+             *      // Nombre de campo
+             *      field: string;
+             *      // Comparación
+             *      op: string;
+             *      // Valor de atributo de registro
+             *      value: Value;
+             *  };
+             *  ```
+             */ 
+            interface TranslatedTriplet {
+                /** 
+                 *  ### Nombre de campo
+                 *  Nombre de campo traducido a lenguaje humano.
+                 */ 
+                field: string;
+                /** 
+                 *  ### Comparación
+                 *  Operador de comparación traducido a lenguaje humano.
+                 */ 
+                op: string;
+                /** 
+                 *  ### Valor de atributo de registro
+                 *  Tipo de dato permitido en valores de atributos de registro.
+                 */ 
+                value: Value;
+            };
+
+            /** 
+             *  ### Combinación de tripletas traducidas
+             *  Unión de tripletas traducidas o combinación de tripletas traducidas.
+             *  ```ts
+             *  interface TranslatedTripletsCombination {
+             *      // Comparación
+             *      op: string;
+             *      // Combinación de tripletas traducidas
+             *      items: [
+             *          ( TranslatedTriplet | TranslatedTripletsCombination ),
+             *          ( TranslatedTriplet | TranslatedTripletsCombination ),
+             *      ];
+             *  };
+             *  ```
+             */ 
+            interface TranslatedTripletsCombination {
+                /** 
+                 *  ### Comparación
+                 *  Operador de comparación traducido a lenguaje humano.
+                 */ 
+                op: string;
+                /** 
+                 *  ### Combinación de tripletas traducidas
+                 *  Arreglo de dos objetos de búsqueda que pueden ser una tripleta traducida o
+                 *  una estructura conjunta.
+                 */ 
+                items: [
+                    ( TranslatedTriplet | TranslatedTripletsCombination ),
+                    ( TranslatedTriplet | TranslatedTripletsCombination ),
+                ];
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Tripletas traducidas
+             *  Soporte de tripletas traducidas.
+             *  ```ts
+             *  interface _SupportsTranslatedTriplets {
+             *      // Criterio de búsqueda traducido
+             *      readable: TranslatedTriplet | TranslatedTripletsCombination;
+             *  };
+             *  ```
+             */ 
+            interface _SupportsTranslatedTriplets {
+                /** 
+                 *  ### Criterio de búsqueda traducido
+                 *  Tripleta o combinación de tripletas traducidas a lenguaje humano para ser
+                 *  renderizadas en la interfaz visual.
+                 */ 
+                readable: TranslatedTriplet | TranslatedTripletsCombination;
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Operador lógico
+             *  Soporte de operador lógico.
+             *  ```ts
+             *  interface _HasLogicOperator {
+             *      // Operador lógico
+             *      op: IACele.View.Search.LogicOperator;
+             *  };
+             *  ```
+             */ 
+            interface _HasLogicOperator {
+                /** 
+                 *  ### Operador lógico
+                 *  Operador que une dos criterios de búsqueda sencillos o combinados.
+                 */ 
+                op: LogicOperator;
+            };
+
+            /** 
+             *  ### Filtro traducido
+             *  Filtro que contiene la información de tripletas traducidas a lenguaje
+             *  humano además de su fragmento de criterio de búsqueda correspondiente y una
+             *  llave de identificación para poder manipularla.
+             *  ```ts
+             *  interface TranslatedFilter<K> {
+             *      // Criterio de búsqueda traducido
+             *      readable: TranslatedTriplet | TranslatedTripletsCombination;
+             *      // Criterio de búsqueda
+             *      criteria: CriteriaStructure<K>;
+             *      // Llave de identificación
+             *      key: number;
+             *  };
+             *  ```
+             */ 
+            interface TranslatedFilter<K extends API.Database.TableName> extends _SupportsTranslatedTriplets {
+                /** 
+                 *  ### Criterio de búsqueda
+                 *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
+                 *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
+                 *  estructura anidada.
+                 */ 
+                criteria: CriteriaStructure<K>;
+                /** 
+                 *  ### Llave de identificación
+                 *  Identificador para control de la colección de datos de filtos.
+                 */ 
+                key: number;
+            };
+
+            declare namespace SearchBar {
+
+                /** 
+                 *  ### Valor de expresión
+                 *  Tipado para componente.
+                 *  ```ts
+                 *  interface ExpressionValue {
+                 *      // Valor
+                 *      value: Value;
+                 *  };
+                 *  ```
+                 */ 
+                interface ExpressionValue {
+                    /** 
+                     *  ### Valor
+                     *  Valor a renderizar
+                     */ 
+                    value: Value;
+                };
+
+                /** 
+                 *  ### Expresión legible
+                 *  Estructura de datos usada para renderizar expresiones legibles en componentes de búsqueda.
+                 *  ```ts
+                 *  interface ReadableExpression {
+                 *      // Criterio de búsqueda traducido
+                 *      readable: TranslatedTriplet | TranslatedTripletsCombination;
+                 *      // Tipo de estructura legible
+                 *      type: 'single' | 'combined';
+                 *      // Es subnivel
+                 *      isSublevel?: boolean;
+                 *  };
+                 *  ```
+                 */ 
+                interface ReadableExpression extends _SupportsTranslatedTriplets {
+                    /** 
+                     *  ### Tipo de estructura legible
+                     *  Tipo de estructura a renderizar. Puede ser sencilla o combinada.
+                     */ 
+                    type: 'single' | 'combined';
+                    /** 
+                     *  ### Es subnivel
+                     *  Valor que indica si la estructura será renderizada como criterio anidado.
+                     */ 
+                    isSublevel?: boolean;
+                };
+
+                /** 
+                 *  ### Filtro individual
+                 *  Tipado para componente.
+                 *  ```ts
+                 *  interface IndividualFilter<K> {
+                 *      // Datos
+                 *      data: TranslatedFilter<K>;
+                 *      // Eliminar bloque de búsqueda
+                 *      removeCallback: (key: number) => (void);
+                 *  };
+                 *  ```
+                 */ 
+                interface IndividualFilter<K extends API.Database.TableName> {
+                    /** 
+                     *  ### Datos
+                     *  Filtro que contiene la información de tripletas traducidas a lenguaje
+                     *  humano además de su fragmento de criterio de búsqueda correspondiente y una
+                     *  llave de identificación para poder manipularla.
+                     */ 
+                    data: TranslatedFilter<K>;
+                    /** 
+                     *  ### Eliminar bloque de búsqueda
+                     *  Función para eliminar el bloque de búsqueda renderizado.
+                     */ 
+                    removeCallback: (key: number) => (void);
+                };
+
+                /** 
+                 *  ### Combinación de tripletas
+                 *  Estructura que anida tripletas o anida a otra estructura igual a ésta para
+                 *  representar la jerarquía de unión de criterios de búsqueda más simples en
+                 *  forma de árbol.
+                 *  ```ts
+                 *  interface CombinedFilters<K> {
+                 *      // Operador lógico
+                 *      op: LogicOperator;
+                 *      // Elemento 2
+                 *      item2: Triplet<K> | CombinedFilters<K>;
+                 *      // Elemento 3
+                 *      item3: Triplet<K> | CombinedFilters<K>;
+                 *  };
+                 *  ```
+                 */ 
+                interface CombinedSearchStructure<K extends API.Database.TableName> extends _HasLogicOperator {
+                    /** 
+                     *  ### Elemento 2
+                     *  Puede ser una tripleta o una estructura de combinación de tripletas.
+                     */ 
+                    item2: Triplet<K> | CombinedSearchStructure<K>;
+                    /** 
+                     *  ### Elemento 3
+                     *  Puede ser una tripleta o una estructura de combinación de tripletas.
+                     */ 
+                    item3: Triplet<K> | CombinedSearchStructure<K>;
+                };
+
+                /** 
+                 *  ### Bloque de búsqueda
+                 *  Tipado para componente.
+                 *  ```ts
+                    interface SearchBlock<K> {
+                 *      // Tripleta o combinación de tripletas
+                 *      hierarchy: IACele.View.Search.Triplet<K> | CombinedSearchStructure<K>;
+                 *      // Llave de identificación
+                 *      key: number;
+                 *      // Criterio de búsqueda
+                 *      criteria: IACele.View.Search.CriteriaStructure<K>;
+                    };
+                 *  ```
+                 */ 
+                interface SearchBlock<K extends API.Database.TableName> {
+                    /** 
+                     *  ### Tripleta o combinación de tripletas
+                     *  Tripleta o estructura que anida tripletas o anida a otra estructura igual a
+                     *  ésta para representar la jerarquía de unión de criterios de búsqueda más
+                     *  simples en forma de árbol.
+                     */ 
+                    hierarchy: Triplet<K> | CombinedSearchStructure<K>;
+                    /** 
+                     *  ### Llave de identificación
+                     *  Identificador para control de la colección de datos de filtos.
+                     */ 
+                    key: number;
+                    /** 
+                     *  ### Criterio de búsqueda
+                     *  Estructura de crterio de búsqueda del bloque.
+                     */ 
+                    criteria: CriteriaStructure<K>;
+                };
+
+                /** 
+                 *  ### Estructura de filtro
+                 *  Estructura anidada de filtro en forma de jerarquía de unión de filtros más
+                 *  sencillos, tripleta individual o arreglo vacío
+                 */ 
+                type FilterStructure<K extends API.Database.TableName> = (
+                    | CombinedSearchStructure<K>
+                    | Triplet<K>
+                );
+
+                /** 
+                 *  ### Barra de búsqueda
+                 *  Tipado para componente.
+                 *  ```ts
+                    interface Component<K> {
+                 *      // Tabla de base de datos
+                 *      table: K;
+                 *      // Criterio de búsqueda
+                 *      searchCriteria?: CriteriaStructure<K>;
+                    };
+                 *  ```
+                 */ 
+                interface Component<K extends API.Database.TableName> extends Common._TableUse<K> {
+                    /** 
+                     *  ### Criterio de búsqueda
+                     *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
+                     *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
+                     *  estructura anidada.
+                     */ 
+                    searchCriteria?: CriteriaStructure<K>;
+                };
+
+            };
+
+        };
+
+        interface SearchCriteriaUse<K extends API.Database.TableName> {
+            initialSearch?: IACele.View.Search.CriteriaStructure<K>;
+        };
+
         declare namespace Data {
 
             // Tipo de dato modificable por medio de teclado
@@ -1124,7 +1535,7 @@ declare namespace IACele {
             // ----------------------------------------------------------------
 
             // Parámetros de componente que obtiene datos de registros desde el backend
-            type _ListRenderer<K extends API.Database.TableName> = _Common<K> & _SupportsEmptyContent & _SupportsWidget<K>;
+            type _ListRenderer<K extends API.Database.TableName> = _Common<K> & _SupportsEmptyContent & _SupportsWidget<K> & SearchCriteriaUse<K>;
             interface ListRenderer <K extends API.Database.TableName> extends _ListRenderer<K>{
                 /** 
                  *  ### Declaración de vista Kanban
@@ -1196,9 +1607,10 @@ declare namespace IACele {
             };
 
             // Unión de interfaces que usan tabla de base de datos y usan muchos registros.
-            type _BaseComponent<K extends API.Database.TableName> = _TableUse<K> & _SupportsEmptyContent & _Open;
+            type _BaseComponent<K extends API.Database.TableName> = _TableUse<K> & _SupportsEmptyContent & _Open & SearchCriteriaUse<K>;
 
             declare namespace Tasks {
+
                 interface _ChildrenRenderer {
                     Task: React.FC<View.Do>;
                     Tasks: React.FC<UI.GenericInvolverComponent>;
