@@ -1,12 +1,12 @@
-import { HouseRounded, PersonRounded } from "@mui/icons-material";
+import { House, Users } from "lucide-react";
 
-export const sidebarMenu: IACele.Application.SidebarMenu = [
+export const sidebarMenu: IACeleV2.Application._Sidebar.SidebarMenu = [
     {
         name: 'Menú',
         groups: [
             {
                 name: 'Inicio',
-                icon: HouseRounded,
+                icon: House,
                 routes: [
                     {
                         name: 'Mis ventas',
@@ -21,19 +21,9 @@ export const sidebarMenu: IACele.Application.SidebarMenu = [
         groups: [
             {
                 name: 'Usuarios',
-                icon: PersonRounded,
+                icon: Users,
                 routes: '/view/list/user',
             }
         ]
     },
-    // {
-    //     name: 'Experimental',
-    //     groups: [
-    //         {
-    //             name: 'UI-Tests',
-    //             icon: ScienceRounded,
-    //             routes: '/uitests',
-    //         }
-    //     ],
-    // },
 ];

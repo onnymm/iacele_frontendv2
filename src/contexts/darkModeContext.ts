@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
-const DarkModeContext = createContext<IACele.Context.DarkMode>({
+const DarkModeContext = createContext<IACeleV2.Context.Application.Theme>({
     darkMode: false,
-    setDarkMode: () => null,
+    setDarkMode: () => (null),
 });
 
 export default DarkModeContext;

@@ -20,13 +20,13 @@ import LOCAL_STORAGE from "../../constants/app/localStorage";
  *  - [ {@link React.Dispatch<React.SetStateAction<boolean>>} ] `useDarkMode`:
  *  Función de cambio de estado del modo oscuro.
  */ 
-const useDarkMode: () => (IACele.Context.DarkMode) = () => {
+const useDarkMode = (): IACeleV2.Hook.Application.Theme => {
 
     const [ darkMode, setDarkMode ] = useState<boolean>(
         () => {
 
             // Se obtiene la configuración del modo oscuro desde el dispositivo
-            const storedDarkMode = localStorage.getItem(LOCAL_STORAGE.DARK_MODE) as IACele.Browser.LocalStorage.DarkModeValue;
+            const storedDarkMode = localStorage.getItem(LOCAL_STORAGE.DARK_MODE) as IACeleV2.Browser.localStorage.DarkMode;
 
             // Si existe una configuración guardada se establece ésta
             if ( storedDarkMode !== null ) {

@@ -1,0 +1,19 @@
+
+import useFieldMetadata from "../../../hooks/views/useFieldMetadata";
+import useFieldContext from "../form/useFieldContext";
+
+const useRelatedModelName = <
+    M extends ModelName,
+>() => {
+
+    // Obtención del nombre del campo
+    const { name } = useFieldContext<M>();
+    // Obtención de los metadatos del campo
+    const { fieldMetadata } = useFieldMetadata<M>(name);
+    // Obtención del modelo relacionado
+    const relatedModelName = fieldMetadata.model as ModelName;
+
+    return { relatedModelName };
+};
+
+export default useRelatedModelName;

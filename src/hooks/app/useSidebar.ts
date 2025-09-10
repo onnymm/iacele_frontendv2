@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useCallback, useRef, useState } from "react"
+import useClickOutside from "./useClickOutside";
 
 /** 
  *  ## Control de la barra latetal
@@ -11,45 +12,42 @@ import { useState } from "react"
  *   
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
- *  ### Retorno:
- *  Este Custom Hook retorna:
- *  - [ `boolean` ] `isSidebarOpen`: Estado de barra lateral abierta o cerrada.
- *  - [ {@link React.Dispatch<SetStateAction> setState} ] `setIsSidebarOpen`: Función de
- *  cambio de estado de barra lateral abierta o cerrada.
- *  - [ `boolean` ] `isSidebarLocked`: Estado de barra lateral bloqueada.
- *  - [ {@link React.Dispatch<SetStateAction> setState} ] `setIsSidebarLocked`: Función
- *  de cambio de estado de barra lateral bloqueada.
- */
-const useSidebar = () => {
+ */ 
+const useSidebar = (): IACeleV2.Hook.Application.Sidebar => {
 
-    const [ baseIsSidebarOpen, setBaseIsSidebarOpen ] = useState<boolean>(false);
+    // Inicialización de estado de barra lateral abierta
+    const [ isSidebarOpen, setIsSidebarOpen ] = useState<boolean>(false);
+    // Inicialización de estado de barra lateral bloqueada
     const [ isSidebarLocked, setIsSidebarLocked ] = useState<boolean>(false);
 
-    // Declaración de función `setIsSidebarOpen` controlada
-    const setIsSidebarOpen = (state: boolean | ( (state: boolean) => (boolean) )) => {
+    //Inicilización de referencia para la barra lateral
+    const sidebarRef = useRef<HTMLElement>(null);
 
-        // Si el valor provisto es una función
-        if ( typeof state === 'function' ) {
-        setBaseIsSidebarOpen(state)
+    // Inicializaciónd de función de interruptor de barra lateral abierta
+    const toggleSidebar = useCallback(
+        () => {
 
-        // Si el valor provisto es booleano
-        } else {
-            // Control de cierre de la barra lateral si ésta está bloqueada
-            if ( !isSidebarLocked && !state ) {
-                setBaseIsSidebarOpen(state);
-            } else if ( state ) {
-                setBaseIsSidebarOpen(state);
+            // Cambio de estado de barra lateral abierta
+            setIsSidebarOpen( (value) => (!value) );
+        }, []
+    );
+
+    // Función para cerrar la barra lateral cuando se hace un clic por fuera y ésta está desbloqueada
+    const handleClickOutside = useCallback(
+        () => {
+
+            // Si la barra lateral no está bloqueada...
+            if ( !isSidebarLocked ) {
+                // Se cierra la barra lateral
+                setIsSidebarOpen(false);
             };
-        };
-    };
+        }, [isSidebarLocked]
+    );
 
-    // Retorno de los valores de contexto junto con función de control
-    return {
-        isSidebarOpen: baseIsSidebarOpen,
-        setIsSidebarOpen,
-        isSidebarLocked,
-        setIsSidebarLocked
-    };
+    // Uso de hook para desencadenar efecto de clic fuera
+    useClickOutside(sidebarRef, handleClickOutside);
+
+    return { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef };
 };
 
 export default useSidebar;

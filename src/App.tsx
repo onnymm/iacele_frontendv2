@@ -1,12 +1,10 @@
-import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router";
-import { TokenContext } from "./contexts/tokenContext";
+import { useContext} from "react";
 import Navbar from "./components/common/navbar/Navbar";
 import Sidebar from "./components/common/sidebar/Sidebar";
 import Content from "./Content";
 import SidebarContext from "./contexts/sidebarContext";
-import useRouteMemory from "./hooks/app/useRouteMemory";
-import RouteMemoryContext from "./contexts/breadcrumbsContext";
+import useRedirectToHome from "./hooks/app/useRedirectToHome";
+import BreadcrumbsProvider from "./providers/BreadcrumbsProvider";
 
 /** 
  *  ## Aplicación de IACele
@@ -19,29 +17,20 @@ import RouteMemoryContext from "./contexts/breadcrumbsContext";
  */ 
 const App = (): (React.JSX.Element) => {
 
-    // Obtención de valores de los contextos
-    const navigate = useNavigate();
-    const { token } = useContext(TokenContext);
+    // Obtención de estados desde el contexto
     const { isSidebarOpen, isSidebarLocked } = useContext(SidebarContext);
-
-    // Inicialización de estados y funciones personalizadas para breadcrumbs
-    const { recentRoutes, addRoute, cutRecent, setRouteData, recoverData } = useRouteMemory();
-
-    useEffect(
-        () => {
-            if ( !token ) navigate('/login');
-        }, [token, navigate]
-    );
+    // Uso de redireccionamiento cuando se establece un valor en el token
+    useRedirectToHome();
 
     return (
-        <RouteMemoryContext.Provider value={{ recentRoutes, addRoute, cutRecent, setRouteData, recoverData }}>
+        <BreadcrumbsProvider>
             <div className="relative flex flex-col h-full">
                 {/* Barra superior */}
                 <Navbar />
 
                 {/* Contenido de la aplicación */}
-                <div className={`${isSidebarOpen && isSidebarLocked ? "ui-navbar-active" : ""} flex-grow group flex flex-row`}>
-                    <div id="sidebar-block" className={`${isSidebarOpen && isSidebarLocked ? "w-72" : "w-0"} h-full transition-width duration-300`}/>
+                <div className={`${isSidebarOpen && isSidebarLocked ? "ui-navbar-active" : ""} h-[calc(100%_-_7rem)] group flex flex-row`}>
+                    <div id="sidebar-block" className={`${isSidebarOpen && isSidebarLocked ? "w-[18rem]" : "w-0"} h-full transition-width duration-300`}/>
                     {/* Se contiene sólo esta parte para evitar renderizaciones innecesarias */}
                     <Content />
                 </div>
@@ -49,7 +38,7 @@ const App = (): (React.JSX.Element) => {
                 {/* Barra lateral */}
                 <Sidebar />
             </div>
-        </RouteMemoryContext.Provider>
+        </BreadcrumbsProvider>
     );
 };
 

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export const TokenContext = createContext<IACele.Context.Token>({
-    token: null,
-    setToken: () => null,
+export const TokenContext = createContext<IACeleV2.Context.Application.UserToken>({
+    userToken: null,
+    setUserToken: () => null,
 });

@@ -1,7 +1,5 @@
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RouteMemoryContext from "../../contexts/breadcrumbsContext";
-
-type GenericRecord = {[ key: string ]: any};
 
 /** 
  *  ### Estado guardado en ruta reciente
@@ -9,7 +7,10 @@ type GenericRecord = {[ key: string ]: any};
  *  `useState` y guarda el valor más actualizado en los datos de la ruta para
  *  ser recuperado si el usuario regresa a la ruta.
  */ 
-const useRouteState: <K, V>(key: K, defaultValue: V) => [V, React.Dispatch<React.SetStateAction<V>>] = (key, defaultValue) => {
+const useRouteState = <K extends string, V>(
+    key: K,
+    defaultValue: V,
+): [V, React.Dispatch<React.SetStateAction<V>>] => {
 
     // Obtención de funciones desde contexto
     const { setRouteData, recoverData } = useContext(RouteMemoryContext);
@@ -18,9 +19,9 @@ const useRouteState: <K, V>(key: K, defaultValue: V) => [V, React.Dispatch<React
     const [ value, setValue ] = useState(
         () => {
             // Se intenta recuperar un valor guardado en la ruta
-            const data = recoverData<GenericRecord>();
+            const data = recoverData<Record<K, V>>();
             // Si existe el valor se retorna éste
-            if ( data[key as string] ) return data[key as string];
+            if ( data[key] ) return data[key];
             // Si no existe se retorna el valor provisto por defecto
             return defaultValue;
         }
@@ -29,7 +30,7 @@ const useRouteState: <K, V>(key: K, defaultValue: V) => [V, React.Dispatch<React
     // Se crea un efecto para guardar el valor en la ruta
     useEffect(
         () => {
-            setRouteData(key as string, value);
+            setRouteData(key, value);
         }, [setRouteData, key, value]
     );
 

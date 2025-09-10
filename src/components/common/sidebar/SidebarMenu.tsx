@@ -9,14 +9,12 @@ import RouteSection from "./RouteSection";
 const SidebarMenu = () => {
 
     return (
-        <div className="flex flex-col flex-grow gap-4 px-4">
-            {
-                sidebarMenu.map(
-                    (section, i) => (
-                        <RouteSection {...section} key={i} />
-                    )
+        <div className="flex flex-col gap-4 px-4 border h-full">
+            {sidebarMenu.map(
+                (section, index) => (
+                    <RouteSection {...section} key={index} />
                 )
-            }
+            )}
         </div>
     );
 };

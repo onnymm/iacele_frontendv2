@@ -15,7 +15,7 @@ import Route from "./Route";
  *  - [ `function` ] `routeOnClick`: Función que se ejecuta cuando el
  *  componente un clic.
  */ 
-const Routes: React.FC<IACele.Application.Routes> = ({
+const Routes: React.FC<IACeleV2.Application._Sidebar.UI.Routes> = ({
     isOpen,
     height,
     routes,
@@ -30,15 +30,17 @@ const Routes: React.FC<IACele.Application.Routes> = ({
             className="flex flex-col gap-2 mx-8 px-4 overflow-y-hidden text-gray-300/70 transition-height duration-300"
         >
             <div ref={listRef} className="flex flex-col gap-2 py-2 w-full h-min">
-                {
-                    routes.map(
-                        (route, i) => {
-                            return (
-                                <Route onClick={() => routeOnClick(route.path)} route={route} key={i} />
-                            )
-                        }
-                    )
-                }
+                {routes.map(
+                    (route, index) => {
+                        return (
+                            <Route
+                                onClick={() => routeOnClick(route.path)}
+                                route={route}
+                                key={index}
+                            />
+                        )
+                    }
+                )}
             </div>
         </div>
     );

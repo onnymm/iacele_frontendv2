@@ -1,70 +1,44 @@
 import { Alert, Button, Form } from "@heroui/react";
 import Group from "../components/layout/Group";
 import MiniGrapper from "../components/layout/MiniGrapper";
-import { useContext, useEffect, useState } from "react";
-import InputUser from "../ui/input/InputUser";
-import InputPassword from "../ui/input/InputPassword";
-import useUserAuthentication from "../hooks/app/useUserAuthentication";
+import { useEffect, useState } from "react";
+import InputUser from "../components/ui/input/InputUser";
+import InputPassword from "../components/ui/input/InputPassword";
 import DarkModeSwitch from "../components/common/DarkModeSwitch";
-import { TokenContext } from "../contexts/tokenContext";
-import { useNavigate } from "react-router";
 import useViewName from "../hooks/app/usePageName";
+import useLogin from "../hooks/app/useLogin";
+import { TITLE } from "../constants/app/ui";
 
 const Login = (): (React.JSX.Element) => {
 
     // Obtención de la función de cambio de estado para establecer el nombre de la vista
     const { setViewName } = useViewName();
-
-    // Obtención de valores del contexto
-    const { token } = useContext<IACele.Context.Token>(TokenContext);
-    // Función para redireccionar cuando el usuario se autentique
-    const navigate = useNavigate();
-
-    // Obtención de función de autenticación
-    const userLogin = useUserAuthentication();
+    // Obtención de función de inicio de sesión y estado para mensaje de error
+    const { login, errorMessage } = useLogin();
 
     // Valores para control de formulario
     const [ user, setUser ] = useState<string>('');
     const [ password, setPassword ] = useState<string>('');
-    const [ errorMessage, setErrorMessage ] = useState<string>('');
 
-    // Función a ejecutar cuando el formulario se envía
-    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-
-        // Obtención de los valores del formulario
-        const { username, password } = Object.fromEntries(new FormData(event.currentTarget));
-
-        // Envío de datos
-        await userLogin(
-            username as string,
-            password as string,
-            setErrorMessage
-        );
-    };
-
+    // Se establece el nombre de la vista
     useEffect(
         () => {
-            setViewName('Iniciar sesión');
+            setViewName(TITLE.LOGIN);
         }, [setViewName]
-    );
-
-    useEffect(
-        () => {
-            if ( token ) navigate('/');
-        }, [token, navigate]
     );
 
     return (
         <Form
-            onSubmit={onSubmit}
+            onSubmit={login}
             className="flex justify-center items-center h-full"
         >
             <MiniGrapper>
                 <Group title="Ingresa tus datos">
                     <InputUser value={user} onValueChange={setUser} />
                     <InputPassword value={password} onValueChange={setPassword} />
-                    <Button type="submit" color="primary" isDisabled={user === '' || password === ''}>Iniciar sesión</Button>
+                    <Button type="submit" color="primary" isDisabled={user === '' || password === ''}>
+                        {TITLE.LOGIN}
+                    </Button>
                     {errorMessage &&
                         <Alert color="danger">
                             {errorMessage}

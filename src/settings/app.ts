@@ -1,6 +1,6 @@
 const settings = {
     view: {
-        defaultItemsPerPage: 10,
+        defaultItemsPerPage: 20,
     },
 };
 

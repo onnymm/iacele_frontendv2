@@ -1,221 +1,19 @@
-// import { SharedSelection } from "@heroui/react";
+type ModelName = keyof Backend.Models;
 
-declare namespace IACele {
+declare namespace IACeleV2 {
 
-    declare namespace Common {
-
-        interface _TableUse<K extends API.Database.TableName> {
-            /** 
-             *  ### Tabla de base de datos
-             *  Nombre de tabla de base de datos.
-             */ 
-            table: K;
-        };
-
-    };
-
-    declare namespace Application {
-
-        interface _SupportsOpen {
-            /** 
-             *  ### Abierto
-             *  Parámetro que indica que el botón está abierto.
-             */ 
-            isOpen;
-        };
-
-        interface _SupportsOnClick {
-            /** 
-             *  ### Función de clic
-             *  Función que se ejecuta cuando se da clic en el componente que la
-             *  recibe.
-             */ 
-            onClick: () => void;
-        };
-
-        interface CurrentUserData {
-            id: number | undefined;
-            user: string;
-            name: string;
-            odooId: number | undefined;
-            createDate: string;
-            writeDate: string;
-        };
-
-        interface Route {
-            /** 
-             *  ### Ruta
-             *  Dirección de ruta.
-             */ 
-            path: string;
-            /** 
-             *  ### Nombre de ruta
-             *  Nombre de la ruta, que renderizará en la aplicación.
-             */ 
-            name: string;
-        };
-
-        interface RouteGroup {
-            /** 
-             *  ### Nombre
-             *  Nombre de grupo de rutas.
-             */ 
-            name: string;
-            /** 
-             *  ### Ícono de ruta
-             *  Ícono descriptivo para representar la ruta.
-             */ 
-            icon: React.ElementType;
-            /** 
-             *  ### Rutas de grupo
-             *  Matriz de rutas o ruta sencilla que lleva a alguna parte de la
-             *  aplicación.
-             */ 
-            routes: string | Route[];
-        };
-
-        interface RouteSection {
-            /** 
-             *  ### Nombre de sección
-             *  Nombre de la sección de grupo de rutas. Este nombre se renderiza como
-             *  encabezado de los botones de grupos de rutas de la sección.
-             */ 
-            name: string;
-            /** 
-             *  ### Grupos de rutas
-             *  Matriz de grupos de rutas o rutas sencillas que se renderizan como un
-             *  botón que despliega la rutas contenidas o redirección a la ruta
-             *  individual.
-             */ 
-            groups: RouteGroup[];
-        };
+    declare namespace _Base {
 
         /** 
-         *  ### Menú de barra lateral
-         *  Colección de datos que describe la estructura del menú de la barra lateral
-         *  de la aplicación.
+         *  ### `[Interfaz base]` Nombres de clase
+         *  Nombres de clase CSS
+         *  ```ts
+         *  interface _SupportsClassName {
+         *      // Nombres de clase
+         *      className?: string;
+         *  };
+         *  ```
          */ 
-        type SidebarMenu = RouteSection[];
-
-        type _RouteGroupButton = _SupportsOpen & _SupportsOnClick & RouteGroup;
-        interface RouteGroupButton extends _RouteGroupButton {
-            /** 
-             *  ### La ubicación es activa
-             *  Este parámetro indica si la ubicación actual en la aplicación es la
-             *  misma a la que el componente apunta.
-             */ 
-            isActiveLocation: boolean;
-        };
-
-        interface Routes extends _SupportsOpen {
-            /** 
-             *  ### Altura de lista
-             *  Altura computada para la lista de rutas cuando ésta se despliega.
-             */ 
-            height: number;
-            /** 
-             *  ### Referencia de lista
-             *  Referencia usada para calcular la altura de la lista de rutas.
-             */ 
-            listRef: React.RefObject<HTMLDivElement | null>;
-            /** 
-             *  ### Rutas
-             *  Lista de rutas.
-             */ 
-            routes: Route[];
-            /** 
-             *  ### Función de clic
-             *  Función que se ejecuta cuando el componente un clic.
-             */ 
-            routeOnClick: (route: string) => (void);
-        };
-
-        interface RouteComponent extends _SupportsOnClick {
-            /** 
-             *  ### Ruta
-             *  Objeto que contiene una ruta de URL y el nombre de ésta.
-             */ 
-            route: Route;
-        };
-
-        interface RecentRoute {
-            /** 
-             *  ### Nombre de ruta
-             *  Nombre a mostrar en breadcrump de la aplicación.
-             */ 
-            name: string;
-            /** 
-             *  ### Ruta
-             *  Ruta de URL a la que se navega para llegar a esta ruta.
-             */ 
-            to: string;
-            /** 
-             *  ### Datos
-             *  Valores de estado de la página que se pueden recuperar para obtener la
-             *  última configuración de ésta como página, campo de ordenamiento, etc..
-             */ 
-            data: Record<string, any>;
-        };
-
-        interface RouteMemory {
-            /** 
-             *  ### Rutas recientes
-             *  Arreglo de las últimas rutas visitadas.
-             */ 
-            recentRoutes: RecentRoute[];
-            /** 
-             *  ### Añadir ruta
-             *  Función para añadir una ruta al arreglo de rutas recientes.
-             */ 
-            addRoute: (route: RecentRoute) => void;
-            /** 
-             *  ### Truncar rutas recientes
-             *  Esta función se usa para cortar las últimas rutas recientes en base a un
-             *  índice, esto sirve cuando el usuario ha dado clic en alguna de las rutas
-             *  mostradas por los breadcrumbs y ya no hay necesidad de mostrar la ruta
-             *  cliqueada ni sus respectivas rutas siguientes en éstos.
-             */ 
-            cutRecent: (index: number) => void;
-            /** 
-             *  ### Guardar valor de estado
-             *  Esta función permite guardar el valor más actualizado que se podrá
-             *  recuperar si se vuelve a visitar la página desde las rutas recientes.
-             */ 
-            setRouteData: <T>(key: string, value: T) => void;
-            /** 
-             *  ### Recuperar valor de estado
-             *  Esta función permite recuperar el último valor guardado de la página actual
-             *  cuando se visita ésta desde las rutas recientes.
-             */ 
-            recoverData: <T>() => T;
-        };
-
-        interface BreadcrumbRoute extends RecentRoute {
-            /** 
-             *  ### Índice de ruta
-             *  Valor utilizado para realizar modificaciones al arreglo de rutas recientes.
-             */ 
-            index: number;
-            // Sobreescritura del tipo de dato
-            to: string | number;
-        };
-
-    };
-
-    /** 
-     *  ### UI
-     *  Tipos de dato relacionados a la interfaz de usuario de iaCele.
-     */ 
-    declare namespace UI {
-
-        interface _SupportsId {
-            /** 
-             *  ### ID
-             *  ID del componente.
-             */ 
-            id: string;
-        };
-
         interface _SupportsClassName {
             /** 
              *  ### Nombres de clase
@@ -224,27 +22,39 @@ declare namespace IACele {
             className?: string;
         };
 
-        interface _Colorizable {
-            /** 
-             *  ### Color de componente
-             *  Color utilizado para colorear componentes de HeroUI.
+        /** 
+         *  ### `[Interfaz base]` Componentes hijos
+         *  Componentes hijos que se ingresan entre las etiquetas del componente que
+         *  los renderizará.
+         *  ```ts
+         *  interface _SupportsChildren {
+         *      // Componentes hijos
+         *      children: React.ReactNode;
+         *  };
+         *  ```
+         */ 
+        interface _SupportsChildren {
+            /**
+             *  ### Componentes hijos
+             *  Componentes hijos que se ingresan entre las etiquetas del componente que
+             *  los renderizará.
              */ 
-            color?: DecorationColor;
-        };
-
-        // Valor para uso de funciones de cambio de estado que usan conjuntos
-        type _SharedSelection = ('all' | Set<string | number>) & {
-            anchorKey?: string;
-            currentKey?: string;
+            children: React.ReactNode;
         };
 
         /** 
-         *  ### Componente genérico con componentes hijos
-         *  En este tipo de componente se incluyen componentes hijos entre sus
-         *  etiquetas TSX de apertura y cierre.
+         *  ### `[Interfaz base]` Componentes hijos
+         *  Componentes hijos que se ingresan entre las etiquetas del componente que
+         *  los renderizará.
+         *  ```ts
+         *  interface _SupportsOptionalChildren {
+         *      // Componentes hijos
+         *      children?: React.ReactNode;
+         *  };
+         *  ```
          */ 
-        interface GenericInvolverComponent {
-            /** 
+        interface _SupportsOptionalChildren {
+            /**
              *  ### Componentes hijos
              *  Componentes hijos que se ingresan entre las etiquetas del componente que
              *  los renderizará.
@@ -252,115 +62,3084 @@ declare namespace IACele {
             children?: React.ReactNode;
         };
 
+        type _DirectOrBuiltValue<I, O> = ( (ctx: I) => (O) ) | O;
+
+        declare namespace _State {
+
+            interface _IsFocused {
+                /** 
+                 *  ### Está enfocado
+                 *  Estado que indica que el componente está enfocado.
+                 */ 
+                isFocused: boolean;
+            };
+
+            interface _IsIconOnly {
+                /** 
+                 *  ### Es solo ícono
+                 *  Valor que el botón solo renderiza un ícono.
+                 */ 
+                isIconOnly?: boolean | undefined;
+            };
+
+            interface _StartContent {
+                /** 
+                 *  ### Contenido inicial
+                 *  Componente que se renderizará al inicio.
+                 */ 
+                startContent?: React.ReactNode;
+            };
+            
+            interface _EndContent {
+                /** 
+                 *  ### Contenido final
+                 *  Componente que se renderizará al final.
+                 */ 
+                endContent?: React.ReactNode;
+            };
+
+            interface _IsDisabled {
+                /** 
+                 *  ### Está deshabilitado
+                 *  Estado que indica que el componente está deshabilitado para interactuar con él.
+                 */ 
+                isDisabled?: boolean;
+            };
+
+            interface _HasTTypeName {
+                /** 
+                 *  #### Tipo de dato de campo
+                 *  Nombre de tipo de dato de campo.
+                 */ 
+                ttype: IACeleV2.Data.Models.TTypeName;
+            };
+
+            interface _HasRelatedModelName<M extends ModelName>{
+                /** 
+                 *  ### Nombre de modelo relacionado
+                 *  Nombre de modelo relacionado de un campo.
+                 */ 
+                relatedModelName: M;
+            };
+
+            interface IsOpen {
+                /** 
+                 *  ### Modal abierto
+                 *  Estado que indica si el modal está abierto.
+                 */ 
+                isOpen: boolean;
+            };
+
+        };
+
+        declare namespace _EventCallback {
+
+            interface _OnFocus {
+                /** 
+                 *  ### Cuando se enfoca
+                 *  Función a ejecutar cuando el componente se enfoca.
+                 */ 
+                onFocus: () => void;
+            };
+
+            interface _OnBlur {
+                /**
+                 *  ### Cuando se desenfoca
+                 *  Función a ejecutar cuando el componente se desenfoca.
+                 */
+                onBlur: () => void;
+            };
+
+            interface OnClick<E, T> {
+                /** 
+                 *  ### Cuando se cliquea
+                 *  Función a ejecutar cuando el componente es cliqueado.
+                 */ 
+                onClick?: (event: React.MouseEvent<E, T>) => void;
+            };
+
+            interface _OnPress {
+                /** 
+                 *  ### Cuando se termina de presionar
+                 *  Función a ejecutar cuando el componente termina de ser presionado.
+                 */ 
+                onPress: () => void;
+            };
+
+            interface _OnValueChange <T>{
+                /** 
+                 *  ### Cambio de estado de valor
+                 *  Función de cambio de estado de valor de campo.
+                 */ 
+                onValueChange: (value: T) => void;
+            };
+
+        };
+
+        declare namespace _Callback {
+
+            /** 
+             *  ### `[Interfaz base]` Función de recarga
+             *  Valor de función de recarga de datos.
+             *  ```ts
+             *  interface _Reload {
+             *      // Función de recarga
+             *      reload: () => void;
+             *  };
+             *  ```
+             */ 
+            interface _Reload {
+                /** 
+                 *  #### Función de recarga
+                 *  Esta función, cuando se ejecuta, desencadena una nueva llamada a la API
+                 *  para actualizar los datos del registro en la vista del formulario.
+                 */ 
+                reload: () => void;
+            };
+
+            /** 
+             *  ### Crear registro
+             *  Valor de función de cambio de modo de formulario para creación de registro.
+             *  
+             *  ```ts
+             *  interface NewRecord {
+             *      // Crear registro
+             *      newRecord: () => void;
+             *  };
+             *  ```
+             */ 
+            interface _NewRecord {
+                /** 
+                 *  #### Crear registro
+                 *  Esta función cambia el modo de formulario a creación y vacía los datos del
+                 *  registro del formulario para ser escritos desde cero.
+                 *  
+                 *  ```ts
+                 *  const newRecord = () => {...};
+                 *  ```
+                 */ 
+                newRecord: () => void;
+            };
+
+            /** 
+            *  ### Deshacer cambios
+            *  Función para deshacer los cambios de un formulario.
+            *  ```ts
+            *  interface Undo {
+            *      // Deshacer cambios
+            *      undoChanges: () => void;
+            *  };
+            *  ```
+            */ 
+            interface _UndoChanges {
+                /** 
+                *  #### Deshacer cambios
+                *  Función que revierte los cambios realizados en los datos del formulario en
+                *  un registro o retrocede de modo de creación a modo de lectura en función
+                *  del modo actual del formulario.
+                *  ```ts
+                *  const undoChanges = async () => {...};
+                *  ```
+                */ 
+                undoChanges: () => void;
+            };
+
+            /** 
+            *  ### Actualización de registro
+            *  Valor de función de actualización de registro.
+            *  ```ts
+            *  interface UpdateRecord {
+            *      // Función de actualización de registro
+            *      updateRecord: () => Promise<void>;
+            *  };
+            *  ```
+            */ 
+            interface UpdateRecord {
+                /** 
+                *  #### Función de actualización de registro
+                *  Esta función ejecuta la actualización de datos de un registro utilizando
+                *  los datos del registro en formulario.
+                *  ```ts
+                *  const updateRecord = async () => {...};
+                *  ```
+                */ 
+                updateRecord: () => Promise<void>;
+            };
+
+            /** 
+             *  ### Creación de registro
+             *  Valor de función de creación de registro.
+             *  ```ts
+             *  interface CreateRecord {
+             *      // Función de creación de registro
+             *      createRecord: () => Promise<void>;
+             *  };
+             *  ```
+            */ 
+            interface CreateRecord {
+                /** 
+                *  #### Función de creación de registro
+                *  Esta función ejecuta la creación de un registro en la base de datos usando
+                *  una función del módulo de comunicación con la API del servidor usando los
+                *  datos del registro en el formulario.
+                *  
+                *  ```ts
+                *  const createRecord = async () => {...};
+                *  ```
+                */ 
+                createRecord: () => Promise<void>;
+            };
+
+            /** 
+            *  ### Guardar cambios
+            *  Función que guarda cambios en un registro nuevo existente.
+            *  ```ts
+            *  interface SaveRecord {
+            *      // Guardar cambios
+            *      saveChanges: () => void;
+            *  };
+            *  ```
+            */ 
+            interface _SaveRecord {
+                /** 
+                *  #### Guardar cambios
+                *  Esta función ejecuta la creacíón o modificación de un registro en la base
+                *  de datos.
+                *  ```ts
+                *  const saveChanges = async () => {...};
+                *  ```
+                */ 
+                saveChanges: () => void;
+            };
+
+            /** 
+            *  ### Eliminar registro
+            *  Función que elimina un registro de la base de datos.
+            *  ```ts
+            *  interface Delete {
+            *      // Eliminar registro
+            *      deleteRecord: () => Promise<void>;
+            *  };
+            *  ```
+            */ 
+            interface _DeleteRecord {
+                /** 
+                *  #### Eliminar registro
+                *  Función que ejecuta la eliminación del registro que se está mostrando en el
+                *  formulario.
+                *  ```ts
+                *  const deleteRecord = async () => {...};
+                *  ```
+                */ 
+                deleteRecord: () => Promise<void>;
+            };
+
+            interface _OnClick {
+                /** 
+                 *  ### Al ser cliqueado
+                 *  Función que se ejecuta cuando un evento de clic se dispara.
+                 */ 
+                onClick: () => (void);
+            }
+
+        };
+
+    };
+
+    declare namespace Common {
+
+        type VoidCallback = () => (void);
+
+    };
+
+    declare namespace Data {
+
+        declare namespace _Base {
+
+            /** 
+             *  ### Llave de nulidad
+             *  Valor que indica que el tipo de dato es nulo o no.
+             */ 
+            type _NullabilityKey = 'null_' | 'not_null';
+
+            /** 
+             *  ### Es nulo o no
+             *  Interfaz para definición de un dato posiblemente o no nulo.
+             */ 
+            interface _WithNullOption<T>{
+                'null_': T | null;
+                'not_null': T;
+            };
+
+            declare namespace _Type {
+
+                // Tipo de dato simple
+                type Single<T, N extends _NullabilityKey = 'null_'> = _WithNullOption<T>[N];
+
+                // Tipo de dato relacionado
+                type Relational<M extends ModelName> = Models.Record<M>[];
+
+            };
+
+            /** 
+             *  ### Selección de campo
+             *  Tipo de dato de selección de campo.
+             */ 
+            interface _FieldSelection {
+                /** 
+                 *  ### ID
+                 *  ID del campo de modelo.
+                 */ 
+                id: TType.Integer<'not_null'>;
+                /** 
+                 *  ### Nombre
+                 *  Nombre del campo de modelo.
+                 */ 
+                name: TType.Char<'not_null'>;
+                /** 
+                 *  ### Etiqueta
+                 *  Etiqueta del campo de modelo.
+                 */ 
+                label: TType.Char<'not_null'>;
+            };
+
+        };
+
+        declare namespace _Filtering {
+
+            /** 
+             *  ### Operador de comparación
+             *  Operador de comparación entre el nombre de un campo de modelo y un valor.
+             *  
+             *  Los operadores de comparación disponibles son:
+             *  - `'='`: Igual a
+             *  - `'!='`: Diferente de
+             *  - `'>'`: Mayor a
+             *  - `'>='`: Mayor o igual a
+             *  - `'<'`: Menor que
+             *  - `'<='`: Menor o igual que
+             *  - `'><'`: Entre
+             *  - `'in'`: Está en
+             *  - `'not in'`: No está en
+             *  - `'ilike'`: Contiene
+             *  - `'not ilike'`: No contiene
+             *  - `'~'`: Coincide con expresión regular (sensible a mayúsculas y minúsculas)
+             *  - `'~*'`: Coincide con expresión regular (no sensible a mayúsculas y minúsculas)
+             */ 
+            type ComparisonOperator = (
+                | '=' 
+                | '!=' 
+                | '>' 
+                | '>=' 
+                | '<' 
+                | '<=' 
+                | '><' 
+                | 'in' 
+                | 'not in' 
+                | 'ilike' 
+                | 'not ilike' 
+                | '~' 
+                | '~*'
+            );
+
+            /** 
+             *  ### Operador lógico
+             *  Operador lógico para unir múltiples filtros
+             *  
+             *  Los operadores lógicos disponibles son:
+             *  - `'&'`: AND
+             *  - `'|'`: OR
+             */ 
+            type LogicOperator = '&' | '|';
+
+            /** 
+             *  ### Valor de tripleta
+             *  Valor válido en declaraciones de filtros.
+             */ 
+            type TripletValue = string | number | boolean | (string | number | boolean | null)[] | null;
+
+            /** 
+             *  ### Tripleta base
+             *  Estructura base de tripleta.
+             */ 
+            type _BaseTriplet<T> = [T, ComparisonOperator, TripletValue];
+
+            /** 
+             *  ### Estructura de tripleta
+             *  Estructura dinámica de tripleta que usa nombres de campo dinámicos en base
+             *  al nombre de modelo usado.
+             */ 
+            type _TripletStructure<M extends ModelName> = _BaseTriplet<string> | _BaseTriplet<FieldName<M>>;
+
+            /** 
+             *  La estructura de criterio de búsqueda permite construir filtros tan
+             *  complejos y específicos como sea necesario.
+             *  
+             *  Primeramente, cada filtro de búsqueda se forma de tres elementos dentro de un array:
+             *  - Nombre del campo en el modelo
+             *  - Operador de comparación
+             *  - Valor
+             *  
+             *  ```ts
+             *  ["active", "=", true]
+             *  ```
+             *  
+             *  Sea uno o muchos filtros, se envuelven dentro de un array padre:
+             *  ```ts
+             *  [["active", "=", true]]
+             *  ```
+             *  
+             *  Para usarse más de un filtro se unen por medio de operadores lógicos `'&'` (AND)
+             *  y `'|'` (OR) seguidos de los filtros como segundo y tercer lugar:
+             *  ```ts
+             *  [
+             *      "&",
+             *          ["active", "=", true],
+             *          ["create_date", ">", "2025-08-29"]
+             *  ]
+             *  ```
+             */ 
+            type _CriteriaStructure<M extends ModelName> = (LogicOperator | _TripletStructure<M>)[];
+
+        };
+
+        declare namespace Models {
+
+            declare namespace TType {
+                /** 
+                 *  ### Tipo de dato `[entero]`
+                 *  Tipo de dato numérico sin decimales.
+                 *  ```ts
+                 *  const value: Integer = ...;
+                 *  // number | null
+                 *  const value: Integer<'not_null'> = ...;
+                 *  // number
+                 *  
+                 *  // Ejemplo 1
+                 *  5
+                 *  // Ejemplo 2
+                 *  10
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Integer<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<number, N>;
+                /** 
+                 *  ### Tipo de dato `[caracter]`
+                 *  Tipo de dato de cadena de texto.
+                 *  ```ts
+                 *  const value: Char = ...;
+                 *  // string | null
+                 *  const value: Char<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  'onnymm'
+                 *  // Ejemplo 2
+                 *  'lumii'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Char<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[flotante]`
+                 *  Tipo de dato numérico con punto decimal.
+                 *  ```ts
+                 *  const value: Float = ...;
+                 *  // number | null
+                 *  const value: Float<'not_null'> = ...;
+                 *  // number
+                 *  
+                 *  // Ejemplo 1
+                 *  5.0
+                 *  // Ejemplo 2
+                 *  2.5
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Float<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<number, N>;
+                /** 
+                 *  ### Tipo de dato `[booleano]`
+                 *  ```ts
+                 *  const value: Boolean = ...;
+                 *  // boolean | null
+                 *  const value: Boolean<'not_null'> = ...;
+                 *  // boolean
+                 *  
+                 *  // Ejemplo 1
+                 *  true
+                 *  // Ejemplo 2
+                 *  false
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Boolean<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<boolean, N>;
+                /** 
+                 *  ### Tipo de dato `[fecha]`
+                 *  Tipo de dato de fecha en formado `AAAA-MM-DD`.
+                 *  ```ts
+                 *  const value: Date = ...;
+                 *  // string | null
+                 *  const value: Date<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  '2025-09-04'
+                 *  // Ejemplo 2
+                 *  '1998-07-28'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Date<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[fecha y hora]`
+                 *  Tipo de dato de fecha y hora en formato `AAAA-MM-DD hh-mm-ss`. El formato de hora es de 24 horas.
+                 *  ```ts
+                 *  const value: Datetime = ...;
+                 *  // string | null
+                 *  const value: Datetime<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  '2025-09-04 11:54:30'
+                 *  // Ejemplo 2
+                 *  '1998-07-28 22:45:15'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Datetime<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[hora]`
+                 *  Tipo de dato de hora en formato `hh-mm-ss` en en formato de 24 horas.
+                 *  ```ts
+                 *  const value: Time = ...;
+                 *  // string | null
+                 *  const value: Time<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  '11:54:30'
+                 *  // Ejemplo 2
+                 *  '22:45:15'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Time<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[duration]`
+                 *  Tipo de dato de duración en formato `hh-mm-ss`.
+                 *  ```ts
+                 *  const value: Duration = ...;
+                 *  // string | null
+                 *  const value: Duration<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  '00:30:00'
+                 *  // Ejemplo 2
+                 *  '36:00:00'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Duration<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[texto]`
+                 *  Tipo de dato de texto largo.
+                 *  ```ts
+                 *  const value: Text = ...;
+                 *  // string | null
+                 *  const value: Text<'not_null'> = ...;
+                 *  // string
+                 *  
+                 *  // Ejemplo 1
+                 *  'Esto es la descripción del campo de un modelo en la base de datos que...'
+                 *  // Ejemplo 2
+                 *  'Esto es la descripción de un modelo personalidado el cual sirve para...'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Text<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[selección]`
+                 *  Tipo de dato de selección.
+                 *  ```ts
+                 *  const value: Selection<'a' | 'b'> = ...;
+                 *  // 'a' | 'b' | null
+                 *  const value: Selection<'a' | 'b', 'not_null'> = ...;
+                 *  // 'a' | 'b'
+                 *  
+                 *  // Ejemplo 1
+                 *  'a'
+                 *  // Ejemplo 2
+                 *  'b'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Selection<O extends string, N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<O, N>;
+                /** 
+                 *  ### Tipo de dato `[archivo]`
+                 *  Tipo de dato de archivo binario.
+                 *  ```ts
+                 *  const value: File = ...;
+                 *  // string | null;
+                 *  const value: File<'not_null'> = ...;
+                 *  // string;
+                 *  
+                 *  // Ejemplo 1
+                 *  '/9j/4AAQSkZJRgABAQAAAQABAAD/4QBgRXhpZgAASUkqAAgAAAACADEBAgAHAAAAJgAAAGmHBAABA...'
+                 *  // Ejemplo 2
+                 *  '/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAcJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJC...'
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type File<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<string, N>;
+                /** 
+                 *  ### Tipo de dato `[many2one]`
+                 *  Tipo de dato de muchos a uno. Tupla que contiene la ID del registro y su
+                 *  nombre.
+                 *  ```ts
+                 *  const value: Many2One = ...;
+                 *  // [number, string] | null;
+                 *  const value: Many2One<'not_null'> = ...;
+                 *  // [number, string];
+                 *  
+                 *  // Ejemplo 1
+                 *  [2, 'onnymm']
+                 *  // Ejemplo 2
+                 *  [1, 'base_model']
+                 *  // Nulo
+                 *  null
+                 *  ```
+                 */ 
+                type Many2One<N extends Data._Base._NullabilityKey = 'null_'> = Data._Base._Type.Single<[number, string], N>;
+                /** 
+                 *  ### Tipo de dato `[one2many]`
+                 *  Tipo de dato de uno a muchos. Array de registros del tipo que se
+                 *  especifique en el genérico.
+                 *  ```ts
+                 *  const value: One2Many<'base.users'> = ...;
+                 *  // {id: number, name: string, login: string...}[];
+                 *  const value: One2Many<'base.model.field'> = ...;
+                 *  // {id: number, name: string, model_id: [number, string]...}[];
+                 *  
+                 *  // Ejemplo 1
+                 *  [{id: 1, name: 'iaCele', ...}, {...}, ...]
+                 *  // Ejemplo 2
+                 *  [{id: 1, name: 'base_model', ...}, {...}, ...]
+                 *  // Nulo
+                 *  []
+                 *  ```
+                 */ 
+                type One2Many<M extends ModelName> = Data._Base._Type.Relational<M>;
+                /** 
+                 *  ### Tipo de dato `[many2many]`
+                 *  Tipo de dato de muchos a muchos. Array de registros del tipo que se
+                 *  especifique en el genérico.
+                 *  ```ts
+                 *  const value: Many2Many<'base.users'> = ...;
+                 *  // {id: number, name: string, login: string...}[];
+                 *  const value: Many2Many<'base.model.field'> = ...;
+                 *  // {id: number, name: string, model_id: [number, string]...}[];
+                 *  
+                 *  // Ejemplo 1
+                 *  [{id: 1, name: 'iaCele', ...}, {...}, ...]
+                 *  // Ejemplo 2
+                 *  [{id: 1, name: 'base_model', ...}, {...}, ...]
+                 *  // Nulo
+                 *  []
+                 *  ```
+                 */ 
+                type Many2Many<M extends ModelName> = Data._Base._Type.Relational<M>;
+            };
+
+            /** 
+             *  ### Modelo base
+             *  Campos base de modelos de base de datos.
+             */ 
+            interface _BaseModel {
+                id: TType.Integer<'not_null'>;
+                name: TType.Char<'not_null'>;
+                create_date: TType.Datetime<'not_null'>;
+                write_date: TType.Datetime<'not_null'>;
+                create_uid: TType.Many2One<'not_null'>;
+                write_uid: TType.Many2One<'not_null'>;
+            };
+
+            /** 
+             *  ### Registro de base de datos
+             *  Tipo de dato de registro de base de datos.
+             *  
+             *  ```ts
+             *  Record<'base.users'>
+             *  {
+             *      id: TType.Integer<'not_null'>;
+             *      name: TType.Char<'not_null'>;
+             *      create_date: TType.Datetime<'not_null'>;
+             *      write_date: TType.Datetime<'not_null'>;
+             *      create_uid: TType.Many2One<'not_null'>;
+             *      write_uid: TType.Many2One<'not_null'>;
+             *      login: BackendV2.TType.Char<"not_null">;
+             *      password: BackendV2.TType.Char<"not_null">;
+             *      active: BackendV2.TType.Boolean<"not_null">;
+             *      sync: BackendV2.TType.Boolean<"not_null">;
+             *      role_ids: BackendV2.TType.Many2Many<"base.users.role">;
+             *      odoo_id: BackendV2.TType.Integer;
+             *      birthday_date: BackendV2.TType.Date;
+             *  }
+             *  ```
+             */ 
+            type Record<M extends ModelName> = (
+                & _BaseModel
+                & Backend.Models[M]
+            );
+
+            /** 
+             *  ### Nombre de campo
+             *  Nombre de campo de un modelo `M`
+             *  
+             *  ```ts
+             *  const f: FieldName<'base.model'>
+             *  // "model" | "label" | "description" | ...
+             *  ```
+             */ 
+            type FieldName<M extends ModelName> = keyof Record<M>;
+
+            /** 
+             *  ### Valor de campo de modelo
+             *  Tipo de dato del valor de un campo especificado.
+             *  ```ts
+             *  const v: FieldValue<'base.model', 'id'>
+             *  // number
+             *  ```
+             */ 
+            type FieldValue<M extends ModelName, F extends FieldName<M>> = Record<M>[F];
+
+            /** 
+             *  ### Nombre de tipo de dato
+             *  Nombre de tipo de dato de campo de modelo de base de datos.
+             */ 
+            type TTypeName = (
+                | 'integer'
+                | 'char'
+                | 'float'
+                | 'boolean'
+                | 'date'
+                | 'datetime'
+                | 'time'
+                | 'duration'
+                | 'text'
+                | 'selection'
+                | 'file'
+                | 'many2one'
+                | 'one2many'
+                | 'many2many'
+            );
+
+            /** 
+             *  ### Metadatos de campo
+             *  Metadatos para renderizar un campo en vista de tabla o formulario de manera
+             *  dinámica.
+             */ 
+            interface Field<M extends ModelName> {
+                id: TType.Integer<'not_null'>;
+                name: FieldName<M>;
+                label: TType.Char<'not_null'>;
+                ttype: TType.Selection<TTypeName, 'not_null'>;
+                help_info: TType.Text;
+                model: ModelName;
+                readonly: TType.Boolean<'not_null'>;
+                selection_ids: _Base._FieldSelection[];
+                is_required: TType.Boolean<'not_null'>;
+                is_computed: TType.Boolean<'not_null'>;
+            };
+
+            /** 
+             *  ### Es Many2One
+             *  Tipo de dato que evalúa si un genérico entrante es de tipo Many2One.
+             */ 
+            type IsMany2One<T> = (
+                T extends TType.Many2One
+                    ? true
+                    : false
+            );
+
+            /** 
+             *  ### Es One2Many
+             *  Tipo de dato que evalúa si un genérico entrante es de tipo One2Many.
+             */ 
+            type IsOne2Many<T> = (
+                T extends TType.One2Many<any>
+                    // Las tuplas Many2One<'not_null'> pueden extender desde One2Many<any>
+                    ? IsMany2One<T> extends false
+                        ? true
+                        : false
+                    : false
+            );
+
+            /** 
+             *  ### Nombre de campo relacional One2Many
+             *  Literales de nombres de campos que son de tipo One2Many en un modelo
+             *  específicado.
+             */ 
+            type One2ManyRelatedField<M extends ModelName> = {
+                [ F in keyof Record<M> ]-?: IsOne2Many<Record<M>[F]> extends true
+                    ? F
+                    : never
+            }[keyof Record<M>]
+
+            /** 
+             *  ### Nombre de campo relacionado
+             *  Tipo de dato para declarar el nombre de un modelo relacionado a partir de
+             *  un campo de tipo One2Many o Many2Many de un modelo especificado.
+             */ 
+            type RelatedModelName<M extends ModelName, F extends FieldName<M>> = (
+                Record<M>[F] extends TType.One2Many<infer R>
+                    ? R
+                    : never
+            );
+
+            /** 
+             *  La estructura de criterio de búsqueda permite construir filtros tan
+             *  complejos y específicos como sea necesario.
+             *  
+             *  Primeramente, cada filtro de búsqueda se forma de tres elementos dentro de un array:
+             *  - Nombre del campo en el modelo
+             *  - Operador de comparación
+             *  - Valor
+             *  
+             *  ```ts
+             *  ["active", "=", true]
+             *  ```
+             *  
+             *  Sea uno o muchos filtros, se envuelven dentro de un array padre:
+             *  ```ts
+             *  [["active", "=", true]]
+             *  ```
+             *  
+             *  Para usarse más de un filtro se unen por medio de operadores lógicos `'&'` (AND)
+             *  y `'|'` (OR) seguidos de los filtros como segundo y tercer lugar:
+             *  ```ts
+             *  [
+             *      "&",
+             *          ["active", "=", true],
+             *          ["create_date", ">", "2025-08-29"]
+             *  ]
+             *  ```
+             */ 
+            type CriteriaStructure<M extends ModelName> = _Filtering._CriteriaStructure<M>;
+
+        };
+
+    };
+
+    // -------------------
+
+    declare namespace View {
+
+        declare namespace _Base {
+
+            /** 
+             *  ### Cómputo de valor desde registro
+             *  Este tipo de dato permite la declaración de un parámetro que puede ser un
+             *  valor de tipo `T` o una función que toma como entrada los atributos de un
+             *  registro de la base de datos y retorna un resultado de tipo `T`.
+             *  
+             *  ```ts
+             *  interface Params <M extends ModelName>{
+             *      readonly: ComputeFromRecord<M, boolean>;
+             *  };
+             *  
+             *  // Ejemplo de función
+             *  const readonly: ComputeFromRecord<'base.model', boolean> = ({ name }) => (name === 'base_model');
+             *  // Ejemplo de valor
+             *  const readonly: true;
+             *  ```
+             */ 
+            type _ComputeFromRecord<M extends ModelName, T> = IACeleV2._Base._DirectOrBuiltValue<Data.Models.Record<M>, T>
+
+            /** 
+             *  ### `[Interfaz base]` Solo lectura
+             *  Valor que indica que la vista es de solo lectura.
+             *  ```ts
+             *  interface _OptionalReadonly {
+             *      // Solo lectura
+             *      readonly?: boolean;
+             *  };
+             *  ```
+             */ 
+            interface _OptionalReadonly {
+                /**
+                 *  ### Solo lectura
+                 *  Valor que indica que la vista es de solo lectura.
+                 */ 
+                readonly?: boolean;
+            };
+
+            interface _HasOptionalLabel {
+                /** 
+                 *  ### Nombre / etiqueta
+                 *  Nombre / etiqueta opcional que mostrará el componente.
+                 */ 
+                label?: string;
+            };
+
+            interface _RequiresModelName <M extends ModelName>{
+                /** 
+                 *  ### Nombre de modelo
+                 *  Nombre de modelo en la base de datos.
+                 */ 
+                modelName: M;
+            };
+
+            interface _HasOptionalReadonly<M extends ModelName> {
+                /** 
+                 *  ### Es solo lectura
+                 *  Valor booleano o función de validación que define si el componente y su
+                 *  contenido es de solo lectura.
+                 */ 
+                readonly?: _ComputeFromRecord<M, boolean>;
+            };
+
+            interface _HasOptionalInvisible<M extends ModelName>{
+                /** 
+                 *  ### Puede ser invisible
+                 *  Valor booleano o función de validación que define si el componente debe
+                 *  mostrarse o no.
+                 */ 
+                invisible?: _ComputeFromRecord<M, boolean>;
+            };
+
+            interface _ConditionalColorDecoration<M extends ModelName> {
+                /** 
+                 *  ### Color de decoración
+                 *  Objeto que contiene funciones de validación.
+                 */ 
+                decoration?: ColorDecoration<M>;
+            };
+
+            interface _HasDomain <M extends ModelName> {
+                /** 
+                 *  ### Dominio de búsqueda
+                 *  Dominio de búsqueda para delimitar las opciones disponibles al vincular un
+                 *  registro desde otro modelo de la base de datos.
+                 */ 
+                domain?: _ComputeFromRecord<M, Data.Models.CriteriaStructure<M>>;
+            };
+
+            interface _HasWidgetName {
+                /** 
+                 *  ### Nombre de widget
+                 *  Nombre de widget.
+                 */ 
+                widget?: View.Widget.Name;
+            };
+
+            interface _HasPlaceholder {
+                /** 
+                 *  ### Placeholder
+                 *  Placeholder para campo editable desde teclado
+                 */ 
+                placeholder?: string;
+            };
+
+            interface _HasMinValue {
+                /** 
+                 *  ### Valor mínimo
+                 *  Valor mínimo oara tipo de dato numérico.
+                 */ 
+                min?: number;
+            };
+
+            interface _HasMaxValue {
+                /** 
+                 *  ### Valor máximo
+                 *  Valor máximo para tipo de dato numérico.
+                 */ 
+                max?: number;
+            };
+
+            interface _HasNumericStep {
+                /** 
+                 *  ### Paso
+                 *  Valor que delimita los pasos numéricos para tipo de dato numérico.
+                 */ 
+                step?: number;
+            };
+
+        };
+
+        interface HasFieldName<M extends ModelName> {
+            /** 
+             *  ### Nombre de campo
+             *  Nombre de campo.
+             */ 
+            name: IACeleV2.Data.Models.FieldName<M>;
+        };
+
+        interface ExecuteFormValidation <M extends ModelName>{
+            /** 
+             *  ### Ejecutar validación de formulario
+             *  Esta función recibe un valor booleano, indefinido o una función flecha
+             *  diseñada para recibir los valores de datos del registro del formulario y
+             *  que retorna un valor convertible a booleano. La función generada por este
+             *  hook realiza la validación del valor o función provista para reotnar un
+             *  valor booleano y definir los comportamientos de un componente en la vista
+             *  del formulario.
+             */ 
+            executeFormValidation: (validation: _Base._ComputeFromRecord<M, boolean> | undefined) => (boolean);
+        };
+
+        type UsingRecord<M extends ModelName, T> = _Base._ComputeFromRecord<M, T>
+
+        interface ColorDecoration <M extends ModelName>{
+            /** 
+             *  #### Color de decoración (Información)
+             *  Función o valor de validación para indicar que un componente debe
+             *  o no colorearse en el color codificado como información.
+             */ 
+            info?: _UsingRecord<M, boolean>;
+            /** 
+             *  #### Color de decoración (Éxito)
+             *  Función o valor de validación para indicar que un componente debe
+             *  o no colorearse en el color codificado como éxito.
+             */ 
+            success?: _UsingRecord<M, boolean>;
+            /** 
+             *  #### Color de decoración (Advertencia)
+             *  Función o valor de validación para indicar que un componente debe
+             *  o no colorearse en el color codificado como advertencia.
+             */ 
+            warning?: _UsingRecord<M, boolean>;
+            /** 
+             *  #### Color de decoración (Peligro)
+             *  Función o valor de validación para indicar que un componente debe
+             *  o no colorearse en el color codificado como peligro.
+             */ 
+            danger?: _UsingRecord<M, boolean>;
+        };
+
+        interface Reload {
+            /** 
+             *  ### Señal de recarga
+             *  Estado que se usa para provocar la ejecución de una recarga.
+             */ 
+            reloadSignal: boolean;
+            /** 
+             *  ### Interruptor de recarga
+             *  Función que se ejecuta para provocar la ejecución de una recarga en donde
+             *  se colocó el estado de señal de recarga.
+             */ 
+            reload: () => void;
+        };
+
+        declare namespace Widget {
+
+            type Name = (
+                | 'char'
+                | 'integer'
+                | 'float'
+                | 'boolean'
+                | 'text'
+                | 'selection'
+                | 'many2one'
+                | 'duration'
+                | 'datetime'
+                | 'date'
+                | 'time'
+                | 'one2many'
+
+                // Extensiones
+                | 'check'
+                | 'switch'
+            );
+
+        };
+
+        declare namespace Tree {
+
+            declare namespace _Base {
+
+                declare namespace Object {
+
+                    interface Config<
+                        M extends ModelName,
+                        F extends Data.Models.FieldName<M>,
+                        R extends Data.Models.RelatedModelName<M, F>
+                    > extends IACeleV2.View.HasFieldName<R>{
+                        /** 
+                         *  ### Etiqueta de campo
+                         *  Etiqueta de campo.
+                         */ 
+                        label?: string;
+                    };
+
+                };
+
+                declare namespace Callback {
+
+                    interface _GetTType<M extends ModelName>{
+                        /** 
+                         *  ### Obtención de tipo de dato
+                         *  Función de obtención de tipo de dato de campo.
+                         */ 
+                        getTType: (name: IACeleV2.Data.Models.FieldName<M>) => IACeleV2.Data.Models.TTypeName;
+                    };
+
+                    interface ComputeLabel<M extends ModelName>{
+                        /** 
+                         *  ### Computar etiqueta
+                         *  Función de cómputo de etiqueta para campo.
+                         */ 
+                        computeLabel: (name: IACeleV2.Data.Models.FieldName<M>) => string;
+                    };
+
+                    interface TreeRecordsIndex<M extends ModelName>{
+                        /** 
+                         *  ### Índice de registros
+                         *  Objeto que contiene datos de registro y los indexa por su ID.
+                         */ 
+                        treeRecordsIndex: Record<number, IACeleV2.Data.Models.Record<M>>;
+                    };
+
+                    interface CreateSetFormRecordField<M extends ModelName>{
+                        /** 
+                         *  ### Creación de cambio de valor de campo
+                         *  Función de creación de función de cambio de estado de valor de campo de
+                         *  registro de árbol.
+                         */ 
+                        createSetFormRecordField: (id: number) => Form.FieldValueSetter<M>;
+                    };
+
+                };
+
+                interface _TreeConfig<
+                    M extends ModelName,
+                    F extends Data.Models.FieldName<M>,
+                    R extends Data.Models.RelatedModelName<M, F>
+                >{
+                    /** 
+                     *  ### Configuración de vista de árbol
+                     *  Variable de configuración de vista de árbol.
+                     */ 
+                    treeConfig: IACeleV2.View.Form.Field.Tree.Config<M, F, R>[];
+                };
+
+                interface _AddConfig<
+                    M extends ModelName,
+                    F extends Data.Models.FieldName<M>,
+                    R extends Data.Models.RelatedModelName<M, F>
+                >{
+                    /** 
+                     *  ### Añadir configuración
+                     *  Añadir configuración de vista de árbol.
+                     */ 
+                    addConfig: (config: Config<M, F, R>) => void;
+                };
+
+                interface _DataLoaded {
+                    /** 
+                     *  ### Datos cargados
+                     *  Estado que indica que los datos han sido cargados. 
+                     */ 
+                    dataLoaded: boolean;
+                };
+
+                interface _SetDataLoaded {
+                    /** 
+                     *  ### Cambio de datos cargados
+                     *  Función de cambio de estado de datos cargados.
+                     */ 
+                    setDataLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+                };
+
+                interface _DataFromAPI<M extends ModelName>{
+                    /** 
+                     *  ### Datos desde la API
+                     *  Array que contiene los datos de registros obtenidos desde la API.
+                     */ 
+                    dataFromAPI: IACeleV2.Data.Models.Record<M>[];
+                };
+
+                interface _MetadataFromAPI<M extends ModelName>{
+                    /** 
+                     *  ### Metadatos desde la API
+                     *  Array que contiene los metadatos de registros obtenidos desde la API.
+                     */ 
+                    metadataFromAPI: IACeleV2.Data.Models.Field<M>[];
+                };
+
+            };
+
+            declare namespace Field {
+
+                interface Params<M extends ModelName>{
+                    name: IACeleV2.Data.Models.FieldName<M>;
+                    label?: string;
+                };
+
+            };
+
+            interface Data <M extends ModelName>{
+                records: IACeleV2.Data.Models.Record<M>[];
+                fields: IACeleV2.Data.Models.Field<M>[];
+            };
+
+        };
+
+        declare namespace Form {
+
+            declare namespace Field {
+
+                type _FormFieldParams<M extends ModelName> = (
+                    & View.HasFieldName<M>
+                    & View.ComputedLabel
+                );
+                interface FormFieldParams <M extends ModelName> extends _FormFieldParams<M>{
+                    Widget: React.FC
+                };
+
+                declare namespace _Base {
+
+                    type _BaseParams <M extends ModelName> = (
+                        & View._Base._HasOptionalReadonly<M>
+                        & View._Base._HasOptionalInvisible<M>
+                        & View._Base._ConditionalColorDecoration<M>
+                        & View._Base._HasDomain<M>
+                        & View._Base._HasPlaceholder
+                        & View._Base._HasWidgetName
+                        & View._Base._HasMinValue
+                        & View._Base._HasMaxValue
+                        & View._Base._HasNumericStep
+                    );
+                    /** 
+                     *  ### Parámetros base de campo de formulario
+                     *  Parámetros comunes de tipos de campo de formulario.
+                     */ 
+                    interface _Params <M extends ModelName> extends _BaseParams<M>{
+                        /** 
+                         *  ### Nombre o etiqueta
+                         *  Nombre do etiqueta opcional para el campo
+                         */ 
+                        label?: string;
+                    };
+
+                    /** 
+                     *  ### Campo simple
+                     *  Parámetros de campo simple de formulario.
+                     */ 
+                    interface _SingleFieldParams <M extends ModelName> extends _Params<M>{
+                        /** 
+                         *  ### Nombre de campo
+                         *  Nombre de campo del registro del modelo.
+                         */ 
+                        name: IACeleV2.Data.Models.FieldName<M>;
+                        /** 
+                         *  ### Contenido
+                         *  Propiedad no disponible desde esta interfaz
+                         */ 
+                        children?: undefined;
+                    };
+
+                    /** 
+                     *  ### Campo a árbol
+                     *  Parámetros de campo para ser convertido a árbol.
+                     */ 
+                    interface _RelatedFieldParams <
+                        M extends ModelName,
+                        F extends Data.Models.FieldName<M>
+                    > extends _Params<M>{
+                        /** 
+                         *  ### Nombre de campo relacionado
+                         *  Nombre de campo relacionado del registro del modelo.
+                         */ 
+                        name: F;
+                        /** 
+                         *  ### Contenido
+                         *  Contenido a renderizar dentro del contexto del campo.
+                         */ 
+                        children: Tree.Children.Callback<Data.Models.RelatedModelName<M, F>>;
+                    };
+
+                };
+
+                /** 
+                 *  ### Parámetros de campo de formulario
+                 *  Parámetros de campo de formulario.
+                 */ 
+                type Params <
+                    M extends ModelName,
+                    F extends Data.Models.FieldName<M>
+                > = (
+                    F extends Data.Models.One2ManyRelatedField<M>
+                        ? _Base._RelatedFieldParams<M, F>
+                        : _Base._SingleFieldParams<M>
+                );
+
+                declare namespace Tree {
+
+                    declare namespace Wrapper {
+
+                        interface Params <
+                            M extends ModelName,
+                            F extends IACeleV2.Data.Models.FieldName<M>,
+                            R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+                        >{
+                            config: IACeleV2.View.Form.Field.Tree.Children.Callback<R>;
+                        };
+
+                    };
+
+                    /** 
+                     *  ### Parámetros de árbol
+                     *  Interfaz para componente de campo.
+                     */ 
+                    type Params = GenericWrapperComponent;
+
+                    declare namespace Children {
+
+                        /** 
+                         *  ### Vista de árbol
+                         *  Interfaz para parámetros de función render de vista de árbol.
+                         */ 
+                        interface Params <M extends ModelName>{
+                            /** 
+                             *  ### Árbol
+                             *  Componente de árbol.
+                             */ 
+                            Tree: React.FC<Tree.Params<M>>;
+                            /** 
+                             *  ### Campo de árbol
+                             *  Componente de campo para contenido de componente de árbol.
+                             */ 
+                            Field: React.FC<Field._Base._SingleFieldParams<M>>;
+                        };
+
+                        /** 
+                         *  ### Función render
+                         *  Función para renderizar vista declarativa de árbol dentro de campo de formulario.
+                         */ 
+                        type Callback<M extends ModelName> = (components: Params<M>) => (React.ReactNode);
+
+                    };
+
+                    interface Config<
+                        M extends ModelName,
+                        F extends Data.Models.FieldName<M>,
+                        R extends Data.Models.RelatedModelName<M, F>
+                    > extends IACeleV2.View.HasFieldName<R>{
+                        /** 
+                         *  ### Etiqueta de campo
+                         *  Etiqueta de campo.
+                         */ 
+                        label?: string;
+                    };
+
+                    type __Base<
+                        M extends ModelName,
+                        F extends Data.Models.One2ManyRelatedField<M>,
+                        R extends Data.Models.RelatedModelName<M, F>
+                    > = (
+                        & IACeleV2.View.HasFieldName<M>
+                        & IACeleV2._Base._State._HasRelatedModelName<R>
+                        & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
+                        & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                        & IACeleV2.View.Tree._Base._DataLoaded
+                        & IACeleV2.View.Tree._Base._SetDataLoaded
+                        & IACeleV2.View.Tree._Base._DataFromAPI<R>
+                        & IACeleV2.View.Tree._Base._MetadataFromAPI<R>
+                    );
+                    interface Hook<
+                        M extends ModelName,
+                        F extends Data.Models.FieldName<M>,
+                        R extends Data.Models.RelatedModelName<M, F>
+                    > extends __Base<M, F, R>{
+                        /** 
+                         *  ### Configuración de vista de árbol
+                         *  Variable de configuración de vista de árbol.
+                         */ 
+                        treeConfig: IACeleV2.View.Form.Field.Tree.Config<M, F, R>[];
+                        /** 
+                         *  ### Añadir configuración
+                         *  Añadir configuración de vista de árbol.
+                         */ 
+                        addConfig: (config: Config<M, F, R>) => void;
+                        /** 
+                         *  ### Datos cargados
+                         *  Estado que indica que los datos han sido cargados. 
+                         */ 
+                        dataLoaded: boolean;
+                        /** 
+                         *  ### Cambio de datos cargados
+                         *  Función de cambio de estado de datos cargados.
+                         */ 
+                        setDataLoaded: React.Dispatch<React.SetStateAction<boolean>>;
+                        /** 
+                         *  ### Datos desde la API
+                         *  Array que contiene los datos de registros obtenidos desde la API.
+                         */ 
+                        dataFromAPI: IACeleV2.Data.Models.Record<R>[];
+                        /** 
+                         *  ### Metadatos desde la API
+                         *  Array que contiene los metadatos de registros obtenidos desde la API.
+                         */ 
+                        metadataFromAPI: IACeleV2.Data.Models.Field<R>[];
+                    };
+
+                };
+
+            };
+
+            /** 
+             *  #### Modo de formulario
+             *  Modo de transacción que ejecutará el formulario.
+             *  
+             *  Modos disponibles:
+             *  - `'create'`: Creación de registro.
+             *  - `'read'`: Lectura de registro (Esto puede incluir posibilidad de
+             *  modificación y eliminación).
+             *  ----
+             *  ```ts
+             *  type Mode = 'create' | 'read';
+             *  ```
+             */ 
+            type Mode = 'create' | 'read';
+
+            /** 
+             *  #### Función de cambio de valor de campo
+             *  Esta función cambia el valor de un campo en los datos del registro en el
+             *  formulario.
+             *  
+             *  Uso:
+             *  ```ts
+             *  const setFormFieldValue: IACele.View.Form.FieldValueSetter<M> = ...;
+             *  setFormFieldValue('name', 'onnymm');
+             *  ```
+             *  
+             *  Parámetros de entrada:
+             *  - `name`: Nombre del campo a modificar.
+             *  - `value`: Valor a actualizar (El tipo de dato del valor debe coincidir con
+             *  el tipo de dato del campo).
+             *  
+             *  ----
+             *  
+             *  ```ts
+             *  type FieldValueSetter<M extends ModelName> = <F extends FieldName<M>>(
+             *      name: F,
+             *      value: Record<M>[F],
+             *  ) => void;
+             *  ```
+             */ 
+            type FieldValueSetter<M extends ModelName> = <F extends Data.Models.FieldName<M>>(
+                name: F,
+                value: Data.Models.Record<M>[F],
+            ) => void;
+
+            /** 
+             *  ### `[Interfaz base]` Metadatos de campos
+             *  Arreglo de objetos que contienen los metadatos de los campos del modelo del
+             *  registro leído.
+             *  
+             *  ```ts
+             *  interface _FieldsMetadata <M extends ModelName>{
+             *      // Metadatos de campos
+             *      fieldsMetadata: Field<M>[];
+             *  };
+             *  ```
+             */ 
+            interface _FieldsMetadata <M extends ModelName>{
+                /** 
+                 *  #### Metadatos de campos
+                 *  Arreglo de objetos que contienen los metadatos de los campos del modelo del
+                 *  registro leído.
+                 *  
+                 *  ```ts
+                 *  const fieldsMetadata = [
+                 *      {
+                 *          name: 'create_date',
+                 *          label: 'Fecha de creación',
+                 *          ttype: 'datetime',
+                 *          ...
+                 *      },
+                 *      {...},
+                 *  ]
+                 *  ```
+                 */ 
+                fieldsMetadata: Data.Models.Field<M>[];
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Modo de formulario
+             *  Modo de transacción que ejecutará el formulario.
+             *  
+             *  ```ts
+             *  interface _FormMode {
+             *      // Modo de formulario
+             *      formMode: Mode;
+             *  };
+             *  ```
+             */ 
+            interface _FormMode {
+                /** 
+                 *  #### Modo de formulario
+                 *  Modo de transacción que ejecutará el formulario.
+                 *  
+                 *  Modos disponibles:
+                 *  - `'create'`: Creación de registro.
+                 *  - `'read'`: Lectura de registro (Esto puede incluir posibilidad de
+                 *  modificación y eliminación).
+                 *  ----
+                 *  ```ts
+                 *  type FormMode = "read" | "create";
+                 *  ```
+                 */ 
+                formMode: Mode;
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Registro del formulario
+             *  Valores de datos de registro en formulario y función de cambio de valor de
+             *  campo de datos de registro en formulario.
+             *  
+             *  ```ts
+             *  interface _FormRecord <M extends ModelName>{
+             *      // Datos del registro en formulario
+             *      formRecord: Partial<Record<M>>;
+             *  };
+             *  ```
+             */ 
+            interface _FormRecord <M extends ModelName>{
+                /** 
+                 *  #### Datos del registro en formulario
+                 *  Este objeto contiene los datos del registro modificados u originales
+                 *  provenientes del registro de la base de datos. Este registro siempre se
+                 *  origina como una copia del objeto de datos del registro en la base de datos
+                 *  o como un objeto totalmente vacío cuando el formulario está en estado de
+                 *  creación.
+                 *  
+                 *  ```ts
+                 *  // Datos de ejemplo
+                 *  const formRecord: Partial<Record<'base.users'>> = {
+                 *      login: 'onnymm',
+                 *      name: 'Onnymm Azzur',
+                 *      create_date: '2025-08-11 15:52:38',
+                 *  };
+                 *  ```
+                 */ 
+                formRecord: Partial<Data.Models.Record<M>>;
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Función de cambio de estado
+             *  Función de cambio de estado de objeto de datos del registro que se muestran
+             *  en la vista de formulario.
+             *  ```ts
+             *  interface _SetFormRecord<M extends ModelName>{
+             *      // Función de cambio de estado de datos del registro en formulario
+             *      setFormRecord: Dispatch<SetStateAction<Partial<Record<M>>>>;
+             *  };
+             *  ```
+             */ 
+            interface _SetFormRecord <M extends ModelName>{
+                /** 
+                 *  #### Función de cambio de estado de datos del registro en formulario
+                 *  Función de cambio de estado de objeto de datos del registro que se muestran
+                 *  en la vista de formulario.
+                 *  
+                 *  ```ts
+                 *  const setFormRecord = (value: Partial<Record<K, "form">>) => {...};
+                 *  ```
+                 */ 
+                setFormRecord: React.Dispatch<React.SetStateAction<Partial<Data.Models.Record<M>>>>;
+            };
+
+            /** 
+             *  #### Función de cambio de valor de campo
+             *  Esta función cambia el valor de un campo en los datos del registro en el
+             *  formulario.
+             */ 
+            interface _SetFormRecordField <M extends ModelName>{
+                /** 
+                 *  #### Función de cambio de valor de campo
+                 *  Esta función cambia el valor de un campo en los datos del registro en el
+                 *  formulario.
+                 *  
+                 *  Uso:
+                 *  ```ts
+                 *  const setFormFieldValue: FieldValueSetter<K> = ...;
+                 *  setFormFieldValue('name', 'onnymm');
+                 *  ```
+                 *  
+                 *  Parámetros de entrada:
+                 *  - `name`: Nombre del campo a modificar.
+                 *  - `value`: Valor a actualizar (El tipo de dato del valor debe coincidir con
+                 *  el tipo de dato del campo).
+                 *  
+                 *  ----
+                 *  
+                 *  ```ts
+                 *  type FieldValueSetter<M extends ModelName> = <F extends FieldName<M>>(
+                 *      name: F,
+                 *      value: Record<M>[F],
+                 *  ) => void;
+                 *  ``` void;
+                 *  ```
+                 */ 
+                setFormRecordField: FieldValueSetter<M>;
+            };
+
+            /** 
+            *  ### Hay cambios
+            *  Valor que contiene indicador de si hay cambios en el objeto de datos del
+            *  registro del formulario y el objeto de datos en la base de datos.
+            *  ```ts
+            *  interface HasChanges {
+            *      // Tiene cambios
+            *      hasChanges: boolean;
+            *  };
+            *  ```
+            */ 
+            interface _HasChanges {
+                /** 
+                *  #### Tiene cambios
+                *  Valor que indica si el objeto de datos del registro tiene cambios en base a
+                *  los datos del registro de la base de datos.
+                */ 
+                hasChanges: boolean;
+            };
+
+            /** 
+             *  ### `[Interfaz]` Modo de formulario
+             *  Valores de modo de formulario.
+             *  ```ts
+             *  interface ViewMode {
+             *      // Modo de formulario
+             *      formMode: Mode;
+             *      // Función de cambio de estado de modo de formulario
+             *      setFormMode: Dispatch<SetStateAction<Mode>>;
+             *  };
+             *  ```
+             */ 
+            interface _ViewMode extends _FormMode {
+                /** 
+                 *  #### Función de cambio de estado de modo de formulario
+                 *  Función de cambio de estado de modo de transacción que ejecutará el
+                 *  formulario.
+                 *  
+                 *  Modos disponibles:
+                 *  - `'create'`: Creación de registro.
+                 *  - `'read'`: Lectura de registro (Esto puede incluir posibilidad de
+                 *  modificación y eliminación).
+                 *  ----
+                 *  ```ts
+                 *  const setFormMode = (value: FormMode) => (...);
+                 *  ```
+                 */ 
+                setFormMode: React.Dispatch<React.SetStateAction<Mode>>;
+            };
+
+            interface Data <M extends ModelName>{
+                record: IACeleV2.Data.Models.Record<M>;
+                fields: IACeleV2.Data.Models.Field<M>[];
+            };
+
+            interface FieldInfo {
+                /** 
+                 *  ### Información de campo
+                 *  Información de ayuda sobre un campo de modelo de base de datos.
+                 */ 
+                fieldInfo: string | null;
+            };
+
+            interface FieldMetadata <M extends ModelName>{
+                /** 
+                 *  #### Metadatos de campo
+                 *  Objeto que contiene los metadatos de un campo del modelo del registro
+                 *  leído.
+                 *  
+                 *  ```ts
+                 *  const fieldMetadata = {
+                 *      name: 'create_date',
+                 *      label: 'Fecha de creación',
+                 *      ttype: 'datetime',
+                 *      ...
+                 *  }
+                 *  ```
+                 */ 
+                fieldMetadata: IACeleV2.Data.Models.Field<M>;
+            };
+
+            declare namespace Controls {
+
+                type NewRecord = (
+                    & IACeleV2.View.Form._FormMode
+                    & IACeleV2._Base._Callback._NewRecord
+                );
+
+                type SaveRecord = (
+                    & IACeleV2.View.Form._HasChanges
+                    & IACeleV2._Base._Callback._SaveRecord
+                );
+
+                type UndoChanges = (
+                    & IACeleV2.View.Form._FormMode
+                    & IACeleV2.View.Form._HasChanges
+                    & IACeleV2._Base._Callback._UndoChanges
+                );
+
+                type Hub = (
+                    & NewRecord
+                    & SaveRecord
+                    & UndoChanges
+                );
+
+            };
+
+            declare namespace Page {
+
+                /** 
+                 *  Página
+                 *  Interfaz para componente.
+                 */ 
+                type Params = GenericWrapperComponent;
+
+            };
+
+            declare namespace Group {
+
+                type Params<M extends ModelName> = (
+                    & IACeleV2.View._Base._HasOptionalLabel
+                    & IACeleV2.View._Base._HasOptionalInvisible<M>
+                    & GenericWrapperComponent
+                );
+
+            };
+
+            declare namespace Action {
+
+                type _Params<M extends ModelName> = (
+                    & IACeleV2.View._Base._HasOptionalInvisible<M>
+                    & IACeleV2.UI._Base._Colorizable
+                );
+                interface Params<M extends ModelName> extends _Params<M>{
+                    /** 
+                     *  ### Nombre
+                     *  Nombre de la acción en el backend.
+                     */ 
+                    name: string;
+                    /** 
+                     *  ### Etiqueta / Nombre visible
+                     *  Etiquerta o nombre visible que se reflejará en el botón de la acción.
+                     */ 
+                    label: string;
+                    /** 
+                     *  ### Mensaje de confirmación
+                     *  Mensaje de confirmación que se mostrará en modal antes de ejecutar la
+                     *  acción. En caso de dejarse vacío no se muestra ningún modal de confirmación
+                     *  de acción y la acción se ejecuta directamente.
+                     */ 
+                    confirm?: string;
+                    /** 
+                     *  ### Mensaje de notificación
+                     *  Mensaje de notificación que se mostrará en modal después de haberse
+                     *  ejecutado la acción.
+                     */ 
+                    notify?: string;
+                };
+
+            };
+
+            declare namespace Notebook {
+
+                declare namespace _Base {
+
+                    declare namespace Callback {
+
+                        type SetPageContent = (
+                            label: string,
+                            content: React.ReactNode,
+                            invisible: boolean,
+                        ) => void;
+
+                    };
+
+                    declare namespace Object {
+
+                        interface _PageData {
+                            /** 
+                             *  ### Etiqueta de página
+                             *  Etiqueta de la página de notebook.
+                             */ 
+                            label: string;
+                            /** 
+                             *  ### Es invisible
+                             *  Valor booleano que define si la página es invisible o no.
+                             */ 
+                            invisible: boolean;
+                        };
+
+                    };
+
+                    interface _ReadyToDisplay {
+                        /** 
+                         *  ### Listo para ser mostrado
+                         *  Estado que indica que el componente está listo para ser mostrado.
+                         */ 
+                        readyToDisplay: boolean;
+                    };
+
+                    interface _PageContent {
+                        /** 
+                         *  ### Contenido de página
+                         *  Contenido a mostrar en la página que se visualiza.
+                         */ 
+                        pageContent: React.ReactNode;
+                    };
+
+                    interface _AddPageContent {
+                        /** 
+                         *  ### Establecer contenido de página
+                         *  Función que establece contenido TSX en una página del componente Notebook.
+                         */ 
+                        addPageContent: Callback.SetPageContent;
+                    };
+
+                    interface _ReloadNotebook {
+                        /** 
+                         *  ### Recargar Notebook
+                         *  Función para recargar Notebook junto con sus datos más actualizados.
+                         */ 
+                        reloadNotebook: () => void;
+                    };
+
+                    interface _PagesData {
+                        /** 
+                         *  ### Datos de páginas
+                         *  Array que contiene los metadatos de las páginas del notebook como su
+                         *  etiqueta y si son visibles.
+                         */ 
+                        pagesData: Object._PageData[];
+                    };
+
+                    interface _DisplayedPage {
+                        /** 
+                         *  ### Página mostrada
+                         *  Índice de página que se muestra en el Notebook
+                         */ 
+                        displayedPage: number;
+                    };
+
+                    interface _SetDisplayedPage {
+                        /** 
+                         *  ### Cambio de página mostrada
+                         *  Función de cambio de estado de página mostrada.
+                         */ 
+                        setDisplayedPage: React.Dispatch<React.SetStateAction<number>>;
+                    };
+
+                    interface _IsSelected {
+                        /** 
+                         *  ### Está seleccionada
+                         *  Valor booleano que indica si la página está seleccionada.
+                         */ 
+                        isSelected: boolean;
+                    };
+
+                    interface _SelectPage {
+                        /** 
+                         *  ### Selección de página
+                         *  Función que selecciona una página del notebook a ser mostrada.
+                         */ 
+                        selectPage: () => void;
+                    };
+
+                };
+
+                declare namespace Callback {
+
+                    type SetPageContent = _Base.Callback.SetPageContent;
+
+                };
+
+                declare namespace Object {
+
+                    type PageData = _Base.Object._PageData;
+
+                    interface PageContent extends PageData {
+                        /** 
+                         *  ### Contenido de página
+                         *  Contenido de la página de notebook.
+                         */ 
+                        content: React.ReactNode;
+                    };
+
+                    interface PageSelector extends PageData {
+                        /** 
+                         *  ### Índice
+                         *  Índice de página de notebook.
+                         */ 
+                        index: number;
+                    };
+
+                };
+
+                declare namespace Pages {
+
+                    type Params = GenericWrapperComponent;
+
+                };
+
+                declare namespace Page {
+
+                    type _Params<M extends ModelName> = (
+                        & GenericWrapperComponent
+                        & IACeleV2.View._Base._HasOptionalInvisible<M>
+                    );
+                    interface Params<M extends ModelName> extends _Params<M>{
+                        /** 
+                         *  ### Nombre / Etiqueta
+                         *  Nombre visible de la pestaña del componente Notebook.
+                         */ 
+                        label: string;
+                    };
+
+                };
+
+                declare namespace Children {
+
+                    interface _Params<M extends ModelName>{
+                        /** 
+                         *  ### Páginas de formulario
+                         *  Componente que envuelve las páginas del componente Notebook.
+                         */ 
+                        Pages: React.FC<Pages.Params>;
+                        /** 
+                         *  ### Página de formulario
+                         *  Página o pestaña a mostrar dentro del componente Notebook.
+                         */ 
+                        Page: React.FC<Page.Params<M>>;
+                    };
+
+                    type Callback<M extends ModelName> = (components: _Params<M>) => (React.ReactNode);
+
+                };
+
+                interface Params<M extends ModelName> {
+                    children: Children.Callback<M>;
+                };
+
+            };
+
+            declare namespace Alert {
+
+                declare namespace _Base {
+
+                    interface _Show {
+                        /** 
+                         *  ### Mostrar
+                         *  Estaod que indica que el componente debe mostrarse.
+                         */ 
+                        show: boolean;
+                    };
+
+                    interface _Close {
+                        /** 
+                         *  ### Cerrar componente
+                         *  Función que cierra el componente.
+                         */ 
+                        close: () => (void);
+                    };
+
+                };
+
+                type _Params<M extends ModelName> = (
+                    & IACeleV2.View._Base._HasOptionalInvisible<M>
+                    & IACeleV2.UI._Base._Colorizable
+                );
+                interface Params<M extends ModelName> extends _Params<M>{
+                    /** 
+                     *  ### Contenido
+                     *  Mensaje que se mostrará en el componente.
+                     */ 
+                    children: string;
+                };
+
+            };
+
+            declare namespace Children {
+
+                interface Params<M extends ModelName> {
+                    /** 
+                     *  ### Página
+                     *  Componente que envuelve todo el formulario y sus componentes que lo
+                     *  conforman.
+                     */ 
+                    Page: React.FC<Page.Params>;
+                    /** 
+                     *  ### Encabezado de formulario
+                     *  Encabezado de formulario que envuelve componentes de estado y botones de acción.
+                     */ 
+                    Header: React.FC<GenericWrapperComponent>;
+                    /** 
+                     *  ### Hoja de formulario
+                     *  Componente que envuelve los componentes de información del formulario.
+                     */ 
+                    Sheet: React.FC<GenericWrapperComponent>;
+                    /** 
+                     *  ### Grupo
+                     *  Grupo de campos de formulario.
+                     */ 
+                    Group: React.FC<IACeleV2.View.Form.Group.Params<M>>;
+                    /** 
+                     *  ### Ación de servidor
+                     *  Botón que ejecuta una acción sobre el registro que se visualiza.
+                     */ 
+                    Action: React.FC<IACeleV2.View.Form.Action.Params<M>>;
+                    /** 
+                     *  ### Notebook
+                     *  Componente que secciona contenido del formulario en pestañas.
+                     */ 
+                    Notebook: React.FC<IACeleV2.View.Form.Notebook.Params<M>>;
+                    /** 
+                     *  ### Alerta
+                     *  Componente que muestra un mensaje importante en el formulario.
+                     */ 
+                    Alert: React.FC<IACeleV2.View.Form.Alert.Params>;
+                    Field: React.FC<Field.Params<M, Data.Models.FieldName<M>>>;
+                };
+
+                type Callback<M extends ModelName> = (components: Params<M>) => React.ReactNode;
+
+            };
+
+            type _Params<M extends ModelName> = (
+                & View._Base._RequiresModelName<M>
+                & View._Base._OptionalReadonly
+            );
+            interface Params<M extends ModelName> extends _Params<M>{
+                children: IACeleV2.View.Form.Children.Callback<M>;
+            };
+
+        };
+
+        declare namespace Modal {
+
+            interface _ConfirmOpen {
+                /** 
+                 *  ### Modal de confirmación abierto
+                 *  Estado que indica si el modal de confirmación está abierto.
+                 */ 
+                isConfirmOpen: boolean;
+                /** 
+                 *  ### Al abrir modal de confirmación
+                 *  Función que se ejecuta cuando el modal de confirmación se abre.
+                 */ 
+                onConfirmOpen: () => void;
+                /** 
+                 *  ### Cambio de mensaje de confirmación
+                 *  Función de cambio de estado de mensaje que se muestra en el modal de
+                 *  confirmación.
+                 */ 
+                setConfirmMessage: React.Dispatch<React.SetStateAction<string>>;
+            };
+
+            interface _DoneModal {
+                /** 
+                 *  ### Modal de realizado abierto
+                 *  Estado que indica si el modal de realizado está abierto.
+                 */ 
+                isDoneOpen: boolean;
+                /** 
+                 *  ### Al abrir modal de realizado
+                 *  Función que se ejecuta cuando el modal de realizado se abre.
+                 */ 
+                onDoneOpen: () => void;
+                /** 
+                 *  ### Cambio de mensaje de realizado
+                 *  Función de cambio de estado de mensaje que se muestra en el modal de
+                 *  realizado.
+                 */ 
+                setDoneMessage: React.Dispatch<React.SetStateAction<string>>;
+            };
+
+            interface _Execute {
+                /** 
+                 *  ### Función a ejecutar
+                 *  Función creada para ser ejecutada. No recibe parámetros ni retorna ningún
+                 *  valor.
+                 */ 
+                execute: IACeleV2.Common.VoidCallback;
+            };
+
+            interface _Generic extends IACeleV2._Base._State.IsOpen {
+                /** 
+                 *  ### Al cambiar el estado de apertura
+                 *  Función que se ejecuta cuando el estado de apertura del modal cambia.
+                 */ 
+                onOpenChange: () => void;
+                /** 
+                 *  ### Mensaje de modal
+                 *  Mensaje que se muestra en el modal.
+                 */ 
+                message: string;
+            };
+
+            interface _SetExecute {
+                /** 
+                 *  ### Cambio de función a ejecutar
+                 *  Función de cambio de estado de función creada para ser ejecutada.
+                 */ 
+                setExecute: React.Dispatch<React.SetStateAction<IACeleV2.Common.VoidCallback>>;
+            };
+
+            interface _SetModalColor {
+                /** 
+                 *  ### Cambio de modal
+                 *  Función de cambio de estado de color de modal.
+                 */ 
+                setColor: React.Dispatch<React.SetStateAction<IACeleV2.UI.UIColor | undefined>>;
+            };
+
+            interface ConfirmationModal extends _ConfirmOpen {
+                /** 
+                 *  ### Al cambiar el estado de apertura
+                 *  Función que se ejecuta cuando el estado de apertura del modal de
+                 *  confirmación cambia.
+                 */ 
+                onConfirmOpenChange: () => void;
+                /** 
+                 *  ### Mensaje de confirmación
+                 *  Mensaje que se muestra en el modal de confirmación.
+                 */ 
+                confirmMessage: string;
+            };
+
+            declare namespace Component {
+
+                type _Confirm = (
+                    & _Generic
+                    & _Execute
+                );
+                interface Confirm extends _Confirm {
+                    color: UI.HeroUI | undefined;
+
+                };
+
+                type Done = _Generic;
+
+            };
+
+            interface DoneModal extends _DoneModal {
+                /** 
+                 *  ### Al cambiar el estado de apertura
+                 *  Función que se ejecuta cuando el estado de apertura del modal de
+                 *  realizado cambia.
+                 */ 
+                onDoneOpenChange: () => void;
+                /** 
+                 *  ### Mensaje de realizado
+                 *  Mensaje que se muestra en el modal de realizado.
+                 */ 
+                doneMessage: string;
+            };
+
+            type Callback = (
+                & _Execute
+                & _SetExecute
+            );
+
+            interface _ModalColor extends _SetModalColor{
+                /** 
+                 *  ### Color de modal
+                 *  Valor de color de modal.
+                 */ 
+                color: IACeleV2.UI.UIColor | undefined;
+            };
+
+        };
+
+        interface ComputedReadonly {
+            /** 
+             *  ### Solo lectura (computado)
+             *  Valor de solo lectura computado para campo.
+             */ 
+            computedReadonly: boolean;
+        };
+
+        interface ComputedLabel {
+            /** 
+             *  ### Etiqueta computada
+             *  Valor de etiqueta computada para campo.
+             */ 
+            computedLabel: string;
+        };
+
+        interface ComputedIsInvisible {
+            /** 
+             *  ### Invisible (computado)
+             *  Valor que indicia que el componente no debe renderizarse.
+             */ 
+            computedIsInvisible: boolean;
+        };
+
+        interface ComputedDecorationColor {
+            /** 
+             *  ### Color de componente
+             *  Color computado para colorear un componente.
+             */ 
+            computedDecorationColor: IACeleV2.UI.HeroUIColor;
+        };
+
+        type _FieldMainProps = (
+            & IACeleV2._Base._State._HasTTypeName
+            & IACeleV2.View.ComputedLabel
+            & IACeleV2.View.ComputedReadonly
+            & IACeleV2.View.ComputedDecorationColor
+        );
+        type ComputedFieldProps = (
+            & _FieldMainProps
+            & IACeleV2.View.ComputedIsInvisible
+        );
+
+    };
+
+    declare namespace API {
+
+        declare namespace Request {
+
+            declare namespace _Base {
+
+                interface _RequiresActionName {
+                    'action': string;
+                };
+
+                interface _SupportFieldsSpecification<K extends ModelName> {
+                    'fields'?: Data.Models.FieldName<K>[];
+                };
+
+                interface _RequiresModelName <M extends ModelName>{
+                    'model_name': M;
+                };
+
+                interface _RequiresRecordData <M extends ModelName>{
+                    'data': Partial<IACeleV2.Data.Models.Record<M>>;
+                };
+
+                interface _RequiresRecordID {
+                    'record_id': number;
+                };
+
+                interface _RequiresRecordIDs {
+                    'record_ids': number | number[];
+                };
+
+                interface _SupportsSearchCriteria<M extends ModelName> {
+                    'search_criteria': IACeleV2.Data.Models.CriteriaStructure<M>;
+                };
+
+                interface _SupportSlicing {
+                    'offset'?: number;
+                    'limit'?: number;
+                };
+
+                interface _SupportSorting {
+                    'sortby'?: boolean;
+                    'ascending'?: boolean;
+                };
+
+            };
+
+            interface Authentication {
+                /** 
+                 *  ### Token de acceso
+                 *  Token hasheado provisto por el backend al iniciar sesión y almacenado en el
+                 *  navegador.
+                 */ 
+                'access_token': string;
+                /** 
+                 *  ### Tipo de token
+                 *  Tipo del token a usar.
+                 */ 
+                'token_type': 'bearer';
+            };
+
+            declare namespace Crud {
+
+                type Read<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordIDs
+                );
+
+            };
+
+            declare namespace Form {
+
+                type Create<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordData<M>
+                );
+
+                type Delete<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordIDs
+                );
+
+                type Read<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordID
+                );
+
+                type SearchRead<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._SupportFieldsSpecification<M>
+                    & _Base._SupportSlicing
+                    & _Base._SupportsSearchCriteria<M>
+                    & _Base._SupportSorting
+                );
+
+                type Update<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordData<M>
+                    & _Base._RequiresRecordIDs
+                );
+
+            };
+
+            declare namespace Server {
+
+                type Action<M extends ModelName> = (
+                    & _Base._RequiresActionName
+                    & _Base._RequiresModelName<M>
+                    & _Base._RequiresRecordID
+                );
+
+            };
+
+        };
+
+        declare namespace Response {
+
+            declare namespace _Authentication {
+
+                interface _Headers {
+                    /** 
+                     *  ### Encabezados
+                     *  Estructura de datos recibida por `Axios` para incluir en encabezados de
+                     *  autenticación.
+                     *  ```ts
+                     *  interface headers {
+                     *      accept: string;
+                     *      "Content-Type"?: string;
+                     *      "Authorization"?: string;
+                     *  };
+                     *  ```
+                     */ 
+                    headers: {
+                        accept: 'application/json';
+                        "Content-Type"?: 'application/x-www-form-urlencoded';
+                        "Authorization"?: string;
+                    };
+                };
+
+            };
+
+            interface Error {
+                /** 
+                 *  ### Detalle
+                 *  Detalle del error.
+                 */ 
+                detail: string;
+            };
+
+        };
+
+    };
+
+    declare namespace Browser {
+
+        declare namespace localStorage {
+
+            type DarkMode = 'false' | 'true'
+
+        };
+
+    };
+
+    declare namespace Application {
+
+        type Provider = IACeleV2._Base._SupportsChildren;
+
+        interface CurrentUserData {
+            /** 
+             *  ### ID
+             *  ID del usuario.
+             */ 
+            'id': number | undefined;
+            /** 
+             *  ### Correo
+             *  Correo del usuario.
+             */ 
+            'login': string;
+            /** 
+             *  ### Nombre
+             *  Nombre del usuario.
+             */ 
+            'name': string;
+            /** 
+             *  ### ID de Odoo
+             *  ID de usuario en Odoo del usuario.
+             */ 
+            'odoo_id'?: number;
+            /** 
+             *  ### Fecha de creación
+             *  Fecha de creación del registro del usuario.
+             */ 
+            'create_date': string;
+            /** 
+             *  ### Fecha de última modificación
+             *  Fecha de última modificación del registro del usuario.
+             */ 
+            'write_date': string;
+        };
+
+        type _Breadcrumbs = (
+            & Routing._RecentRoutes
+            & _PageNameValue
+        );
+
+        declare namespace Navigation {
+
+            /** 
+             *  ### `[Interfaz base]` Ruta
+             *  Ruta dentro de la aplicación
+             *  ```ts
+             *  interface Route {
+             *      // Nombre
+             *      name: string;
+             *      // Dirección de ruta
+             *      path: string;
+             *  };
+             *  ```
+             */ 
+            interface Route {
+                /** 
+                 *  ### Dirección de ruta
+                 *  Dirección de la ruta.
+                 */ 
+                path: string;
+                /** 
+                 *  ### Nombre
+                 *  Nombre de la ruta.
+                 */ 
+                name: string;
+            };
+
+            /** 
+             *  ### `[Interfaz base]` Grupo de rutas
+             *  Grupo de rutas dentro de la aplicación.
+             *  ```ts
+             *  interface RouteGroup {
+             *      // Nombre
+             *      name: string;
+             *      // Ícono
+             *      icon: React.ElementType;
+             *      // Rutas
+             *      routes: string | Route[];
+             *  };
+             *  ```
+             */ 
+            interface RouteGroup {
+                /** 
+                 *  ### Nombre
+                 *  Nombre del gripo de rutas.
+                 */ 
+                name: string;
+                /** 
+                 *  ### Ícono
+                 *  Ícono representativo del grupo de rutas
+                 */ 
+                icon: React.ElementType;
+                /** 
+                 *  ### Rutas
+                 *  Array de rutas o ruta sencilla que lleva a alguna parte de la aplicación.
+                 */ 
+                routes: string | Route[];
+            };
+
+            interface RouteSection {
+                /** 
+                 *  ### Nombre
+                 *  Nombre de la sección de grupo de rutas. Este nombre se renderiza como
+                 *  encabezado de los botones de grupos de rutas de la sección.
+                 */ 
+                name: string;
+                /** 
+                 *  ### Grupos de rutas
+                 *  Array de grupos de rutas o rutas sencillas que se renderizan como un botón
+                 *  que se despliega para mostrar las rutas contenidas o redirecciona a la ruta
+                 *  individual.
+                 */ 
+                groups: RouteGroup[];
+            };
+
+        };
+
+        interface _LocalToken {
+            /** 
+             *  #### Guardar token
+             *  Función que guarda el token de usuario en el almacenamiento local del
+             *  navegador.
+             */ 
+            saveToken: (token: string) => void;
+            /** 
+             *  #### Cargar token
+             *  Función que carga el token de usuario desde el almacenamiento local del
+             *  navegador.
+             */ 
+            loadToken: () => string | null;
+            /** 
+             *  #### Remover token
+             *  Función que remueve el token de usuario en el almacenamiento local del
+             *  navegador.
+             */ 
+            removeToken: () => void;
+        };
+
+        declare namespace _Navbar {
+
+            declare namespace _Slot {
+
+                interface _DynamicControls {
+                    /** 
+                     *  ### Controles dinámicos
+                     *  Este estado contiene el componente TSX que se mostrará en la barra de
+                     *  navegación de la aplicación.
+                     */ 
+                    dynamicControls: React.JSX.Element | null;
+                    /** 
+                     *  ### Establecer controles dinámicos
+                     *  Esta función establece un nuevo componente TSX que se mostrará en la barra
+                     *  de navegación de la aplicación.
+                     */ 
+                    setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
+                };
+
+                interface _MainControls {
+                    /** 
+                     *  ### Controles principales
+                     *  Componente de controles principales de la barra de navegación.
+                     */ 
+                    mainControls: React.ReactNode | null;
+                    /** 
+                     *  ### Establecer controles principales
+                     *  Función de cambio de estado para establecer el componente de controles
+                     *  principales de la barra de navegación.
+                     */ 
+                    setMainControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
+                };
+
+                interface _SuperiorControls {
+                    /** 
+                     *  ### Controles superiores
+                     *  Componente de controles superiores de la navegación.
+                     */ 
+                    superiorControls: React.ReactNode | null;
+                    /** 
+                     *  ### Establecer controles superiores
+                     *  Función de cambio de estado para establecer el componente de controles
+                     *  superiores de la barra de navegación.
+                     */ 
+                    setSuperiorControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
+                };
+
+            };
+
+        };
+
+        interface _PageNameValue {
+            /** 
+             *  ### Nombre de página
+             *  Nombre de la página actual en la aplicación
+             */ 
+            pageName: string | null;
+        };
+
+        interface _SetViewName {
+            /** 
+             *  ### Cambio de nombre de vista
+             *  Función de cambio de estado de nombre de vista.
+             */ 
+            setViewName: (name: string | null) => void;
+        };
+
+        declare namespace _Sidebar {
+
+            interface _Params {
+                /** 
+                 *  ### La barra lateral está abierta
+                 *  Estado que indica que la barra lateral de la interfaz principal de la
+                 *  aplicación se encuentra abierta.
+                 */ 
+                isSidebarOpen: boolean;
+                /** 
+                 *  ### Cambio de estado de barra lateral abierta
+                 *  Función de cambio de estado de barra lateral abierta.
+                 */ 
+                setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
+                /** 
+                 *  ### La barra lateral está bloqueada
+                 *  Estado que indica que la barra lateral está bloqueada.
+                 */ 
+                isSidebarLocked: boolean;
+                /** 
+                 *  ### Cambio de estado de barra lateral bloqueada
+                 *  Función de cambio de estado de barra lateral bloqueada.
+                 */ 
+                setIsSidebarLocked: React.Dispatch<React.SetStateAction<boolean>>;
+                /** 
+                 *  ### Interruptor de barra lateral abierta
+                 *  Función que abre lateral si se encuentra cerrada o la cierra si se
+                 *  encuentra abierta.
+                 */ 
+                toggleSidebar: () => void;
+                /** 
+                 *  ### Referencia de Sidebar
+                 *  Referencia para uso en componente de barra lateral.
+                 */ 
+                sidebarRef: React.RefObject<HTMLElement | null>;
+            };
+
+            /** 
+             *  ### Menú de barra lateral
+             *  Colección de datos que describe la estructura del menú de la barra lateral
+             *  de la aplicación.
+             */ 
+            type SidebarMenu = Navigation.RouteSection[];
+
+            declare namespace UI {
+
+                type _RouteGroupButton = (
+                    & IACeleV2._Base._State.IsOpen
+                    & IACeleV2._Base._Callback._OnClick
+                    & IACeleV2.Application.Navigation.RouteGroup
+                );
+                interface RouteGroupButton extends _RouteGroupButton {
+                    /** 
+                     *  ### La ubicación es activa
+                     *  Este parámetro indica si la ubicación actual en la aplicación es la misma a
+                     *  la que el componente apunta.
+                     */ 
+                    isActiveLocation: boolean;
+                };
+
+                interface Routes extends IACeleV2._Base._State.IsOpen {
+                    /** 
+                     *  ### Altura de lista
+                     *  Altura computada para la lista de rutas cuando ésta se despliega.
+                     */ 
+                    height: number;
+                    /** 
+                     *  ### Referencia de lista
+                     *  Referencia usada para calcular la altura de la lista de rutas.
+                     */ 
+                    listRef: React.RefObject<HTMLDivElement | null>;
+                    /** 
+                     *  ### Rutas
+                     *  Lista de rutas.
+                     */ 
+                    routes: IACeleV2.Application.Navigation.Route[];
+                    /** 
+                     *  ### Función de clic
+                     *  Función que se ejecuta cuando el componente recibe un clic.
+                     */ 
+                    routeOnClick: (route: string) => (void);
+                };
+
+                interface Route extends IACeleV2._Base._Callback._OnClick {
+                    /** 
+                     *  ### Ruta
+                     *  Objeto que contiene una ruta de URL y el nombre de ésta.
+                     */ 
+                    route: IACeleV2.Application.Navigation.Route;
+                };
+
+            }
+
+        };
+
+        interface _Theme {
+            /** 
+             *  ### Modo oscuro
+             *  Valor que indica si el tema de modo oscuro está activo.
+             */ 
+            darkMode: boolean;
+            /** 
+             *  ### Cambio de estado de modo oscuro
+             *  Función de cambio de estado de modo oscuro de la aplicación.
+             */ 
+            setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+        };
+
+        interface _UserData {
+            /** 
+             *  ### Datos de usuario
+             *  Datos del usuario de la sesión actual en la aplicación.
+             */ 
+            userData: IACeleV2.Application.CurrentUserData;
+            /** 
+             *  ### Cambio de datos de usuario
+             *  Función de cambio de estado de datos de usuario.
+             */ 
+            setUserData: React.Dispatch<React.SetStateAction<IACeleV2.Application.CurrentUserData>>;
+            /** 
+             *  ### Remover datos de usuario
+             *  Función que remueve los datos del usuario de la sesión actual.
+             */ 
+            removeUserData: () => void;
+        };
+
+        interface Loading {
+            /** 
+             *  ### Estatus de carga de la app
+             *  Este estado contiene el estatus de carga de la aplicación. Éste cambia
+             *  cuando se realiza una solicitud de datos al backend.
+             */ 
+            appLoading: boolean;
+            /** 
+             *  ### Función de cambio de estado de carga de la app
+             *  Esta función realiza el cambio de estado de carga de la aplicación.
+             */ 
+            setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
+        };
+
+        interface Login {
+            /** 
+             *  ### Mensaje de error
+             *  Mensaje a mostrar en caso de un error en el inicio de sesión.
+             */ 
+            errorMessage: string | undefined;
+            /** 
+             *  ### Inicio de sesión
+             *  Función a ejecutar en el formulario para iniciar sesión.
+             */ 
+            login: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
+        };
+
+        interface Logout {
+            /** 
+             *  ### Cierre de sesión
+             *  Función para cerrar sesión.
+             */ 
+            logout: () => void;
+        };
+
+        interface PageName extends _PageNameValue {
+            /** 
+             *  ### Cambio de nombre de página
+             *  Función de cambio de estado de nombre de la página actual en la aplicación.
+             */ 
+            setPageName: React.Dispatch<React.SetStateAction<string | null>>;
+        };
+
+        declare namespace Routing {
+
+            interface _BreadcrumbCallbacks {
+                /** 
+                 *  ### Añadir ruta
+                 *  Función para añadir una ruta al arreglo de rutas recientes.
+                 */ 
+                addRoute: (data: RouteLink) => void;
+                /** 
+                 *  ### Truncar rutas recientes
+                 *  Esta función se usa para cortar las últimas rutas recientes en base a un
+                 *  índice, esto sirve cuando el usuario ha dado clic en alguna de las rutas
+                 *  mostradas por los breadcrumbs y ya no hay necesidad de mostrar la ruta
+                 *  cliqueada ni sus respectivas rutas siguientes en éstos.
+                 */ 
+                cutRecent: (index: number) => void;
+                /** 
+                 *  ### Guardar valor de estado
+                 *  Esta función permite guardar el valor más actualizado que se podrá
+                 *  recuperar si se vuelve a visitar la página desde las rutas recientes.
+                 */ 
+                setRouteData: <T>(key: string, value: T) => void;
+                /** 
+                 *  ### Recuperar valor de estado
+                 *  Esta función permite recuperar el último valor guardado de la página actual
+                 *  cuando se visita ésta desde las rutas recientes.
+                 */ 
+                recoverData: <T>() => T;
+            };
+
+            interface _RecentRoutes {
+                /** 
+                 *  ### Vínculos de ruta
+                 *  Arreglo de los vínculos de ruta de las últimas rutas visitadas en la
+                 *  aplicación.
+                 */ 
+                recentRoutes: RouteLink<any>[];
+            };
+
+            type BreadcrumbMemory = (
+                & _BreadcrumbCallbacks
+                & _RecentRoutes
+            );
+
+            interface BreadcrumbValues extends _BreadcrumbCallbacks {
+                /** 
+                 *  ### Vínculos de ruta
+                 *  Arreglo de vínculos de ruta.
+                 */ 
+                routes: IACeleV2.Application.Routing.RouteLink<any>[];
+                /** 
+                 *  ### Cambio de estado de vínculos de ruta
+                 *  Función de cambio de estado de vínculos de ruta.
+                 */ 
+                setRoutes: React.Dispatch<React.SetStateAction<IACeleV2.Application.Routing.RouteLink<any>[]>>;
+            };
+
+            interface RouteLink<T> {
+                /** 
+                 *  ### Nombre de ruta
+                 *  Nombre a mostrar en breadcrump de la aplicación.
+                 */ 
+                name: string;
+                /** 
+                 *  ### Ruta
+                 *  Ruta de URL a la que se navega para llegar a esta ruta.
+                 */ 
+                to: string | number;
+                /** 
+                 *  
+                 */ 
+                data?: {
+                    [K: string]:? T
+                };
+            };
+
+        };
+
+        interface UserToken {
+            /** 
+             *  ### Token de usuario
+             *  Valor usado para la autenticación del usuario en las solicitudes de datos
+             *  al backend.
+             */ 
+            userToken: string | null;
+            /** 
+             *  ### Cambio de token de usuario
+             *  Función de cambio de estado del token de usuario.
+             */ 
+            setUserToken: React.Dispatch<React.SetStateAction<string | null>>;
+        };
+
+    };
+
+    declare namespace Adapter {
+
+        type Color = Record<UI.UIColor, UI.HeroUIColor>;
+
+    };
+
+    declare namespace UI {
+
+        declare namespace _Base {
+
+            interface _Colorizable {
+                /** 
+                 *  ### Color de componente
+                 *  Color utilizado para colorear componentes.
+                 */ 
+                color?: UIColor;
+            };
+
+            interface _HasIcon {
+                /** 
+                 *  ### Ícono
+                 *  Ícono a renderizar en el componente.
+                 */ 
+                icon: React.FC<React.SVGProps<SVGSVGElement>>;
+            };
+
+        };
+
         /** 
-         *  ### Color de decoración
-         *  Color de decoración de de componente/widget en base a su valor.
+         *  ### Color de HeroUI
+         *  Color utilizado para colorear componentes de HeroUI.
          */ 
-        type DecorationColor = "default" | "primary" | "secondary" | "success" | "warning" | "danger" | undefined;
-
-        interface Input {
-            value?: string;
-            onValueChange?: React.Dispatch<React.SetStateAction<string>>;
-        };
-
-        // Uso para componentes de input en inicio de sesión
-        interface CoreInput extends Input {
-            name: string; // Nombre del campo en el formulario.
-            label: string; // Nombre descriptivo del campo, visible en la interfaz.
-            type?: React.InputHTMLAttributes<HTMLInputElement>['type']; // Tipo de campo.
-            icon?: React.FC<React.SVGProps<SVGSVGElement>> | SvgIconComponent; // Ícono a renderizar en el campo.
-            endContent?: React.ReactNode; // Componente a renderizar en la parte final del campo.
-        };
-
-        interface SelectOption<K> {
-            /** 
-             *  ### Llave de opción
-             *  Llave única de la opción actual
-             */ 
-            name: K;
-            /** 
-             *  ### Leyenda de opción
-             *  Esta leyenda muestra el nombre o descripción de la opción actual.
-             */ 
-            label: string;
-        };
-
-        interface SelectOptions<K> {
-            /** 
-             *  ### Opciones disponibles
-             *  Arreglo que contiene todas las opciones disponibles y que renderiza en la
-             *  lista de opciones.
-             */ 
-            toggleableKeys: SelectOption<K>[];
-            /** 
-             *  ### Opciones seleccionadas
-             *  Arreglo que contiene todas las opciones seleccionadas/activas.
-             */ 
-            selectedKeys: Set<K>;
-            /** 
-             *  ### Manejo de estado de opciones seleccionadas
-             *  Esta función realiza la activación o desactivación decolumnas.
-             */ 
-            setSelectedKeys: (keys: _SharedSelection) => void;
-        };
-
-        interface SelectTemplate<T> extends IACele.UI.SelectOptions<T> {
-            /** 
-             *  ### Trigger
-             *  Componente que renderizará las opciones.
-             */ 
-            trigger: React.JSX.Element; // Componente para desplegar el Select
-            /** 
-             *  ### Modo de selección
-             *  Modo de selección de opciones: Sencillo o múltiple.
-             */ 
-            selectionMode: 'single' | 'multiple'; // Tipo de selección de opciones
-        };
-
-        interface Group extends IACele.UI.GenericInvolverComponent {
-            /** 
-             *  ### Título
-             *  Título o encabezado que aparece como nombre del grupo.
-             */ 
-            label?: string;
-        };
+        type HeroUIColor = "default" | "primary" | "secondary" | "success" | "warning" | "danger";
+        /** 
+         *  ### Color de componente
+         *  Color utilizado para colorear componentes.
+         */ 
+        type UIColor = "default" | "primary" | "info" | "success" | "warning" | "danger";
 
         declare namespace Input {
 
-            type _File = _SupportsId & _Colorizable;
-            interface FileType extends _File {
-                /** 
-                 *  ### Archivo
-                 *  Archivo ingresado al input.
-                 */ 
-                file: File | null;
-                /** 
-                 *  ### Establecer archivo
-                 *  Función de cambio de estado para colocar el archivo cuando éste se ingresa
-                 *  al componente.
-                 */ 
-                setFile: React.Dispatch<React.SetStateAction<File | null>>;
-                /** 
-                 *  ### Formatos aceptados
-                 *  Formatos de archivo aceptados, separados por espacio. Por ejemplo `".png
-                 *  .jpeg .svg"`
-                 */ 
-                accept: string;
+            declare namespace _Base {
+
+                interface _HasValue<T> {
+                    /** 
+                     *  ### Valor
+                     *  Valor del campo.
+                     */ 
+                    value: T;
+                };
+
             };
+
+            declare namespace Password {
+
+                declare namespace Toggle {
+
+                    type Params = (
+                        & IACeleV2._Base._EventCallback.OnClick<HTMLButtonElement, MouseEvent>
+                        & UI._Base._HasIcon
+                    );
+
+                };
+
+                type Params = (
+                    & _Base._HasValue<string>
+                    & IACeleV2._Base._EventCallback._OnValueChange<string>
+                );
+
+            };
+
+            declare namespace Text {
+
+                type _Params = (
+                    & _Base._HasValue<string>
+                    & UI._Base._HasIcon
+                    & IACeleV2._Base._EventCallback._OnValueChange<string>
+                    & IACeleV2._Base._State._EndContent
+                )
+                interface Params extends _Params {
+                    /** 
+                     *  ### Nombre
+                     *  Nombre del campo en el formulario.
+                     */ 
+                    name: string;
+                    /** 
+                     *  ### Valor
+                     *  Valor del campo.
+                     */ 
+                    value: string;
+                    /** 
+                     *  ### Nombre visible
+                     *  Nombre visible del campo.
+                     */ 
+                    label: string;
+                    /** 
+                     *  ### TIpo de campo
+                     *  Tipo de dato que recibe el campo como entrada.
+                     */ 
+                    type?: React.InputHTMLAttributes<HTMLInputElement>['type']
+                };
+
+            };
+
+            declare namespace User {
+
+                type Params = (
+                    & _Base._HasValue<string>
+                    & IACeleV2._Base._EventCallback._OnValueChange<string>
+                );
+
+            };
+
+        };
+
+        declare namespace Button {
+
+            type Params = (
+                & IACeleV2._Base._EventCallback._OnPress
+                & IACeleV2._Base._State._EndContent
+                & IACeleV2._Base._State._IsDisabled
+                & IACeleV2._Base._State._IsIconOnly
+                & IACeleV2._Base._State._StartContent
+                & IACeleV2._Base._SupportsClassName
+                & IACeleV2._Base._SupportsOptionalChildren
+                & IACeleV2.UI._Base._Colorizable
+            );
+
+        };
+
+        /** 
+         *  ### Función de renderización
+         *  FUnción flecha que destructura desde una interfaz para poder declarar la
+         *  renderización de un conjunto de componentes o atributos provistos desde el
+         *  componente que la ejecuta.
+         */ 
+        type _RenderCallback<T> = (config: T) => (React.ReactNode);
+
+        interface _RendererProps<T>{
+            /** 
+             *  ### Declaración de vista
+             *  Declaraciópn en forma de función flecha de cómo se mostrará la vista.
+             */ 
+            children: _RenderCallback<T>;
+        };
+
+        declare namespace Breadcrumbs {
+
+            interface Ellipsis {
+                /** 
+                 *  ### Elementos a renderizar
+                 *  Elementos a renderizar en forma de lista cuando el botón de elipse se abre.
+                 */ 
+                items: GenericWrapperComponent[];
+                /** 
+                 *  ### Separador
+                 *  Componente que actúa como separador de elementos.
+                 */ 
+                separator: React.ReactNode;
+            };
+
+            interface Route extends Application.Routing.RouteLink<any>{
+                /** 
+                 *  ### Índice de ruta
+                 *  Índice de ruta.
+                 */ 
+                index: number;
+            };
+
+            type Routes = Application.Routing._RecentRoutes;
 
         };
 
         declare namespace Sizeable {
 
+            /** 
+             *  ### Tipo de vista
+             *  Valor que indica el tipo de vista actual en la interfaz.
+             */ 
             type _View = 'mobile' | 'desktop';
+            /** 
+             *  ### Tamaño del componente
+             *  Valor usado por los componentes de HeroUI.
+             */ 
             type _ComponentSize = 'sm' | 'md';
+            /** 
+             *  ### Tamaño del texto
+             *  Valor usado por los componenntes de HeroUI.
+             */ 
             type _TextSize = 'text-medium' | 'text-sm';
 
-            interface _ComponentCallbackParams {
+            interface _Params {
                 /** 
                  *  ### Modo de vista
-                 *  Este valor indica el modo actual de vista para el componente, ya sea
-                 *  móvil o escritorio.
+                 *  Este valor indica el modo actual de vista para el componente ya sea móvil
+                 *  o de escritorio.
                  */ 
                 view: _View;
                 /** 
@@ -376,1589 +3155,261 @@ declare namespace IACele {
                 textSize: _TextSize;
             };
 
-            type _ComponentCallback = ({ view, componentSize }: _ComponentCallbackParams) => (React.ReactNode);
-
-            interface SizeableParams {
-                children: _ComponentCallback;
-            };
-
-        };
-
-        declare namespace Modal {
-
-            interface Generic {
-                /** 
-                 *  ### Está abierto
-                 *  Estado que indica que el modal está abierto.
-                 */ 
-                isOpen: boolean;
-                /** 
-                 *  ### No sé
-                 *  Sepa qué hace esta función, proviene de la librería de HeroUI.
-                 */ 
-                onOpenChange: () => void;
-                /** 
-                 *  ### Mensaje a mostrar
-                 *  Mensaje a mostrar en el modal.
-                 */ 
-                message: string;
-            };
-
-            interface Confirm extends Generic {
-                /** 
-                 *  ### Función a ejecutar
-                 *  Función a ejecutar en un botón dentro del modal.
-                 */ 
-                execute: () => void;
-                /** 
-                 *  ### Color UI
-                 *  Color UI de componentes dentro del modal.
-                 */ 
-                color: IACele.UI.DecorationColor;
-            };
-
-            interface Notify extends Generic {
-                /** 
-                 *  ### Modo de modal
-                 *  Este parámetro indica en dónde se está utilizando el modal para mostrar la
-                 *  leyenda predeterminada correcta.
-                 */ 
-                mode: 'action' | 'task';
-            };
-
-        };
-
-
-
-
-    };
-
-    declare namespace API {
-
-        // Tablas de la base de datos
-        declare namespace Database {
-
-            // Tablas
-            interface Table {
-
-                'base.users': {
-                    id: number;
-                    user: string;
-                    name: string;
-                    odooId: number;
-                    active: boolean;
-                    password: string;
-                    createDate: string;
-                    writeDate: string;
-                };
-
-                'commissions.line': {
-                    id: number;
-                    invoiceLineId: number;
-                    invoiceId: number;
-                    invoiceDate: string;
-                    name: string;
-                    invoiceOrigin: string;
-
-                    salespersonId: number;
-                    businessModel: 'piso' | 'ce';
-                    warehouse: 'a1' | 'a2';
-                    originModule: 'sale' | 'pos' | 'account';
-
-                    partnerId: number;
-                    partnerName: string;
-                    productId: number;
-                    internalReference: string;
-                    productName: string;
-                    quantity: number;
-                    priceUnit: number;
-                    priceSubtotal: number;
-
-                    purchaseId: number;
-                    purchaseName: string;
-                    vendorId: number;
-                    vendorName: string;
-                    purchaseDate: string;
-                    productCost: number;
-                    costSubtotal: number;
-                    discount: number;
-
-                    partnerCommission: number;
-                    partnerCommissionCost: number;
-
-                    utilitySubtotal: number;
-                    totalUtilityPct: number;
-                    margin: number;
-
-                    costSubtotalAfterPartnerCommission: number;
-                    utilitySubtotalAfterPartnerCommission: number;
-                    utilitySubtotalAfterPartnerCommissionPct: number;
-                    marginAfterPartnerCommissionPct: number;
-
-                    notes: string;
-
-                    createDate: string;
-                    writeDate: string;
-                };
-            };
-
-            // Nombres de tablas
-            type TableName = keyof Table;
-        };
-
-        // Tipos de datos
-        declare namespace DataTypes {
-
-            // Valor de registro en la base de datos
-            type _RecordValue = string | number | string | boolean | null | number[];
-
-            // Objeto de un registro en la base de datos
-            type GenericRecord = Record<string, _RecordValue>;
-
-            // Operador de comparación para queries SQL
-            type ComparisonOperator = '=' | '!=' | '>' | '>=' | '<' | '<=' | '><' | 'in' | 'not in' | 'ilike' | 'not ilike' | '~' | '~*';
-
-            // Operador lógico para queries SQL
-            type _LogicOperator = '&' | '|';
-
-            // Estructura de tripletas para queries SQL
-            type _TripletStructure = [string, ComparisonOperator, _RecordValue];
-
-            type FieldType = (
-                | 'char'
-                | 'integer'
-                | 'float'
-                | 'boolean'
-                | 'date'
-                | 'datetime'
-                | 'time'
-                | 'percentage'
-                | 'monetary'
-            );
-
-            interface FieldProps {
-                name: string;
-                type: FieldType;
-            };
-
-            type TableFieldsProps<K extends IACele.API.Database.TableName> = Record<keyof IACele.API.Database.Table[K], IACele.API.DataTypes.FieldProps>;
-        };
-
-        /** 
-         *  ### Tipos de datos de estructuras de datos
-         *  En este nombre de espacio se centralizan todos los tipos de datos que
-         *  describen estructuras de colecciones de datos enviadas al backend y
-         *  recibidas del mismo.
-         */ 
-        declare namespace Data {
-
             /** 
-             *  ### Registro en base de datos
-             *  Tipo de dato genérico que describe la estructura de un registro de
-             *  una tabla de base de datos de manera dinámica.
+             *  ### Componente responsivo
+             *  Tipado para el componente
+             *  ```ts
+             *  interface Component {
+             *      // Declaración de vista
+             *      children: ({
+             *          // Modo de vista
+             *          view,
+             *          // Tamaño del componente
+             *          componentSize,
+             *          // Tamaño de fuente
+             *          textSize,
+             *      }: _Children) => (React.ReactNode);
+             *  };
+             *  ```
              */ 
-            type RecordInDatabase<K extends Database.TableName> = Database.Table[K]
-
-            /** ### Atributo de registro en base de datos
-             *  Atributo de registro dinámico de una tabla de base de datos.
-             */ 
-            type RecordAttribute<K extends Database.TableName> = keyof RecordInDatabase<K>
-        };
-
-        /** 
-         *  ### Estructuras de información enviadas al backend
-         *  En este nombre de espacio se centralizan los tipos de dato que se
-         *  envían al backend.
-         */ 
-        declare namespace Request {
-
-            interface _RequiresID {
-                /** 
-                 *  ### ID
-                 *  ID de registro de base de datos.
-                 */ 
-                recordIds: number;
-            };
-
-            // Lectura de datos
-            type Read<K extends IACele.API.Database.TableName> = Common._TableUse<K> & _RequiresID
-
-            // Petición de búsqueda y lectura base
-            interface _BaseSearchRead <K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
-                /** 
-                 *  ### Criterio de búsqueda
-                 *  Estructura que define una búsqueda en la base de datos del backend.
-                 */ 
-                searchCriteria?: IACele.API.Data.CriteriaStructure;
-                /** 
-                 *  ### Campos
-                 *  Arreglo de nombres de campos a obtener desde el backend.
-                 */ 
-                fields?: Data.RecordAttribute<K>[];
-                /** 
-                 *  ### Ordenar por
-                 *  Nombre o arreglo de nombres de campo de base de datos para usar como
-                 *  criterio de ordenamiento de datos.
-                 */ 
-                sortby?: Data.RecordAttribute<K> | Data.RecordAttribute<K>[];
-                /** 
-                 *  ### Dirección de ordenamiento
-                 *  Valor booleano o arreglo de valores booleanos que definen si el sentido
-                 *  de ordenamiento es ascendente o no. Este valor debe tener la misma
-                 *  longitud de datos que el valor `sortby` ya que define la dirección de
-                 *  ordenamiento con respecto a un campo del parámetro mencionado.
-                 */ 
-                ascending?: boolean | boolean[];
-            };
-
-            // Petición de búsqueda y lectura
-            interface SearchRead <K extends IACele.API.Database.TableName> extends _BaseSearchRead<K> {
-                /** 
-                 *  ### Desfase inicial
-                 *  Este valor define desde qué indice de registro retornará el backend.
-                 */ 
-                offset?: number;
-                /** 
-                 *  ### Límite de registros
-                 *  Cantidad máxima de registros a retornar por el backend.
-                 */ 
-                limit?: number;
-            };
-
-            // Petición de búsqueda y lectura para vista de tabla
-            interface TreeSearchRead <K extends IACele.API.Database.TableName> extends _BaseSearchRead<K> {
-                /** 
-                 *  ### Página de datos
-                 *  Este parámetro se utiliza para paginación de datos. Se obtiene uno de
-                 *  los segmentos de datos divididos por página.
-                 */ 
-                page?: number;
-                /** 
-                 *  ### Cantidad de registros por página. Este parámetro también define el
-                 *  tamaño de cada página a retornar desde el backend.
-                 */ 
-                itemsPerPage?: number;
-            };
-
-            // Petición de actualización de registro
-            interface Update extends Common._TableUse<K> {
-                /** 
-                 *  ### ID
-                 *  ID del registro a modificar en la base de datos.
-                 */ 
-                recordId: number;
-                /** 
-                 *  ### Datos a modificar
-                 *  Objeto que contiene los nombres de los campos y valores de la tabla de
-                 *  base de datos a la cual pertenece el registro a modificar.
-                 */ 
-                dataToWrite: Partial<Data.RecordInDatabase<K>>;
-            };
-
-            type _ExecuteAction = Common._TableUse<K> & _RequiresID
-            interface ExecuteAction extends _ExecuteAction {
-                /** 
-                 *  ### Acción a ejecutar
-                 *  Nombre de la acción a ejecutar en el backend.
-                 */ 
-                action: string;
-            };
-
-            interface Task<K extends IACele.API.Database.TableName> extends Common._TableUse<K> {
-                /** 
-                 *  ### Nombre
-                 *  Nombre de la tarea a ser ejecutada en la tabla de base de datos.
-                 */ 
-                task: string;
-            };
-        };
-
-        // Respuestas comunes del backend
-        declare namespace Response {
-
-            // Autenticación
-            interface Authentication {
-                accessToken: string;
-                tokenType: 'bearer';
-            };
-
-            // Error
-            interface Error {
-                detail: string;
-            };
-
-            // Objetos de registros
-            interface Records<K extends Data.RecordInDatabase<any>> {
-                data: K[];
-                count: number;
-            };
+            type Component = _RendererProps<_Params>;
 
         };
 
-        // Objetos de datos
-        declare namespace Data {
-
-            // Estructura de criterio de búsqueda
-            type CriteriaStructure = (IACele.API.DataTypes._LogicOperator | IACele.API.DataTypes._TripletStructure)[];
-        };
     };
 
-    declare namespace Browser {
+    declare namespace Security {
 
-        // Valores del almacenamiento local del navegador
-        declare namespace LocalStorage {
+        declare namespace Authentication {
 
-            // Modo oscuro
-            type DarkModeValue = 'false' | 'true' | null;
-        };
-    };
-
-    declare namespace Core {
-
-        declare namespace Security {
-
-            interface AuthenticationHeaders {
+            interface Headers {
+                /** 
+                 *  ### Encabezados
+                 *  Estructura de datos recibida por `Axios` para incluir en encabezados de
+                 *  autenticación.
+                 *  ```ts
+                 *  interface headers {
+                 *      accept: string;
+                 *      "Content-Type"?: string;
+                 *      "Authorization"?: string;
+                 *  };
+                 *  ```
+                 */ 
                 headers: {
-                    accept: string;
-                    "Content-Type"?: string;
+                    accept: 'application/json';
+                    "Content-Type"?: 'application/x-www-form-urlencoded';
                     "Authorization"?: string;
                 };
             };
 
-            type AuthenticationAction = (
-                username: string,
-                password: string,
-                setError: React.Dispatch<React.SetStateAction<string>>,
-            ) => (Promise<void>);
         };
 
-        // Sección de widgets de vista
-        declare namespace Widget {
+    };
 
-            // Declaración de widget de vista
-            interface WidgetDeclaration {
-                value: API.DataTypes._RecordValue;
-                key: string;
-                tableName: IACele.API.Database.TableName;
-                record: IACele.View.GenericRecord;
-                color: IACele.UI.DecorationColor;
-            };
+    declare namespace Hook {
 
-            // Función que recibe declaración widget de vista
-            type WidgetConstructor = (config: WidgetDeclaration) => (React.JSX.Element);
+        declare namespace Application {
 
-            // Destructuración dinámica de la llave de un objeto de registro de base de datos
-            interface _KeyDynamicDestructuration {
-                [ key: string ]: API.DataTypes._RecordValue;
-            };
+            type Breadcrumbs = IACeleV2.Application._Breadcrumbs;
 
-            // Componente de widget
-            type _Widget = React.FC<_KeyDynamicDestructuration>;
+            type LocalToken = IACeleV2.Application._LocalToken;
 
-            // Función receptora de atributos para ser usados en widget a renderizar
-            type PropsReceiverForWidget = (
-                (
-                    key: string,
-                    options: Options,
-                    tableName: IACele.API.Database.TableName,
-                    id: API.DataTypes.GenericRecord,
-                ) => (_Widget)
-            );
+            type Sidebar = IACeleV2.Application._Sidebar._Params;
 
-            interface WidgetPreset {
-                chip: PropsReceiverForWidget;
-                toggle: PropsReceiverForWidget;
-                codeline: PropsReceiverForWidget;
-            };
+            type SetViewName = IACeleV2.Application._SetViewName;
 
-            type WidgetPresetKey = keyof WidgetPreset;
+            type Theme = IACeleV2.Application._Theme;
 
-                // Opciones de decoración de valor
-            type _DecorationOption = (record: API.DataTypes.GenericRecord) => (boolean);
+            type UserData = IACeleV2.Application._UserData;
 
-            // Interfaz de opciones de decoración
-            interface Options {
-                info?: _DecorationOption;
-                success?: _DecorationOption;
-                warning?: _DecorationOption;
-                danger?: _DecorationOption;
-            };
+            type UserToken = IACeleV2.Application.UserToken;
 
         };
 
         declare namespace UI {
 
-            interface Form<K extends API.Database.TableName> {
-                children: (children: Field.FormChildren<K>) => (React.ReactNode); // Función que renderiza la vista de formulario.
-                id: number; // ID del registro a visualizar.
-                table: API.Database.TableName; // Nombre de la tabla del registro a visualizar.
-                readonly?: boolean; // Vista de solo lectura.
+            interface ComponentColor {
+                /** 
+                 *  ### Color de componente
+                 *  Color utilizado para colorear componentes.
+                 */ 
+                adaptedColor: IACeleV2.UI.HeroUIColor;
             };
 
-            declare namespace Field {
-
-                // Tipo de dato en campo editable por teclado
-                type KeyboardType = 'integer' | 'float' | 'monetary' | 'char' | 'date' | 'percentage';
-
-                // Tipo de dato en todos los campos
-                type GenericType = KeyboardType | 'boolean' | 'time' | 'datetime';
-
-                interface Props {
-                    name: string;
-                    type: IACele.Core.UI.Field.GenericType;
-                };
-
-                type FieldNames<K extends IACele.API.Database.TableName> = Record<keyof API.Database.Table[K], Props>;
-
-                type TableFieldNames = {
-                    [ K in API.Database.TableName ]: FieldNames<K>
-                };
-
-                interface _BaseInput {
-                    defaultValue: string; // Valor inicial del campo
-                    valueValidation?: (value: string) => (true | null); // Función para validar la entrada de datos en el campo.
-                    errorMessage: string; // Mensaje de error a renderizar si la validación no pasa.
-                    isInvalid: boolean; // Estado de si el campo contiene datos inválidos.
-                    setValue: React.Dispatch<React.SetStateAction<string | null>>; // Manejo de estado para uso en envío de datos en formulario.
-                };
-
-                interface KeyboardInput extends _BaseInput {
-                    type: KeyboardType; // Tipo de dato a renderizar (solo de tipo de teclado).
-                };
-
-                interface GenericInput extends _BaseInput {
-                    type: IACele.API.DataTypes.FieldType; // Tipo de dato a renderizar.
-                };
-
-                type KeyboardTypeToInput = Record<IACele.Core.UI.Field.KeyboardType, React.InputHTMLAttributes<HTMLInputElement>['type']>
-
-                interface Params<K extends IACele.API.Database.TableName> {
-                    name: keyof IACele.API.Database.Table[K]
-                    readonly?: boolean;
-                };
-
-                interface KanbanParams<K extends IACele.API.Database.TableName> extends Params<K>  {
-                    widget?: IACele.Core.Widget.WidgetPresetKey;
-                    label?: string | boolean;
-                };
-
-                interface FormChildren<K extends API.Database.TableName> {
-                    Page: React.FC<{ children: React.ReactNode }>;
-                    Header: React.FC<{ children: React.ReactNode }>;
-                    Sheet: React.FC<{ children: React.ReactNode }>;
-                    Field: React.FC<Params<K>>;
-                    Group: React.FC<UI.Group>;
-                };
-
-            };
-
-        };
-
-    };
-
-    // Vistas de datos
-    declare namespace View {
-
-        interface Do {
-            /** 
-             *  ### Nombre
-             *  Nombre de la acción que se renderizará como leyenda del botón.
-             */ 
-            name: string;
-            /** 
-             *  ### Acción a ejecutar
-             *  Nombre de la acción a ejecutar en el backend.
-             */ 
-            execute: string;
-            /** 
-             *  ### Color
-             *  Color del botón
-             */ 
-            color?: IACele.UI.DecorationColor;
-            /** 
-             *  ### Mensaje de confirmación
-             *  Mensaje a mostrar en modal para confirmar o cancelar la acción.
-             */ 
-            confirm?: string;
-            /** 
-             *  ### Al realizar
-             *  Mensaje a mostrar en modal para notificar que la acción fue ejecutada
-             *  correctamente.
-             */ 
-            notify?: string;
-        };
-
-        // Valores de dirección de ordenamiento
-        type _SortingDirectionValue = 'asc' | 'desc';
-
-        // Tipo de dato de dirección de ordenamiento
-        type _SortingDirection = Set<_SortingDirectionValue>
-
-        /** 
-         *  ### Registro en base de datos
-         *  Este objeto es la declaración de propiedades de un registro de una tabla
-         *  dinámica de base de datos.
-         */ 
-        type RecordInDatabase<K extends API.Database.TableName> = API.Database.Table[K]
-
-        // Tipo de dato para renderizar
-        type DataType = (
-            | 'char'
-            | 'date'
-            | 'float'
-            | 'integer'
-            | 'monetary'
-            | 'percentage'
-        )
-
-        // Interfaz de uso de tabla de base de datos
-        interface _TableUse <K extends API.Database.TableName> {
-            /** 
-             *  ### Tabla de base de datos
-             *  Nombre de tabla de base de datos.
-             */ 
-            table: K;
-        };
-
-        interface _RecordsUse<K extends API.Database.TableName> {
-            /** 
-             *  ### Registros de base de datos
-             *  En este estado se almacena la información obtenida desde el servidor.
-             */ 
-            records: RecordInDatabase<K>[];
-        };
-
-        // Interfaz de componente que usa muchos registros
-        interface _SupportsEmptyContent {
-            /** 
-             *  ### Leyenda de contenido vacío
-             *  Aquí se declara una leyenda que se muestra en las vistas de árbol y kanban
-             *  cuando no existen registros a mostrar.
-             */ 
-            emptyContent: string; // Leyenda para mostrar cuando no existan datos a mostrar.
-        };
-
-        interface _Open {
-            /** 
-             *  ### Abrir en
-             *  Path de redirección para mostrar el detalle del registro.
-             */ 
-            open?: string;
-        };
-
-        interface _FieldName <K extends API.Database.TableName>{
-            /** 
-             *  ### Nombre de campo
-             *  Nombre en base de datos del campo de la tabla de base de datos a mostrar.
-             */ 
-            name: keyof RecordInDatabase<K>;
-        };
-
-        interface _Reloads {
-            /** 
-             *  ### Recargar
-             *  Función para realizar una recarga de datos.
-             */ 
-            reload: () => void;
-        };
-
-        interface RecordUse<K extends API.Database.TableName> {
-            /** 
-             *  ### Registro de tabla de base de datos
-             *  Registro de la base de datos del que se tomarán valores para renderizar
-             *  un componente.
-             */ 
-            record: RecordInDatabase<K>;
-        };
-
-        // Variación del tipo _TableUse para permitir valores nulos
-        interface _OptionalTableUse <K extends API.Database.TableName> extends _TableUse<K>{
-            table?: K;
-        };
-
-        interface _SupportsWidget<K extends API.Database.TableName>{
-            /** 
-             *  ### Widget para renderización de celda
-             *  Widget prestablecido o personalizado a usar para renderizar el valor
-             *  del registro en una tabla de base de datos.
-            */ 
-            widget?: keyof Widget.Presets<K> | ((props: RecordInDatabase<K>) => (React.ReactNode));
-            /** 
-             *  ### Opciones de color
-             *  Objeto de funciones que colorean un widget en base a los valores de un
-             *  registro de base de datos.
-             */ 
-            colorDecoration?: Widget.Decoration<K>;
-        };
-
-        interface _SupportsVisibility<K extends API.Database.TableName> {
-            /** 
-             *  ### Es invisible cuando...
-             *  Función que valida el valor de uno o más atributos del
-             *  registro para validar si el componente debe mostrarse o no.
-             */ 
-            invisible?: ((props: RecordInDatabase<K>) => (boolean));
-        };
-
-        // TIPOS E INTERFACES USADOS POR COMPONENTES
-        // --------------------------------------------------------------------
-
-        interface SortingIndicator {
-            /** 
-             *  ### Dirección de ordenamiento de datos
-             *  Conjunto que contiene la dirección de ordenamiento.
-             */ 
-            direction: _SortingDirection; // Conjunto que contiene la dirección de ordenamiento.
-        };
-
-        // Parámetros comunes de campo
-        interface HasOptionalLabel {
-            /** 
-             *  ### Nombre personalizado de campo
-             *  Nombre explícito de la columna en caso de querer reemplazar su nombre
-             *  prestablecido.
-             */ 
-            label?: string; // Nombre explícito de la columna en caso de querer reemplazar su nombre prestablecido.
-        };
-
-        /** 
-         *  ### Búsqueda y buscadores
-         *  Tipado para la sección de búsqueda en vistas de la aplicación.
-         */ 
-        declare namespace Search {
-
-            /** 
-             *  ### Valor de registro
-             *  Tipo de dato permitido como valor en los filtros de búsqueda. Puede
-             *  representar textos, números, valores booleanos, nulos o arreglos de
-             *  enteros.
-             */ 
-            type Value = string | number | string | boolean | null | number[];
-
-            /** 
-             *  ### Operador de comparación
-             *  Operador utilizado para comparar un campo de la base de datos como un valor
-             *  en un filtro de búsqueda. Los valores disponibles son:
-                - `'='`: Igual a
-                - `'!='`: Diferente de
-                - `'>'`: Mayor a
-                - `'>='`: Mayor o igual a
-                - `'<'`: Menor a
-                - `'<='`: Menor o igual a
-                - `'><'`: Entre
-                - `'in'`: Está en
-                - `'not in'`: No está en
-                - `'ilike'`: Contiene
-                - `'not ilike'`: No contiene
-                - `'~'`: Es similar a (Incluye RegEx)
-                - `'~*'`: Es similar a (Incluye RegEx, sin diferencia de mayúsculas o minúsculas)
-             */ 
-            type ComparisonOperator = (
-                // Igual a
-                | '='
-                // Diferente de
-                | '!='
-                // Mayor a
-                | '>'
-                // Mayor o igual a
-                | '>='
-                // Menor a
-                | '<'
-                // Menor o igual a
-                | '<='
-                // Entre
-                | '><'
-                // Está en
-                | 'in'
-                // No está en
-                | 'not in'
-                // Contiene
-                | 'ilike'
-                // No contiene
-                | 'not ilike'
-                // Es similar a (Incluye RegEx)
-                | '~'
-                // Es similar a (Incluye RegEx, sin diferencia de mayúsculas o minúsculas)
-                | '~*'
+            type InputText = (
+                & _Base._EventCallback._OnBlur
+                & _Base._EventCallback._OnFocus
+                & _Base._State._IsFocused
             );
 
-            /** 
-             *  ### Operador lógico
-             *  Operador que permite combinar múltiples condiciones de búsqueda, como *y*
-             *  (`'&'`) u *o* (`'|'`).
-             */ 
-            type LogicOperator = '&' | '|';
+        };
 
-            /** 
-             *  ### Tripleta de búsqueda
-             *  Filtro individual compuesto por un campo, un operador de comparación y un
-             *  valor. Por ejemplo:
-             *  ```
-             *  ["user_id", "=", 18]
-             *  ```
-             */ 
-            type Triplet<K extends API.Database.TableName> = [
-                // Campo de base de datos
-                keyof API.Database.Table[K],
-                // Operador de comparación
-                ComparisonOperator,
-                // Valor de atributo de registro
-                Value,
-            ];
+        declare namespace View {
 
-            /** 
-             *  ### Criterio de búsqueda
-             *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
-             *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
-             *  estructura anidada.
-             *  Ejemplo:
-             *  ```ts
-             *  [
-             *      '&',
-             *          ['active', '=', true],
-             *          ['name', 'ilike', 'Onnymm'],
-             *  ]
-             *  ```
-             */ 
-            type CriteriaStructure<K extends API.Database.TableName> = (LogicOperator | Triplet<K>)[];
+            declare namespace Form {
 
-            /** 
-             *  ### Tripleta traducida
-             *  Tripleta convertida a lenguaje humano para ser renderizada en la interfaz
-             *  visual.
-             *  ```ts
-             *  interface TranslatedTriplet {
-             *      // Nombre de campo
-             *      field: string;
-             *      // Comparación
-             *      op: string;
-             *      // Valor de atributo de registro
-             *      value: Value;
-             *  };
-             *  ```
-             */ 
-            interface TranslatedTriplet {
-                /** 
-                 *  ### Nombre de campo
-                 *  Nombre de campo traducido a lenguaje humano.
-                 */ 
-                field: string;
-                /** 
-                 *  ### Comparación
-                 *  Operador de comparación traducido a lenguaje humano.
-                 */ 
-                op: string;
-                /** 
-                 *  ### Valor de atributo de registro
-                 *  Tipo de dato permitido en valores de atributos de registro.
-                 */ 
-                value: Value;
-            };
-
-            /** 
-             *  ### Combinación de tripletas traducidas
-             *  Unión de tripletas traducidas o combinación de tripletas traducidas.
-             *  ```ts
-             *  interface TranslatedTripletsCombination {
-             *      // Comparación
-             *      op: string;
-             *      // Combinación de tripletas traducidas
-             *      items: [
-             *          ( TranslatedTriplet | TranslatedTripletsCombination ),
-             *          ( TranslatedTriplet | TranslatedTripletsCombination ),
-             *      ];
-             *  };
-             *  ```
-             */ 
-            interface TranslatedTripletsCombination {
-                /** 
-                 *  ### Comparación
-                 *  Operador de comparación traducido a lenguaje humano.
-                 */ 
-                op: string;
-                /** 
-                 *  ### Combinación de tripletas traducidas
-                 *  Arreglo de dos objetos de búsqueda que pueden ser una tripleta traducida o
-                 *  una estructura conjunta.
-                 */ 
-                items: [
-                    ( TranslatedTriplet | TranslatedTripletsCombination ),
-                    ( TranslatedTriplet | TranslatedTripletsCombination ),
-                ];
-            };
-
-            /** 
-             *  ### `[Interfaz base]` Tripletas traducidas
-             *  Soporte de tripletas traducidas.
-             *  ```ts
-             *  interface _SupportsTranslatedTriplets {
-             *      // Criterio de búsqueda traducido
-             *      readable: TranslatedTriplet | TranslatedTripletsCombination;
-             *  };
-             *  ```
-             */ 
-            interface _SupportsTranslatedTriplets {
-                /** 
-                 *  ### Criterio de búsqueda traducido
-                 *  Tripleta o combinación de tripletas traducidas a lenguaje humano para ser
-                 *  renderizadas en la interfaz visual.
-                 */ 
-                readable: TranslatedTriplet | TranslatedTripletsCombination;
-            };
-
-            /** 
-             *  ### `[Interfaz base]` Operador lógico
-             *  Soporte de operador lógico.
-             *  ```ts
-             *  interface _HasLogicOperator {
-             *      // Operador lógico
-             *      op: IACele.View.Search.LogicOperator;
-             *  };
-             *  ```
-             */ 
-            interface _HasLogicOperator {
-                /** 
-                 *  ### Operador lógico
-                 *  Operador que une dos criterios de búsqueda sencillos o combinados.
-                 */ 
-                op: LogicOperator;
-            };
-
-            /** 
-             *  ### Filtro traducido
-             *  Filtro que contiene la información de tripletas traducidas a lenguaje
-             *  humano además de su fragmento de criterio de búsqueda correspondiente y una
-             *  llave de identificación para poder manipularla.
-             *  ```ts
-             *  interface TranslatedFilter<K> {
-             *      // Criterio de búsqueda traducido
-             *      readable: TranslatedTriplet | TranslatedTripletsCombination;
-             *      // Criterio de búsqueda
-             *      criteria: CriteriaStructure<K>;
-             *      // Llave de identificación
-             *      key: number;
-             *  };
-             *  ```
-             */ 
-            interface TranslatedFilter<K extends API.Database.TableName> extends _SupportsTranslatedTriplets {
-                /** 
-                 *  ### Criterio de búsqueda
-                 *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
-                 *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
-                 *  estructura anidada.
-                 */ 
-                criteria: CriteriaStructure<K>;
-                /** 
-                 *  ### Llave de identificación
-                 *  Identificador para control de la colección de datos de filtos.
-                 */ 
-                key: number;
-            };
-
-            declare namespace SearchBar {
-
-                /** 
-                 *  ### Valor de expresión
-                 *  Tipado para componente.
-                 *  ```ts
-                 *  interface ExpressionValue {
-                 *      // Valor
-                 *      value: Value;
-                 *  };
-                 *  ```
-                 */ 
-                interface ExpressionValue {
-                    /** 
-                     *  ### Valor
-                     *  Valor a renderizar
-                     */ 
-                    value: Value;
-                };
-
-                /** 
-                 *  ### Expresión legible
-                 *  Estructura de datos usada para renderizar expresiones legibles en componentes de búsqueda.
-                 *  ```ts
-                 *  interface ReadableExpression {
-                 *      // Criterio de búsqueda traducido
-                 *      readable: TranslatedTriplet | TranslatedTripletsCombination;
-                 *      // Tipo de estructura legible
-                 *      type: 'single' | 'combined';
-                 *      // Es subnivel
-                 *      isSublevel?: boolean;
-                 *  };
-                 *  ```
-                 */ 
-                interface ReadableExpression extends _SupportsTranslatedTriplets {
-                    /** 
-                     *  ### Tipo de estructura legible
-                     *  Tipo de estructura a renderizar. Puede ser sencilla o combinada.
-                     */ 
-                    type: 'single' | 'combined';
-                    /** 
-                     *  ### Es subnivel
-                     *  Valor que indica si la estructura será renderizada como criterio anidado.
-                     */ 
-                    isSublevel?: boolean;
-                };
-
-                /** 
-                 *  ### Filtro individual
-                 *  Tipado para componente.
-                 *  ```ts
-                 *  interface IndividualFilter<K> {
-                 *      // Datos
-                 *      data: TranslatedFilter<K>;
-                 *      // Eliminar bloque de búsqueda
-                 *      removeCallback: (key: number) => (void);
-                 *  };
-                 *  ```
-                 */ 
-                interface IndividualFilter<K extends API.Database.TableName> {
-                    /** 
-                     *  ### Datos
-                     *  Filtro que contiene la información de tripletas traducidas a lenguaje
-                     *  humano además de su fragmento de criterio de búsqueda correspondiente y una
-                     *  llave de identificación para poder manipularla.
-                     */ 
-                    data: TranslatedFilter<K>;
-                    /** 
-                     *  ### Eliminar bloque de búsqueda
-                     *  Función para eliminar el bloque de búsqueda renderizado.
-                     */ 
-                    removeCallback: (key: number) => (void);
-                };
-
-                /** 
-                 *  ### Combinación de tripletas
-                 *  Estructura que anida tripletas o anida a otra estructura igual a ésta para
-                 *  representar la jerarquía de unión de criterios de búsqueda más simples en
-                 *  forma de árbol.
-                 *  ```ts
-                 *  interface CombinedFilters<K> {
-                 *      // Operador lógico
-                 *      op: LogicOperator;
-                 *      // Elemento 2
-                 *      item2: Triplet<K> | CombinedFilters<K>;
-                 *      // Elemento 3
-                 *      item3: Triplet<K> | CombinedFilters<K>;
-                 *  };
-                 *  ```
-                 */ 
-                interface CombinedSearchStructure<K extends API.Database.TableName> extends _HasLogicOperator {
-                    /** 
-                     *  ### Elemento 2
-                     *  Puede ser una tripleta o una estructura de combinación de tripletas.
-                     */ 
-                    item2: Triplet<K> | CombinedSearchStructure<K>;
-                    /** 
-                     *  ### Elemento 3
-                     *  Puede ser una tripleta o una estructura de combinación de tripletas.
-                     */ 
-                    item3: Triplet<K> | CombinedSearchStructure<K>;
-                };
-
-                /** 
-                 *  ### Bloque de búsqueda
-                 *  Tipado para componente.
-                 *  ```ts
-                    interface SearchBlock<K> {
-                 *      // Tripleta o combinación de tripletas
-                 *      hierarchy: IACele.View.Search.Triplet<K> | CombinedSearchStructure<K>;
-                 *      // Llave de identificación
-                 *      key: number;
-                 *      // Criterio de búsqueda
-                 *      criteria: IACele.View.Search.CriteriaStructure<K>;
-                    };
-                 *  ```
-                 */ 
-                interface SearchBlock<K extends API.Database.TableName> {
-                    /** 
-                     *  ### Tripleta o combinación de tripletas
-                     *  Tripleta o estructura que anida tripletas o anida a otra estructura igual a
-                     *  ésta para representar la jerarquía de unión de criterios de búsqueda más
-                     *  simples en forma de árbol.
-                     */ 
-                    hierarchy: Triplet<K> | CombinedSearchStructure<K>;
-                    /** 
-                     *  ### Llave de identificación
-                     *  Identificador para control de la colección de datos de filtos.
-                     */ 
-                    key: number;
-                    /** 
-                     *  ### Criterio de búsqueda
-                     *  Estructura de crterio de búsqueda del bloque.
-                     */ 
-                    criteria: CriteriaStructure<K>;
-                };
-
-                /** 
-                 *  ### Estructura de filtro
-                 *  Estructura anidada de filtro en forma de jerarquía de unión de filtros más
-                 *  sencillos, tripleta individual o arreglo vacío
-                 */ 
-                type FilterStructure<K extends API.Database.TableName> = (
-                    | CombinedSearchStructure<K>
-                    | Triplet<K>
+                type EditFormRecord<M extends ModelName> = (
+                    & IACeleV2.View.Form._FormRecord<M>
+                    & IACeleV2.View.Form._SetFormRecord<M>
+                    & IACeleV2.View.Form._SetFormRecordField<M>
                 );
 
+                type _FormRecord <M extends ModelName> = (
+                    & IACeleV2._Base._Callback._DeleteRecord
+                    & IACeleV2._Base._Callback._NewRecord
+                    & IACeleV2._Base._Callback._Reload
+                    & IACeleV2._Base._Callback._SaveRecord
+                    & IACeleV2._Base._Callback._UndoChanges
+                    & IACeleV2.View.Form._FieldsMetadata<M>
+                    & IACeleV2.View.Form._FormMode
+                    & IACeleV2.View.Form._FormRecord<M>
+                    & IACeleV2.View.Form._HasChanges
+                    & IACeleV2.View.Form._SetFormRecordField<M>
+                );
+
+                type FormMode = IACeleV2.View.Form._ViewMode;
+
                 /** 
-                 *  ### Barra de búsqueda
-                 *  Tipado para componente.
+                 *  ### Registro en vista de formulario
+                 *  Valores para uso en vista de formulario.
                  *  ```ts
-                    interface Component<K> {
-                 *      // Tabla de base de datos
-                 *      table: K;
-                 *      // Criterio de búsqueda
-                 *      searchCriteria?: CriteriaStructure<K>;
-                    };
+                 *  interface FormRecord <M extends ModelName>{
+                 *      // Cargado
+                 *      loaded: boolean;
+                 *      // Modo de formulario
+                 *      formMode: FormMode;
+                 *      // Datos del registro en formulario
+                 *      formRecord: Partial<Record<M>>;
+                 *      // Función para cambiar valor de campo
+                 *      setFormRecordField: FieldValueSetter<M>;
+                 *      // Metadatos de campos
+                 *      fieldsMetadata: Field<M>[];
+                 *      // Función de recarga
+                 *      reload: () => void;
+                 *      // Crear registro
+                 *      new_: () => void;
+                 *      // Tiene cambios
+                 *      hasChanges: boolean;
+                 *      // Deshacer cambios
+                 *      undo: () => void;
+                 *      // Guardar cambios
+                 *      save: () => void;
+                 *      // Eliminar registro
+                 *      delete_: () => Promise<void>;
+                 *  };
                  *  ```
                  */ 
-                interface Component<K extends API.Database.TableName> extends Common._TableUse<K> {
+                interface FormRecord<M extends ModelName> extends _FormRecord<M>{
                     /** 
-                     *  ### Criterio de búsqueda
-                     *  Conjunto de uno o más filtros (tripletas) y operadores lógicos que forman
-                     *  una condición de búsqueda compleja. Puede ser un arreglo plano o una
-                     *  estructura anidada.
-                     */ 
-                    searchCriteria?: CriteriaStructure<K>;
+                    *  #### Cargado
+                    *  Estado que indica si los datos del registro ya fueron cargados.
+                    */ 
+                    loaded: boolean;
                 };
+
+                type HasChanges = IACeleV2.View.Form._HasChanges;
+
+                type _ReadFormRecord<M extends ModelName> = (
+                    & IACeleV2._Base._Callback._Reload
+                    & IACeleV2.View.Form._FieldsMetadata<M>
+                );
+                interface ReadRecord<M extends ModelName> extends _ReadFormRecord<M>{
+                    /** 
+                     *  #### Registro en la base de datos
+                     *  Este objeto contiene los datos de un registro de la base de datos, intactos
+                     *  e inmutables.
+                     *  
+                     *  ```ts
+                     *  const recordInDatabase: Record<M> | null = {
+                     *      name: 
+                     *      login: 'onnymm',
+                     *      name: 'Onnymm Azzur',
+                     *      create_date: '2025-08-11 15:52:38',
+                     *      ...
+                     *  };
+                     *  ```
+                     */ 
+                    recordInDatabase: Data.Models.Record<M> | null;
+                };
+
+                declare namespace Callback {
+
+                    type CreateRecord = IACeleV2._Base._Callback.CreateRecord;
+
+                    type DeleteRecord = IACeleV2._Base._Callback._DeleteRecord;
+
+                    type NewRecord = IACeleV2._Base._Callback._NewRecord;
+
+                    type SaveRecord = IACeleV2._Base._Callback._SaveRecord
+
+                    type UpdateRecord = IACeleV2._Base._Callback.UpdateRecord;
+
+                    type UndoChanges = IACeleV2._Base._Callback._UndoChanges;
+
+                };
+
+                type FieldMetadata<M extends ModelName> = IACeleV2.View.Form.FieldMetadata<M>;
+
+                type FieldTType = IACeleV2._Base._State._HasTTypeName;
+
+                type ExecuteFormValidation<M extends ModelName> = IACeleV2.View.ExecuteFormValidation<M>
+
+                type ComputedFieldProps = IACeleV2.View.ComputedFieldProps;
+
+                type Notebook = (
+                    & IACeleV2.View.Form.Notebook._Base._ReadyToDisplay
+                    & IACeleV2.View.Form.Notebook._Base._PageContent
+                    & IACeleV2.View.Form.Notebook._Base._AddPageContent
+                    & IACeleV2.View.Form.Notebook._Base._ReloadNotebook
+                    & IACeleV2.View.Form.Notebook._Base._PagesData
+                    & IACeleV2.View.Form.Notebook._Base._DisplayedPage
+                    & IACeleV2.View.Form.Notebook._Base._SetDisplayedPage
+                );
+
+                type PageSelector = (
+                    & IACeleV2.View.Form.Notebook._Base._IsSelected
+                    & IACeleV2.View.Form.Notebook._Base._SelectPage
+                );
+
+                type Alert = (
+                    & IACeleV2.View.Form.Alert._Base._Show
+                    & IACeleV2.View.Form.Alert._Base._Close
+                );
+
+                type Tree<
+                    M extends ModelName,
+                    F extends Data.Models.FieldName<M>,
+                    R extends Data.Models.RelatedModelName<M, F>
+                > = (
+                    & IACeleV2.View.HasFieldName<M>
+                    & IACeleV2._Base._State._HasRelatedModelName<R>
+                    & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
+                    & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                    & IACeleV2.View.Tree._Base._DataLoaded
+                    & IACeleV2.View.Tree._Base._SetDataLoaded
+                    & IACeleV2.View.Tree._Base._DataFromAPI<R>
+                    & IACeleV2.View.Tree._Base._MetadataFromAPI<R>
+                );
+
+                type TreeRecords<
+                    M extends ModelName,
+                    F extends IACeleV2.Data.Models.FieldName<M>,
+                    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+                > = (
+                    & IACeleV2.View.Tree._Base.Callback._GetTType<R>
+                    & IACeleV2.View.Tree._Base.Callback.ComputeLabel<R>
+                    & IACeleV2.View.Tree._Base.Callback.TreeRecordsIndex<R>
+                    & IACeleV2.View.Tree._Base.Callback.CreateSetFormRecordField<M>
+                );
 
             };
 
-        };
-
-        interface SearchCriteriaUse<K extends API.Database.TableName> {
-            initialSearch?: IACele.View.Search.CriteriaStructure<K>;
-        };
-
-        declare namespace Data {
-
-            // Tipo de dato modificable por medio de teclado
-            type KeyboardType = (
-                | 'char'
-                | 'date'
-                | 'float'
-                | 'integer'
-                | 'monetary'
-                | 'percentage'
+            type Modal = (
+                & IACeleV2.View.Modal._ModalColor
+                & IACeleV2.View.Modal.Callback
+                & IACeleV2.View.Modal.ConfirmationModal
+                & IACeleV2.View.Modal.DoneModal
             );
-
-            // Tipo de dato genérico
-            type GenericType = (
-                | KeyboardType
-                | 'boolean'
-                | 'time'
-                | 'datetime'
-            );
-
-            // Mapa de tipos de dato de la aplicación a input de HeroUI
-            type KeyboardTypeToInput = Record<IACele.Core.UI.Field.KeyboardType, React.InputHTMLAttributes<HTMLInputElement>['type']>
-        };
-
-        interface _SupportsLoading {
-            /** 
-             *  ### Estado de carga
-             *  Estado que indica que los datos se están cargando.
-             */ 
-            loading: boolean;
-        };
-
-        // Vista de árbol, interfaces y tipos relacionados
-        declare namespace Tree {
-
-            // Configuración de columnas de tabla
-            type ViewConfig <K extends API.Database.TableName> = Field<K>[];
-
-            // Parámetros columnes de columna individual
-            interface _IndividualColumnCommon <K extends API.Database.TableName>{
-                /** 
-                 *  ### Llave de campo
-                 *  Llave del campo de la tabla de base de datos a renderizar como columna.
-                 */ 
-                columnKey: keyof RecordInDatabase<K>;
-            };
-
-            // Parámetros comunes en interfaces
-            interface _Common <K extends API.Database.TableName> extends _TableUse<K> {
-                /** 
-                 *  ### Configuración de vista de tabla
-                 *  Objeto que define las propiedades de cada una de las columnas. Los
-                 *  atributos aquí declarados se encuentran en la interfaz {@link Tree.Field Field}.
-                 */ 
-                viewConfig: ViewConfig<K>; // Configuración de vista de columnas de la tabla.
-            };
-
-            // Unión de parámetros comunes y de columna individual
-            type _IndividualColumnAndCommonParams<K extends API.Database.TableName> = RecordUse<K> & _IndividualColumnCommon<K> & _Common<K>;
-
-            // Componentes hijos de la vista
-            interface _Children <K extends API.Database.TableName>{
-                /** 
-                 *  ### Columna de árbol
-                 *  Este componente declara las propiedades de una columna de la vista de
-                 *  árbol del componente {@link Component Tree}.
-                 */ 
-                Field: React.FC<Field<K>>;
-                /** 
-                 *  ### Página de árbol
-                 *  Este componente no renderiza nada por sí solo pero ayuda a contener las
-                 *  declaraciones de propiedades de columna del componente {@link Field}
-                 *  dentro de éste y mantener la sintáxis TSX válida.
-                 */ 
-                Page: React.FC<UI.GenericInvolverComponent>;
-            };
-
-            interface _HasSortingDirection {
-                /** 
-                 *  ### Dirección de ordenamiento de datos
-                 *  Conjunto que contiene el valor de dirección de ordenamiento de datos.
-                 */ 
-                selectedSortingDirection: _SortingDirection;
-            };
-
-            interface SortingFields <K extends API.Database.TableName> extends _HasSortingDirection{
-                /** 
-                 *  ### Columna de ordenamiento de datos
-                 *  Llave que indica el campo por el cual los datos están siendo ordenados
-                 *  actualmente.
-                 */ 
-                sortingFieldKey: keyof RecordInDatabase<K> | null;
-                /** 
-                 *  ### Selección de columna para ordenar datos
-                 *  Función para establecer el campo de ordenamiento.
-                 */ 
-                toggleSortingColumn: (key: keyof RecordInDatabase<K>) => (void);
-            };
-
-            // TIPOS E INTERFACES USADOS POR COMPONENTES
-            // ----------------------------------------------------------------
-
-            // Parámetros de componente que obtiene datos de registros desde el backend
-            type _ListRenderer<K extends API.Database.TableName> = _Common<K> & _SupportsEmptyContent & _SupportsWidget<K> & SearchCriteriaUse<K>;
-            interface ListRenderer <K extends API.Database.TableName> extends _ListRenderer<K>{
-                /** 
-                 *  ### Declaración de vista Kanban
-                 *  Esta función sirve para realizar la declaración de la vista Kanban.
-                 */ 
-                kanban: IACele.View.Kanban.ChildrenRenderer<K>
-                /** 
-                 *  ### Configuración de tareas de servidor
-                 *  Arreglo que contiene la declaración de construcción de botones de tareas de
-                 *  servidor.
-                 */ 
-                tasks: Do[];
-            };
-
-            // Unión de parámetros de componente que obtiene datos de registros desde el backend y ordena datos
-            type _DataSorter<K extends API.Database.TableName> = _ListRenderer<K> & SortingFields<K>
-
-            // Parámetros de entrada de columna de tabla
-            type InteractiveColumn<K extends API.Database.TableName> = _Common<K> & HasOptionalLabel & _IndividualColumnCommon<K>;
-
-            // Unión de interfaces de uso de nombre y de título de campo
-            type _BaseField<K extends API.Database.TableName> = _FieldName<K> & HasOptionalLabel & _SupportsWidget<K>;
-
-            // Parámetros de campo de tabla
-            interface Field <K extends API.Database.TableName> extends _BaseField<K> {
-                /** 
-                 *  ### Visibilidad inicial de columna
-                 *  Propiedad que indica la visibilidad inicial de la columna Si este valor
-                 *  es diferente de `undefined` la columna podrá mostrarse y ocultarse.
-                 */ 
-                visible?: boolean;
-                /** 
-                 *  ### Puede ordenar datos
-                 *  Esta propiedad indica si la columna puede o no ordenar datos en base a
-                 *  sus valores.
-                 */ 
-                canSort?: boolean;
-            };
-
-            // Parámetros de renderizador de celda de tabla
-            type CellRender <K extends API.Database.TableName> = _IndividualColumnAndCommonParams<K>;
-
-            // Parámetros de vista de tabla
-            type Component<K extends API.Database.TableName> = _DataSorter<K> & _RecordsUse<K> & _SupportsLoading;
-
-            // Función que renderiza los componentes hijos
-            interface ChildrenRender <K extends API.Database.TableName>{
-                /** 
-                 *  ### Declaración de vista de árbol
-                 *  Función utilizada para el encapsulamiento de componentes que se
-                 *  utilizan en la construcción de la vista de árbol.
-                 */ 
-                children: ({ Field, Page }: _Children<K>) => React.ReactNode;
-            };
-
-        };
-
-        // Vista de lista, interfaces y tipos relacionados
-        declare namespace List {
-
-            // Componentes hijos de la vista
-            interface _Children<K extends IACele.API.Database.TableName>{
-                /** 
-                 *  ### Vista de árbol
-                 *  Este componente se utiliza para declarar la estructura de una vista de
-                 *  árbol usando una función flecha como `children`.
-                 */ 
-                Tree: React.FC<Tree.ChildrenRender<K>>;
-            };
-
-            // Unión de interfaces que usan tabla de base de datos y usan muchos registros.
-            type _BaseComponent<K extends API.Database.TableName> = _TableUse<K> & _SupportsEmptyContent & _Open & SearchCriteriaUse<K>;
-
-            declare namespace Tasks {
-
-                interface _ChildrenRenderer {
-                    Task: React.FC<View.Do>;
-                    Tasks: React.FC<UI.GenericInvolverComponent>;
-                };
-
-                interface _Children {
-                    Tasks: ({ Tasks, Task }: _ChildrenRenderer) => React.ReactNode;
-                };
-
-                type Component<K extends API.Database.TableName> = IACele.View.Do & IACele.Common._TableUse<K> & IACele.View._Reloads;
-            };
-
-            type _TaskBase<K extends API.Database.TableName> = Common._TableUse<K> & _Reloads;
-            interface  TaskItem<K extends API.Database.TableName> extends _TaskBase<K> {
-                task: View.Do;
-            };
-            interface  TaskPanel<K extends API.Database.TableName> extends _TaskBase<K> {
-                tasks: View.Do[];
-            };
-
-            // TIPOS E INTERFACES USADOS POR COMPONENTES
-            // ----------------------------------------------------------------
-
-            // Parámetros de la vista de lista
-            interface Component <K extends API.Database.TableName> extends _BaseComponent<K> {
-                /** 
-                 *  ### Declaración de vistas de árbol y kanban
-                 *  Función utilizada para el encapsulamiento de componentes que se
-                 *  utilizan en la construcción de las vistas de árbol y kanban
-                 */ 
-                children: [
-                    (({ Tasks, Task }: Tasks._ChildrenRenderer) => React.ReactNode)?,
-                    ({ Tree }: _Children<K>) => (React.ReactNode),
-                    View.Kanban.ChildrenRenderer<K>,
-                ];
-            };
-
-        };
-
-        declare namespace Kanban {
-
-            type _BaseField<K extends API.Database.TableName> = _FieldName<K> & _SupportsWidget<K>;
-            interface Field<K extends API.Database.TableName> extends _BaseField<K>{
-                /** 
-                 *  ### Nombre personalizado de campo
-                 *  Parámetro que indica la visibilidad del nombre del campo o que indica
-                 *  un nombre explícito de la columna en caso de querer reemplazar su
-                 *  nombre prestablecido.
-                 */ 
-                label?: boolean | string;
-            };
-
-            interface _Children<K extends API.Database.TableName>{
-                /** 
-                 *  ### Kanban
-                 *  Componente que envuelve la declaración de campos y/o secciones para la
-                 *  vista de kanban.
-                 */ 
-                Kanban: React.FC<UI.GenericInvolverComponent>;
-                /** 
-                 *  ### Sección de kanban
-                 *  Este componente agrupa campos en secciones para organizar la vista.
-                 */ 
-                Section: React.FC<UI.GenericInvolverComponent>;
-                /** 
-                 *  ### Campo
-                 *  Definición de las propiedades para un campo de la tarjeta de la vista.
-                 */ 
-                Field: React.FC<Field<K>>;
-            };
-
-            type ChildrenRenderer<K extends API.Database.TableName> = ({ Kanban, Section, Field }: Kanban._Children<K>) => (React.ReactNode);
-
-            type _BaseWrapper<K extends API.Database.TableName> = _TableUse<K> & _RecordsUse<K> & _SupportsWidget<K> & _SupportsLoading;
-            interface Wrapper<K extends API.Database.TableName> extends _BaseWrapper<K> {
-                /** 
-                 *  ### Declaración de vista de kanban
-                 *  Función utilizada para el encapsulamiento de componentes que se utilizan en
-                 *  la construcción de la vista de kanban.
-                 */ 
-                renderer: ChildrenRenderer<K>;
-            };
-
-            type RenderedWidget<K extends IACele.API.Database.TableName> = IACele.View.Kanban._BaseField<K> & IACele.View._TableUse<K> & IACele.View.RecordUse<K>;
-
-        };
-
-        declare namespace Form {
-
-            // Solo lectura
-            interface _ReadOnly {
-                /** 
-                 *  ### Estado de solo lectura
-                 *  Propiedad que restringe el documento a ser de solo lectura.
-                 */ 
-                readonly?: boolean;
-            };
-
-            interface _CanDelete {
-                /** 
-                 *  ### Puede eliminarse
-                 *  Parámetro que indica que si el registro puede eliminarse.
-                 */ 
-                canDelete?: boolean;
-            };
-
-            type _Options<K extends IACele.API.Database.TableName> = _CanDelete & Common._TableUse<K>;
-            interface Options<K extends IACele.API.Database.TableName> extends _Options<K> {
-                /** 
-                 *  ### ID de registro
-                 *  ID del registro a manipular.
-                 */ 
-                id: number;
-            };
-
-            // Interfaz del componente de campo de formulario
-            type Field<K extends IACele.API.Database.TableName> = View._FieldName<K> & HasOptionalLabel & _ReadOnly;
-
-            // Atributos base de componente de formulario
-            type _BaseComponent<K extends IACele.API.Database.TableName> = View._TableUse<K> & _ReadOnly;
-
-            type Action<K extends IACele.API.Database.TableName> = Do & _SupportsVisibility<K>;
-
-            // Componentes hijos de la vista de formulario
-            interface _Children<K extends IACele.API.Database.TableName> {
-                /** 
-                 *  ### Página de vista
-                 *  Este componente envuelve los componentes {@link Header} {@link Sheet}
-                 *  conforman el esqueleto principal de la vista de formulario.
-                 */ 
-                Page: React.FC<UI.GenericInvolverComponent>;
-                /** 
-                 *  ### Encabezado de formulario
-                 *  En este componente se renderizan botones de acciones que varían en base
-                 *  a la tabla del registro mostrado en la vista de formulario.
-                 */ 
-                Header: React.FC<UI.GenericInvolverComponent>;
-                /** 
-                 *  ### Hoja de formulario
-                 *  En este componente se renderiza la vista de los atributos del registro
-                 *  a mostrar en el formulario, usando los componentes {@link Group} y
-                 *  {@link FieldParams}.
-                 */ 
-                Sheet: React.FC<UI.GenericInvolverComponent>;
-                /** 
-                 *  ### Grupo de campos en formulario
-                 *  Este componente renderiza un grupo para reunir campos de la vista.
-                 */ 
-                Group: React.FC<UI.Group>;
-                /** 
-                 *  ### Campo de formulario
-                 *  Este componente renderiza un campo que muestra el valor de un campo de
-                 *  un registro de tabla de base de datos.
-                 */ 
-                Field: React.FC<Field<K>>;
-                Action: React.FC<Action<K>>;
-            };
-
-            type _Component<K extends IACele.API.Database.TableName> = _CanDelete & _BaseComponent<K>;
-            interface Component<K extends IACele.API.Database.TableName> extends _Component<K> {
-                /** 
-                 *  ## Declaración de vista de formulario
-                 *  Función utilizada para el encapsulamiento de componentes que se
-                 *  utilizan en la construcción de la vista de formulario.
-                 */ 
-                children: ({ Page, Header, Sheet, Group, Field }: _Children<K>) => (React.ReactNode);
-            };
-
-            declare namespace FieldParams {
-
-                // Unión de uso de nombre de campo y datos de registro de base de datos
-                type RecordRender<K extends IACele.API.Database.TableName> = View._FieldName<K> & View.RecordUse<K>
-
-                // Extensión de parámetros de campo de formulario
-                interface Generic<K extends IACele.API.Database.TableName> extends RecordRender<K> {
-                    /** 
-                     *  ### Validación de valor entrante
-                     *  Función que valida si el valor ingresado por el usuario es válido
-                     *  para el campo.
-                     */ 
-                    valueValidation?: (value: string) => (true | null);
-                    /** 
-                     *  ### Mensaje de error
-                     *  Mensaje que indica la razón del error cuando la función de
-                     *  validación no acepta el valor entrante en el campo.
-                     */ 
-                    errorMessage: string;
-                    /** 
-                     *  ### Es inválido
-                     *  Valor que indica el estado del campo
-                     */ 
-                    isInvalid: boolean;
-                    /** 
-                     *  ### Cambio de valor
-                     *  Función de cambio de estado para manejar los cambios del valor
-                     *  ingresado a un campo de teclado.
-                     */ 
-                    setValue: React.Dispatch<React.SetStateAction<string | null>>;
-                    /** 
-                     *  ### Solo lectura
-                     *  Valor que indica que un campo es de solo de lectura
-                     */ 
-                    readonly: boolean;
-                };
-
-                // Interfaz de atributos comunes de input de formulario
-                interface _BaseInput<K extends IACele.API.Database.TableName> extends Generic<K>{
-                    /** 
-                     *  ### Tipo de dato de valor
-                     *  Propiedad que indica el tipo de dato del valor a renderizar.
-                     */ 
-                    type: Data.KeyboardType;
-                };
-
-                // Input genérico
-                interface GenericInput<K extends IACele.API.Database.TableName> extends _BaseInput<K> {
-                    type: Data.GenericType;
-                };
-
-                // Input manipulable por teclado
-                interface KeyboardInput<K extends IACele.API.Database.TableName> extends _BaseInput<K> {
-                    type: Data.KeyboardType;
-                };
-            };
-
-        };
-
-        declare namespace Widget {
-
-            // Destructuración dinámica de la llave de un objeto de registro en base de datos
-            interface _PropDynamicDestructuration<K extends API.Database.TableName> extends RecordUse<K> {
-                [ prop: string ]: API.DataTypes._RecordValue;
-            };
-            
-            // Componente de widget
-            type Callback = React.FC<_PropDynamicDestructuration>;
-
-            // Declaración de widget
-            interface Declaration <K extends API.Database.TableName>{
-                table: K;
-                record: API.Database.Table[K]
-                defaultValue: API.DataTypes._RecordValue;
-                defaultProp: string;
-                color: UI.DecorationColor;
-            };
-
-            // Renderizador de widget dinámico
-            type Component<K extends API.Database.TableName> = (props: Declaration<K>) => React.ReactNode;
-
-            // Definición de color de un widget en base a una validación de un argumento o sus atributos entrantes
-            type _DecorationTrigger<T> = (props: T) => (boolean);
-
-            // Interfaz para colorear un widget en base a validaciones de un argumento o sus atributos entrantes
-            interface Decoration<K extends API.Database.TableName> {
-                /** 
-                 *  ### Color `info`
-                 *  Función que valida uno o más valores y colorea el widget de color `info`.
-                 */ 
-                info?: _DecorationTrigger<API.Database.Table[K]>;
-                /** 
-                 *  ### Color `success`
-                 *  Función que valida uno o más valores y colorea el widget de color `success`.
-                 */ 
-                success?: _DecorationTrigger<API.Database.Table[K]>;
-                /** 
-                 *  ### Color `warning`
-                 *  Función que valida uno o más valores y colorea el widget de color `warning`.
-                 */ 
-                warning?: _DecorationTrigger<API.Database.Table[K]>;
-                /** 
-                 *  ### Color `danger`
-                 *  Función que valida uno o más valores y colorea el widget de color `danger`.
-                 */ 
-                danger?: _DecorationTrigger<API.Database.Table[K]>;
-            };
-
-            // Función receptora de atributos para ser usados en widget a renderizar
-            type PropsReceiver = <K extends API.Database.TableName>(
-                name: keyof RecordInDatabase<K>,
-                colorDecoration: Decoration<K>,
-                table: K,
-                bypassDefaultColor: boolean,
-            ) => (Callback)
-
-            // Widgets predefinidos listos para ser usados
-            interface Presets <K extends API.Database.TableName>{
-                char: PropsReceiver<K>;
-                integer: PropsReceiver<K>;
-                float: PropsReceiver<K>;
-                chip: PropsReceiver<K>;
-                toggle: PropsReceiver<K>;
-                codeline: PropsReceiver<K>;
-                monetary: PropsReceiver<K>;
-                percentage: PropsReceiver<K>;
-                check: PropsReceiver<K>;
-            };
-
-            type FieldWrapper = UI.GenericInvolverComponent & HasOptionalLabel;
-        };
-
-        declare namespace Pagination {
-
-            interface Navigation {
-                /** 
-                 *  ### Conteo de registros
-                 *  Este valor contiene la cantidad de registros totales de un resultado de
-                 *  búsqueda.
-                 */ 
-                count: number;
-                /** 
-                 *  ### Página actual
-                 *  Estado que indica la página actual de lectura de una lista de
-                 *  resultados.
-                 */ 
-                currentPage: number;
-                /** 
-                 *  ### Cantidad total de páginas
-                 *  Estado que indica la cantidad total de páginas que se pueden recorrer
-                 *  en una lista de resultados.
-                 */ 
-                totalPages: number;
-                /** 
-                 *  ### Página anterior
-                 *  Función que retrocede una página a la página actual de lctura de una
-                 *  lista de resultados.
-                 */ 
-                prevPage: () => void;
-                /** 
-                 *  ### Página siguiente
-                 *  Función que avanza una página a la página actual de lctura de una lista
-                 *  de resultados.
-                 */ 
-                nextPage: () => void;
-            };
-
-            interface Setters extends Navigation {
-                /** 
-                 *  ### Establecer conteo
-                 *  Esta función de cambio de estado manipula el valor del estado `count`.
-                 */ 
-                setCount: React.Dispatch<React.SetStateAction<number>>;
-                /** 
-                 *  ### Cantidad de registros por página
-                 *  Este estado indica la cantidad máxima de registros que puede contener
-                 *  una página.
-                 */ 
-                itemsPerPage: number;
-            };
 
         };
 
@@ -1966,241 +3417,162 @@ declare namespace IACele {
 
     declare namespace Context {
 
-        interface Token {
-            token: string | null;
-            setToken: React.Dispatch<React.SetStateAction<string | null>>;
+        declare namespace Application {
+
+            type Breadcrumb = IACeleV2.Application.Routing.BreadcrumbMemory;
+
+            interface Content {
+                /** 
+                 *  ### Referencia de contenido
+                 *  Referencia de contenido de la aplicación.
+                 */ 
+                appContentRef: React.RefObject<HTMLElement | null>;
+            };
+
+            declare namespace Controls {
+
+                type DynamicControls = IACeleV2.Application._Navbar._Slot._DynamicControls;
+
+                type MainControls = IACeleV2.Application._Navbar._Slot._MainControls;
+
+                type SuperiorControls = IACeleV2.Application._Navbar._Slot._SuperiorControls;
+
+            };
+
+            type PageName = IACeleV2.Application.PageName;
+
+            type Sidebar = IACeleV2.Application._Sidebar._Params;
+
+            type Theme = IACeleV2.Application._Theme;
+
+            type UserData = IACeleV2.Application._UserData;
+
+            type UserToken = IACeleV2.Application.UserToken;
+
         };
 
-        interface DarkMode {
-            darkMode: boolean;
-            setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
-        };
+        declare namespace View {
 
-        interface SidebarDisplay {
-            isSidebarLocked: boolean;
-            setIsSidebarLocked: React.Dispatch<React.SetStateAction<boolean>>;
-            isSidebarOpen: boolean;
-            setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
-        };
+            type _FormTree<
+                M extends ModelName,
+                F extends Data.Models.FieldName<M>,
+                R extends Data.Models.RelatedModelName<M, F>
+            > = (
+                & IACeleV2.View._Base._RequiresModelName<R>
+                & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                & IACeleV2.View.Tree._Base._SetDataLoaded
+                & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
+                & IACeleV2.View.Tree.Data<R>
+            );
+            interface FormTree<
+                M extends ModelName,
+                F extends Data.Models.FieldName<M>,
+                R extends Data.Models.RelatedModelName<M, F>
+            > extends _FormTree<M, F, R>{
+                /** 
+                 *  ### Nombre de campo
+                 *  Nombre de campo principal del árbol.
+                 */ 
+                name: F;
+            }
 
-        interface _DynamicControlsSetter {
-            /** 
-             *  ### Establecer controles dinámicos
-             *  Esta función establece un nuevo componente TSX que se mostrará en la barra
-             *  de navegación de la aplicación.
-             */ 
-            setDynamicControls: React.Dispatch<React.SetStateAction<React.JSX.Element | null>>;
-        };
+            type Form<M extends ModelName> = (
+                & IACeleV2._Base._Callback._Reload
+                & IACeleV2._Base._Callback._SaveRecord
+                & IACeleV2.View._Base._RequiresModelName<M>
+                & IACeleV2.View._Base._OptionalReadonly
+                & IACeleV2.View.Form._FormMode
+                & IACeleV2.View.Form._FormRecord<M>
+                & IACeleV2.View.Form._FormRecord<M>
+                & IACeleV2.View.Form._SetFormRecordField<M>
+                & IACeleV2.View.Form._FieldsMetadata<M>
+            );
 
-        interface Navbar extends _DynamicControlsSetter {
-            /** 
-             *  ### Controles dinámicos
-             *  Este estado contiene el componente TSX que se mostrará en la barra de
-             *  navegación de la aplicación.
-             */ 
-            dynamicControls: React.JSX.Element | null;
-        };
+            type Modal = (
+                & IACeleV2.View.Modal._ConfirmOpen
+                & IACeleV2.View.Modal._DoneModal
+                & IACeleV2.View.Modal._SetExecute
+                & IACeleV2.View.Modal._SetModalColor
+            );
 
-        interface AppContent {
-            appContentRef: React.RefObject<HTMLElement | null>;
-        };
+            type Field<M extends ModelName> = (
+                & IACeleV2.View._FieldMainProps
+                & IACeleV2.View._Base._HasDomain<M>
+                & IACeleV2.View._Base._HasPlaceholder
+                & IACeleV2.View._Base._HasWidgetName
+                & IACeleV2.View._Base._HasMinValue
+                & IACeleV2.View._Base._HasMaxValue
+                & IACeleV2.View._Base._HasNumericStep
+                & IACeleV2.View.HasFieldName<M>
+            );
 
-        interface PageName {
-            pageName: string | null;
-            setPageName: React.Dispatch<React.SetStateAction<string | null>>;
-        };
+            type Notebook = (
+                & IACeleV2.View.Form.Notebook._Base._AddPageContent
+                & IACeleV2.View.Form.Notebook._Base._ReloadNotebook
+                & IACeleV2.View.Form.Notebook._Base._DisplayedPage
+                & IACeleV2.View.Form.Notebook._Base._SetDisplayedPage
+            );
 
-        type SortingField = View.Tree.SortingFields<any>
-
-        interface API {
-            appLoading: boolean;
-            setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
-        };
-
-        interface RecordForm {
-            tableName: API.Database.TableName;
-            record: API.DataTypes.GenericRecord | null;
-            formReadonly?: boolean;
-        };
-
-        interface ViewConfig <K extends IACele.API.Database.TableName>{
-            /** 
-             *  ### Añadir propiedades para columna de vista de árbol
-             *  Esta función añade la declaración de propiedades para renderizar una
-             *  columna en la vista de árbol del componente
-             *  {@link View.Tree.Component Tree}.
-             */ 
-            pushViewConfig: (config: IACele.View.Tree.Field<K>) => void;
-        };
-
-        type OpenRecordPath = View._Open;
-
-        type _FormField<K extends IACele.API.Database.TableName> = View.RecordUse<K> & View._OptionalTableUse<K> & View.Form._ReadOnly;
-        interface FormField<K extends IACele.API.Database.TableName> extends _FormField<K> {
-            reload: () => void;
-        };
-
-        interface RecordKanban<K extends IACele.API.Database.TableName> {
-            record: IACele.View.RecordInDatabase<K> | null;
-        };
-
-        interface FormModal {
-            /** 
-             *  ### Está abierto
-             *  Estado que indica que el modal de confirmación está abierto.
-             */ 
-            isConfirmOpen: boolean;
-            /** 
-             *  ### Está abierto
-             *  Estado que indica que el modal de notificación está abierto.
-             */ 
-            isDoneOpen: boolean;
-            /** 
-             *  ### Abrir modal
-             *  Función que abre modal de confirmación.
-             */ 
-            onConfirmOpen: () => void;
-            /** 
-             *  ### Abrir modal
-             *  Función que abre modal de notificación.
-             */ 
-            onDoneOpen: () => void;
-            /** 
-             *  ### Establecer mensaje de confirmación
-             *  Función que establece el mensaje que se muestra en el modal de
-             *  conformación.
-             */ 
-            setConfirmMessage: React.Dispatch<React.SetStateAction<string>>;
-            /** 
-             *  ### Establecer mensaje de notificación
-             *  Función que establece el mensaje que se muestra en el modal de
-             *  notificación.
-             */ 
-            setDoneMessage: React.Dispatch<React.SetStateAction<string>>;
-            /** 
-             *  ### Establecer función a ejecutar
-             *  Función de cambio de estado que establece una función a ser ejecutada
-             *  como valor del estado.
-             */ 
-            setExecute: React.Dispatch<React.SetStateAction<() => void>>;
-            /** 
-             *  ### Establecer color UI
-             *  Función de cambio de estado para establecer un color UI.
-             */ 
-            setColor: React.Dispatch<React.SetStateAction<UI.DecorationColor>>;
-        };
-
-        interface Tasks {
-            /** 
-             *  ### Añadir parámetros de tareas
-             *  Función para añadir parámetros de tareas a la lista de tareas de vista de
-             *  Lista.
-             */ 
-            pushTask: (task: IACele.View.Do) => void;
-        };
-
-        interface MainControls {
-            /** 
-             *  ### Controles principales
-             *  Componente de controles principales de la barra de navegación.
-             */ 
-            mainControls: React.ReactNode | null;
-            /** 
-             *  ### Establecer controles principales
-             *  Función de cambio de estado para establecer el componente de controles
-             *  principales de la barra de navegación.
-             */ 
-            setMainControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
-        };
-
-        interface SuperiorControls {
-            superiorControls: React.ReactNode | null;
-            setSuperiorControls: React.Dispatch<React.SetStateAction<React.ReactNode | null>>;
         };
 
     };
 
-    declare namespace Hook {
+    declare namespace Deprecated {
 
-        interface PageName {
-            /** 
-             *  ### Nombre de la página
-             *  Esta función establece el nombre de la página, el cual se mostrará en el
-             *  breadcrumb y la pestaña del navegador.
-             */ 
-            setViewName: (name: string | null) => (void);
+        interface TTypeMap<M extends ModelName>{
+            'integer': IACeleV2.Data.Models.TType.Integer<'not_null'>;
+            'char': IACeleV2.Data.Models.TType.Char<'not_null'>;
+            'float': IACeleV2.Data.Models.TType.Float<'not_null'>;
+            'boolean': IACeleV2.Data.Models.TType.Boolean<'not_null'>;
+            'date': IACeleV2.Data.Models.TType.Date<'not_null'>;
+            'datetime': IACeleV2.Data.Models.TType.Datetime<'not_null'>;
+            'time': IACeleV2.Data.Models.TType.Time<'not_null'>;
+            'duration': IACeleV2.Data.Models.TType.Duration<'not_null'>;
+            'text': IACeleV2.Data.Models.TType.Text<'not_null'>;
+            'selection': IACeleV2.Data.Models.TType.Selection<any, 'not_null'>;
+            'file': IACeleV2.Data.Models.TType.File<'not_null'>;
+            'many2one': IACeleV2.Data.Models.TType.Many2One<'not_null'>;
+            'one2many': IACeleV2.Data.Models.TType.One2Many<M>;
+            'many2many': IACeleV2.Data.Models.TType.Many2Many<M>;
         };
 
-        interface _ColumnsVisibilityHandling<K extends IACele.API.Database.TableName> {
-            /** 
-             *  ### Columnas mostrables/ocultables
-             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
-             *  datos de columnas filtrados por las columnas que se pueden
-             *  mostrar/ocultar, para usar en componente Select.
-             */ 
-            toggleableColumns: View.Tree.ViewConfig<K>;
-            /** 
-             *  ### Llaves de columnas visibles
-             *  Conjunto de llaves que indica qué columnas están visibles actualmente.
-             */ 
-            visibleColumnsKeys: Set<keyof API.Database.Table[K]>;
-            /** 
-             *  ### Establecer columnas visibles
-             *  Función de cambio de estado que establece columnas visibles.
-             */ 
-            setVisibleColumnsKeys: UI.SelectOptions<K>['setSelectedKeys'];
+        type SupportedType<M extends ModelName, T extends keyof TTypeMap<M>> = TTypeMap<M>[T];
+
+        interface _HasDecorationColor {
+            decorationColor: IACeleV2.UI.HeroUIColor;
         };
 
-        interface VisibleColumns<K extends IACele.API.Database.TableName> extends _ColumnsVisibilityHandling<K> {
-            /** 
-             *  ### Columnas visibles
-             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los
-             *  datos de columnas filtrados solo por las columnas visibles.
-             */ 
-            visibleColumns: View.Tree.ViewConfig<K>;
-        };
+        interface _OnValueChange<M extends ModelName, T extends keyof TTypeMap<K>>{
+            onValueChange: (value: SupportedType<M, T>) => void;
+        }
 
-        // ------------------
-        interface _SortingFieldHandling<K extends API.Database.TableName> {
-            /** 
-             *  ### Campos ordenables
-             *  Objeto {@link View.Tree.ViewConfig ViewConfig} que contiene los campos que
-             *  pueden ordenar datos.
-             */ 
-            sorteableFields: View.Tree.ViewConfig<K>;
-            /** 
-             *  ### Campo de ordenamiento en vista Kanban
-             *  Estado que indica el campo que está ordenando datos actualmente
-             */ 
-            kanbanSortingField: Set<keyof View.RecordInDatabase<K>>;
-            /** 
-             *  ### Establecer campo de ordenamiento en vista de Kanban
-             *  Función para establecer campo de ordenamiento de datos.
-             */ 
-            setKanbanSortingField: React.Dispatch<React.SetStateAction<Set<keyof View.RecordInDatabase<K>>>>;
-        };
-
-        interface _SortingDirectionHandling {
-            /** 
-             *  ### Establecer dirección de ordenamiento
-             *  Función para establecer la dirección de ordenamiento de datos.
-             */ 
-            setSelectedSortingDirection: React.Dispatch<React.SetStateAction<Set<View._SortingDirectionValue>>>;
-        };
-
-        type SortingFields<K extends API.Database.TableName> = View.Tree.SortingFields<K> & _SortingFieldHandling<K> & _SortingDirectionHandling
-        // --------------
-
-        type ListDataFetcher<K extends API.Database.TableName> = (
-            & View.Tree.SortingFields<K>
-            & View.Pagination.Navigation
-            & View._SupportsLoading
-            & View._RecordsUse<K>
-            & Context._DynamicControlsSetter
-            & Hook.VisibleColumns<K>
-            & Hook.SortingFields<K>
-            & View._Reloads
+        type _DataWidget<M extends ModelName, T extends keyof TTypeMap<K>> = (
+            & IACeleV2.View.HasFieldName<M>
+            & IACeleV2.View._Base._HasPlaceholder
+            & IACeleV2.View._Base._HasMinValue
+            & IACeleV2.View._Base._HasMaxValue
+            & IACeleV2.View._Base._HasNumericStep
+            & IACeleV2.View._Base._HasDomain<M>
+            & _HasDecorationColor
+            & _OnValueChange<M, T>
         );
+        interface DataWidget <M extends ModelName, T extends keyof TTypeMap<K>> extends _DataWidget<M, T>{
+            recordData: Partial<Data.Models.Record<M>>;
+            value: SupportedType<M, T>;
+            readonly: boolean;
+        };
+
+        type _ComponentWidget<M extends ModelName, T> = (
+            & IACeleV2.View.HasFieldName<M>
+            & _HasDecorationColor
+            & _OnValueChange<M, T>
+            & IACeleV2.View._Base._HasPlaceholder
+        );
+        interface ComponentWidget<M extends ModelName, T> extends _ComponentWidget<M, T>{
+            value: SupportedType<M, T>;
+            type: string;
+            inputMode?: "text" | "search" | "email" | "tel" | "url" | "none" | "numeric" | "decimal";
+        };
 
     };
 

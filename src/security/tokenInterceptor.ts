@@ -1,5 +1,6 @@
 import { InternalAxiosRequestConfig } from "axios";
 import { AxiosRequestConfig } from "axios";
+import LOCAL_STORAGE from "../constants/app/localStorage";
 
 /** 
  *  ## Interceptor de token de usuario
@@ -18,7 +19,7 @@ const tokenInterceptor = (config: AxiosRequestConfig): InternalAxiosRequestConfi
         };
 
         // Obtención del token desde el almacenamiento del dispositivo
-        const token = localStorage.getItem("userToken");
+        const token = localStorage.getItem(LOCAL_STORAGE.USER_TOKEN);
 
         // Se agrega el token de autenticación al encabezado
         config.headers['Authorization'] = `Bearer ${token}`;

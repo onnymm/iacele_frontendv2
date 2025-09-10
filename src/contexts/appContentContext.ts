@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const AppContentContext = createContext<IACele.Context.AppContent>({
+const AppContentContext = createContext<IACeleV2.Context.Application.Content>({
     appContentRef: { current: null },
 });
 

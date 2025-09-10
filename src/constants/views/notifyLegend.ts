@@ -1,6 +1,6 @@
 const NOTIFY_MESSAGE = {
-    action: 'Acción ejecutada exitosamente',
-    task: 'Tarea ejecutada exitosamente',
+    ACTION: 'Acción ejecutada exitosamente',
+    TASK: 'Tarea ejecutada exitosamente',
 };
 
 export default NOTIFY_MESSAGE;

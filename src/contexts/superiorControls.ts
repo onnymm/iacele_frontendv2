@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const SuperiorControlsContext = createContext<IACele.Context.SuperiorControls>({
+const SuperiorControlsContext = createContext<IACeleV2.Context.Application.Controls.SuperiorControls>({
     superiorControls: null,
     setSuperiorControls: () => null,
 });

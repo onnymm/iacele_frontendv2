@@ -8,7 +8,7 @@
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */  
-const Page: React.FC<IACele.UI.GenericInvolverComponent> = ({
+const Page: React.FC<GenericWrapperComponent> = ({
     children,
 }) => {
 

@@ -1,5 +1,6 @@
 import { Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react";
 import Button from "../../ui/Button";
+import { LABEL } from "../../../constants/app/ui";
 
 /** 
  *  ## Modal de confirmación
@@ -17,7 +18,7 @@ import Button from "../../ui/Button";
  *  de componentes dentro del modal.
  *  - [ `string` ] `message`: Mensaje a mostrar en el modal.
  */ 
-const ModalConfirm: React.FC<IACele.UI.Modal.Confirm> = ({
+const ModalConfirm: React.FC<IACeleV2.View.Modal.Component.Confirm> = ({
     isOpen,
     onOpenChange,
     execute,
@@ -29,20 +30,23 @@ const ModalConfirm: React.FC<IACele.UI.Modal.Confirm> = ({
         <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="center">
             <ModalContent>
                 {(onClose) => {
+
+                    // Inicialización de función de ejecución
                     const onConfirm = () => {
                         execute();
                         onClose();
                     };
+
                     return (
                         <>
-                            <ModalHeader>Confirmación</ModalHeader>
+                            <ModalHeader>{LABEL.CONFIRM}</ModalHeader>
                             <ModalBody>{message}</ModalBody>
                             <ModalFooter>
-                                <Button onPress={onClose}>Cancelar</Button>
-                                <Button onPress={onConfirm} color={color !== 'default' ? color : 'primary'}>Aceptar</Button>
+                                <Button onPress={onClose}>{LABEL.CANCEL}</Button>
+                                <Button onPress={onConfirm} color={color ?? 'primary'}>{LABEL.ACCEPT}</Button>
                             </ModalFooter>
                         </>
-                    )
+                    );
                 }}
             </ModalContent>
         </Modal>

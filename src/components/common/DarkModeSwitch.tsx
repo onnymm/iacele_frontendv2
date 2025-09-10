@@ -16,7 +16,7 @@ import { BedtimeRounded, WbSunnyRounded } from "@mui/icons-material";
 const DarkModeSwitch = (): (React.JSX.Element) => {
 
     // Obtención de valores del contexto
-    const {darkMode, setDarkMode} = useContext<IACele.Context.DarkMode>(DarkModeContext);
+    const {darkMode, setDarkMode} = useContext(DarkModeContext);
 
     return (
         <Switch classNames={{wrapper: 'shadow-[inset_0px_1px_2px_0px_rgba(0,_0,_0,_0.3)]'}} size="sm" isSelected={darkMode} onValueChange={setDarkMode} thumbIcon={<ThumbIcon isSelected={darkMode} />} />

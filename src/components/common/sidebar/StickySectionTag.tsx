@@ -8,7 +8,7 @@
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const StickySectionTag: React.FC<IACele.UI.GenericInvolverComponent> = ({
+const StickySectionTag: React.FC<GenericWrapperComponent> = ({
     children,
 }) => {
 

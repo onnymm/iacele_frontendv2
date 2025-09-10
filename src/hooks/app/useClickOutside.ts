@@ -3,12 +3,12 @@ import useEventListener from "./useEventListener"
 
 const useClickOutside = (
     ref: React.RefObject<HTMLElement | null>,
-    callback: () => (void)
+    callback: () => (void),
 ) => {
 
     // Función a añadir en el escuchador de eventos
     const handleClick = useCallback(
-        (event: MouseEvent) => {
+        (event: Event) => {
             // Validación del clic
             if ( ref && ref.current && !ref.current.contains(event.target as Node) ) {
                 // Ejecución de la función provista
@@ -21,7 +21,7 @@ const useClickOutside = (
     useEventListener(
         document,
         'mousedown',
-        handleClick as EventListener,
+        handleClick,
     );
 };
 

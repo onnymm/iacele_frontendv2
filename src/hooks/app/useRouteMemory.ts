@@ -1,42 +1,35 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import Breadcrumb from "../../components/common/navbar/Breadcrumb"; // eslint-disable-line
+import Breadcrumb from "../../components/common/navbar/breadcrumbs/Breadcrumb"; // eslint-disable-line
 import { useLocation } from "react-router";
 
-/** 
- *  ## Memoria de rutas
- *  Este Custom Hook inicializa los estados y las funciones personalizadas que
- *  se utilizan para gestionar las rutas recientes renderizadas en el
- *  componente {@link Breadcrumb} así como funciones que permiten guardar
- *  valores de estados para ser recuperados si el usuario regresa a la página
- *  usando el componente de rutas recientes.
- */ 
-const useRouteMemory = (): IACele.Application.RouteMemory => {
+const useRoutes = (): IACeleV2.Application.Routing.BreadcrumbValues => {
 
     // Estado inicial memoizado para evitar efectos innecesarios
-    const initialRoutes = useMemo<IACele.Application.RecentRoute[]>(
+    const initialRoutes = useMemo<IACeleV2.Application.Routing.RouteLink<any>[]>(
         () => ([]), []
     );
 
     // Inicialización de estado de matriz de rutas recientes
-    const [ routes, setRoutes ] = useState<IACele.Application.RecentRoute[]>(initialRoutes);
-    // Obtención de localización actual en la aplicación
-    const location  = useLocation();
+    const [ routes, setRoutes ] = useState<IACeleV2.Application.Routing.RouteLink<any>[]>(initialRoutes);
 
     // Función para añadir una nueva ruta reciente
     const addRoute = useCallback(
-        (route: IACele.Application.RecentRoute) => {
+        (route: IACeleV2.Application.Routing.RouteLink<any>) => {
+
             setRoutes(
                 (prev) => {
-                    // Si existen rutas
+
+                    // Si existen rutas...
                     if ( prev.length ) {
                         // Obtención de la última ruta del arreglo
                         const lastRoute = prev[prev.length - 1];
-                        // Si la ruta actual es igual a la última ruta, no se agrega
+                        // Si la ruta actual es igual a la última ruta...
                         if (lastRoute.to === route.to ) {
+                            // No se realizan cambios
                             return (prev);
                         };
                     };
-                    // Se agrega la ruta
+                    // Si no existen cambios o la ruta actual no es igual a la última ruta se agrega ésta.
                     return ([ ...prev, route ]);
                 }
             );
@@ -56,7 +49,13 @@ const useRouteMemory = (): IACele.Application.RouteMemory => {
             // Si existe ruta, se guardan los datos
             if ( routes.length )
             // Se establecen los datos en la ruta
-            routes[routes.length - 1].data[key] = value;
+            if ( routes[routes.length - 1] ) {
+                // Se aisla el atributo en una variable para evitar advertencias de tipado
+                const data = routes[routes.length - 1].data;
+                if ( data !== undefined ) {
+                    data[key] = value;
+                };
+            }
         }, [routes]
     );
 
@@ -72,20 +71,35 @@ const useRouteMemory = (): IACele.Application.RouteMemory => {
             routes.length > 0
                 // Si la última ruta coincide con la cadena de texto...
                 ? routes[routes.length - 1].to === completePath
-                    ? routes[routes.length - 1]
+                    ? routes[routes.length - 1].data as T
                     : routes.length > 1
                         // Si la penúltima ruta coincide con la cadena de texto...
                         ? routes[routes.length - 2].to === completePath
-                            ? routes[routes.length - 2]
+                            ? routes[routes.length - 2].data as T
 
                             // Se retornan datos vacíos si no existen coincidencias
-                            : {data: {}} as IACele.Application.RecentRoute
-                        : {data: {}} as IACele.Application.RecentRoute
-                : {data: {}} as IACele.Application.RecentRoute
+                            : {} as T
+                        : {} as T
+                : {} as T
         );
 
-        return currentRoute.data as T;
+        return currentRoute as T;
     };
+
+    return { routes, setRoutes, addRoute, cutRecent, setRouteData, recoverData };
+};
+
+/** 
+ *  ## Memoria de rutas
+ *  Este Custom Hook inicializa los estados y las funciones personalizadas que
+ *  se utilizan para gestionar las rutas recientes renderizadas en el
+ *  componente {@link Breadcrumb} así como funciones que permiten guardar
+ *  valores de estados para ser recuperados si el usuario regresa a la página
+ *  usando el componente de rutas recientes.
+ */ 
+const useRouteMemory = (): IACeleV2.Application.Routing.BreadcrumbMemory => {
+
+    const { routes, setRoutes, addRoute, cutRecent, setRouteData, recoverData } = useRoutes();
 
     // Se descarta la última ruta para esto ser mostrado en el componente
     const recentRoutes = useMemo(
@@ -94,14 +108,21 @@ const useRouteMemory = (): IACele.Application.RouteMemory => {
         ), [routes]
     );
 
+    // Obtención de localización actual en la aplicación
+    const location  = useLocation();
+
     useEffect(
         () => {
             // Obtención de la ruta anterior a la actual en lista de rutas
             const previousRoute = (
+                // Si existe algún valor en el índice
                 recentRoutes[recentRoutes.length - 2]
+                    // Se toma el valor del link
                     ? recentRoutes[recentRoutes.length - 2].to
+                    // Si no, se toma el valor indefinido
                     : undefined
             );
+
             // Obtención de la ruta actual desde la localización provista por React Router
             const currentRoute = location.pathname + location.search;
 
@@ -110,8 +131,8 @@ const useRouteMemory = (): IACele.Application.RouteMemory => {
                 // Se remueve la ruta para tener el breadcrumb actualizado y consistente
                 setRoutes( (prev) => (prev.slice(0, prev.length - 2)) );
             };
-        }, [location.pathname, location.search, recentRoutes]
-    )
+        }, [location.pathname, location.search, recentRoutes, setRoutes]
+    );
 
     return { recentRoutes, addRoute, cutRecent, setRouteData, recoverData };
 };

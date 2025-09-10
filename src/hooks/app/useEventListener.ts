@@ -32,12 +32,14 @@ const useEventListener = (
 
     useEffect(
         () => {
+
             // Obtención del objeto current de la referencia
             const targetElement = (
                 "current" in targetRef
                 ? (targetRef as React.RefObject<HTMLElement>).current
                 : targetRef as Window | Document
             );
+
             // Si no existe un objeto, se termina la ejecución
             if ( !targetElement ) return;
 

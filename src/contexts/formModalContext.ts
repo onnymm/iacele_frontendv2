@@ -1,14 +1,14 @@
 import { createContext } from "react";
 
-const FormModal = createContext<IACele.Context.FormModal>({
+const FormModalContext = createContext<IACeleV2.Context.View.Modal>({
     isConfirmOpen: false,
     isDoneOpen: false,
-    onConfirmOpen: () => null,
-    onDoneOpen: () => null,
-    setDoneMessage: () => null,
-    setConfirmMessage: () => null,
-    setExecute: () => null,
-    setColor: () => null,
+    onConfirmOpen: () => (null),
+    onDoneOpen: () => (null),
+    setConfirmMessage: () => (null),
+    setDoneMessage: () => (null),
+    setExecute: () => (null),
+    setColor: () => (null),
 });
 
-export default FormModal;
+export default FormModalContext;

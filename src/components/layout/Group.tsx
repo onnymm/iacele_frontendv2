@@ -1,6 +1,6 @@
 // import Sheet from "./Sheet"; // eslint-disable-line
 
-interface GroupParams extends GenericInvolverComponent {
+interface GroupParams extends GenericWrapperComponent {
     title?: string; // Título del grupo de componentes.
 };
 

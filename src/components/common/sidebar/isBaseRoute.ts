@@ -13,7 +13,7 @@
  *  - [ `boolean` ] `*` : Validación si la ruta provista es base de la
  *  ubicación actual.
  */ 
-const isBaseRoute: (location: string, route: IACele.Application.RouteGroup['routes']) => (boolean) = (location, route) => {
+const isBaseRoute: (location: string, route: string | IACeleV2.Application.Navigation.Route) => (boolean) = (location, route) => {
 
     // Si es ruta raíz se retorna falso
     if ( location === '/' || route == '' ) return false;

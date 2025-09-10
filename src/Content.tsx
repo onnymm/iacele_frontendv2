@@ -18,7 +18,7 @@ const Content: () => (React.JSX.Element) = () => {
 
     return (
         <AppContentContext.Provider value={{ appContentRef }}>
-            <main ref={appContentRef} id="app-content" className="flex-grow bg-slate-100 dark:bg-[#101b26] overflow-y-auto">
+            <main id="app-content" ref={appContentRef} className="flex bg-slate-100 dark:bg-[#101b26] w-full group-[.ui-navbar-active]:w-[calc(100%_-_18rem)] overflow-y-auto transition-width duration-300">
                 <Outlet />
             </main>
         </AppContentContext.Provider>

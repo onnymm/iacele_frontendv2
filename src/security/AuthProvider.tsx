@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
-import userTemplate from "../constants/userTemplate";
-import fetchUser from "./fetchUser";
-import { TokenContext } from "../contexts/tokenContext";
-import { UserContext } from "../contexts/userContext";
-import LOCAL_STORAGE from "../constants/app/localStorage";
+import React from "react";
+import ClientProvider from "../api/providers/ClientProvider";
+import UserTokenProvider from "../providers/UserTokenProvider";
+import UserDataProvider from "../providers/UserDataProvider";
+import UserAuthenticationProvider from "../providers/UserAuthenticationProvider";
 
 /**
  *  ## Proveedor de autenticación
@@ -19,40 +18,20 @@ import LOCAL_STORAGE from "../constants/app/localStorage";
  *  - [ {@link React.JSX.Element} ] `children`: Componente de aplicación a
  *  envolver.
  */ 
-const AuthProvider: React.FC<GenericInvolverComponent> = ({
+const AuthProvider: React.FC<IACeleV2.Application.Provider> = ({
     children,
 }) => {
 
-    // Se intenta obtener el token desde el dispositivo
-    const [ token, setToken ] = useState<string | null>( localStorage.getItem(LOCAL_STORAGE.USER_TOKEN) );
-
-    // Inicialización del usuario actual
-    const [ user, setUser ] = useState<IACele.Application.CurrentUserData>(userTemplate);
-
-    // Intento de obtención del usuario
-    useEffect(
-        () => {
-            fetchUser({ token, setToken, setUser });
-        }, [token]
-    );
-
-    // Almacenamiento o remoción de token
-    useEffect(
-        () => {
-            if ( token ) {
-                localStorage.setItem(LOCAL_STORAGE.USER_TOKEN, token );
-            } else {
-                localStorage.removeItem(LOCAL_STORAGE.USER_TOKEN);
-            }
-        }, [token]
-    );
-
     return (
-        <TokenContext.Provider value={{token, setToken}}>
-            <UserContext.Provider value={user}>
-                { children }
-            </UserContext.Provider>
-        </TokenContext.Provider>
+        <UserTokenProvider>
+            <UserDataProvider>
+                <ClientProvider>
+                    <UserAuthenticationProvider>
+                        {children}
+                    </UserAuthenticationProvider>
+                </ClientProvider>
+            </UserDataProvider>
+        </UserTokenProvider>
     );
 };
 

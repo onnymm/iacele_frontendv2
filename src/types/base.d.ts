@@ -1,3 +1,3 @@
-interface GenericInvolverComponent {
+interface GenericWrapperComponent {
     children: ReactNode;
 };

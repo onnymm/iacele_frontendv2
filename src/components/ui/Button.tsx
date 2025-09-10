@@ -1,17 +1,9 @@
 import { Button as HeroButton } from "@heroui/react";
 import React from "react";
 import Sizeable from "../common/Sizeable";
+import useComponentColor from "../../hooks/app/useComponentColor";
 
-type _ButtonParams = IACele.UI.GenericInvolverComponent & IACele.UI._SupportsClassName & IACele.UI._Colorizable;
-interface ButtonParams extends _ButtonParams {
-    isIconOnly?: boolean;
-    startContent?: React.ReactNode;
-    endContent?: React.ReactNode;
-    onPress: () => void;
-    isDisabled?: boolean;
-};
-
-const Button: React.FC<ButtonParams> = ({
+const Button: React.FC<IACeleV2.UI.Button.Params> = ({
     isIconOnly,
     startContent,
     endContent,
@@ -21,6 +13,9 @@ const Button: React.FC<ButtonParams> = ({
     onPress,
     isDisabled = false,
 }) => {
+
+    // Obtención de color para componente HeroUI
+    const { adaptedColor } = useComponentColor(color);
 
     return (
         <Sizeable>
@@ -32,7 +27,7 @@ const Button: React.FC<ButtonParams> = ({
                     isIconOnly={isIconOnly}
                     startContent={startContent}
                     endContent={endContent}
-                    color={color}
+                    color={adaptedColor}
                     onPress={onPress}
                     isDisabled={isDisabled}
                 >

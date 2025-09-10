@@ -1,11 +1,11 @@
 import { createContext } from "react";
 
-const RouteMemoryContext = createContext<IACele.Application.RouteMemory>({
+const RouteMemoryContext = createContext<IACeleV2.Context.Application.Breadcrumb>({
     recentRoutes: [],
-    addRoute: () => null,
-    cutRecent: () => null,
-    setRouteData: () => null,
-    recoverData: ( () => null ) as <T>() => T,
+    addRoute: () => (null),
+    cutRecent: () => (null),
+    setRouteData: () => (null),
+    recoverData: ( () => (null) ) as <T>() => T,
 });
 
 export default RouteMemoryContext;

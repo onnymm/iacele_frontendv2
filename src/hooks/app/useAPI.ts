@@ -1,34 +1,29 @@
-import { useMemo, useState } from "react";
-import APIManager from "../../api/api";
+import { useContext, useMemo, useState } from "react";
+import { TokenContext } from "../../contexts/tokenContext";
+import { UserContext as UserDataContext } from "../../contexts/userContext";
+import Client from "../../api/client/client";
 
-export interface APIParams {
+export interface APIParams extends IACeleV2.Application.Loading {
     /**
      *  ### Conexión con el backend
      *  Instancia que maneja la transacción de datos entre el frontend y el servidor.
      */ 
-    api: APIManager;
-    /** 
-     *  ### Estatus de carga de la app
-     *  Este estado contiene el estatus de carga de la aplicación. Éste cambia
-     *  cuando se realiza una solicitud de datos al backend.
-     */ 
-    appLoading: boolean;
-    /** 
-     *  ### Función de cambio de estado de carga de la app
-     *  Esta función realiza el cambio de estado de carga de la aplicación.
-     */ 
-    setAppLoading: React.Dispatch<React.SetStateAction<boolean>>;
+    api: Client;
 };
+
 const useAPI = (): APIParams => {
 
+    // Obtención de función de cambio de estado desde el token
+    const { setUserToken } = useContext(TokenContext);
+    const { setUserData, removeUserData } = useContext(UserDataContext);
     // Inicialización de estado de carga
     const [ appLoading, setAppLoading ] = useState<boolean>(false);
 
     // Inicialización de instancia de la API
     const api = useMemo(
         () => (
-            new APIManager(setAppLoading)
-        ), []
+            new Client(setAppLoading, setUserToken, setUserData, removeUserData)
+        ), [setUserToken, setUserData, removeUserData]
     );
 
     // Se retornan el estado y la instancia creada

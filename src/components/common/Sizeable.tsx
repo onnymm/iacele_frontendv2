@@ -27,21 +27,25 @@
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const Sizeable: React.FC<IACele.UI.Sizeable.SizeableParams> = ({
+const Sizeable: React.FC<IACeleV2.UI.Sizeable.Component> = ({
     children,
 }) => {
 
     return (
-        <div className="h-min">
-            {/* Renderización para componente visible en móvil */}
-            <div className="sm:hidden flex items-center">
-                {children({ view: 'mobile', componentSize: 'md', textSize: 'text-medium' })}
-            </div>
-            {/* Renderización para componente visible en escritorio */}
-            <div className="hidden sm:flex items-center">
-                {children({ view: 'desktop', componentSize: 'sm', textSize: 'text-sm' })}
-            </div>
-        </div>
+        [
+            // Renderización para componente visible en móvil
+            (
+                <div className="sm:hidden flex items-center" key={'sm'}>
+                    {children({ view: 'mobile', componentSize: 'md', textSize: 'text-medium' })}
+                </div>
+            ),
+            // Renderización para componente visible en escritorio
+            (
+                <div className="hidden sm:flex items-center" key={'md'}>
+                    {children({ view: 'desktop', componentSize: 'sm', textSize: 'text-sm' })}
+                </div>
+            ),
+        ]
     );
 };
 
