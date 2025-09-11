@@ -11,7 +11,7 @@ const useTree = <
 >(): IACeleV2.Hook.View.Form.Tree<M, F, R> => {
 
     // Obtención del nombre del modelo relacionado
-    const { relatedModelName } = useRelatedModelName<M>();
+    const { relatedModelName } = useRelatedModelName<M, R>();
     // Obtención de los datos del formulario
     const { formRecord } = useFormRecordContext<M>();
     // Obtención del nombre del campo
@@ -59,7 +59,7 @@ const useTree = <
             if ( dataLoaded ) return;
 
             // Obtención de los datos desde la API
-            const { fields, records } = await api.tree.read<R>(relatedModelName as R, recordIds);
+            const { fields, records } = await api.tree.read<R>(relatedModelName, recordIds);
             // Se establecen los estados con los datos
             setDataFromAPI(records);
             setMetadataFromAPI(fields);
@@ -75,7 +75,7 @@ const useTree = <
         }, [getRecords]
     );
 
-    return { name, relatedModelName: relatedModelName as R, treeConfig, addConfig, dataLoaded, setDataLoaded, dataFromAPI, metadataFromAPI };
+    return { name, relatedModelName, treeConfig, addConfig, dataLoaded, setDataLoaded, dataFromAPI, metadataFromAPI };
 };
 
 export default useTree;

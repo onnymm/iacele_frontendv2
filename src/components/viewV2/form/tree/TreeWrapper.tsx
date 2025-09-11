@@ -10,7 +10,7 @@ const TreeWrapper = <
     R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
 >({
     config,
-}: IACeleV2.View.Form.Field.Tree.Wrapper.Params<M, F, IACeleV2.Data.Models.RelatedModelName<M, F>>) => {
+}: IACeleV2.View.Form.Field.Tree.Wrapper.Params<M, F, R>) => {
 
     // Obtención de estados y funciones
     const {

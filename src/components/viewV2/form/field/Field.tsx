@@ -56,7 +56,7 @@ const Field = <
         return (
             <FieldContext.Provider value={{ name, computedLabel, placeholder, computedReadonly, ttype, computedDecorationColor, domain, min, max, step, }}>
                 {(formRecord[name] as IACeleV2.Data.Models.TType.One2Many<M>)?.length && formMode === 'read' &&
-                    <TreeWrapper config={children as never} />
+                    <TreeWrapper config={children} />
                 }
             </FieldContext.Provider>
         );

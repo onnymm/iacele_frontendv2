@@ -4,6 +4,7 @@ import useFieldContext from "../form/useFieldContext";
 
 const useRelatedModelName = <
     M extends ModelName,
+    R extends ModelName,
 >() => {
 
     // Obtención del nombre del campo
@@ -11,7 +12,7 @@ const useRelatedModelName = <
     // Obtención de los metadatos del campo
     const { fieldMetadata } = useFieldMetadata<M>(name);
     // Obtención del modelo relacionado
-    const relatedModelName = fieldMetadata.model as ModelName;
+    const relatedModelName = fieldMetadata.model as R;
 
     return { relatedModelName };
 };

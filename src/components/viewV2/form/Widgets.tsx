@@ -252,12 +252,12 @@ export const SelectionWidget = <M extends ModelName>() => {
     };
 };
 
-export const Many2OneWidget = <M extends ModelName>() => {
+export const Many2OneWidget = <M extends ModelName, R extends ModelName>() => {
 
     // Obtención de los atributos generados para el widget
     const { readonly, decorationColor, name } = useWidget<M, 'selection', (string | undefined)>();
     // Obtención de valores y funciones para opciones Many2One
-    const { initialSelectedOption, selectedKey, setSelectedKey, search, options, setSearch, setIsOpen } = useMany2OneOptions<M>();
+    const { initialSelectedOption, selectedKey, setSelectedKey, search, options, setSearch, setIsOpen } = useMany2OneOptions<M, R>();
 
     // Creación de la función de cambio de estado de valor de formulario
     const { onValueChange } = useOnValueChange<M, 'char' | 'integer', IACeleV2.Data.Models.TType.Many2One>(
@@ -822,12 +822,12 @@ const useDurationValue = <M extends ModelName>() => {
     };
 };
 
-const useMany2OneOptions = <M extends ModelName>() => {
+const useMany2OneOptions = <M extends ModelName, R extends ModelName>() => {
 
     // Obtención de la instancia de API desde el contexto
     const { api } = useContext(APIContext);
     // Obtención del modelo relacionado
-    const { relatedModelName } = useRelatedModelName<M>();
+    const { relatedModelName } = useRelatedModelName<M, R>();
     // Obtención del dominio
     const { domain } = useFieldContext<M>();
     // Obtención de estados y funciones de llave seleccionada
