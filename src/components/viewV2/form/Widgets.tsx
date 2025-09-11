@@ -498,6 +498,9 @@ export const One2ManyTagsWidget = <K extends ModelName>() => {
     // Obtención de los atributos generados para el widget
     const { decorationColor, value } = useWidget<K, 'one2many', (string | undefined)>();
 
+    // Si no existen valores a mostrar, se termina la ejecución
+    if ( value === null || value === undefined ) return null;
+
     return (
         <div className="flex flex-wrap gap-1">
             {value.map(
@@ -555,7 +558,7 @@ const useDate = <K extends ModelName>() => {
             // Inicialización del valor tomando el dato desde el formulario
             const value = formRecord[name] as IACeleV2.Data.Models.TType.Date;
             // Si el valor es nulo se retorna éste
-            if ( value === null ) return value;
+            if ( value === null || value === undefined ) return value;
 
             // Obtención de los valores para crear el objeto de fecha
             const [ year, month, day ] = (
@@ -653,7 +656,7 @@ const useDatetime = <K extends ModelName>() => {
             // Inicialización del valor tomando el dato desde el formulario
             let value = formRecord[name] as IACeleV2.Data.Models.TType.Datetime;
             // Si el valor es nulo se retorna éste
-            if ( value === null ) return value;
+            if ( value === null || value === undefined ) return value;
 
             // Se corta el remanente después de los segundos
             [ value, ] = value.split('.');
