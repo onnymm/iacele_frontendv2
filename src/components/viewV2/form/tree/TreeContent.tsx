@@ -18,28 +18,41 @@ const TreeContent = <
     const { computeLabel, getTType, createSetFormRecordField, treeRecordsIndex } = useTreeRecords<K, F, R>(records, fields);
 
     return (
-        <div className="md:col-span-2">
+        <div className="md:col-span-2 group-[.ui-group]:pt-1">
             <Table
                 aria-label={name as string}
                 classNames={{
                     base: 'dark:bg-[#1f2f3f]',
-                    wrapper: 'p-0 shadow-none ui-table group py-1 border-gray-500/50 h-max rounded-lg bg-transparent rounded-none',
+                    wrapper: 'p-0 shadow-none ui-table group pb-1 border-gray-500/50 h-max rounded-lg bg-transparent rounded-none',
                     table: 'p-0',
-                    th: 'p-0 bg-transparent',
+                    th: 'p-0 dark:bg-[#101b26]/60 bg-slate-100 px-2 last:pr-4 !rounded-none first:pl-4',
                     tr: 'transition-transform-colors dark:bg-[#1f2f3f] even:brightness-90 hover:bg-primary-500',
                     td: 'p-0',
                     thead: '*:hover:bg-transparent',
                 }}
             >
-                <TableHeader columns={treeConfig.map((v) => ({ ...v, key: v.name }))}>
+                <TableHeader
+                    columns={
+                        treeConfig.map(
+                            (config) => ({ ...config, key: config.name })
+                        )
+                    }
+                >
                     {(config) => {
-                        const columnName = fields.find( (d) => (d.name === config.name) )?.name as IACeleV2.Data.Models.FieldName<R>;
+
+                        // Obtención del nombre de la columna
+                        const columnName = (
+                            fields.find(
+                                (d) => (d.name === config.name)
+                            )?.name as IACeleV2.Data.Models.FieldName<R>
+                        );
+
+                        // Cómputo de etiqueta de la columna
+                        const columnLabel = computeLabel(columnName);
+
                         return (
-                            <TableColumn
-                                className="px-2 last:pr-4 first:pl-4"
-                                key={config.key as never}
-                                >
-                                {computeLabel(columnName)}
+                            <TableColumn key={config.key as string} >
+                                {columnLabel}
                             </TableColumn>
                         );
                     }}
@@ -49,9 +62,12 @@ const TreeContent = <
                         return (
                         <TableRow key={record.id}>
                             {(columnKey) => {
-                                // const value = record[columnKey as never];
+
+                                // Obtención del tipo de dato
                                 const ttype = getTType(columnKey as IACeleV2.Data.Models.FieldName<R>);
+                                // Obtención del widget a usar
                                 const Widget = Widgets[ttype as 'char'];
+
                                 return (
                                     <TableCell className="px-2 last:pr-4 first:pl-4 h-8">
                                         <RecordFormContext.Provider
@@ -64,7 +80,7 @@ const TreeContent = <
                                                 setFormRecordField: createSetFormRecordField(record.id),
                                                 readonly: true,
                                                 modelName,
-                                            }}>
+                                        }}>
                                         <FieldContext.Provider value={{ computedDecorationColor: 'default', computedLabel: '', computedReadonly: true, domain: [], name: columnKey, ttype }}>
                                             <Widget />
                                         </FieldContext.Provider>
