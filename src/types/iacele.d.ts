@@ -2132,7 +2132,12 @@ declare namespace IACeleV2 {
                      *  ### Alerta
                      *  Componente que muestra un mensaje importante en el formulario.
                      */ 
-                    Alert: React.FC<IACeleV2.View.Form.Alert.Params>;
+                    Alert: React.FC<IACeleV2.View.Form.Alert.Params<M>>;
+                    /** 
+                     *  ### Campo de formulario
+                     *  Componente que renderiza un campo en función del tipo de dato que
+                     *  renderizará.
+                     */ 
                     Field: React.FC<Field.Params<M, Data.Models.FieldName<M>>>;
                 };
 

@@ -15,7 +15,7 @@ const Alert = <M extends ModelName>({
 
     if (!show || computedIsInvisible) return null;
     return (
-        <div className={`border-${color}-500 group-[.ui-form-header]:w-full h-8 items-center group-[.ui-form-header]:col-span-2 group-[.ui-form-header]:mx-0 mx-4 group-[.ui-group]:mx-0 text-sm border rounded-lg bg-${color}-500/10 py-2 text-${color}-500 flex justify-between px-4`}>
+        <div className={`border-${color}-500 font-light text-xs group-[.ui-form-header]:w-full h-8 items-center group-[.ui-form-header]:col-span-2 group-[.ui-form-header]:mx-0 mx-4 group-[.ui-group]:mx-0 border rounded-lg bg-${color}-500/10 py-2 text-${color}-500 flex justify-between px-4`}>
             {children}
             <button onClick={close}>
                 <X className="size-4" />
