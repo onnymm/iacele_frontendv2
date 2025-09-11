@@ -1222,28 +1222,20 @@ declare namespace IACeleV2 {
 
                 };
 
-                interface _TreeConfig<
-                    M extends ModelName,
-                    F extends Data.Models.FieldName<M>,
-                    R extends Data.Models.RelatedModelName<M, F>
-                >{
+                interface _TreeConfig<M extends ModelName>{
                     /** 
                      *  ### Configuración de vista de árbol
                      *  Variable de configuración de vista de árbol.
                      */ 
-                    treeConfig: IACeleV2.View.Form.Field.Tree.Config<M, F, R>[];
+                    treeConfig: IACeleV2.View.Form.Field.Tree.Config<M>[];
                 };
 
-                interface _AddConfig<
-                    M extends ModelName,
-                    F extends Data.Models.FieldName<M>,
-                    R extends Data.Models.RelatedModelName<M, F>
-                >{
+                interface _AddConfig<M extends ModelName>{
                     /** 
                      *  ### Añadir configuración
                      *  Añadir configuración de vista de árbol.
                      */ 
-                    addConfig: (config: Config<M, F, R>) => void;
+                    addConfig: (config: IACeleV2.View.Form.Field.Tree.Config<M>) => void;
                 };
 
                 interface _DataLoaded {
@@ -1270,6 +1262,15 @@ declare namespace IACeleV2 {
                     dataFromAPI: IACeleV2.Data.Models.Record<M>[];
                 };
 
+                interface _SetDataFromAPI<M extends ModelName>{
+                    /** 
+                     *  ### Cambio de datos desde la API
+                     *  Función de cambio de estado de array que contiene los datos de registros
+                     *  obtenidos desde la API.
+                     */ 
+                    setDataFromAPI: React.Dispatch<React.SetStateAction<IACeleV2.Data.Models.Record<M>[]>>;
+                };
+
                 interface _MetadataFromAPI<M extends ModelName>{
                     /** 
                      *  ### Metadatos desde la API
@@ -1278,12 +1279,34 @@ declare namespace IACeleV2 {
                     metadataFromAPI: IACeleV2.Data.Models.Field<M>[];
                 };
 
+                interface _SetMetadataFromAPI<M extends ModelName>{
+                    /** 
+                     *  ### Cambio de metadatos desde la API
+                     *  Función de cambio de estado de array que contiene los metadatos de
+                     *  registros obtenidos desde la API.
+                     */ 
+                    setMetadataFromAPI: React.Dispatch<React.SetStateAction<IACeleV2.Data.Models.Field<M>[]>>;
+                };
+
+                interface RecordIDs {
+                    /** 
+                     *  ### IDs de registros referenciados
+                     *  Array que contiene las IDs de registros referenciados para su lectura en el
+                     *  backend.
+                     */ 
+                    recordIds: number[];
+                };
+
             };
 
             declare namespace Field {
 
-                interface Params<M extends ModelName>{
-                    name: IACeleV2.Data.Models.FieldName<M>;
+                interface Params<
+                    M extends ModelName,
+                    F extends Data.Models.FieldName<M>,
+                    R extends Data.Models.RelatedModelName<M, F>
+                >{
+                    name: IACeleV2.Data.Models.FieldName<R>;
                     label?: string;
                 };
 
@@ -1416,7 +1439,7 @@ declare namespace IACeleV2 {
                              *  ### Árbol
                              *  Componente de árbol.
                              */ 
-                            Tree: React.FC<Tree.Params<M>>;
+                            Tree: React.FC<Tree.Params>;
                             /** 
                              *  ### Campo de árbol
                              *  Componente de campo para contenido de componente de árbol.
@@ -1432,11 +1455,7 @@ declare namespace IACeleV2 {
 
                     };
 
-                    interface Config<
-                        M extends ModelName,
-                        F extends Data.Models.FieldName<M>,
-                        R extends Data.Models.RelatedModelName<M, F>
-                    > extends IACeleV2.View.HasFieldName<R>{
+                    interface Config<M extends ModelName> extends IACeleV2.View.HasFieldName<M>{
                         /** 
                          *  ### Etiqueta de campo
                          *  Etiqueta de campo.
@@ -1451,8 +1470,8 @@ declare namespace IACeleV2 {
                     > = (
                         & IACeleV2.View.HasFieldName<M>
                         & IACeleV2._Base._State._HasRelatedModelName<R>
-                        & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
-                        & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                        & IACeleV2.View.Tree._Base._TreeConfig<R>
+                        & IACeleV2.View.Tree._Base._AddConfig<R>
                         & IACeleV2.View.Tree._Base._DataLoaded
                         & IACeleV2.View.Tree._Base._SetDataLoaded
                         & IACeleV2.View.Tree._Base._DataFromAPI<R>
@@ -3376,6 +3395,21 @@ declare namespace IACeleV2 {
                     & IACeleV2.View.Form.Alert._Base._Close
                 );
 
+                type TreeAPIData<M extends ModelName> = (
+                    & IACeleV2.View.Tree._Base._DataFromAPI<M>
+                    & IACeleV2.View.Tree._Base._MetadataFromAPI<M>
+                    & IACeleV2.View.Tree._Base._SetDataFromAPI<M>
+                    & IACeleV2.View.Tree._Base._SetMetadataFromAPI<M>
+                    & IACeleV2.View.Tree._Base._DataLoaded
+                    & IACeleV2.View.Tree._Base._SetDataLoaded
+                );
+
+                type TreeRecordIDs = IACeleV2.View.Tree._Base.RecordIDs;
+
+                type TreeConfig<M extends ModelName> = IACeleV2.View.Tree._Base._TreeConfig<M>;
+
+                type AddConfig<M extends ModelName> = IACeleV2.View.Tree._Base._AddConfig<M>;
+
                 type Tree<
                     M extends ModelName,
                     F extends Data.Models.FieldName<M>,
@@ -3383,8 +3417,8 @@ declare namespace IACeleV2 {
                 > = (
                     & IACeleV2.View.HasFieldName<M>
                     & IACeleV2._Base._State._HasRelatedModelName<R>
-                    & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
-                    & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                    & IACeleV2.View.Tree._Base._TreeConfig<R>
+                    & IACeleV2.View.Tree._Base._AddConfig<R>
                     & IACeleV2.View.Tree._Base._DataLoaded
                     & IACeleV2.View.Tree._Base._SetDataLoaded
                     & IACeleV2.View.Tree._Base._DataFromAPI<R>
@@ -3459,9 +3493,9 @@ declare namespace IACeleV2 {
                 R extends Data.Models.RelatedModelName<M, F>
             > = (
                 & IACeleV2.View._Base._RequiresModelName<R>
-                & IACeleV2.View.Tree._Base._AddConfig<M, F, R>
+                & IACeleV2.View.Tree._Base._AddConfig<R>
                 & IACeleV2.View.Tree._Base._SetDataLoaded
-                & IACeleV2.View.Tree._Base._TreeConfig<M, F, R>
+                & IACeleV2.View.Tree._Base._TreeConfig<R>
                 & IACeleV2.View.Tree.Data<R>
             );
             interface FormTree<

@@ -36,7 +36,7 @@ const TreeWrapper = <
                 fields: metadataFromAPI,
             }}
         >
-            {config({ Field: TreeField<R>, Tree })}
+            {config({ Field: TreeField<M, F, R>, Tree })}
             {dataLoaded &&
                 <TreeContent />
             }

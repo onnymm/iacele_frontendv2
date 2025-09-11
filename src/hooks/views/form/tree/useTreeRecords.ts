@@ -2,16 +2,16 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import FormTreeContext from "../../../../contexts/view/form/FormTreeContext";
 
 const useTreeRecords = <
-    K extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<K>,
-    R extends IACeleV2.Data.Models.RelatedModelName<K, F>,
+    M extends ModelName,
+    F extends IACeleV2.Data.Models.FieldName<M>,
+    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
 >(
     records: IACeleV2.Data.Models.Record<R>[],
     fields: IACeleV2.Data.Models.Field<R>[],
-): IACeleV2.Hook.View.Form.TreeRecords<K, F, R> => {
+): IACeleV2.Hook.View.Form.TreeRecords<M, F, R> => {
 
     // Obtención de valor desde el contexto
-    const { treeConfig } = useContext<IACeleV2.Context.View.FormTree<K, F, R>>(FormTreeContext);
+    const { treeConfig } = useContext<IACeleV2.Context.View.FormTree<M, F, R>>(FormTreeContext);
 
     // Inicialización de índice de registros
     const [ treeRecordsIndex, setTreeRecordsIndex ] = useState<Record<number, IACeleV2.Data.Models.Record<R>>>(
@@ -53,7 +53,7 @@ const useTreeRecords = <
     const computeLabel = useCallback(
         (name: IACeleV2.Data.Models.FieldName<R>) => {
             // Obtención de los datos de configuración de vista
-            const config = treeConfig.find( (c) => (c.name === name) ) as IACeleV2.View.Form.Field.Tree.Config<K, F, R>;
+            const config = treeConfig.find( (c) => (c.name === name) ) as IACeleV2.View.Form.Field.Tree.Config<R>;
             // Obtención de etiqueta de campo
             const fieldLabel = config.label
             // Selección de la etiqueta final
@@ -67,9 +67,9 @@ const useTreeRecords = <
     const createSetFormRecordField = useCallback(
         (id: number) => {
             // Inicialización de función de modificación de registro
-            const callback: IACeleV2.View.Form.FieldValueSetter<K> = <L extends IACeleV2.Data.Models.FieldName<K>>(
-                name: IACeleV2.Data.Models.FieldName<K>,
-                value: IACeleV2.Data.Models.Record<K>[L],
+            const callback: IACeleV2.View.Form.FieldValueSetter<M> = <L extends IACeleV2.Data.Models.FieldName<M>>(
+                name: IACeleV2.Data.Models.FieldName<M>,
+                value: IACeleV2.Data.Models.Record<M>[L],
             ) => {
 
                 // Se copia el objeto del registro del formulario
@@ -80,7 +80,7 @@ const useTreeRecords = <
                     }
                 );
                 // Se establece el nuevo valor
-                ( recordCopy[id][name as never] as IACeleV2.Data.Models.Record<K>[L] ) = value;
+                ( recordCopy[id][name as never] as IACeleV2.Data.Models.Record<M>[L] ) = value;
                 setTreeRecordsIndex(recordCopy);
             };
 
