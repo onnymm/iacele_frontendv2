@@ -1,6 +1,6 @@
-import { CharWidget, CheckWidget, DatetimeWidget, DateWidget, DurationWidget, FloatWidget, IntegerWidget, Many2OneWidget, One2ManyTagsWidget, SelectionWidget, SwitchWidget, TextWidget, TimeWidget } from "./form/Widgets";
+import { CharWidget, CheckWidget, DatetimeWidget, DateWidget, DurationWidget, FloatWidget, IntegerWidget, Many2OneWidget, One2ManyTagsWidget, SelectionWidget, SwitchWidget, TextWidget, TimeWidget } from "./Widgets";
 
-const Widgets = {
+const WidgetHub = {
     'char': CharWidget,
     'integer': IntegerWidget,
     'float': FloatWidget,
@@ -18,4 +18,4 @@ const Widgets = {
     'switch': SwitchWidget,
 };
 
-export default Widgets;
+export default WidgetHub;

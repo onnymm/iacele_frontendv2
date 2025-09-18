@@ -1,9 +1,9 @@
 import FieldContext from "../../../../contexts/view/form/FieldContext";
-import useFormRecordContext from "../../hooks/useFormRecordContext";
-import Widgets from "../../Widgets";
+import useFormRecordContext from "../../../../hooks/views/form/useFormRecordContext";
 import TreeWrapper from "../tree/TreeWrapper";
-import useComputedFieldProps from "../useComputedFieldProps";
+import useComputedFieldProps from "../../../../hooks/views/form/field/useComputedFieldProps";
 import FormField from "./FormField";
+import WidgetHub from "../../widget/WidgetHub";
 
 const Field = <
     M extends ModelName,
@@ -42,7 +42,7 @@ const Field = <
     if ( children === undefined ) {
 
         // Obtención del widget a renderizar
-        const Widget = Widgets[(widget ?? ttype) as 'char'];
+        const Widget = WidgetHub[(widget ?? ttype) as 'char'];
 
         return (
             <FieldContext.Provider value={{ name, computedLabel, placeholder, computedReadonly, ttype, computedDecorationColor, domain, min, max, step, }}>

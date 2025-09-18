@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import useAlert from "../../../../hooks/views/form/alert/useAlert";
-import useIsInvisible from "../../hooks/useIsInvisible";
+import useIsInvisible from "../../../../hooks/views/form/field/useIsInvisible";
 
 const Alert = <M extends ModelName>({
     color,

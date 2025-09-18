@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import NotebookContext from "../../../../contexts/view/form/NotebookContext";
-import useIsInvisible from "../../hooks/useIsInvisible";
+import useIsInvisible from "../../../../hooks/views/form/field/useIsInvisible";
 
 const NotebookPage = <K extends ModelName>({
     label,

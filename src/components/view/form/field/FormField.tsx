@@ -1,4 +1,4 @@
-import FieldInfo from "../FieldInfo";
+import FieldInfo from "./FieldInfo";
 
 const FormField = <M extends ModelName>({
     name,

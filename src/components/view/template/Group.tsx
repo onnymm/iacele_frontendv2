@@ -1,4 +1,4 @@
-import useIsInvisible from "../hooks/useIsInvisible";
+import useIsInvisible from "../../../hooks/views/form/field/useIsInvisible";
 
 const Group = <M extends ModelName>({
     children,

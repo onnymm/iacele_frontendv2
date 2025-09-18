@@ -2,9 +2,9 @@ import { useContext } from "react";
 import FormTreeContext from "../../../../contexts/view/form/FormTreeContext";
 import useTreeRecords from "../../../../hooks/views/form/tree/useTreeRecords";
 import { Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from "@heroui/react";
-import Widgets from "../../Widgets";
 import RecordFormContext from "../../../../contexts/view/form/RecordFormContext";
 import FieldContext from "../../../../contexts/view/form/FieldContext";
+import WidgetHub from "../../widget/WidgetHub";
 
 const TreeContent = <
     K extends ModelName,
@@ -66,7 +66,7 @@ const TreeContent = <
                                     // Obtención del tipo de dato
                                     const ttype = getTType(columnKey as IACele.Data.Models.FieldName<R>);
                                     // Obtención del widget a usar
-                                    const Widget = Widgets[ttype as 'char'];
+                                    const Widget = WidgetHub[ttype as 'char'];
 
                                     return (
                                         <TableCell className="px-2 last:pr-4 first:pl-4 h-8">

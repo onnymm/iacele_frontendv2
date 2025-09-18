@@ -1,6 +1,5 @@
-
-import useFieldMetadata from "../../../hooks/views/useFieldMetadata";
-import useFieldContext from "../form/useFieldContext";
+import useFieldMetadata from "../../useFieldMetadata";
+import useFieldContext from "./useFieldContext";
 
 const useRelatedModelName = <
     M extends ModelName,

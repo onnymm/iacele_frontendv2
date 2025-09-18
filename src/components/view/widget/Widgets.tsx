@@ -1,13 +1,13 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Autocomplete, AutocompleteItem, Checkbox, Chip, DateInput, NumberInput, Switch, Textarea, TimeInput, TimeInputValue } from "@heroui/react";
-import useFormRecordContext from "../hooks/useFormRecordContext";
-import CharFieldInput from "../../views/widgets/base/CharFieldInput";
-import GenericReadonlyField from "../../views/widgets/base/GenericReadonlyField";
+import useFormRecordContext from "../../../hooks/views/form/useFormRecordContext";
+import CharFieldInput from "./base/CharFieldInput";
+import GenericReadonlyField from "./base/GenericReadonlyField";
 import APIContext from "../../../contexts/apiContext";
 import { CalendarDate, CalendarDateTime, parseTime } from "@internationalized/date";
-import useFieldContext from "./useFieldContext";
-import useRelatedModelName from "../hooks/useRelatedModelName";
+import useFieldContext from "../../../hooks/views/form/field/useFieldContext";
 import useFieldMetadata from "../../../hooks/views/useFieldMetadata";
+import useRelatedModelName from "../../../hooks/views/form/field/useRelatedModelName";
 
 export const CharWidget = <M extends ModelName>() => {
 

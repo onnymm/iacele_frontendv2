@@ -1,7 +1,7 @@
 import { Popover, PopoverContent, PopoverTrigger, Tooltip } from "@heroui/react";
-import useFieldInfo from "../../../hooks/views/useFieldInfo";
-import Sizeable from "../../common/Sizeable";
 import { Info } from "lucide-react";
+import useFieldInfo from "../../../../hooks/views/useFieldInfo";
+import Sizeable from "../../../common/Sizeable";
 
 const FieldInfo = <M extends ModelName>({
     name,

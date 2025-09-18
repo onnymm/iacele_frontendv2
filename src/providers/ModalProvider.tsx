@@ -1,5 +1,5 @@
-import ModalConfirm from "../components/views/form/ModalConfirm";
-import ModalDone from "../components/views/form/ModalDone";
+import ModalConfirm from "../components/view/modal/ModalConfirm";
+import ModalDone from "../components/view/modal/ModalDone";
 import FormModalContext from "../contexts/formModalContext";
 import useModalView from "../hooks/views/useModalView";
 

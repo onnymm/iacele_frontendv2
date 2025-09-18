@@ -1,8 +1,8 @@
-import useNotebook from "../../../hooks/views/form/notebook/useNotebook";
-import NotebookContext from "../../../contexts/view/form/NotebookContext";
-import NotebookPage from "./notebook/NotebookPage";
-import PageSelector from "./notebook/PageSelector";
-import Pages from "./notebook/Pages";
+import useNotebook from "../../../../hooks/views/form/notebook/useNotebook";
+import NotebookContext from "../../../../contexts/view/form/NotebookContext";
+import NotebookPage from "./NotebookPage";
+import PageSelector from "./PageSelector";
+import Pages from "./Pages";
 
 const Notebook = <M extends ModelName>({
     children,

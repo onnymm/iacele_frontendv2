@@ -1,8 +1,8 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import useFieldContext from "../../../../components/viewV2/form/useFieldContext";
-import useFormRecordContext from "../../../../components/viewV2/hooks/useFormRecordContext";
-import useRelatedModelName from "../../../../components/viewV2/hooks/useRelatedModelName";
+import useFormRecordContext from "../useFormRecordContext";
 import APIContext from "../../../../contexts/apiContext";
+import useFieldContext from "../field/useFieldContext";
+import useRelatedModelName from "../field/useRelatedModelName";
 
 const useTree = <
     M extends ModelName,
