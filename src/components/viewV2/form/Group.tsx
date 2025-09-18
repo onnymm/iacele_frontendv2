@@ -4,7 +4,7 @@ const Group = <M extends ModelName>({
     children,
     label,
     invisible,
-}: IACeleV2.View.Form.Group.Params<M>): React.ReactNode => {
+}: IACele.View.Form.Group.Params<M>): React.ReactNode => {
 
     // Obtención del valor computado de si el componente es invisible
     const { computedIsInvisible } = useIsInvisible<M>(invisible);

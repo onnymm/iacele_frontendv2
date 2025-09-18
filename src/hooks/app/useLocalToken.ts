@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import LOCAL_STORAGE from "../../constants/app/localStorage";
 
-const useLocalToken = (): IACeleV2.Hook.Application.LocalToken => {
+const useLocalToken = (): IACele.Hook.Application.LocalToken => {
 
     // Inicialización de función para guardar token en el almacenamiento local
     const saveToken = useCallback(

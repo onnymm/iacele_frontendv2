@@ -8,7 +8,7 @@ const Controls = ({
     newRecord,
     saveChanges,
     undoChanges,
-}: IACeleV2.View.Form.Controls.Hub) => {
+}: IACele.View.Form.Controls.Hub) => {
 
     return (
         <div className="flex gap-1">

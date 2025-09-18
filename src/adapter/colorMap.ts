@@ -1,4 +1,4 @@
-const colorMap: IACeleV2.Adapter.Color = {
+const colorMap: IACele.Adapter.Color = {
     'default': 'default',
     'primary': 'primary',
     'info': 'secondary',

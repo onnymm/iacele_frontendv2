@@ -7,7 +7,7 @@ import FormField from "./FormField";
 
 const Field = <
     M extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<M>
+    F extends IACele.Data.Models.FieldName<M>
 >({
     name,
     label,
@@ -21,7 +21,7 @@ const Field = <
     widget,
     domain = [],
     children,
-}: IACeleV2.View.Form.Field.Params<M, F>) => {
+}: IACele.View.Form.Field.Params<M, F>) => {
 
     // Obtención de los datos computados para renderizar el campo
     const {
@@ -55,7 +55,7 @@ const Field = <
 
         return (
             <FieldContext.Provider value={{ name, computedLabel, placeholder, computedReadonly, ttype, computedDecorationColor, domain, min, max, step, }}>
-                {(formRecord[name] as IACeleV2.Data.Models.TType.One2Many<M>)?.length && formMode === 'read' &&
+                {(formRecord[name] as IACele.Data.Models.TType.One2Many<M>)?.length && formMode === 'read' &&
                     <TreeWrapper config={children} />
                 }
             </FieldContext.Provider>

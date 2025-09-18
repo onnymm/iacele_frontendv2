@@ -8,7 +8,7 @@ const CharFieldInput = <M extends ModelName, T extends 'char' | 'text'>({
     placeholder,
     inputMode,
     onValueChange,
-}: IACeleV2.Deprecated.ComponentWidget<M, T>) => {
+}: IACele.Deprecated.ComponentWidget<M, T>) => {
 
     return (
         <Input

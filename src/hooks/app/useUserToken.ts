@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useLocalToken from "./useLocalToken";
 
-const useUserToken = (): IACeleV2.Hook.Application.UserToken => {
+const useUserToken = (): IACele.Hook.Application.UserToken => {
 
     // Obtención de funciones para manipulación de token en almacenamiento local
     const { saveToken, loadToken, removeToken } = useLocalToken();

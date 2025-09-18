@@ -4,7 +4,7 @@ const FormField = <M extends ModelName>({
     name,
     computedLabel,
     Widget
-}: IACeleV2.View.Form.Field.FormFieldParams<M>) => {
+}: IACele.View.Form.Field.FormFieldParams<M>) => {
 
     return (
         <div className="gap-2 grid grid-cols-3 md:col-span-2 group-[.ui-group]:col-span-1 px-4 group-[.ui-group]:px-0 py-1 w-full max-w-full overflow-hidden">

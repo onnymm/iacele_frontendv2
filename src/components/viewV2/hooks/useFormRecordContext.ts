@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import RecordFormContext from "../../../contexts/view/form/RecordFormContext";
 
-const useFormRecordContext = <M extends ModelName>(): IACeleV2.Context.View.Form<M> => {
+const useFormRecordContext = <M extends ModelName>(): IACele.Context.View.Form<M> => {
 
     // Obtención de los datos del registro
     const {
@@ -13,7 +13,7 @@ const useFormRecordContext = <M extends ModelName>(): IACeleV2.Context.View.Form
         setFormRecordField,
         readonly,
         saveChanges,
-    } = useContext(RecordFormContext) as IACeleV2.Context.View.Form<M>;
+    } = useContext(RecordFormContext) as IACele.Context.View.Form<M>;
 
     return {
         fieldsMetadata,

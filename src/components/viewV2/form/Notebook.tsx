@@ -6,7 +6,7 @@ import Pages from "./notebook/Pages";
 
 const Notebook = <M extends ModelName>({
     children,
-}: IACeleV2.View.Form.Notebook.Params<M>) => {
+}: IACele.View.Form.Notebook.Params<M>) => {
 
     // Obtención de valores y funciones
     const {

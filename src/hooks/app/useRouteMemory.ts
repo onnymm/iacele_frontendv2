@@ -2,19 +2,19 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import Breadcrumb from "../../components/common/navbar/breadcrumbs/Breadcrumb"; // eslint-disable-line
 import { useLocation } from "react-router";
 
-const useRoutes = (): IACeleV2.Application.Routing.BreadcrumbValues => {
+const useRoutes = (): IACele.Application.Routing.BreadcrumbValues => {
 
     // Estado inicial memoizado para evitar efectos innecesarios
-    const initialRoutes = useMemo<IACeleV2.Application.Routing.RouteLink<any>[]>(
+    const initialRoutes = useMemo<IACele.Application.Routing.RouteLink<any>[]>(
         () => ([]), []
     );
 
     // Inicialización de estado de matriz de rutas recientes
-    const [ routes, setRoutes ] = useState<IACeleV2.Application.Routing.RouteLink<any>[]>(initialRoutes);
+    const [ routes, setRoutes ] = useState<IACele.Application.Routing.RouteLink<any>[]>(initialRoutes);
 
     // Función para añadir una nueva ruta reciente
     const addRoute = useCallback(
-        (route: IACeleV2.Application.Routing.RouteLink<any>) => {
+        (route: IACele.Application.Routing.RouteLink<any>) => {
 
             setRoutes(
                 (prev) => {
@@ -97,7 +97,7 @@ const useRoutes = (): IACeleV2.Application.Routing.BreadcrumbValues => {
  *  valores de estados para ser recuperados si el usuario regresa a la página
  *  usando el componente de rutas recientes.
  */ 
-const useRouteMemory = (): IACeleV2.Application.Routing.BreadcrumbMemory => {
+const useRouteMemory = (): IACele.Application.Routing.BreadcrumbMemory => {
 
     const { routes, setRoutes, addRoute, cutRecent, setRouteData, recoverData } = useRoutes();
 

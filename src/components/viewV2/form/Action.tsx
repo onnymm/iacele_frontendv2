@@ -15,7 +15,7 @@ const Action = <K extends ModelName>({
     invisible,
     confirm,
     notify,
-}: IACeleV2.View.Form.Action.Params<K>) => {
+}: IACele.View.Form.Action.Params<K>) => {
 
     // Obtención de color computado
     const { computedColor } = useParseColor(color);
@@ -43,11 +43,11 @@ const Action = <K extends ModelName>({
 export default Action;
 
 const useParseColor = (
-    color: IACeleV2.UI.UIColor,
+    color: IACele.UI.UIColor,
 ) => {
 
     // Mapa de colores
-    const map: Record<IACeleV2.UI.UIColor, IACeleV2.UI.HeroUIColor> = {
+    const map: Record<IACele.UI.UIColor, IACele.UI.HeroUIColor> = {
         'primary': 'default',
         'default': 'default',
         'info': 'secondary',
@@ -63,7 +63,7 @@ const useParseColor = (
 };
 
 const useIsActionInvisible = <M extends ModelName>(
-    invisible: IACeleV2.View.UsingRecord<M, boolean> | undefined,
+    invisible: IACele.View.UsingRecord<M, boolean> | undefined,
 ) => {
 
     // Obtención de la función de validación
@@ -76,7 +76,7 @@ const useIsActionInvisible = <M extends ModelName>(
 
 const useExecuteAction = <K extends ModelName>(
     name: string,
-    color: IACeleV2.UI.UIColor,
+    color: IACele.UI.UIColor,
     confirm: string | undefined,
     notify: string | undefined,
 ) => {
@@ -145,7 +145,7 @@ const useActionNotify = (
 const useActionConfirmation = (
     executeAndNotify: () => Promise<void>,
     confirm: string | undefined,
-    color: IACeleV2.UI.UIColor,
+    color: IACele.UI.UIColor,
 ) => {
 
     // Obtención de valores desde el contexto

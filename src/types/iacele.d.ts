@@ -1,6 +1,6 @@
 type ModelName = keyof Backend.Models;
 
-declare namespace IACeleV2 {
+declare namespace IACele {
 
     declare namespace _Base {
 
@@ -111,7 +111,7 @@ declare namespace IACeleV2 {
                  *  #### Tipo de dato de campo
                  *  Nombre de tipo de dato de campo.
                  */ 
-                ttype: IACeleV2.Data.Models.TTypeName;
+                ttype: IACele.Data.Models.TTypeName;
             };
 
             interface _HasRelatedModelName<M extends ModelName>{
@@ -965,7 +965,7 @@ declare namespace IACeleV2 {
              *  const readonly: true;
              *  ```
              */ 
-            type _ComputeFromRecord<M extends ModelName, T> = IACeleV2._Base._DirectOrBuiltValue<Data.Models.Record<M>, T>
+            type _ComputeFromRecord<M extends ModelName, T> = IACele._Base._DirectOrBuiltValue<Data.Models.Record<M>, T>
 
             /** 
              *  ### `[Interfaz base]` Solo lectura
@@ -1083,7 +1083,7 @@ declare namespace IACeleV2 {
              *  ### Nombre de campo
              *  Nombre de campo.
              */ 
-            name: IACeleV2.Data.Models.FieldName<M>;
+            name: IACele.Data.Models.FieldName<M>;
         };
 
         interface ExecuteFormValidation <M extends ModelName>{
@@ -1175,7 +1175,7 @@ declare namespace IACeleV2 {
                         M extends ModelName,
                         F extends Data.Models.FieldName<M>,
                         R extends Data.Models.RelatedModelName<M, F>
-                    > extends IACeleV2.View.HasFieldName<R>{
+                    > extends IACele.View.HasFieldName<R>{
                         /** 
                          *  ### Etiqueta de campo
                          *  Etiqueta de campo.
@@ -1192,7 +1192,7 @@ declare namespace IACeleV2 {
                          *  ### Obtención de tipo de dato
                          *  Función de obtención de tipo de dato de campo.
                          */ 
-                        getTType: (name: IACeleV2.Data.Models.FieldName<M>) => IACeleV2.Data.Models.TTypeName;
+                        getTType: (name: IACele.Data.Models.FieldName<M>) => IACele.Data.Models.TTypeName;
                     };
 
                     interface ComputeLabel<M extends ModelName>{
@@ -1200,7 +1200,7 @@ declare namespace IACeleV2 {
                          *  ### Computar etiqueta
                          *  Función de cómputo de etiqueta para campo.
                          */ 
-                        computeLabel: (name: IACeleV2.Data.Models.FieldName<M>) => string;
+                        computeLabel: (name: IACele.Data.Models.FieldName<M>) => string;
                     };
 
                     interface TreeRecordsIndex<M extends ModelName>{
@@ -1208,7 +1208,7 @@ declare namespace IACeleV2 {
                          *  ### Índice de registros
                          *  Objeto que contiene datos de registro y los indexa por su ID.
                          */ 
-                        treeRecordsIndex: Record<number, IACeleV2.Data.Models.Record<M>>;
+                        treeRecordsIndex: Record<number, IACele.Data.Models.Record<M>>;
                     };
 
                     interface CreateSetFormRecordField<M extends ModelName>{
@@ -1227,7 +1227,7 @@ declare namespace IACeleV2 {
                      *  ### Configuración de vista de árbol
                      *  Variable de configuración de vista de árbol.
                      */ 
-                    treeConfig: IACeleV2.View.Form.Field.Tree.Config<M>[];
+                    treeConfig: IACele.View.Form.Field.Tree.Config<M>[];
                 };
 
                 interface _AddConfig<M extends ModelName>{
@@ -1235,7 +1235,7 @@ declare namespace IACeleV2 {
                      *  ### Añadir configuración
                      *  Añadir configuración de vista de árbol.
                      */ 
-                    addConfig: (config: IACeleV2.View.Form.Field.Tree.Config<M>) => void;
+                    addConfig: (config: IACele.View.Form.Field.Tree.Config<M>) => void;
                 };
 
                 interface _DataLoaded {
@@ -1259,7 +1259,7 @@ declare namespace IACeleV2 {
                      *  ### Datos desde la API
                      *  Array que contiene los datos de registros obtenidos desde la API.
                      */ 
-                    dataFromAPI: IACeleV2.Data.Models.Record<M>[];
+                    dataFromAPI: IACele.Data.Models.Record<M>[];
                 };
 
                 interface _SetDataFromAPI<M extends ModelName>{
@@ -1268,7 +1268,7 @@ declare namespace IACeleV2 {
                      *  Función de cambio de estado de array que contiene los datos de registros
                      *  obtenidos desde la API.
                      */ 
-                    setDataFromAPI: React.Dispatch<React.SetStateAction<IACeleV2.Data.Models.Record<M>[]>>;
+                    setDataFromAPI: React.Dispatch<React.SetStateAction<IACele.Data.Models.Record<M>[]>>;
                 };
 
                 interface _MetadataFromAPI<M extends ModelName>{
@@ -1276,7 +1276,7 @@ declare namespace IACeleV2 {
                      *  ### Metadatos desde la API
                      *  Array que contiene los metadatos de registros obtenidos desde la API.
                      */ 
-                    metadataFromAPI: IACeleV2.Data.Models.Field<M>[];
+                    metadataFromAPI: IACele.Data.Models.Field<M>[];
                 };
 
                 interface _SetMetadataFromAPI<M extends ModelName>{
@@ -1285,7 +1285,7 @@ declare namespace IACeleV2 {
                      *  Función de cambio de estado de array que contiene los metadatos de
                      *  registros obtenidos desde la API.
                      */ 
-                    setMetadataFromAPI: React.Dispatch<React.SetStateAction<IACeleV2.Data.Models.Field<M>[]>>;
+                    setMetadataFromAPI: React.Dispatch<React.SetStateAction<IACele.Data.Models.Field<M>[]>>;
                 };
 
                 interface RecordIDs {
@@ -1306,15 +1306,15 @@ declare namespace IACeleV2 {
                     F extends Data.Models.FieldName<M>,
                     R extends Data.Models.RelatedModelName<M, F>
                 >{
-                    name: IACeleV2.Data.Models.FieldName<R>;
+                    name: IACele.Data.Models.FieldName<R>;
                     label?: string;
                 };
 
             };
 
             interface Data <M extends ModelName>{
-                records: IACeleV2.Data.Models.Record<M>[];
-                fields: IACeleV2.Data.Models.Field<M>[];
+                records: IACele.Data.Models.Record<M>[];
+                fields: IACele.Data.Models.Field<M>[];
             };
 
         };
@@ -1365,7 +1365,7 @@ declare namespace IACeleV2 {
                          *  ### Nombre de campo
                          *  Nombre de campo del registro del modelo.
                          */ 
-                        name: IACeleV2.Data.Models.FieldName<M>;
+                        name: IACele.Data.Models.FieldName<M>;
                         /** 
                          *  ### Contenido
                          *  Propiedad no disponible desde esta interfaz
@@ -1414,10 +1414,10 @@ declare namespace IACeleV2 {
 
                         interface Params <
                             M extends ModelName,
-                            F extends IACeleV2.Data.Models.FieldName<M>,
-                            R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+                            F extends IACele.Data.Models.FieldName<M>,
+                            R extends IACele.Data.Models.RelatedModelName<M, F>,
                         >{
-                            config: IACeleV2.View.Form.Field.Tree.Children.Callback<R>;
+                            config: IACele.View.Form.Field.Tree.Children.Callback<R>;
                         };
 
                     };
@@ -1455,7 +1455,7 @@ declare namespace IACeleV2 {
 
                     };
 
-                    interface Config<M extends ModelName> extends IACeleV2.View.HasFieldName<M>{
+                    interface Config<M extends ModelName> extends IACele.View.HasFieldName<M>{
                         /** 
                          *  ### Etiqueta de campo
                          *  Etiqueta de campo.
@@ -1468,14 +1468,14 @@ declare namespace IACeleV2 {
                         F extends Data.Models.One2ManyRelatedField<M>,
                         R extends Data.Models.RelatedModelName<M, F>
                     > = (
-                        & IACeleV2.View.HasFieldName<M>
-                        & IACeleV2._Base._State._HasRelatedModelName<R>
-                        & IACeleV2.View.Tree._Base._TreeConfig<R>
-                        & IACeleV2.View.Tree._Base._AddConfig<R>
-                        & IACeleV2.View.Tree._Base._DataLoaded
-                        & IACeleV2.View.Tree._Base._SetDataLoaded
-                        & IACeleV2.View.Tree._Base._DataFromAPI<R>
-                        & IACeleV2.View.Tree._Base._MetadataFromAPI<R>
+                        & IACele.View.HasFieldName<M>
+                        & IACele._Base._State._HasRelatedModelName<R>
+                        & IACele.View.Tree._Base._TreeConfig<R>
+                        & IACele.View.Tree._Base._AddConfig<R>
+                        & IACele.View.Tree._Base._DataLoaded
+                        & IACele.View.Tree._Base._SetDataLoaded
+                        & IACele.View.Tree._Base._DataFromAPI<R>
+                        & IACele.View.Tree._Base._MetadataFromAPI<R>
                     );
                     interface Hook<
                         M extends ModelName,
@@ -1486,7 +1486,7 @@ declare namespace IACeleV2 {
                          *  ### Configuración de vista de árbol
                          *  Variable de configuración de vista de árbol.
                          */ 
-                        treeConfig: IACeleV2.View.Form.Field.Tree.Config<M, F, R>[];
+                        treeConfig: IACele.View.Form.Field.Tree.Config<M, F, R>[];
                         /** 
                          *  ### Añadir configuración
                          *  Añadir configuración de vista de árbol.
@@ -1506,12 +1506,12 @@ declare namespace IACeleV2 {
                          *  ### Datos desde la API
                          *  Array que contiene los datos de registros obtenidos desde la API.
                          */ 
-                        dataFromAPI: IACeleV2.Data.Models.Record<R>[];
+                        dataFromAPI: IACele.Data.Models.Record<R>[];
                         /** 
                          *  ### Metadatos desde la API
                          *  Array que contiene los metadatos de registros obtenidos desde la API.
                          */ 
-                        metadataFromAPI: IACeleV2.Data.Models.Field<R>[];
+                        metadataFromAPI: IACele.Data.Models.Field<R>[];
                     };
 
                 };
@@ -1767,8 +1767,8 @@ declare namespace IACeleV2 {
             };
 
             interface Data <M extends ModelName>{
-                record: IACeleV2.Data.Models.Record<M>;
-                fields: IACeleV2.Data.Models.Field<M>[];
+                record: IACele.Data.Models.Record<M>;
+                fields: IACele.Data.Models.Field<M>[];
             };
 
             interface FieldInfo {
@@ -1794,25 +1794,25 @@ declare namespace IACeleV2 {
                  *  }
                  *  ```
                  */ 
-                fieldMetadata: IACeleV2.Data.Models.Field<M>;
+                fieldMetadata: IACele.Data.Models.Field<M>;
             };
 
             declare namespace Controls {
 
                 type NewRecord = (
-                    & IACeleV2.View.Form._FormMode
-                    & IACeleV2._Base._Callback._NewRecord
+                    & IACele.View.Form._FormMode
+                    & IACele._Base._Callback._NewRecord
                 );
 
                 type SaveRecord = (
-                    & IACeleV2.View.Form._HasChanges
-                    & IACeleV2._Base._Callback._SaveRecord
+                    & IACele.View.Form._HasChanges
+                    & IACele._Base._Callback._SaveRecord
                 );
 
                 type UndoChanges = (
-                    & IACeleV2.View.Form._FormMode
-                    & IACeleV2.View.Form._HasChanges
-                    & IACeleV2._Base._Callback._UndoChanges
+                    & IACele.View.Form._FormMode
+                    & IACele.View.Form._HasChanges
+                    & IACele._Base._Callback._UndoChanges
                 );
 
                 type Hub = (
@@ -1836,8 +1836,8 @@ declare namespace IACeleV2 {
             declare namespace Group {
 
                 type Params<M extends ModelName> = (
-                    & IACeleV2.View._Base._HasOptionalLabel
-                    & IACeleV2.View._Base._HasOptionalInvisible<M>
+                    & IACele.View._Base._HasOptionalLabel
+                    & IACele.View._Base._HasOptionalInvisible<M>
                     & GenericWrapperComponent
                 );
 
@@ -1846,8 +1846,8 @@ declare namespace IACeleV2 {
             declare namespace Action {
 
                 type _Params<M extends ModelName> = (
-                    & IACeleV2.View._Base._HasOptionalInvisible<M>
-                    & IACeleV2.UI._Base._Colorizable
+                    & IACele.View._Base._HasOptionalInvisible<M>
+                    & IACele.UI._Base._Colorizable
                 );
                 interface Params<M extends ModelName> extends _Params<M>{
                     /** 
@@ -2021,7 +2021,7 @@ declare namespace IACeleV2 {
 
                     type _Params<M extends ModelName> = (
                         & GenericWrapperComponent
-                        & IACeleV2.View._Base._HasOptionalInvisible<M>
+                        & IACele.View._Base._HasOptionalInvisible<M>
                     );
                     interface Params<M extends ModelName> extends _Params<M>{
                         /** 
@@ -2081,8 +2081,8 @@ declare namespace IACeleV2 {
                 };
 
                 type _Params<M extends ModelName> = (
-                    & IACeleV2.View._Base._HasOptionalInvisible<M>
-                    & IACeleV2.UI._Base._Colorizable
+                    & IACele.View._Base._HasOptionalInvisible<M>
+                    & IACele.UI._Base._Colorizable
                 );
                 interface Params<M extends ModelName> extends _Params<M>{
                     /** 
@@ -2117,22 +2117,22 @@ declare namespace IACeleV2 {
                      *  ### Grupo
                      *  Grupo de campos de formulario.
                      */ 
-                    Group: React.FC<IACeleV2.View.Form.Group.Params<M>>;
+                    Group: React.FC<IACele.View.Form.Group.Params<M>>;
                     /** 
                      *  ### Ación de servidor
                      *  Botón que ejecuta una acción sobre el registro que se visualiza.
                      */ 
-                    Action: React.FC<IACeleV2.View.Form.Action.Params<M>>;
+                    Action: React.FC<IACele.View.Form.Action.Params<M>>;
                     /** 
                      *  ### Notebook
                      *  Componente que secciona contenido del formulario en pestañas.
                      */ 
-                    Notebook: React.FC<IACeleV2.View.Form.Notebook.Params<M>>;
+                    Notebook: React.FC<IACele.View.Form.Notebook.Params<M>>;
                     /** 
                      *  ### Alerta
                      *  Componente que muestra un mensaje importante en el formulario.
                      */ 
-                    Alert: React.FC<IACeleV2.View.Form.Alert.Params<M>>;
+                    Alert: React.FC<IACele.View.Form.Alert.Params<M>>;
                     /** 
                      *  ### Campo de formulario
                      *  Componente que renderiza un campo en función del tipo de dato que
@@ -2150,7 +2150,7 @@ declare namespace IACeleV2 {
                 & View._Base._OptionalReadonly
             );
             interface Params<M extends ModelName> extends _Params<M>{
-                children: IACeleV2.View.Form.Children.Callback<M>;
+                children: IACele.View.Form.Children.Callback<M>;
             };
 
         };
@@ -2201,10 +2201,10 @@ declare namespace IACeleV2 {
                  *  Función creada para ser ejecutada. No recibe parámetros ni retorna ningún
                  *  valor.
                  */ 
-                execute: IACeleV2.Common.VoidCallback;
+                execute: IACele.Common.VoidCallback;
             };
 
-            interface _Generic extends IACeleV2._Base._State.IsOpen {
+            interface _Generic extends IACele._Base._State.IsOpen {
                 /** 
                  *  ### Al cambiar el estado de apertura
                  *  Función que se ejecuta cuando el estado de apertura del modal cambia.
@@ -2222,7 +2222,7 @@ declare namespace IACeleV2 {
                  *  ### Cambio de función a ejecutar
                  *  Función de cambio de estado de función creada para ser ejecutada.
                  */ 
-                setExecute: React.Dispatch<React.SetStateAction<IACeleV2.Common.VoidCallback>>;
+                setExecute: React.Dispatch<React.SetStateAction<IACele.Common.VoidCallback>>;
             };
 
             interface _SetModalColor {
@@ -2230,7 +2230,7 @@ declare namespace IACeleV2 {
                  *  ### Cambio de modal
                  *  Función de cambio de estado de color de modal.
                  */ 
-                setColor: React.Dispatch<React.SetStateAction<IACeleV2.UI.UIColor | undefined>>;
+                setColor: React.Dispatch<React.SetStateAction<IACele.UI.UIColor | undefined>>;
             };
 
             interface ConfirmationModal extends _ConfirmOpen {
@@ -2286,7 +2286,7 @@ declare namespace IACeleV2 {
                  *  ### Color de modal
                  *  Valor de color de modal.
                  */ 
-                color: IACeleV2.UI.UIColor | undefined;
+                color: IACele.UI.UIColor | undefined;
             };
 
         };
@@ -2320,18 +2320,18 @@ declare namespace IACeleV2 {
              *  ### Color de componente
              *  Color computado para colorear un componente.
              */ 
-            computedDecorationColor: IACeleV2.UI.HeroUIColor;
+            computedDecorationColor: IACele.UI.HeroUIColor;
         };
 
         type _FieldMainProps = (
-            & IACeleV2._Base._State._HasTTypeName
-            & IACeleV2.View.ComputedLabel
-            & IACeleV2.View.ComputedReadonly
-            & IACeleV2.View.ComputedDecorationColor
+            & IACele._Base._State._HasTTypeName
+            & IACele.View.ComputedLabel
+            & IACele.View.ComputedReadonly
+            & IACele.View.ComputedDecorationColor
         );
         type ComputedFieldProps = (
             & _FieldMainProps
-            & IACeleV2.View.ComputedIsInvisible
+            & IACele.View.ComputedIsInvisible
         );
 
     };
@@ -2355,7 +2355,7 @@ declare namespace IACeleV2 {
                 };
 
                 interface _RequiresRecordData <M extends ModelName>{
-                    'data': Partial<IACeleV2.Data.Models.Record<M>>;
+                    'data': Partial<IACele.Data.Models.Record<M>>;
                 };
 
                 interface _RequiresRecordID {
@@ -2367,7 +2367,7 @@ declare namespace IACeleV2 {
                 };
 
                 interface _SupportsSearchCriteria<M extends ModelName> {
-                    'search_criteria': IACeleV2.Data.Models.CriteriaStructure<M>;
+                    'search_criteria': IACele.Data.Models.CriteriaStructure<M>;
                 };
 
                 interface _SupportSlicing {
@@ -2500,7 +2500,7 @@ declare namespace IACeleV2 {
 
     declare namespace Application {
 
-        type Provider = IACeleV2._Base._SupportsChildren;
+        type Provider = IACele._Base._SupportsChildren;
 
         interface CurrentUserData {
             /** 
@@ -2752,9 +2752,9 @@ declare namespace IACeleV2 {
             declare namespace UI {
 
                 type _RouteGroupButton = (
-                    & IACeleV2._Base._State.IsOpen
-                    & IACeleV2._Base._Callback._OnClick
-                    & IACeleV2.Application.Navigation.RouteGroup
+                    & IACele._Base._State.IsOpen
+                    & IACele._Base._Callback._OnClick
+                    & IACele.Application.Navigation.RouteGroup
                 );
                 interface RouteGroupButton extends _RouteGroupButton {
                     /** 
@@ -2765,7 +2765,7 @@ declare namespace IACeleV2 {
                     isActiveLocation: boolean;
                 };
 
-                interface Routes extends IACeleV2._Base._State.IsOpen {
+                interface Routes extends IACele._Base._State.IsOpen {
                     /** 
                      *  ### Altura de lista
                      *  Altura computada para la lista de rutas cuando ésta se despliega.
@@ -2780,7 +2780,7 @@ declare namespace IACeleV2 {
                      *  ### Rutas
                      *  Lista de rutas.
                      */ 
-                    routes: IACeleV2.Application.Navigation.Route[];
+                    routes: IACele.Application.Navigation.Route[];
                     /** 
                      *  ### Función de clic
                      *  Función que se ejecuta cuando el componente recibe un clic.
@@ -2788,12 +2788,12 @@ declare namespace IACeleV2 {
                     routeOnClick: (route: string) => (void);
                 };
 
-                interface Route extends IACeleV2._Base._Callback._OnClick {
+                interface Route extends IACele._Base._Callback._OnClick {
                     /** 
                      *  ### Ruta
                      *  Objeto que contiene una ruta de URL y el nombre de ésta.
                      */ 
-                    route: IACeleV2.Application.Navigation.Route;
+                    route: IACele.Application.Navigation.Route;
                 };
 
             }
@@ -2818,12 +2818,12 @@ declare namespace IACeleV2 {
              *  ### Datos de usuario
              *  Datos del usuario de la sesión actual en la aplicación.
              */ 
-            userData: IACeleV2.Application.CurrentUserData;
+            userData: IACele.Application.CurrentUserData;
             /** 
              *  ### Cambio de datos de usuario
              *  Función de cambio de estado de datos de usuario.
              */ 
-            setUserData: React.Dispatch<React.SetStateAction<IACeleV2.Application.CurrentUserData>>;
+            setUserData: React.Dispatch<React.SetStateAction<IACele.Application.CurrentUserData>>;
             /** 
              *  ### Remover datos de usuario
              *  Función que remueve los datos del usuario de la sesión actual.
@@ -2923,12 +2923,12 @@ declare namespace IACeleV2 {
                  *  ### Vínculos de ruta
                  *  Arreglo de vínculos de ruta.
                  */ 
-                routes: IACeleV2.Application.Routing.RouteLink<any>[];
+                routes: IACele.Application.Routing.RouteLink<any>[];
                 /** 
                  *  ### Cambio de estado de vínculos de ruta
                  *  Función de cambio de estado de vínculos de ruta.
                  */ 
-                setRoutes: React.Dispatch<React.SetStateAction<IACeleV2.Application.Routing.RouteLink<any>[]>>;
+                setRoutes: React.Dispatch<React.SetStateAction<IACele.Application.Routing.RouteLink<any>[]>>;
             };
 
             interface RouteLink<T> {
@@ -3026,7 +3026,7 @@ declare namespace IACeleV2 {
                 declare namespace Toggle {
 
                     type Params = (
-                        & IACeleV2._Base._EventCallback.OnClick<HTMLButtonElement, MouseEvent>
+                        & IACele._Base._EventCallback.OnClick<HTMLButtonElement, MouseEvent>
                         & UI._Base._HasIcon
                     );
 
@@ -3034,7 +3034,7 @@ declare namespace IACeleV2 {
 
                 type Params = (
                     & _Base._HasValue<string>
-                    & IACeleV2._Base._EventCallback._OnValueChange<string>
+                    & IACele._Base._EventCallback._OnValueChange<string>
                 );
 
             };
@@ -3044,8 +3044,8 @@ declare namespace IACeleV2 {
                 type _Params = (
                     & _Base._HasValue<string>
                     & UI._Base._HasIcon
-                    & IACeleV2._Base._EventCallback._OnValueChange<string>
-                    & IACeleV2._Base._State._EndContent
+                    & IACele._Base._EventCallback._OnValueChange<string>
+                    & IACele._Base._State._EndContent
                 )
                 interface Params extends _Params {
                     /** 
@@ -3076,7 +3076,7 @@ declare namespace IACeleV2 {
 
                 type Params = (
                     & _Base._HasValue<string>
-                    & IACeleV2._Base._EventCallback._OnValueChange<string>
+                    & IACele._Base._EventCallback._OnValueChange<string>
                 );
 
             };
@@ -3086,14 +3086,14 @@ declare namespace IACeleV2 {
         declare namespace Button {
 
             type Params = (
-                & IACeleV2._Base._EventCallback._OnPress
-                & IACeleV2._Base._State._EndContent
-                & IACeleV2._Base._State._IsDisabled
-                & IACeleV2._Base._State._IsIconOnly
-                & IACeleV2._Base._State._StartContent
-                & IACeleV2._Base._SupportsClassName
-                & IACeleV2._Base._SupportsOptionalChildren
-                & IACeleV2.UI._Base._Colorizable
+                & IACele._Base._EventCallback._OnPress
+                & IACele._Base._State._EndContent
+                & IACele._Base._State._IsDisabled
+                & IACele._Base._State._IsIconOnly
+                & IACele._Base._State._StartContent
+                & IACele._Base._SupportsClassName
+                & IACele._Base._SupportsOptionalChildren
+                & IACele.UI._Base._Colorizable
             );
 
         };
@@ -3234,19 +3234,19 @@ declare namespace IACeleV2 {
 
         declare namespace Application {
 
-            type Breadcrumbs = IACeleV2.Application._Breadcrumbs;
+            type Breadcrumbs = IACele.Application._Breadcrumbs;
 
-            type LocalToken = IACeleV2.Application._LocalToken;
+            type LocalToken = IACele.Application._LocalToken;
 
-            type Sidebar = IACeleV2.Application._Sidebar._Params;
+            type Sidebar = IACele.Application._Sidebar._Params;
 
-            type SetViewName = IACeleV2.Application._SetViewName;
+            type SetViewName = IACele.Application._SetViewName;
 
-            type Theme = IACeleV2.Application._Theme;
+            type Theme = IACele.Application._Theme;
 
-            type UserData = IACeleV2.Application._UserData;
+            type UserData = IACele.Application._UserData;
 
-            type UserToken = IACeleV2.Application.UserToken;
+            type UserToken = IACele.Application.UserToken;
 
         };
 
@@ -3257,7 +3257,7 @@ declare namespace IACeleV2 {
                  *  ### Color de componente
                  *  Color utilizado para colorear componentes.
                  */ 
-                adaptedColor: IACeleV2.UI.HeroUIColor;
+                adaptedColor: IACele.UI.HeroUIColor;
             };
 
             type InputText = (
@@ -3273,25 +3273,25 @@ declare namespace IACeleV2 {
             declare namespace Form {
 
                 type EditFormRecord<M extends ModelName> = (
-                    & IACeleV2.View.Form._FormRecord<M>
-                    & IACeleV2.View.Form._SetFormRecord<M>
-                    & IACeleV2.View.Form._SetFormRecordField<M>
+                    & IACele.View.Form._FormRecord<M>
+                    & IACele.View.Form._SetFormRecord<M>
+                    & IACele.View.Form._SetFormRecordField<M>
                 );
 
                 type _FormRecord <M extends ModelName> = (
-                    & IACeleV2._Base._Callback._DeleteRecord
-                    & IACeleV2._Base._Callback._NewRecord
-                    & IACeleV2._Base._Callback._Reload
-                    & IACeleV2._Base._Callback._SaveRecord
-                    & IACeleV2._Base._Callback._UndoChanges
-                    & IACeleV2.View.Form._FieldsMetadata<M>
-                    & IACeleV2.View.Form._FormMode
-                    & IACeleV2.View.Form._FormRecord<M>
-                    & IACeleV2.View.Form._HasChanges
-                    & IACeleV2.View.Form._SetFormRecordField<M>
+                    & IACele._Base._Callback._DeleteRecord
+                    & IACele._Base._Callback._NewRecord
+                    & IACele._Base._Callback._Reload
+                    & IACele._Base._Callback._SaveRecord
+                    & IACele._Base._Callback._UndoChanges
+                    & IACele.View.Form._FieldsMetadata<M>
+                    & IACele.View.Form._FormMode
+                    & IACele.View.Form._FormRecord<M>
+                    & IACele.View.Form._HasChanges
+                    & IACele.View.Form._SetFormRecordField<M>
                 );
 
-                type FormMode = IACeleV2.View.Form._ViewMode;
+                type FormMode = IACele.View.Form._ViewMode;
 
                 /** 
                  *  ### Registro en vista de formulario
@@ -3331,11 +3331,11 @@ declare namespace IACeleV2 {
                     loaded: boolean;
                 };
 
-                type HasChanges = IACeleV2.View.Form._HasChanges;
+                type HasChanges = IACele.View.Form._HasChanges;
 
                 type _ReadFormRecord<M extends ModelName> = (
-                    & IACeleV2._Base._Callback._Reload
-                    & IACeleV2.View.Form._FieldsMetadata<M>
+                    & IACele._Base._Callback._Reload
+                    & IACele.View.Form._FieldsMetadata<M>
                 );
                 interface ReadRecord<M extends ModelName> extends _ReadFormRecord<M>{
                     /** 
@@ -3358,96 +3358,96 @@ declare namespace IACeleV2 {
 
                 declare namespace Callback {
 
-                    type CreateRecord = IACeleV2._Base._Callback.CreateRecord;
+                    type CreateRecord = IACele._Base._Callback.CreateRecord;
 
-                    type DeleteRecord = IACeleV2._Base._Callback._DeleteRecord;
+                    type DeleteRecord = IACele._Base._Callback._DeleteRecord;
 
-                    type NewRecord = IACeleV2._Base._Callback._NewRecord;
+                    type NewRecord = IACele._Base._Callback._NewRecord;
 
-                    type SaveRecord = IACeleV2._Base._Callback._SaveRecord
+                    type SaveRecord = IACele._Base._Callback._SaveRecord
 
-                    type UpdateRecord = IACeleV2._Base._Callback.UpdateRecord;
+                    type UpdateRecord = IACele._Base._Callback.UpdateRecord;
 
-                    type UndoChanges = IACeleV2._Base._Callback._UndoChanges;
+                    type UndoChanges = IACele._Base._Callback._UndoChanges;
 
                 };
 
-                type FieldMetadata<M extends ModelName> = IACeleV2.View.Form.FieldMetadata<M>;
+                type FieldMetadata<M extends ModelName> = IACele.View.Form.FieldMetadata<M>;
 
-                type FieldTType = IACeleV2._Base._State._HasTTypeName;
+                type FieldTType = IACele._Base._State._HasTTypeName;
 
-                type ExecuteFormValidation<M extends ModelName> = IACeleV2.View.ExecuteFormValidation<M>
+                type ExecuteFormValidation<M extends ModelName> = IACele.View.ExecuteFormValidation<M>
 
-                type ComputedFieldProps = IACeleV2.View.ComputedFieldProps;
+                type ComputedFieldProps = IACele.View.ComputedFieldProps;
 
                 type Notebook = (
-                    & IACeleV2.View.Form.Notebook._Base._ReadyToDisplay
-                    & IACeleV2.View.Form.Notebook._Base._PageContent
-                    & IACeleV2.View.Form.Notebook._Base._AddPageContent
-                    & IACeleV2.View.Form.Notebook._Base._ReloadNotebook
-                    & IACeleV2.View.Form.Notebook._Base._PagesData
-                    & IACeleV2.View.Form.Notebook._Base._DisplayedPage
-                    & IACeleV2.View.Form.Notebook._Base._SetDisplayedPage
+                    & IACele.View.Form.Notebook._Base._ReadyToDisplay
+                    & IACele.View.Form.Notebook._Base._PageContent
+                    & IACele.View.Form.Notebook._Base._AddPageContent
+                    & IACele.View.Form.Notebook._Base._ReloadNotebook
+                    & IACele.View.Form.Notebook._Base._PagesData
+                    & IACele.View.Form.Notebook._Base._DisplayedPage
+                    & IACele.View.Form.Notebook._Base._SetDisplayedPage
                 );
 
                 type PageSelector = (
-                    & IACeleV2.View.Form.Notebook._Base._IsSelected
-                    & IACeleV2.View.Form.Notebook._Base._SelectPage
+                    & IACele.View.Form.Notebook._Base._IsSelected
+                    & IACele.View.Form.Notebook._Base._SelectPage
                 );
 
                 type Alert = (
-                    & IACeleV2.View.Form.Alert._Base._Show
-                    & IACeleV2.View.Form.Alert._Base._Close
+                    & IACele.View.Form.Alert._Base._Show
+                    & IACele.View.Form.Alert._Base._Close
                 );
 
                 type TreeAPIData<M extends ModelName> = (
-                    & IACeleV2.View.Tree._Base._DataFromAPI<M>
-                    & IACeleV2.View.Tree._Base._MetadataFromAPI<M>
-                    & IACeleV2.View.Tree._Base._SetDataFromAPI<M>
-                    & IACeleV2.View.Tree._Base._SetMetadataFromAPI<M>
-                    & IACeleV2.View.Tree._Base._DataLoaded
-                    & IACeleV2.View.Tree._Base._SetDataLoaded
+                    & IACele.View.Tree._Base._DataFromAPI<M>
+                    & IACele.View.Tree._Base._MetadataFromAPI<M>
+                    & IACele.View.Tree._Base._SetDataFromAPI<M>
+                    & IACele.View.Tree._Base._SetMetadataFromAPI<M>
+                    & IACele.View.Tree._Base._DataLoaded
+                    & IACele.View.Tree._Base._SetDataLoaded
                 );
 
-                type TreeRecordIDs = IACeleV2.View.Tree._Base.RecordIDs;
+                type TreeRecordIDs = IACele.View.Tree._Base.RecordIDs;
 
-                type TreeConfig<M extends ModelName> = IACeleV2.View.Tree._Base._TreeConfig<M>;
+                type TreeConfig<M extends ModelName> = IACele.View.Tree._Base._TreeConfig<M>;
 
-                type AddConfig<M extends ModelName> = IACeleV2.View.Tree._Base._AddConfig<M>;
+                type AddConfig<M extends ModelName> = IACele.View.Tree._Base._AddConfig<M>;
 
                 type Tree<
                     M extends ModelName,
                     F extends Data.Models.FieldName<M>,
                     R extends Data.Models.RelatedModelName<M, F>
                 > = (
-                    & IACeleV2.View.HasFieldName<M>
-                    & IACeleV2._Base._State._HasRelatedModelName<R>
-                    & IACeleV2.View.Tree._Base._TreeConfig<R>
-                    & IACeleV2.View.Tree._Base._AddConfig<R>
-                    & IACeleV2.View.Tree._Base._DataLoaded
-                    & IACeleV2.View.Tree._Base._SetDataLoaded
-                    & IACeleV2.View.Tree._Base._DataFromAPI<R>
-                    & IACeleV2.View.Tree._Base._MetadataFromAPI<R>
+                    & IACele.View.HasFieldName<M>
+                    & IACele._Base._State._HasRelatedModelName<R>
+                    & IACele.View.Tree._Base._TreeConfig<R>
+                    & IACele.View.Tree._Base._AddConfig<R>
+                    & IACele.View.Tree._Base._DataLoaded
+                    & IACele.View.Tree._Base._SetDataLoaded
+                    & IACele.View.Tree._Base._DataFromAPI<R>
+                    & IACele.View.Tree._Base._MetadataFromAPI<R>
                 );
 
                 type TreeRecords<
                     M extends ModelName,
-                    F extends IACeleV2.Data.Models.FieldName<M>,
-                    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+                    F extends IACele.Data.Models.FieldName<M>,
+                    R extends IACele.Data.Models.RelatedModelName<M, F>,
                 > = (
-                    & IACeleV2.View.Tree._Base.Callback._GetTType<R>
-                    & IACeleV2.View.Tree._Base.Callback.ComputeLabel<R>
-                    & IACeleV2.View.Tree._Base.Callback.TreeRecordsIndex<R>
-                    & IACeleV2.View.Tree._Base.Callback.CreateSetFormRecordField<M>
+                    & IACele.View.Tree._Base.Callback._GetTType<R>
+                    & IACele.View.Tree._Base.Callback.ComputeLabel<R>
+                    & IACele.View.Tree._Base.Callback.TreeRecordsIndex<R>
+                    & IACele.View.Tree._Base.Callback.CreateSetFormRecordField<M>
                 );
 
             };
 
             type Modal = (
-                & IACeleV2.View.Modal._ModalColor
-                & IACeleV2.View.Modal.Callback
-                & IACeleV2.View.Modal.ConfirmationModal
-                & IACeleV2.View.Modal.DoneModal
+                & IACele.View.Modal._ModalColor
+                & IACele.View.Modal.Callback
+                & IACele.View.Modal.ConfirmationModal
+                & IACele.View.Modal.DoneModal
             );
 
         };
@@ -3458,7 +3458,7 @@ declare namespace IACeleV2 {
 
         declare namespace Application {
 
-            type Breadcrumb = IACeleV2.Application.Routing.BreadcrumbMemory;
+            type Breadcrumb = IACele.Application.Routing.BreadcrumbMemory;
 
             interface Content {
                 /** 
@@ -3470,23 +3470,23 @@ declare namespace IACeleV2 {
 
             declare namespace Controls {
 
-                type DynamicControls = IACeleV2.Application._Navbar._Slot._DynamicControls;
+                type DynamicControls = IACele.Application._Navbar._Slot._DynamicControls;
 
-                type MainControls = IACeleV2.Application._Navbar._Slot._MainControls;
+                type MainControls = IACele.Application._Navbar._Slot._MainControls;
 
-                type SuperiorControls = IACeleV2.Application._Navbar._Slot._SuperiorControls;
+                type SuperiorControls = IACele.Application._Navbar._Slot._SuperiorControls;
 
             };
 
-            type PageName = IACeleV2.Application.PageName;
+            type PageName = IACele.Application.PageName;
 
-            type Sidebar = IACeleV2.Application._Sidebar._Params;
+            type Sidebar = IACele.Application._Sidebar._Params;
 
-            type Theme = IACeleV2.Application._Theme;
+            type Theme = IACele.Application._Theme;
 
-            type UserData = IACeleV2.Application._UserData;
+            type UserData = IACele.Application._UserData;
 
-            type UserToken = IACeleV2.Application.UserToken;
+            type UserToken = IACele.Application.UserToken;
 
         };
 
@@ -3497,11 +3497,11 @@ declare namespace IACeleV2 {
                 F extends Data.Models.FieldName<M>,
                 R extends Data.Models.RelatedModelName<M, F>
             > = (
-                & IACeleV2.View._Base._RequiresModelName<R>
-                & IACeleV2.View.Tree._Base._AddConfig<R>
-                & IACeleV2.View.Tree._Base._SetDataLoaded
-                & IACeleV2.View.Tree._Base._TreeConfig<R>
-                & IACeleV2.View.Tree.Data<R>
+                & IACele.View._Base._RequiresModelName<R>
+                & IACele.View.Tree._Base._AddConfig<R>
+                & IACele.View.Tree._Base._SetDataLoaded
+                & IACele.View.Tree._Base._TreeConfig<R>
+                & IACele.View.Tree.Data<R>
             );
             interface FormTree<
                 M extends ModelName,
@@ -3516,40 +3516,40 @@ declare namespace IACeleV2 {
             }
 
             type Form<M extends ModelName> = (
-                & IACeleV2._Base._Callback._Reload
-                & IACeleV2._Base._Callback._SaveRecord
-                & IACeleV2.View._Base._RequiresModelName<M>
-                & IACeleV2.View._Base._OptionalReadonly
-                & IACeleV2.View.Form._FormMode
-                & IACeleV2.View.Form._FormRecord<M>
-                & IACeleV2.View.Form._FormRecord<M>
-                & IACeleV2.View.Form._SetFormRecordField<M>
-                & IACeleV2.View.Form._FieldsMetadata<M>
+                & IACele._Base._Callback._Reload
+                & IACele._Base._Callback._SaveRecord
+                & IACele.View._Base._RequiresModelName<M>
+                & IACele.View._Base._OptionalReadonly
+                & IACele.View.Form._FormMode
+                & IACele.View.Form._FormRecord<M>
+                & IACele.View.Form._FormRecord<M>
+                & IACele.View.Form._SetFormRecordField<M>
+                & IACele.View.Form._FieldsMetadata<M>
             );
 
             type Modal = (
-                & IACeleV2.View.Modal._ConfirmOpen
-                & IACeleV2.View.Modal._DoneModal
-                & IACeleV2.View.Modal._SetExecute
-                & IACeleV2.View.Modal._SetModalColor
+                & IACele.View.Modal._ConfirmOpen
+                & IACele.View.Modal._DoneModal
+                & IACele.View.Modal._SetExecute
+                & IACele.View.Modal._SetModalColor
             );
 
             type Field<M extends ModelName> = (
-                & IACeleV2.View._FieldMainProps
-                & IACeleV2.View._Base._HasDomain<M>
-                & IACeleV2.View._Base._HasPlaceholder
-                & IACeleV2.View._Base._HasWidgetName
-                & IACeleV2.View._Base._HasMinValue
-                & IACeleV2.View._Base._HasMaxValue
-                & IACeleV2.View._Base._HasNumericStep
-                & IACeleV2.View.HasFieldName<M>
+                & IACele.View._FieldMainProps
+                & IACele.View._Base._HasDomain<M>
+                & IACele.View._Base._HasPlaceholder
+                & IACele.View._Base._HasWidgetName
+                & IACele.View._Base._HasMinValue
+                & IACele.View._Base._HasMaxValue
+                & IACele.View._Base._HasNumericStep
+                & IACele.View.HasFieldName<M>
             );
 
             type Notebook = (
-                & IACeleV2.View.Form.Notebook._Base._AddPageContent
-                & IACeleV2.View.Form.Notebook._Base._ReloadNotebook
-                & IACeleV2.View.Form.Notebook._Base._DisplayedPage
-                & IACeleV2.View.Form.Notebook._Base._SetDisplayedPage
+                & IACele.View.Form.Notebook._Base._AddPageContent
+                & IACele.View.Form.Notebook._Base._ReloadNotebook
+                & IACele.View.Form.Notebook._Base._DisplayedPage
+                & IACele.View.Form.Notebook._Base._SetDisplayedPage
             );
 
         };
@@ -3559,26 +3559,26 @@ declare namespace IACeleV2 {
     declare namespace Deprecated {
 
         interface TTypeMap<M extends ModelName>{
-            'integer': IACeleV2.Data.Models.TType.Integer<'not_null'>;
-            'char': IACeleV2.Data.Models.TType.Char<'not_null'>;
-            'float': IACeleV2.Data.Models.TType.Float<'not_null'>;
-            'boolean': IACeleV2.Data.Models.TType.Boolean<'not_null'>;
-            'date': IACeleV2.Data.Models.TType.Date<'not_null'>;
-            'datetime': IACeleV2.Data.Models.TType.Datetime<'not_null'>;
-            'time': IACeleV2.Data.Models.TType.Time<'not_null'>;
-            'duration': IACeleV2.Data.Models.TType.Duration<'not_null'>;
-            'text': IACeleV2.Data.Models.TType.Text<'not_null'>;
-            'selection': IACeleV2.Data.Models.TType.Selection<any, 'not_null'>;
-            'file': IACeleV2.Data.Models.TType.File<'not_null'>;
-            'many2one': IACeleV2.Data.Models.TType.Many2One<'not_null'>;
-            'one2many': IACeleV2.Data.Models.TType.One2Many<M>;
-            'many2many': IACeleV2.Data.Models.TType.Many2Many<M>;
+            'integer': IACele.Data.Models.TType.Integer<'not_null'>;
+            'char': IACele.Data.Models.TType.Char<'not_null'>;
+            'float': IACele.Data.Models.TType.Float<'not_null'>;
+            'boolean': IACele.Data.Models.TType.Boolean<'not_null'>;
+            'date': IACele.Data.Models.TType.Date<'not_null'>;
+            'datetime': IACele.Data.Models.TType.Datetime<'not_null'>;
+            'time': IACele.Data.Models.TType.Time<'not_null'>;
+            'duration': IACele.Data.Models.TType.Duration<'not_null'>;
+            'text': IACele.Data.Models.TType.Text<'not_null'>;
+            'selection': IACele.Data.Models.TType.Selection<any, 'not_null'>;
+            'file': IACele.Data.Models.TType.File<'not_null'>;
+            'many2one': IACele.Data.Models.TType.Many2One<'not_null'>;
+            'one2many': IACele.Data.Models.TType.One2Many<M>;
+            'many2many': IACele.Data.Models.TType.Many2Many<M>;
         };
 
         type SupportedType<M extends ModelName, T extends keyof TTypeMap<M>> = TTypeMap<M>[T];
 
         interface _HasDecorationColor {
-            decorationColor: IACeleV2.UI.HeroUIColor;
+            decorationColor: IACele.UI.HeroUIColor;
         };
 
         interface _OnValueChange<M extends ModelName, T extends keyof TTypeMap<K>>{
@@ -3586,12 +3586,12 @@ declare namespace IACeleV2 {
         }
 
         type _DataWidget<M extends ModelName, T extends keyof TTypeMap<K>> = (
-            & IACeleV2.View.HasFieldName<M>
-            & IACeleV2.View._Base._HasPlaceholder
-            & IACeleV2.View._Base._HasMinValue
-            & IACeleV2.View._Base._HasMaxValue
-            & IACeleV2.View._Base._HasNumericStep
-            & IACeleV2.View._Base._HasDomain<M>
+            & IACele.View.HasFieldName<M>
+            & IACele.View._Base._HasPlaceholder
+            & IACele.View._Base._HasMinValue
+            & IACele.View._Base._HasMaxValue
+            & IACele.View._Base._HasNumericStep
+            & IACele.View._Base._HasDomain<M>
             & _HasDecorationColor
             & _OnValueChange<M, T>
         );
@@ -3602,10 +3602,10 @@ declare namespace IACeleV2 {
         };
 
         type _ComponentWidget<M extends ModelName, T> = (
-            & IACeleV2.View.HasFieldName<M>
+            & IACele.View.HasFieldName<M>
             & _HasDecorationColor
             & _OnValueChange<M, T>
-            & IACeleV2.View._Base._HasPlaceholder
+            & IACele.View._Base._HasPlaceholder
         );
         interface ComponentWidget<M extends ModelName, T> extends _ComponentWidget<M, T>{
             value: SupportedType<M, T>;

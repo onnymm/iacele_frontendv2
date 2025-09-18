@@ -3,7 +3,7 @@ import { TokenContext } from "../../contexts/tokenContext";
 import APIContext from "../../contexts/apiContext";
 import { useNavigate } from "react-router";
 
-const useLogin = (): IACeleV2.Application.Login => {
+const useLogin = (): IACele.Application.Login => {
 
     // Función para redireccionar cuando el usuario se autentique
     const navigate = useNavigate();

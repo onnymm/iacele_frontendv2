@@ -1,8 +1,8 @@
 import useFieldMetadata from "./useFieldMetadata";
 
 const useFieldInfo = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
-): IACeleV2.View.Form.FieldInfo => {
+    name: IACele.Data.Models.FieldName<M>,
+): IACele.View.Form.FieldInfo => {
 
     // Obtención de los metadatos del campo
     const { fieldMetadata } = useFieldMetadata<M>(name);

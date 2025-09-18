@@ -11,7 +11,7 @@ import isBaseRoute from "./isBaseRoute";
  *  - [ {@link IACele.Application.Route Route} ] `route`: Objeto que contiene
  *  una ruta de URL y el nombre de ésta.
  */ 
-const Route: React.FC<IACeleV2.Application._Sidebar.UI.Route> = ({
+const Route: React.FC<IACele.Application._Sidebar.UI.Route> = ({
     onClick,
     route,
 }) => {

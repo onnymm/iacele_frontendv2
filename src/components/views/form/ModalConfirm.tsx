@@ -18,7 +18,7 @@ import { LABEL } from "../../../constants/app/ui";
  *  de componentes dentro del modal.
  *  - [ `string` ] `message`: Mensaje a mostrar en el modal.
  */ 
-const ModalConfirm: React.FC<IACeleV2.View.Modal.Component.Confirm> = ({
+const ModalConfirm: React.FC<IACele.View.Modal.Component.Confirm> = ({
     isOpen,
     onOpenChange,
     execute,

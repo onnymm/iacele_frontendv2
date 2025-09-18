@@ -4,7 +4,7 @@ import PageNameProvider from "./PageNameProvider";
 import SidebarProvider from "./SidebarProvider";
 import SuperiorControlsProvider from "./SuperiorControlsProvider";
 
-const IACeleProvider: React.FC<IACeleV2.Application.Provider> = ({
+const IACeleProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

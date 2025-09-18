@@ -1,7 +1,7 @@
 import { TokenContext } from "../contexts/tokenContext";
 import useUserToken from "../hooks/app/useUserToken";
 
-const UserTokenProvider: React.FC<IACeleV2.Application.Provider> = ({
+const UserTokenProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

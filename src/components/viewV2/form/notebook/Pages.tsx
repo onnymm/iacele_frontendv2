@@ -1,6 +1,6 @@
 const Pages = ({
     children,
-}: IACeleV2.View.Form.Notebook.Pages.Params) => {
+}: IACele.View.Form.Notebook.Pages.Params) => {
 
     return (children);
 };

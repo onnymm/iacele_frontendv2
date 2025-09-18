@@ -1,7 +1,7 @@
 import { useCallback, useContext } from "react";
 import { TokenContext } from "../../contexts/tokenContext";
 
-const useLogout = (): IACeleV2.Application.Logout => {
+const useLogout = (): IACele.Application.Logout => {
 
     // Obtención de función de manipulación de token desde contexto
     const { setUserToken } = useContext(TokenContext);

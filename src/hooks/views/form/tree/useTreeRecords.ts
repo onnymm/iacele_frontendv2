@@ -3,20 +3,20 @@ import FormTreeContext from "../../../../contexts/view/form/FormTreeContext";
 
 const useTreeRecords = <
     M extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<M>,
-    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+    F extends IACele.Data.Models.FieldName<M>,
+    R extends IACele.Data.Models.RelatedModelName<M, F>,
 >(
-    records: IACeleV2.Data.Models.Record<R>[],
-    fields: IACeleV2.Data.Models.Field<R>[],
-): IACeleV2.Hook.View.Form.TreeRecords<M, F, R> => {
+    records: IACele.Data.Models.Record<R>[],
+    fields: IACele.Data.Models.Field<R>[],
+): IACele.Hook.View.Form.TreeRecords<M, F, R> => {
 
     // Obtención de valor desde el contexto
-    const { treeConfig } = useContext<IACeleV2.Context.View.FormTree<M, F, R>>(FormTreeContext);
+    const { treeConfig } = useContext<IACele.Context.View.FormTree<M, F, R>>(FormTreeContext);
 
     // Inicialización de índice de registros
-    const [ treeRecordsIndex, setTreeRecordsIndex ] = useState<Record<number, IACeleV2.Data.Models.Record<R>>>(
+    const [ treeRecordsIndex, setTreeRecordsIndex ] = useState<Record<number, IACele.Data.Models.Record<R>>>(
         () => {
-            const index: Record<number, IACeleV2.Data.Models.Record<R>> = {};
+            const index: Record<number, IACele.Data.Models.Record<R>> = {};
             records.forEach(
                 (record) => {
                     index[record.id] = { ...record };
@@ -29,19 +29,19 @@ const useTreeRecords = <
     // Inicialización de índice de campos
     const fieldsIndex = useMemo(
         () => {
-            const index: Partial<Record<IACeleV2.Data.Models.FieldName<R>, IACeleV2.Data.Models.Field<R>>> = {};
+            const index: Partial<Record<IACele.Data.Models.FieldName<R>, IACele.Data.Models.Field<R>>> = {};
             fields.forEach(
                 (field) => {
                     index[field.name] = field;
                 }
             )
-            return index as Record<IACeleV2.Data.Models.FieldName<R>, IACeleV2.Data.Models.Field<R>>
+            return index as Record<IACele.Data.Models.FieldName<R>, IACele.Data.Models.Field<R>>
         }, [fields]
     );
 
     // Inicialización de función de obtención de tipo de dato de campo.
     const getTType = useCallback(
-        (name: IACeleV2.Data.Models.FieldName<R>) => {
+        (name: IACele.Data.Models.FieldName<R>) => {
             // Obtención del tipo de dato
             const ttype = fieldsIndex[name].ttype;
 
@@ -51,9 +51,9 @@ const useTreeRecords = <
 
     // Inicialización de función de cómputo de etiqueta de campo
     const computeLabel = useCallback(
-        (name: IACeleV2.Data.Models.FieldName<R>) => {
+        (name: IACele.Data.Models.FieldName<R>) => {
             // Obtención de los datos de configuración de vista
-            const config = treeConfig.find( (c) => (c.name === name) ) as IACeleV2.View.Form.Field.Tree.Config<R>;
+            const config = treeConfig.find( (c) => (c.name === name) ) as IACele.View.Form.Field.Tree.Config<R>;
             // Obtención de etiqueta de campo
             const fieldLabel = config.label
             // Selección de la etiqueta final
@@ -67,20 +67,20 @@ const useTreeRecords = <
     const createSetFormRecordField = useCallback(
         (id: number) => {
             // Inicialización de función de modificación de registro
-            const callback: IACeleV2.View.Form.FieldValueSetter<M> = <L extends IACeleV2.Data.Models.FieldName<M>>(
-                name: IACeleV2.Data.Models.FieldName<M>,
-                value: IACeleV2.Data.Models.Record<M>[L],
+            const callback: IACele.View.Form.FieldValueSetter<M> = <L extends IACele.Data.Models.FieldName<M>>(
+                name: IACele.Data.Models.FieldName<M>,
+                value: IACele.Data.Models.Record<M>[L],
             ) => {
 
                 // Se copia el objeto del registro del formulario
-                const recordCopy: Record<number, IACeleV2.Data.Models.Record<R>> = {};
+                const recordCopy: Record<number, IACele.Data.Models.Record<R>> = {};
                 Object.keys(treeRecordsIndex).forEach(
                     (id) => {
                         recordCopy[Number(id)] = { ...treeRecordsIndex[Number(id)] }
                     }
                 );
                 // Se establece el nuevo valor
-                ( recordCopy[id][name as never] as IACeleV2.Data.Models.Record<M>[L] ) = value;
+                ( recordCopy[id][name as never] as IACele.Data.Models.Record<M>[L] ) = value;
                 setTreeRecordsIndex(recordCopy);
             };
 

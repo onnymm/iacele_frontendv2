@@ -4,7 +4,7 @@ import Sizeable from "../../../common/Sizeable";
 import { Plus } from "lucide-react";
 import { BUTTONS } from "../../../../constants/app/ui";
 
-const NewRecordButton: React.FC<IACeleV2.View.Form.Controls.NewRecord> = ({
+const NewRecordButton: React.FC<IACele.View.Form.Controls.NewRecord> = ({
     formMode,
     newRecord,
 }) => {

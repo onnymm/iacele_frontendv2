@@ -5,7 +5,7 @@ import { Info } from "lucide-react";
 
 const FieldInfo = <M extends ModelName>({
     name,
-}: IACeleV2.View.HasFieldName<M>) => {
+}: IACele.View.HasFieldName<M>) => {
 
     // Obtención de la información del campo
     const { fieldInfo } = useFieldInfo<M>(name);

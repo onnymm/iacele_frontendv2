@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router";
 
 const useRecordForm = <M extends ModelName>(
     modelName: M,
-): IACeleV2.Hook.View.Form.FormRecord<M> => {
+): IACele.Hook.View.Form.FormRecord<M> => {
 
     // Inicialización de estado de carga
     const [ loaded, setLoaded ] = useState<boolean>(false);
@@ -52,9 +52,9 @@ const useRecordForm = <M extends ModelName>(
 export default useRecordForm;
 
 const useNewFormRecord = <M extends ModelName>(
-    setFormMode: React.Dispatch<React.SetStateAction<IACeleV2.View.Form.Mode>>,
-    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACeleV2.Data.Models.Record<M>>>>,
-): IACeleV2.Hook.View.Form.Callback.NewRecord => {
+    setFormMode: React.Dispatch<React.SetStateAction<IACele.View.Form.Mode>>,
+    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACele.Data.Models.Record<M>>>>,
+): IACele.Hook.View.Form.Callback.NewRecord => {
 
     // Obtención de función de redireccionamiento
     const navigateTo = useNavigate();
@@ -78,8 +78,8 @@ const useNewFormRecord = <M extends ModelName>(
 
 const useDeleteFormRecord = <M extends ModelName>(
     modelName: M,
-    formMode: IACeleV2.View.Form.Mode,
-): IACeleV2.Hook.View.Form.Callback.DeleteRecord => {
+    formMode: IACele.View.Form.Mode,
+): IACele.Hook.View.Form.Callback.DeleteRecord => {
 
     // Obtención de la ID del registro
     const { recordId } = useRecordId();
@@ -106,8 +106,8 @@ const useDeleteFormRecord = <M extends ModelName>(
 };
 
 const useFormName = <M extends ModelName>(
-    formMode: IACeleV2.View.Form.Mode,
-    recordInDatabase: IACeleV2.Data.Models.Record<M> | null,
+    formMode: IACele.View.Form.Mode,
+    recordInDatabase: IACele.Data.Models.Record<M> | null,
 ): void => {
 
     // Obtención de función para establecer el nombre de la vista
@@ -131,10 +131,10 @@ const useFormName = <M extends ModelName>(
 };
 
 const useSaveFormRecord = (
-    formMode: IACeleV2.View.Form.Mode,
+    formMode: IACele.View.Form.Mode,
     create: () => Promise<void>,
     update: () => Promise<void>,
-): IACeleV2.Hook.View.Form.Callback.SaveRecord => {
+): IACele.Hook.View.Form.Callback.SaveRecord => {
 
     // Creación de la función de guardar (Creación o modificación)
     const saveChanges = useCallback(
@@ -157,9 +157,9 @@ const useSaveFormRecord = (
 };
 
 const useCheckRecordChanges = <M extends ModelName>(
-    formRecord: Partial<IACeleV2.Data.Models.Record<M>>,
-    recordInDatabase: IACeleV2.Data.Models.Record<M> | null,
-): IACeleV2.Hook.View.Form.HasChanges => {
+    formRecord: Partial<IACele.Data.Models.Record<M>>,
+    recordInDatabase: IACele.Data.Models.Record<M> | null,
+): IACele.Hook.View.Form.HasChanges => {
 
     // Inicialización del estado de si el registro tiene cambios o no
     const [ hasChanges, setHasChanges ] = useState<boolean>(false);
@@ -174,7 +174,7 @@ const useCheckRecordChanges = <M extends ModelName>(
             // Se inicia el estado de cambios en falso
             setHasChanges(false);
             // Obtención de los nombres de campos
-            const fieldNames = Object.keys(formRecord) as IACeleV2.Data.Models.FieldName<M>[];
+            const fieldNames = Object.keys(formRecord) as IACele.Data.Models.FieldName<M>[];
             // Se compara cada uno de los valores de los objetos del registro desde la base de datos y los datos del registro en el formulario
             fieldNames.forEach(
                 (fieldName) => {
@@ -199,12 +199,12 @@ const useCheckRecordChanges = <M extends ModelName>(
 };
 
 const useUndoFormChanges = <M extends ModelName>(
-    formMode: IACeleV2.View.Form.Mode,
-    setFormMode: React.Dispatch<React.SetStateAction<IACeleV2.View.Form.Mode>>,
-    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACeleV2.Data.Models.Record<M>>>>,
-    recordInDatabase: IACeleV2.Data.Models.Record<M> | null,
+    formMode: IACele.View.Form.Mode,
+    setFormMode: React.Dispatch<React.SetStateAction<IACele.View.Form.Mode>>,
+    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACele.Data.Models.Record<M>>>>,
+    recordInDatabase: IACele.Data.Models.Record<M> | null,
     reload: () => void,
-): IACeleV2.Hook.View.Form.Callback.UndoChanges => {
+): IACele.Hook.View.Form.Callback.UndoChanges => {
 
     // Obtención de función de navegación
     const navigateTo = useNavigate();
@@ -238,11 +238,11 @@ const useUndoFormChanges = <M extends ModelName>(
 
 const useUpdateFormRecord = <M extends ModelName>(
     modelName: M,
-    formRecord: Partial<IACeleV2.Data.Models.Record<M>>,
-    recordInDatabase: IACeleV2.Data.Models.Record<M> | null,
-    fieldsMetadata: IACeleV2.Data.Models.Field<M>[],
+    formRecord: Partial<IACele.Data.Models.Record<M>>,
+    recordInDatabase: IACele.Data.Models.Record<M> | null,
+    fieldsMetadata: IACele.Data.Models.Field<M>[],
     reload: () => void,
-): IACeleV2.Hook.View.Form.Callback.UpdateRecord => {
+): IACele.Hook.View.Form.Callback.UpdateRecord => {
 
     // Obtención de la ID del registro
     const { recordId } = useRecordId();
@@ -253,9 +253,9 @@ const useUpdateFormRecord = <M extends ModelName>(
     const updateRecord = useCallback(
         async () => {
             // Inicialización de datos a ser escritos en el backend
-            const dataToWrite: Partial<IACeleV2.Data.Models.Record<M>> = {};
+            const dataToWrite: Partial<IACele.Data.Models.Record<M>> = {};
             // Obtención de los nombres de campo del registro
-            const fieldNames = Object.keys(formRecord) as IACeleV2.Data.Models.FieldName<M>[];
+            const fieldNames = Object.keys(formRecord) as IACele.Data.Models.FieldName<M>[];
 
             // Escape de función para evitar advertencias de tipado
             if ( recordInDatabase === null ) return;
@@ -265,11 +265,11 @@ const useUpdateFormRecord = <M extends ModelName>(
                 (fieldName) => {
                     if ( formRecord[fieldName] !== (recordInDatabase)[fieldName] ) {
                         // Obtención de los metadatos del campo
-                        const fieldMetadata = fieldsMetadata.find( (fieldData) => (fieldData.name === fieldName) ) as IACeleV2.Data.Models.Field<M>;
+                        const fieldMetadata = fieldsMetadata.find( (fieldData) => (fieldData.name === fieldName) ) as IACele.Data.Models.Field<M>;
                         // Si el campo es de tipo Many2One y no es nulo...
                         if ( fieldMetadata.ttype === 'many2one' && formRecord[fieldName] !== null ) {
                             // Se toma como valor de escritura la ID seleccionada
-                            dataToWrite[fieldName] = (formRecord[fieldName] as IACeleV2.Data.Models.TType.Many2One<'not_null'>)[0] as Partial<IACeleV2.Data.Models.Record<M>>[keyof IACeleV2.Data.Models.Record<M>];
+                            dataToWrite[fieldName] = (formRecord[fieldName] as IACele.Data.Models.TType.Many2One<'not_null'>)[0] as Partial<IACele.Data.Models.Record<M>>[keyof IACele.Data.Models.Record<M>];
                         } else {
                             // Se toma el valor sin procesar
                             dataToWrite[fieldName] = formRecord[fieldName];
@@ -295,10 +295,10 @@ const useUpdateFormRecord = <M extends ModelName>(
 
 const useCreateFormRecord = <M extends ModelName>(
     modelName: M,
-    formRecord: Partial<IACeleV2.Data.Models.Record<M>>,
-    setFormMode: React.Dispatch<React.SetStateAction<IACeleV2.View.Form.Mode>>,
-    fieldsMetadata: IACeleV2.Data.Models.Field<M>[],
-): IACeleV2.Hook.View.Form.Callback.CreateRecord => {
+    formRecord: Partial<IACele.Data.Models.Record<M>>,
+    setFormMode: React.Dispatch<React.SetStateAction<IACele.View.Form.Mode>>,
+    fieldsMetadata: IACele.Data.Models.Field<M>[],
+): IACele.Hook.View.Form.Callback.CreateRecord => {
 
     // Obtención de instancia de API
     const { api } = useContext(APIContext);
@@ -311,19 +311,19 @@ const useCreateFormRecord = <M extends ModelName>(
     const createRecord = useCallback(
         async () => {
             // Inicialización de datos a ser escritos en el backend
-            const dataToWrite: Partial<IACeleV2.Data.Models.Record<M>> = {};
+            const dataToWrite: Partial<IACele.Data.Models.Record<M>> = {};
             // Obtención de los nombres de campo del registro
-            const fieldNames = Object.keys(formRecord) as IACeleV2.Data.Models.FieldName<M>[];
+            const fieldNames = Object.keys(formRecord) as IACele.Data.Models.FieldName<M>[];
 
             // Se llena el objeto que se usará para actualizar los datos del registro
             fieldNames.forEach(
                 (fieldName) => {
                     // Obtención de los metadatos del campo
-                    const fieldMetadata = fieldsMetadata.find( (fieldData) => (fieldData.name === fieldName) ) as IACeleV2.Data.Models.Field<M>;
+                    const fieldMetadata = fieldsMetadata.find( (fieldData) => (fieldData.name === fieldName) ) as IACele.Data.Models.Field<M>;
                     // Si el campo es de tipo Many2One y no es nulo...
                     if ( fieldMetadata.ttype === 'many2one' && formRecord[fieldName] !== null ) {
                         // Se toma como valor de escritura la ID seleccionada
-                        dataToWrite[fieldName] = (formRecord[fieldName] as IACeleV2.Data.Models.TType.Many2One<'not_null'>)[0] as Partial<IACeleV2.Data.Models.Record<M>>[keyof Partial<IACeleV2.Data.Models.Record<M>>];
+                        dataToWrite[fieldName] = (formRecord[fieldName] as IACele.Data.Models.TType.Many2One<'not_null'>)[0] as Partial<IACele.Data.Models.Record<M>>[keyof Partial<IACele.Data.Models.Record<M>>];
                     } else {
                         // Se toma el valor sin procesar
                         dataToWrite[fieldName] = formRecord[fieldName];
@@ -348,16 +348,16 @@ const useCreateFormRecord = <M extends ModelName>(
     return { createRecord };
 };
 
-const useEditFormRecord = <M extends ModelName>(): IACeleV2.Hook.View.Form.EditFormRecord<M> => {
+const useEditFormRecord = <M extends ModelName>(): IACele.Hook.View.Form.EditFormRecord<M> => {
 
     // Inicialización de estado para edición
-    const [ formRecord, setFormRecord ] = useState<Partial<IACeleV2.Data.Models.Record<M>>>({});
+    const [ formRecord, setFormRecord ] = useState<Partial<IACele.Data.Models.Record<M>>>({});
 
     // Inicialización de función que cambia valor de un campo de datos del formulario del registro
-    const setFormRecordField = useCallback<IACeleV2.View.Form.FieldValueSetter<M>>(
-        <F extends IACeleV2.Data.Models.FieldName<M>>(
+    const setFormRecordField = useCallback<IACele.View.Form.FieldValueSetter<M>>(
+        <F extends IACele.Data.Models.FieldName<M>>(
             name: F,
-            value: IACeleV2.Data.Models.FieldValue<M, F>,
+            value: IACele.Data.Models.FieldValue<M, F>,
         ) => {
 
             // Se copia el objeto del registro del formulario
@@ -374,19 +374,19 @@ const useEditFormRecord = <M extends ModelName>(): IACeleV2.Hook.View.Form.EditF
 
 const useReadFormRecord = <M extends ModelName>(
     modelName: M,
-    formMode: IACeleV2.View.Form.Mode,
-    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACeleV2.Data.Models.Record<M>>>>,
+    formMode: IACele.View.Form.Mode,
+    setFormRecord: React.Dispatch<React.SetStateAction<Partial<IACele.Data.Models.Record<M>>>>,
     setLoaded: React.Dispatch<React.SetStateAction<boolean>>,
-): IACeleV2.Hook.View.Form.ReadRecord<M> => {
+): IACele.Hook.View.Form.ReadRecord<M> => {
 
     // Obtención de la ID del registro
     const { recordId } = useRecordId();
     // Obtención de instancia de API
     const { api } = useContext(APIContext);
     // Inicialización de estado de datos del registro en la base de datos
-    const [ recordInDatabase, setRecordInDatabase ] = useState<IACeleV2.Data.Models.Record<M> | null>(null);
+    const [ recordInDatabase, setRecordInDatabase ] = useState<IACele.Data.Models.Record<M> | null>(null);
     // Inicialización de lista de metadatos de campos del registro
-    const [ fieldsMetadata, setFieldsMetadata ] = useState<IACeleV2.Data.Models.Field<M>[]>([]);
+    const [ fieldsMetadata, setFieldsMetadata ] = useState<IACele.Data.Models.Field<M>[]>([]);
     // Obtención de estado y función de recarga
     const { reloadSignal, reload } = useReload();
 
@@ -434,12 +434,12 @@ const useReadFormRecord = <M extends ModelName>(
  *  - `'read'`: Lectura de registro (Esto puede incluir posibilidad de
  *  modificación y eliminación).
  */ 
-const useFormMode = (): IACeleV2.Hook.View.Form.FormMode => {
+const useFormMode = (): IACele.Hook.View.Form.FormMode => {
 
     // Obtención de la ID del registro
     const { recordId } = useRecordId();
     // Inicialización del estado de modo de formulario
-    const [ formMode, setFormMode ] = useState<IACeleV2.View.Form.Mode>(
+    const [ formMode, setFormMode ] = useState<IACele.View.Form.Mode>(
         () => (
             recordId !== 0
                 ? 'read'

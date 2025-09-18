@@ -19,7 +19,7 @@ import { useCallback, useState } from "react";
  *  - [ {@link React.ReactNode} ] `endContent`: Componente a renderizar en la
  *  parte final del campo.
  */ 
-const InputText: React.FC<IACeleV2.UI.Input.Text.Params> = ({
+const InputText: React.FC<IACele.UI.Input.Text.Params> = ({
     name,
     label,
     value,
@@ -61,7 +61,7 @@ const InputText: React.FC<IACeleV2.UI.Input.Text.Params> = ({
 
 export default InputText;
 
-const useInputText = (): IACeleV2.Hook.UI.InputText => {
+const useInputText = (): IACele.Hook.UI.InputText => {
 
     // Inicialización de estado de enfoque
     const [ isFocused, setIsFocused ] = useState<boolean>(false);

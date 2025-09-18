@@ -1,7 +1,7 @@
 import { useState } from "react";
 import MainControlsContext from "../contexts/mainControlsContext";
 
-const MainControlsProvider: React.FC<IACeleV2.Application.Provider> = ({
+const MainControlsProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

@@ -2,20 +2,20 @@ declare namespace Backend {
 
     declare namespace TType {
 
-        type Integer<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Integer<N>;
-        type Char<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Char<N>;
-        type Float<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Float<N>;
-        type Boolean<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Boolean<N>;
-        type Date<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Date<N>;
-        type DateTime<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Datetime<N>;
-        type Time<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Time<N>;
-        type Duration<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Duration<N>;
-        type Text<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Text<N>;
-        type Selection<O extends string, N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Selection<O, N>;
-        type File<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.File<N>;
-        type Many2One<N extends IACeleV2.Data._Base._NullabilityKey = 'null_'> = IACeleV2.Data.Models.TType.Many2One<N>;
-        type One2Many<M extends ModelName> = IACeleV2.Data.Models.TType.One2Many<M>;
-        type Many2Many<M extends ModelName> = IACeleV2.Data.Models.TType.Many2Many<M>;
+        type Integer<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Integer<N>;
+        type Char<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Char<N>;
+        type Float<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Float<N>;
+        type Boolean<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Boolean<N>;
+        type Date<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Date<N>;
+        type DateTime<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Datetime<N>;
+        type Time<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Time<N>;
+        type Duration<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Duration<N>;
+        type Text<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Text<N>;
+        type Selection<O extends string, N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Selection<O, N>;
+        type File<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.File<N>;
+        type Many2One<N extends IACele.Data._Base._NullabilityKey = 'null_'> = IACele.Data.Models.TType.Many2One<N>;
+        type One2Many<M extends ModelName> = IACele.Data.Models.TType.One2Many<M>;
+        type Many2Many<M extends ModelName> = IACele.Data.Models.TType.Many2Many<M>;
 
     };
 
@@ -33,7 +33,7 @@ declare namespace Backend {
         'base.model.field': {
             model_id: TType.Many2One<'not_null'>;
             label: TType.Char<'not_null'>;
-            ttype: TType.Selection<IACeleV2.Data.Models.TTypeName, 'not_null'>;
+            ttype: TType.Selection<IACele.Data.Models.TTypeName, 'not_null'>;
             nullable: TType.Boolean<'not_null'>;
             is_required: TType.Boolean<'not_null'>;
             default_value: TType.Char;

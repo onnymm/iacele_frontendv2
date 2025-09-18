@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-const useNotebook = (): IACeleV2.Hook.View.Form.Notebook => {
+const useNotebook = (): IACele.Hook.View.Form.Notebook => {
 
     // Inicialización de estado de contenido de páginas
-    const [ pages, setPages ] = useState<IACeleV2.View.Form.Notebook.Object.PageContent[]>([]);
+    const [ pages, setPages ] = useState<IACele.View.Form.Notebook.Object.PageContent[]>([]);
     // Inicialización de estado de índice de página mostrada
     const [ displayedPage, setDisplayedPage ] = useState<number>(0);
     // Inicialización de estado de cambios
@@ -17,7 +17,7 @@ const useNotebook = (): IACeleV2.Hook.View.Form.Notebook => {
         ), [pages, displayedPage]
     );
     // Inicialización de datos para selectores de páginas
-    const pagesData = useMemo<IACeleV2.View.Form.Notebook.Object.PageData[]>(
+    const pagesData = useMemo<IACele.View.Form.Notebook.Object.PageData[]>(
         () => (
             pages.map(
                 ({ label, invisible }) => ({ label, invisible })
@@ -26,7 +26,7 @@ const useNotebook = (): IACeleV2.Hook.View.Form.Notebook => {
     );
 
     // Inicialización de función para añadir contenido a notebook
-    const addPageContent = useCallback<IACeleV2.View.Form.Notebook.Callback.SetPageContent>(
+    const addPageContent = useCallback<IACele.View.Form.Notebook.Callback.SetPageContent>(
         (label, content, invisible) => {
 
             // Creación de copia de los datos
@@ -49,7 +49,7 @@ const useNotebook = (): IACeleV2.Hook.View.Form.Notebook => {
             } else {
 
                 // Se crea un nuevo objeto de datos para ser añadido
-                const data: IACeleV2.View.Form.Notebook.Object.PageContent = { label, content, invisible };
+                const data: IACele.View.Form.Notebook.Object.PageContent = { label, content, invisible };
                 // Actualización del estado
                 setPages([ data, ...pagesCopy ]);
             };

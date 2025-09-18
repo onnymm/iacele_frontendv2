@@ -8,9 +8,9 @@ import iaCeleAxios from "../core/axiosInstance";
 
 class Client {
 
-    private setAppLoading: IACeleV2.Application.Loading['setAppLoading'];
-    setUserToken: IACeleV2.Application.UserToken['setUserToken'];
-    setUserData: React.Dispatch<React.SetStateAction<IACeleV2.Application.CurrentUserData>>;
+    private setAppLoading: IACele.Application.Loading['setAppLoading'];
+    setUserToken: IACele.Application.UserToken['setUserToken'];
+    setUserData: React.Dispatch<React.SetStateAction<IACele.Application.CurrentUserData>>;
     removeUserData: () => void;
     form: Form;
     tree: Tree;
@@ -18,9 +18,9 @@ class Client {
     auth: Auth;
 
     constructor (
-        setAppLoading: IACeleV2.Application.Loading['setAppLoading'],
-        setUserToken: IACeleV2.Application.UserToken['setUserToken'],
-        setUserData: React.Dispatch<React.SetStateAction<IACeleV2.Application.CurrentUserData>>,
+        setAppLoading: IACele.Application.Loading['setAppLoading'],
+        setUserToken: IACele.Application.UserToken['setUserToken'],
+        setUserData: React.Dispatch<React.SetStateAction<IACele.Application.CurrentUserData>>,
         removeUserData: () => void,
     ) {
         // Se asignan las referencia de funciones de cambio de estado

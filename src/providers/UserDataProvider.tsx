@@ -1,7 +1,7 @@
 import { UserContext } from "../contexts/userContext";
 import useUserData from "../hooks/app/useUserData";
 
-const UserDataProvider: React.FC<IACeleV2.Application.Provider> = ({
+const UserDataProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

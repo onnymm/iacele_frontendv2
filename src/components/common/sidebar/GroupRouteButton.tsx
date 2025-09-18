@@ -18,7 +18,7 @@ import { KeyboardArrowDownRounded } from "@mui/icons-material";
  *  - [ `boolean` ]: `isActiveLocation`: Este parámetro indica si la ubicación
  *  actual en la aplicación es la misma a la que el componente apunta.
  */ 
-const GroupRouteButton: React.FC<IACeleV2.Application._Sidebar.UI.RouteGroupButton> = ({
+const GroupRouteButton: React.FC<IACele.Application._Sidebar.UI.RouteGroupButton> = ({
     name,
     icon: Icon,
     routes,

@@ -2,7 +2,7 @@ import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
 import BreadcrumbsEllipsis from "./BreadcrumbEllipsis";
 import BreadcrumbRoute from "./BreadcrumbRoute";
 
-const BreadcrumbRoutes: React.FC<IACeleV2.UI.Breadcrumbs.Routes> = ({
+const BreadcrumbRoutes: React.FC<IACele.UI.Breadcrumbs.Routes> = ({
     recentRoutes,
 }) => {
 

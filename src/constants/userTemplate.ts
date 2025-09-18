@@ -1,4 +1,4 @@
-const userTemplate: IACeleV2.Application.CurrentUserData = {
+const userTemplate: IACele.Application.CurrentUserData = {
     id: undefined,
     login: '',
     name: '',

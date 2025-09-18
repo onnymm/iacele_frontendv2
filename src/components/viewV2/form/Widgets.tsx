@@ -260,7 +260,7 @@ export const Many2OneWidget = <M extends ModelName, R extends ModelName>() => {
     const { initialSelectedOption, selectedKey, setSelectedKey, search, options, setSearch, setIsOpen } = useMany2OneOptions<M, R>();
 
     // Creación de la función de cambio de estado de valor de formulario
-    const { onValueChange } = useOnValueChange<M, 'char' | 'integer', IACeleV2.Data.Models.TType.Many2One>(
+    const { onValueChange } = useOnValueChange<M, 'char' | 'integer', IACele.Data.Models.TType.Many2One>(
         (seletedValue) => {
             // Se establece la llave seleccionada
             setSelectedKey(seletedValue as string);
@@ -276,7 +276,7 @@ export const Many2OneWidget = <M extends ModelName, R extends ModelName>() => {
                     : null
             );
 
-            return processedValue as IACeleV2.Data.Models.TType.Many2One;
+            return processedValue as IACele.Data.Models.TType.Many2One;
         }
     );
 
@@ -556,7 +556,7 @@ const useDate = <K extends ModelName>() => {
         () => {
 
             // Inicialización del valor tomando el dato desde el formulario
-            const value = formRecord[name] as IACeleV2.Data.Models.TType.Date;
+            const value = formRecord[name] as IACele.Data.Models.TType.Date;
             // Si el valor es nulo se retorna éste
             if ( value === null || value === undefined ) return value;
 
@@ -654,7 +654,7 @@ const useDatetime = <K extends ModelName>() => {
         () => {
 
             // Inicialización del valor tomando el dato desde el formulario
-            let value = formRecord[name] as IACeleV2.Data.Models.TType.Datetime;
+            let value = formRecord[name] as IACele.Data.Models.TType.Datetime;
             // Si el valor es nulo se retorna éste
             if ( value === null || value === undefined ) return value;
 
@@ -726,7 +726,7 @@ const useDurationValue = <M extends ModelName>() => {
         () => {
 
             // Inicialización de valor
-            const value = formRecord[name] as IACeleV2.Data.Models.TType.Duration;
+            const value = formRecord[name] as IACele.Data.Models.TType.Duration;
             // Si el valor no es nulo ni indefinido...
             if ( value !== null && value !== undefined ) {
                 // Destructuración de valores de hora, minuto y segundo
@@ -846,7 +846,7 @@ const useMany2OneOptions = <M extends ModelName, R extends ModelName>() => {
     // Inicialización de objeto de registros de la API
     const [ recordsFromAPI, setRecordsFromAPI ] = useState<Option[]>([]);
     // Memoización del dominio establecido en el campo para evitar renderizaciones innecesarias
-    const [ memoizedDomain ] = useState<IACeleV2.Data.Models.CriteriaStructure<M>>(domain as IACeleV2.Data.Models.CriteriaStructure<M>);
+    const [ memoizedDomain ] = useState<IACele.Data.Models.CriteriaStructure<M>>(domain as IACele.Data.Models.CriteriaStructure<M>);
     // Inicialización del valor de búsqueda
     const [ search, setSearch ] = useState<string>('');
     // Incialización de apertura de componente
@@ -923,7 +923,7 @@ const useSelectedMany2OneOption = <K extends ModelName>() => {
     const initialSelectedOption: Option | null = useMemo(
         () => {
             // Obtención del valor del campo
-            const value = formRecord[name] as IACeleV2.Data.Models.TType.Many2One;
+            const value = formRecord[name] as IACele.Data.Models.TType.Many2One;
             // Si existe un valor...
             if ( value ) {
                 // Destructuración de llave y etiqueta
@@ -994,9 +994,9 @@ const useSelectedMany2OneOption = <K extends ModelName>() => {
 
 const useWidget = <
     M extends ModelName,
-    T extends keyof IACeleV2.Deprecated.TTypeMap<M>,
+    T extends keyof IACele.Deprecated.TTypeMap<M>,
     O,
->(): IACeleV2.Deprecated.DataWidget<M, T> => {
+>(): IACele.Deprecated.DataWidget<M, T> => {
 
     // Obtención de valores desde el contexto del campo
     const { computedDecorationColor, computedReadonly, domain, name, ttype, placeholder } = useFieldContext<M>();
@@ -1007,9 +1007,9 @@ const useWidget = <
     // Creación de la función de cambio de valor
     const { onValueChange } = useOnValueChange<M, T, O>(parseCallbacks[ttype as keyof ParseMap<M>] as never);
     // Obtención del valor del campo
-    const value = formRecord[name] as unknown as IACeleV2.Deprecated.SupportedType<M, T>;
+    const value = formRecord[name] as unknown as IACele.Deprecated.SupportedType<M, T>;
     // Creación de las propiedades del widget
-    const widgetProps: IACeleV2.Deprecated.DataWidget<M, T> = {
+    const widgetProps: IACele.Deprecated.DataWidget<M, T> = {
         name,
         recordData: formRecord,
         value,
@@ -1055,7 +1055,7 @@ const useParseMap = <M extends ModelName>() => {
     return { parseCallbacks };
 };
 
-const useOnValueChange = <M extends ModelName, T extends keyof IACeleV2.Deprecated.TTypeMap<M>, O>(
+const useOnValueChange = <M extends ModelName, T extends keyof IACele.Deprecated.TTypeMap<M>, O>(
     parseValue: ParseFunction<M, T, O>,
 ) => {
 
@@ -1066,7 +1066,7 @@ const useOnValueChange = <M extends ModelName, T extends keyof IACeleV2.Deprecat
 
     // Inicialización de la función para cambio de valor
     const onValueChange = useCallback(
-        (value: IACeleV2.Deprecated.SupportedType<M, T>) => {
+        (value: IACele.Deprecated.SupportedType<M, T>) => {
 
             // Parseo del valor
             const parsedValue = parseValue(value);
@@ -1083,11 +1083,11 @@ const useOnValueChange = <M extends ModelName, T extends keyof IACeleV2.Deprecat
 };
 
 interface TimeFragmentFieldParams <K extends ModelName>{
-    name: IACeleV2.Data.Models.FieldName<K>;
+    name: IACele.Data.Models.FieldName<K>;
     fragment: 'hours' | 'minutes' | 'seconds';
     value: number;
     onValueChange: (value: number) => void;
-    decorationColor: IACeleV2.UI.HeroUIColor;
+    decorationColor: IACele.UI.HeroUIColor;
 };
 
 interface Option {
@@ -1095,7 +1095,7 @@ interface Option {
     label: string,
 };
 
-type ParseFunction<K extends ModelName, T extends keyof IACeleV2.Deprecated.TTypeMap<K>, O> = (value: IACeleV2.Deprecated.SupportedType<K, T>) => O;
+type ParseFunction<K extends ModelName, T extends keyof IACele.Deprecated.TTypeMap<K>, O> = (value: IACele.Deprecated.SupportedType<K, T>) => O;
 
 interface ParseMap<K extends ModelName>{
     'char': ParseFunction<K, 'char', (string | undefined)>;

@@ -2,7 +2,7 @@ import { Button } from "@heroui/react";
 import Sizeable from "../../../common/Sizeable";
 import { RotateCcw } from "lucide-react";
 
-const UndoButton: React.FC<IACeleV2.View.Form.Controls.UndoChanges> = ({
+const UndoButton: React.FC<IACele.View.Form.Controls.UndoChanges> = ({
     formMode,
     hasChanges,
     undoChanges,

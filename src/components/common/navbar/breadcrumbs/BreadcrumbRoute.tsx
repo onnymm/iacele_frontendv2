@@ -12,7 +12,7 @@ const BreadcrumbRoute = ({
     name,
     to,
     index,
-}: IACeleV2.UI.Breadcrumbs.Route) => {
+}: IACele.UI.Breadcrumbs.Route) => {
 
     // Obtención de función de navegación
     const navigate = useNavigate();

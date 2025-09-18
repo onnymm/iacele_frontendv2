@@ -3,7 +3,7 @@ import useAsyncDisabled from "../../../../hooks/app/useAsyncDisabled";
 import Sizeable from "../../../common/Sizeable";
 import { Save } from "lucide-react";
 
-const SaveRecordButton: React.FC<IACeleV2.View.Form.Controls.SaveRecord> = ({
+const SaveRecordButton: React.FC<IACele.View.Form.Controls.SaveRecord> = ({
     saveChanges,
     hasChanges,
 }) => {

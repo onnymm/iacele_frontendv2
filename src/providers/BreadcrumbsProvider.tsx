@@ -1,7 +1,7 @@
 import RouteMemoryContext from "../contexts/breadcrumbsContext";
 import useRouteMemory from "../hooks/app/useRouteMemory";
 
-const BreadcrumbsProvider: React.FC<IACeleV2.Application.Provider> = ({
+const BreadcrumbsProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

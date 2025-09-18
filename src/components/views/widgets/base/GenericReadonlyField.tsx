@@ -2,8 +2,8 @@ const GenericReadonlyField = <K extends ModelName, T extends 'char' | 'integer' 
     value,
     decorationColor,
 }: {
-    value: IACeleV2.Deprecated.SupportedType<K, T>;
-    decorationColor: IACeleV2.UI.HeroUIColor;
+    value: IACele.Deprecated.SupportedType<K, T>;
+    decorationColor: IACele.UI.HeroUIColor;
 }) => {
 
     // Color de decoración

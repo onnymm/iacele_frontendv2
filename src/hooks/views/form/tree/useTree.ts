@@ -6,9 +6,9 @@ import APIContext from "../../../../contexts/apiContext";
 
 const useTree = <
     M extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<M>,
-    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
->(): IACeleV2.Hook.View.Form.Tree<M, F, R> => {
+    F extends IACele.Data.Models.FieldName<M>,
+    R extends IACele.Data.Models.RelatedModelName<M, F>,
+>(): IACele.Hook.View.Form.Tree<M, F, R> => {
 
     // Obtención del nombre del modelo relacionado
     const { relatedModelName } = useRelatedModelName<M, R>();
@@ -56,11 +56,11 @@ const useTree = <
 
 export default useTree;
 
-const useAPIData = <M extends ModelName>(): IACeleV2.Hook.View.Form.TreeAPIData<M> => {
+const useAPIData = <M extends ModelName>(): IACele.Hook.View.Form.TreeAPIData<M> => {
 
     // Inicialización de datos desde la API
-    const [ dataFromAPI, setDataFromAPI ] = useState<IACeleV2.Data.Models.Record<M>[]>([]);
-    const [ metadataFromAPI, setMetadataFromAPI ] = useState<IACeleV2.Data.Models.Field<M>[]>([]);
+    const [ dataFromAPI, setDataFromAPI ] = useState<IACele.Data.Models.Record<M>[]>([]);
+    const [ metadataFromAPI, setMetadataFromAPI ] = useState<IACele.Data.Models.Field<M>[]>([]);
     // Inicialización de estado de cargar
     const [ dataLoaded, setDataLoaded ] = useState<boolean>(false);
 
@@ -68,14 +68,14 @@ const useAPIData = <M extends ModelName>(): IACeleV2.Hook.View.Form.TreeAPIData<
 };
 
 const useRecordIds = <M extends ModelName>(
-    formRecord: Partial<IACeleV2.Data.Models.Record<M>>,
-    name: IACeleV2.Data.Models.FieldName<M>,
-): IACeleV2.Hook.View.Form.TreeRecordIDs => {
+    formRecord: Partial<IACele.Data.Models.Record<M>>,
+    name: IACele.Data.Models.FieldName<M>,
+): IACele.Hook.View.Form.TreeRecordIDs => {
 
     // Obtención de las IDs de registros referenciados
     const recordIds = useMemo(
         () => (
-            (formRecord[name] as IACeleV2.Data.Models.TType.One2Many<M>)
+            (formRecord[name] as IACele.Data.Models.TType.One2Many<M>)
             .map(
                 // Se extrae la ID de cada registro
                 ({ id }) => (id)
@@ -86,10 +86,10 @@ const useRecordIds = <M extends ModelName>(
     return { recordIds };
 };
 
-const useTreeConfig = <M extends ModelName>(): IACeleV2.Hook.View.Form.TreeConfig<M> => {
+const useTreeConfig = <M extends ModelName>(): IACele.Hook.View.Form.TreeConfig<M> => {
 
     // Inicialización de configuración del árbol
-    const treeConfig = useMemo<IACeleV2.View.Form.Field.Tree.Config<M>[]>(
+    const treeConfig = useMemo<IACele.View.Form.Field.Tree.Config<M>[]>(
         () => ([]), []
     );
 
@@ -97,12 +97,12 @@ const useTreeConfig = <M extends ModelName>(): IACeleV2.Hook.View.Form.TreeConfi
 };
 
 const AddConfig = <M extends ModelName>(
-    treeConfig: IACeleV2.View.Form.Field.Tree.Config<M>[],
-): IACeleV2.Hook.View.Form.AddConfig<M> => {
+    treeConfig: IACele.View.Form.Field.Tree.Config<M>[],
+): IACele.Hook.View.Form.AddConfig<M> => {
 
     // Inicialización de función para añadir datos de vista
     const addConfig = useCallback(
-        (config: IACeleV2.View.Form.Field.Tree.Config<M>) => {
+        (config: IACele.View.Form.Field.Tree.Config<M>) => {
             // Si no se ha añadido la configuración de la vista...
             if ( !treeConfig.find( (item) => (item.name === config.name) ) ) {
                 // Se añade ésta

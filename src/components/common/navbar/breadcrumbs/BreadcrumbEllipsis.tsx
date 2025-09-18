@@ -4,7 +4,7 @@ import { Ellipsis } from "lucide-react";
 const BreadcrumbsEllipsis = ({
     items,
     separator,
-}: IACeleV2.UI.Breadcrumbs.Ellipsis) => {
+}: IACele.UI.Breadcrumbs.Ellipsis) => {
 
     return (
         <div className="flex items-center" key={1}>

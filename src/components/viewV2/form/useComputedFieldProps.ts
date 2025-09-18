@@ -3,12 +3,12 @@ import useExecuteFormValidation from "../hooks/useExecuteFormValidation";
 import useIsInvisible from "../hooks/useIsInvisible";
 
 const useComputedFieldProps = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
+    name: IACele.Data.Models.FieldName<M>,
     label: string | undefined,
-    readonly: IACeleV2.View.UsingRecord<M, boolean> | undefined,
-    invisible: IACeleV2.View.UsingRecord<M, boolean> | undefined,
-    decoration: IACeleV2.View.ColorDecoration<M> | undefined,
-): IACeleV2.Hook.View.Form.ComputedFieldProps => {
+    readonly: IACele.View.UsingRecord<M, boolean> | undefined,
+    invisible: IACele.View.UsingRecord<M, boolean> | undefined,
+    decoration: IACele.View.ColorDecoration<M> | undefined,
+): IACele.Hook.View.Form.ComputedFieldProps => {
 
     // Obtención del tipo de dato del campo
     const { ttype } = useFieldTType<M>(name);
@@ -27,14 +27,14 @@ const useComputedFieldProps = <M extends ModelName>(
 export default useComputedFieldProps;
 
 const useFieldDecoration = <M extends ModelName>(
-    decoration: IACeleV2.View.ColorDecoration<M> | undefined,
-): IACeleV2.View.ComputedDecorationColor => {
+    decoration: IACele.View.ColorDecoration<M> | undefined,
+): IACele.View.ComputedDecorationColor => {
 
     // Obtencoón de función de validación de valor de formulario
     const { executeFormValidation } = useExecuteFormValidation<M>();
 
     // Inicialización de color
-    let computedDecorationColor: IACeleV2.UI.HeroUIColor = 'default';
+    let computedDecorationColor: IACele.UI.HeroUIColor = 'default';
     // Si existen función de decoración...
     if ( decoration !== undefined ) {
         // Evaluación
@@ -48,9 +48,9 @@ const useFieldDecoration = <M extends ModelName>(
 };
 
 const useFieldComputedReadonly = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
-    readonly: IACeleV2.View.UsingRecord<M, boolean> | undefined,
-): IACeleV2.View.ComputedReadonly => {
+    name: IACele.Data.Models.FieldName<M>,
+    readonly: IACele.View.UsingRecord<M, boolean> | undefined,
+): IACele.View.ComputedReadonly => {
 
     // Obtención de los datos del formulario
     const { readonly: formReadonly, formMode } = useFormRecordContext<M>();
@@ -88,9 +88,9 @@ const useFieldComputedReadonly = <M extends ModelName>(
 };
 
 const useFieldComputedLabel = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
+    name: IACele.Data.Models.FieldName<M>,
     label: string | undefined,
-): IACeleV2.View.ComputedLabel => {
+): IACele.View.ComputedLabel => {
 
     // Obtención de los metadatos del campo
     const { fieldMetadata } = useFieldMetadata<M>(name);
@@ -102,8 +102,8 @@ const useFieldComputedLabel = <M extends ModelName>(
 };
 
 const useFieldTType = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
-): IACeleV2.Hook.View.Form.FieldTType => {
+    name: IACele.Data.Models.FieldName<M>,
+): IACele.Hook.View.Form.FieldTType => {
 
     // Obtención de los metadatos del campo
     const { fieldMetadata } = useFieldMetadata(name);
@@ -115,8 +115,8 @@ const useFieldTType = <M extends ModelName>(
 };
 
 const useFieldMetadata = <M extends ModelName>(
-    name: IACeleV2.Data.Models.FieldName<M>,
-): IACeleV2.Hook.View.Form.FieldMetadata<M> => {
+    name: IACele.Data.Models.FieldName<M>,
+): IACele.Hook.View.Form.FieldMetadata<M> => {
 
     // Obtención de los metadatos del registro
     const { fieldsMetadata } = useFormRecordContext<M>();
@@ -125,7 +125,7 @@ const useFieldMetadata = <M extends ModelName>(
         fieldsMetadata
         .find(
             (atts) => (atts.name === name)
-        ) as IACeleV2.Data.Models.Field<M>
+        ) as IACele.Data.Models.Field<M>
     );
 
     return { fieldMetadata };

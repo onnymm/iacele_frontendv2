@@ -27,7 +27,7 @@
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const Sizeable: React.FC<IACeleV2.UI.Sizeable.Component> = ({
+const Sizeable: React.FC<IACele.UI.Sizeable.Component> = ({
     children,
 }) => {
 

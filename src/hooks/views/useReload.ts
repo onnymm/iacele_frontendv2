@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useReload = (): IACeleV2.View.Reload => {
+const useReload = (): IACele.View.Reload => {
 
     // Inicialización de estado de carga
     const [ reloadSignal, setReloadSignal ] = useState<boolean>(false);

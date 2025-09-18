@@ -18,7 +18,7 @@ import UserAuthenticationProvider from "../providers/UserAuthenticationProvider"
  *  - [ {@link React.JSX.Element} ] `children`: Componente de aplicación a
  *  envolver.
  */ 
-const AuthProvider: React.FC<IACeleV2.Application.Provider> = ({
+const AuthProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

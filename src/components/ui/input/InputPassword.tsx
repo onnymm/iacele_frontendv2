@@ -14,7 +14,7 @@ import { Eye, EyeOff, LockKeyhole } from "lucide-react";
  *  - [ {@link React.Dispatch<React.SetStateAction<string>>} | `undefined` ]
  *  `onValueChange`: Función de cambio de estado de valor de contraseña.
  */ 
-const InputPassword: React.FC<IACeleV2.UI.Input.Password.Params> = ({
+const InputPassword: React.FC<IACele.UI.Input.Password.Params> = ({
     value,
     onValueChange,
 }) => {
@@ -84,7 +84,7 @@ const usePasswordInput = () => {
  *  - [ `undefined` ] `onClick`: Función a ejecutar cuando se da clic en el botón
  *  .
  */ 
-const IconToggle: React.FC<IACeleV2.UI.Input.Password.Toggle.Params> = ({
+const IconToggle: React.FC<IACele.UI.Input.Password.Toggle.Params> = ({
     icon: Icon,
     onClick
 }) => {

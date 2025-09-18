@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const FormModalContext = createContext<IACeleV2.Context.View.Modal>({
+const FormModalContext = createContext<IACele.Context.View.Modal>({
     isConfirmOpen: false,
     isDoneOpen: false,
     onConfirmOpen: () => (null),

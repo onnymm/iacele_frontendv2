@@ -16,7 +16,7 @@ const Form = <M extends ModelName>({
     modelName,
     readonly,
     children,
-}: IACeleV2.View.Form.Params<M>) => {
+}: IACele.View.Form.Params<M>) => {
 
     const {
         loaded,

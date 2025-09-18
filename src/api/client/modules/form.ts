@@ -14,17 +14,17 @@ class Form {
 
     create = async <M extends ModelName>(
         modelName: M,
-        record: Partial<IACeleV2.Data.Models.Record<M>>,
+        record: Partial<IACele.Data.Models.Record<M>>,
     ): Promise<number> => {
 
         // Creación de los datos a enviar al endpoint
-        const data: IACeleV2.API.Request.Form.Create<M> = {
+        const data: IACele.API.Request.Form.Create<M> = {
             'model_name': modelName,
             'data': record,
         };
 
         // Creación del registro y obtención de su ID
-        const [ createdId ] = await this.main.post<IACeleV2.API.Request.Form.Create<M>, number[]>(
+        const [ createdId ] = await this.main.post<IACele.API.Request.Form.Create<M>, number[]>(
             API_PATH.CREATE,
             data,
         );
@@ -35,16 +35,16 @@ class Form {
     read = async <M extends ModelName>(
         modelName: M,
         recordId: number,
-    ): Promise<IACeleV2.View.Form.Data<M>> => {
+    ): Promise<IACele.View.Form.Data<M>> => {
 
         // Creación de los datos a enviar al endpoint
-        const dataRequest: IACeleV2.API.Request.Form.Read<M> = {
+        const dataRequest: IACele.API.Request.Form.Read<M> = {
             'model_name': modelName,
             'record_id': recordId,
         };
 
         // Lectura del registro
-        const dataResponse = await this.main.post<IACeleV2.API.Request.Form.Read<M>, IACeleV2.View.Form.Data<M>>(
+        const dataResponse = await this.main.post<IACele.API.Request.Form.Read<M>, IACele.View.Form.Data<M>>(
             API_PATH.FORM,
             dataRequest,
         );
@@ -55,18 +55,18 @@ class Form {
     update = async <M extends ModelName>(
         modelName: M,
         recordId: number,
-        dataToWrite: Partial<IACeleV2.Data.Models.Record<M>>,
+        dataToWrite: Partial<IACele.Data.Models.Record<M>>,
     ) => {
 
         // Creación de los datos a enviar al endpoint
-        const dataRequest: IACeleV2.API.Request.Form.Update<M> = {
+        const dataRequest: IACele.API.Request.Form.Update<M> = {
             'model_name': modelName,
             'record_ids': recordId,
             'data': dataToWrite,
         };
 
         // Actualización del registro
-        await this.main.patch<IACeleV2.API.Request.Form.Update<M>, boolean>(
+        await this.main.patch<IACele.API.Request.Form.Update<M>, boolean>(
             API_PATH.UPDATE,
             dataRequest,
         );
@@ -78,13 +78,13 @@ class Form {
     ) => {
         
         // Creación de los datos a enviar al endpoint
-        const dataRequest: IACeleV2.API.Request.Form.Delete<M> = {
+        const dataRequest: IACele.API.Request.Form.Delete<M> = {
             'model_name': modelName,
             'record_ids': recordId,
         };
 
         // Eliminación del registro
-        await this.main.delete<IACeleV2.API.Request.Form.Delete<M>>(
+        await this.main.delete<IACele.API.Request.Form.Delete<M>>(
             API_PATH.DELETE,
             dataRequest,
         );
@@ -92,7 +92,7 @@ class Form {
 
     getFieldRelatedRecords = async <M extends ModelName>(
         modelName: M,
-        domain: IACeleV2.Data.Models.CriteriaStructure<M>,
+        domain: IACele.Data.Models.CriteriaStructure<M>,
         searchInput: string,
     ) => {
 
@@ -100,14 +100,14 @@ class Form {
             domain = ['&', ...domain, ['name', 'ilike', searchInput]];
         };
 
-        const dataRequest: IACeleV2.API.Request.Form.SearchRead<M> = {
+        const dataRequest: IACele.API.Request.Form.SearchRead<M> = {
             'model_name': modelName,
             'search_criteria': domain,
             'fields': ['id', 'name'],
             'limit': 20,
         };
 
-        const dataResponse = await this.main.post<IACeleV2.API.Request.Form.SearchRead<M>, {id: number, name: string}[]>(
+        const dataResponse = await this.main.post<IACele.API.Request.Form.SearchRead<M>, {id: number, name: string}[]>(
             API_PATH.SEARCH_READ,
             dataRequest,
         );

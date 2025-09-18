@@ -7,7 +7,7 @@ import iaCeleAxios from "../../core/axiosInstance";
 class Auth {
 
     private main: Client;
-    private config: IACeleV2.Security.Authentication.Headers = {
+    private config: IACele.Security.Authentication.Headers = {
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -45,7 +45,7 @@ class Auth {
 
         try {
             // Obtención del token de autenticación del usuario
-            const response = await iaCeleAxios.post<string, AxiosResponse<IACeleV2.API.Request.Authentication>, string>(
+            const response = await iaCeleAxios.post<string, AxiosResponse<IACele.API.Request.Authentication>, string>(
                 getBackendUrl(API_PATH.TOKEN),
                 data,
                 this.config,
@@ -62,7 +62,7 @@ class Auth {
             // Se obtiene el código de error
             const errorMessage = (
                 (
-                    ( error as AxiosError<IACeleV2.API.Response.Error, IACeleV2.Security.Authentication.Headers> )
+                    ( error as AxiosError<IACele.API.Response.Error, IACele.Security.Authentication.Headers> )
                     .response
                     ?.data
                     .detail
@@ -89,7 +89,7 @@ class Auth {
         try {
 
             // Intento de obtención de los datos
-            const userData = await this.main.get<undefined, IACeleV2.Application.CurrentUserData>(
+            const userData = await this.main.get<undefined, IACele.Application.CurrentUserData>(
                 API_PATH.ME,
                 undefined,
             );

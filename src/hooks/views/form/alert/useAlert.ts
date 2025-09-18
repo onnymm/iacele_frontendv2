@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-const useAlert = (): IACeleV2.Hook.View.Form.Alert => {
+const useAlert = (): IACele.Hook.View.Form.Alert => {
 
     // Inicialización de estado que cierra el componente.
     const [ show, setShow ] = useState<boolean>(true);

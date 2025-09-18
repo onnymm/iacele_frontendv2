@@ -5,7 +5,7 @@ import GroupRouteButton from "./GroupRouteButton";
 import Routes from "./Routes";
 import isBaseRoute from "./isBaseRoute";
 
-const RouteGroup: React.FC<IACeleV2.Application.Navigation.RouteGroup> = ({
+const RouteGroup: React.FC<IACele.Application.Navigation.RouteGroup> = ({
     name,
     icon,
     routes,

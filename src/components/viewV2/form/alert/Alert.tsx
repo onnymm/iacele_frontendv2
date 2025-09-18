@@ -6,7 +6,7 @@ const Alert = <M extends ModelName>({
     color,
     children,
     invisible,
-}: IACeleV2.View.Form.Alert.Params<M>) => {
+}: IACele.View.Form.Alert.Params<M>) => {
 
     // Obtención de valores para el componente
     const { show, close } = useAlert();

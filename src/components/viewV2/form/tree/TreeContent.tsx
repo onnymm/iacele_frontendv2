@@ -8,12 +8,12 @@ import FieldContext from "../../../../contexts/view/form/FieldContext";
 
 const TreeContent = <
     K extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<K>,
-    R extends IACeleV2.Data.Models.RelatedModelName<K, F>,
+    F extends IACele.Data.Models.FieldName<K>,
+    R extends IACele.Data.Models.RelatedModelName<K, F>,
 >() => {
 
     // Obtención de valores desde el contexto
-    const { fields, name, records, treeConfig, modelName } = useContext<IACeleV2.Context.View.FormTree<K, F, R>>(FormTreeContext);
+    const { fields, name, records, treeConfig, modelName } = useContext<IACele.Context.View.FormTree<K, F, R>>(FormTreeContext);
     // Obtención de valores para renderización de datos
     const { computeLabel, getTType, createSetFormRecordField, treeRecordsIndex } = useTreeRecords<K, F, R>(records, fields);
 
@@ -44,7 +44,7 @@ const TreeContent = <
                         const columnName = (
                             fields.find(
                                 (d) => (d.name === config.name)
-                            )?.name as IACeleV2.Data.Models.FieldName<R>
+                            )?.name as IACele.Data.Models.FieldName<R>
                         );
 
                         // Cómputo de etiqueta de la columna
@@ -60,36 +60,36 @@ const TreeContent = <
                 <TableBody items={Object.keys(treeRecordsIndex).map((id) => (treeRecordsIndex[Number(id)]))}>
                     {(record) => {
                         return (
-                        <TableRow key={record.id}>
-                            {(columnKey) => {
+                            <TableRow key={record.id}>
+                                {(columnKey) => {
 
-                                // Obtención del tipo de dato
-                                const ttype = getTType(columnKey as IACeleV2.Data.Models.FieldName<R>);
-                                // Obtención del widget a usar
-                                const Widget = Widgets[ttype as 'char'];
+                                    // Obtención del tipo de dato
+                                    const ttype = getTType(columnKey as IACele.Data.Models.FieldName<R>);
+                                    // Obtención del widget a usar
+                                    const Widget = Widgets[ttype as 'char'];
 
-                                return (
-                                    <TableCell className="px-2 last:pr-4 first:pl-4 h-8">
-                                        <RecordFormContext.Provider
-                                            value={{
-                                                fieldsMetadata: fields,
-                                                formMode: 'read',
-                                                formRecord: treeRecordsIndex[record.id],
-                                                reload: () => null,
-                                                saveChanges: () => null,
-                                                setFormRecordField: createSetFormRecordField(record.id),
-                                                readonly: true,
-                                                modelName,
-                                        }}>
-                                        <FieldContext.Provider value={{ computedDecorationColor: 'default', computedLabel: '', computedReadonly: true, domain: [], name: columnKey, ttype }}>
-                                            <Widget />
-                                        </FieldContext.Provider>
-                                        </RecordFormContext.Provider>
-                                    </TableCell>
-                                );
-                            }}
-                        </TableRow>
-                    )
+                                    return (
+                                        <TableCell className="px-2 last:pr-4 first:pl-4 h-8">
+                                            <RecordFormContext.Provider
+                                                value={{
+                                                    fieldsMetadata: fields,
+                                                    formMode: 'read',
+                                                    formRecord: treeRecordsIndex[record.id],
+                                                    reload: () => null,
+                                                    saveChanges: () => null,
+                                                    setFormRecordField: createSetFormRecordField(record.id),
+                                                    readonly: true,
+                                                    modelName,
+                                            }}>
+                                            <FieldContext.Provider value={{ computedDecorationColor: 'default', computedLabel: '', computedReadonly: true, domain: [], name: columnKey, ttype }}>
+                                                <Widget />
+                                            </FieldContext.Provider>
+                                            </RecordFormContext.Provider>
+                                        </TableCell>
+                                    );
+                                }}
+                            </TableRow>
+                        )
                     }}
                 </TableBody>
             </Table>

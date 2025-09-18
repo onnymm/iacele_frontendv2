@@ -1,7 +1,7 @@
 import DarkModeContext from "../contexts/darkModeContext";
 import useDarkMode from "../hooks/app/useDarkMode";
 
-const DarkModeProvider: React.FC<IACeleV2.Application.Provider> = ({
+const DarkModeProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

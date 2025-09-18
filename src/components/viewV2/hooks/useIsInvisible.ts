@@ -1,8 +1,8 @@
 import useExecuteFormValidation from "./useExecuteFormValidation";
 
 const useIsInvisible = <M extends ModelName>(
-    invisible: IACeleV2.View.UsingRecord<M, boolean> | undefined,
-): IACeleV2.View.ComputedIsInvisible => {
+    invisible: IACele.View.UsingRecord<M, boolean> | undefined,
+): IACele.View.ComputedIsInvisible => {
 
     // Obtención de la función de validación
     const { executeFormValidation } = useExecuteFormValidation<M>();

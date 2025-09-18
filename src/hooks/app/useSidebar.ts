@@ -13,7 +13,7 @@ import useClickOutside from "./useClickOutside";
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const useSidebar = (): IACeleV2.Hook.Application.Sidebar => {
+const useSidebar = (): IACele.Hook.Application.Sidebar => {
 
     // Inicialización de estado de barra lateral abierta
     const [ isSidebarOpen, setIsSidebarOpen ] = useState<boolean>(false);

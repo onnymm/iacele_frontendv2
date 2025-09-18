@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const NavbarContext = createContext<IACeleV2.Context.Application.Controls.DynamicControls>({
+const NavbarContext = createContext<IACele.Context.Application.Controls.DynamicControls>({
     dynamicControls: null,
     setDynamicControls: () => (null),
 });

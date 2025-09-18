@@ -14,7 +14,7 @@ import StickySectionTag from "./StickySectionTag";
  *  de grupos de rutas o rutas sencillas que se renderizan como un botón que
  *  despliega la rutas contenidas o redirección a la ruta individual.
  */ 
-const RouteSection: React.FC<IACeleV2.Application.Navigation.RouteSection> = ({
+const RouteSection: React.FC<IACele.Application.Navigation.RouteSection> = ({
     name,
     groups,
 }) => {

@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const FieldContext = createContext<IACeleV2.Context.View.Field<any>>({
+const FieldContext = createContext<IACele.Context.View.Field<any>>({
     name: '',
     computedLabel: '',
     computedReadonly: false,

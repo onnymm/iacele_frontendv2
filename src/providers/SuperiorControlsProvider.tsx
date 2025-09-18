@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SuperiorControlsContext from "../contexts/superiorControls";
 
-const SuperiorControlsProvider: React.FC<IACeleV2.Application.Provider> = ({
+const SuperiorControlsProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

@@ -6,11 +6,11 @@ import TreeField from "./TreeField";
 
 const TreeWrapper = <
     M extends ModelName,
-    F extends IACeleV2.Data.Models.FieldName<M>,
-    R extends IACeleV2.Data.Models.RelatedModelName<M, F>,
+    F extends IACele.Data.Models.FieldName<M>,
+    R extends IACele.Data.Models.RelatedModelName<M, F>,
 >({
     config,
-}: IACeleV2.View.Form.Field.Tree.Wrapper.Params<M, F, R>) => {
+}: IACele.View.Form.Field.Tree.Wrapper.Params<M, F, R>) => {
 
     // Obtención de estados y funciones
     const {

@@ -13,7 +13,7 @@ import { User } from "lucide-react";
  *  - [ {@link React.Dispatch<React.SetStateAction<string>>} ] `onValueChange`:
  *  Función de cambio de estado de valor de usuario.
  */ 
-const InputUser: React.FC<IACeleV2.UI.Input.User.Params> = ({
+const InputUser: React.FC<IACele.UI.Input.User.Params> = ({
     value,
     onValueChange,
 }) => {

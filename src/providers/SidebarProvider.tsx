@@ -1,7 +1,7 @@
 import SidebarContext from "../contexts/sidebarContext";
 import useSidebar from "../hooks/app/useSidebar";
 
-const SidebarProvider: React.FC<IACeleV2.Application.Provider> = ({
+const SidebarProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

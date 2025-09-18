@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const FormTreeContext = createContext<IACeleV2.Context.View.FormTree<any, any, any>>({
+const FormTreeContext = createContext<IACele.Context.View.FormTree<any, any, any>>({
     name: '',
     addConfig: () => null,
     setDataLoaded: () => null,

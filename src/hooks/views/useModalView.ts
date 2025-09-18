@@ -6,7 +6,7 @@ import { useState } from "react";
  *  Este Custom Hook crea e inicializa todos los estados, funciones y funciones
  *  de cambio de estado para usarse en el modal del formulario.
  */ 
-const useModalView = (): IACeleV2.Hook.View.Modal => {
+const useModalView = (): IACele.Hook.View.Modal => {
 
     // Creación de valores para modales
     const { isConfirmOpen, onConfirmOpen, onConfirmOpenChange, confirmMessage, setConfirmMessage } = useConfirmationModal();
@@ -14,7 +14,7 @@ const useModalView = (): IACeleV2.Hook.View.Modal => {
     const { execute, setExecute } = useExecute();
 
     // Inicialización de estado de color de modal
-    const [ color, setColor ] = useState<IACeleV2.UI.UIColor>();
+    const [ color, setColor ] = useState<IACele.UI.UIColor>();
 
     return {
         isConfirmOpen,
@@ -36,7 +36,7 @@ const useModalView = (): IACeleV2.Hook.View.Modal => {
 
 export default useModalView;
 
-const useConfirmationModal = (): IACeleV2.View.Modal.ConfirmationModal => {
+const useConfirmationModal = (): IACele.View.Modal.ConfirmationModal => {
 
     // Obtención de valores desde Hook
     const { isOpen: isConfirmOpen, onOpen: onConfirmOpen, onOpenChange: onConfirmOpenChange } = useDisclosure();
@@ -46,7 +46,7 @@ const useConfirmationModal = (): IACeleV2.View.Modal.ConfirmationModal => {
     return { isConfirmOpen, onConfirmOpen, onConfirmOpenChange, confirmMessage, setConfirmMessage };
 };
 
-const useDoneModal = (): IACeleV2.View.Modal.DoneModal => {
+const useDoneModal = (): IACele.View.Modal.DoneModal => {
 
     // Obtención de valores desde Hook
     const { isOpen: isDoneOpen, onOpen: onDoneOpen, onOpenChange: onDoneOpenChange } = useDisclosure();
@@ -56,13 +56,13 @@ const useDoneModal = (): IACeleV2.View.Modal.DoneModal => {
     return { isDoneOpen, onDoneOpen, onDoneOpenChange, doneMessage, setDoneMessage };
 };
 
-const useExecute = (): IACeleV2.View.Modal.Callback => {
+const useExecute = (): IACele.View.Modal.Callback => {
 
     // Inicialización de función de ejemplo
-    const voidCallback: IACeleV2.Common.VoidCallback = () => (null);
+    const voidCallback: IACele.Common.VoidCallback = () => (null);
 
     // Inicialización de estado de función de ejecución
-    const [ execute, setExecute ] = useState<IACeleV2.Common.VoidCallback>(
+    const [ execute, setExecute ] = useState<IACele.Common.VoidCallback>(
         () => (voidCallback)
     );
 

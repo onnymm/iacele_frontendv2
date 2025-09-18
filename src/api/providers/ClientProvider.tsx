@@ -2,7 +2,7 @@ import React from "react";
 import useAPI from "../../hooks/app/useAPI";
 import APIContext from "../../contexts/apiContext";
 
-const ClientProvider: React.FC<IACeleV2.Application.Provider> = ({
+const ClientProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

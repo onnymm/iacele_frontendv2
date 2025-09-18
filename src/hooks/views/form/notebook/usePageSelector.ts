@@ -3,7 +3,7 @@ import NotebookContext from "../../../../contexts/view/form/NotebookContext";
 
 const usePageSelector = (
     index: number,
-): IACeleV2.Hook.View.Form.PageSelector => {
+): IACele.Hook.View.Form.PageSelector => {
 
     // Obtención de valores desde el contexto
     const { displayedPage, setDisplayedPage } = useContext(NotebookContext);

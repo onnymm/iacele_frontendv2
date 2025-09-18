@@ -1,6 +1,6 @@
 import { House, Users } from "lucide-react";
 
-export const sidebarMenu: IACeleV2.Application._Sidebar.SidebarMenu = [
+export const sidebarMenu: IACele.Application._Sidebar.SidebarMenu = [
     {
         name: 'Menú',
         groups: [

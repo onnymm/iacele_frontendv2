@@ -6,7 +6,7 @@ const NotebookPage = <K extends ModelName>({
     label,
     children,
     invisible,
-}: IACeleV2.View.Form.Notebook.Page.Params<K>) => {
+}: IACele.View.Form.Notebook.Page.Params<K>) => {
 
     // Obtención de función desde el contexto del notebook
     const { addPageContent } = useContext(NotebookContext);

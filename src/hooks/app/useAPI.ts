@@ -3,7 +3,7 @@ import { TokenContext } from "../../contexts/tokenContext";
 import { UserContext as UserDataContext } from "../../contexts/userContext";
 import Client from "../../api/client/client";
 
-export interface APIParams extends IACeleV2.Application.Loading {
+export interface APIParams extends IACele.Application.Loading {
     /**
      *  ### Conexión con el backend
      *  Instancia que maneja la transacción de datos entre el frontend y el servidor.

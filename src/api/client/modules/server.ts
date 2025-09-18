@@ -20,14 +20,14 @@ class Server {
     ) => {
 
         // Creación de los datos a enviar al endpoint
-        const dataRequest: IACeleV2.API.Request.Server.Action<M> = {
+        const dataRequest: IACele.API.Request.Server.Action<M> = {
             'model_name': modelName,
             'record_id': recordId,
             'action': actionName,
         };
 
         // Ejecución de la acción
-        await this.main.post<IACeleV2.API.Request.Server.Action<M>, true>(
+        await this.main.post<IACele.API.Request.Server.Action<M>, true>(
             API_PATH.EXECUTE_ACTION,
             dataRequest,
         );

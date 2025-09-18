@@ -2,7 +2,7 @@ import { useState } from "react";
 import APP_NAME from "../constants/app/name";
 import PageNameContext from "../contexts/pageNameContext";
 
-const PageNameProvider: React.FC<IACeleV2.Application.Provider> = ({
+const PageNameProvider: React.FC<IACele.Application.Provider> = ({
     children,
 }) => {
 

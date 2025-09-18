@@ -1,8 +1,8 @@
 import colorMap from "../../adapter/colorMap";
 
 const useComponentColor = (
-    color: IACeleV2.UI.UIColor | undefined,
-): IACeleV2.Hook.UI.ComponentColor => {
+    color: IACele.UI.UIColor | undefined,
+): IACele.Hook.UI.ComponentColor => {
 
     // Obtención del color adaptado
     const adaptedColor = colorMap[color ?? 'default'];

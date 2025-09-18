@@ -13,7 +13,7 @@ import { useLocation } from "react-router";
  *  ### Parámetros de entrada
  *  Este componente no requiere parámetros de entrada.
  */ 
-const useViewName = (): IACeleV2.Hook.Application.SetViewName => {
+const useViewName = (): IACele.Hook.Application.SetViewName => {
 
     // Obtención de la función de cambio de estado del nombre
     const { setPageName } = useContext(PageNameContext);

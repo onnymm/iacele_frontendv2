@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-const SidebarContext = createContext<IACeleV2.Context.Application.Sidebar>({
+const SidebarContext = createContext<IACele.Context.Application.Sidebar>({
     isSidebarLocked: false,
     setIsSidebarLocked: () => (null),
     isSidebarOpen: false,

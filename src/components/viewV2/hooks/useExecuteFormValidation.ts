@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import useFormRecordContext from "./useFormRecordContext";
 
-const useExecuteFormValidation = <M extends ModelName>(): IACeleV2.Hook.View.Form.ExecuteFormValidation<M> => {
+const useExecuteFormValidation = <M extends ModelName>(): IACele.Hook.View.Form.ExecuteFormValidation<M> => {
 
     // Obtención de los datos del formulario
     const { formRecord, fieldsMetadata } = useFormRecordContext<M>();
@@ -11,7 +11,7 @@ const useExecuteFormValidation = <M extends ModelName>(): IACeleV2.Hook.View.For
 
     // Creación de la función de validación para ser utilizada en caso de requerirse
     const executeFormValidation = useCallback(
-        (validation: IACeleV2.View.UsingRecord<M, boolean> | undefined) => {
+        (validation: IACele.View.UsingRecord<M, boolean> | undefined) => {
 
             // Si el valor de la validación es indefinido...
             if ( validation === undefined ) {
@@ -27,7 +27,7 @@ const useExecuteFormValidation = <M extends ModelName>(): IACeleV2.Hook.View.For
             } else {
 
                 // Inicialización de un nuevo objeto en blanco
-                const formRecordData: Partial<IACeleV2.Data.Models.Record<M>> = {};
+                const formRecordData: Partial<IACele.Data.Models.Record<M>> = {};
 
                 // Se cambian todos los valores indefinidos a nulos en el objeto creado
                 fieldNames.forEach(
@@ -41,7 +41,7 @@ const useExecuteFormValidation = <M extends ModelName>(): IACeleV2.Hook.View.For
                 );
 
                 // Ejecución de validación
-                const resolution = Boolean( validation(formRecordData as IACeleV2.Data.Models.Record<M>) );
+                const resolution = Boolean( validation(formRecordData as IACele.Data.Models.Record<M>) );
 
                 return resolution;
             };

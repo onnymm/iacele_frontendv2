@@ -4,7 +4,7 @@ const PageSelector = ({
     index,
     label,
     invisible,
-}: IACeleV2.View.Form.Notebook.Object.PageSelector) => {
+}: IACele.View.Form.Notebook.Object.PageSelector) => {
 
     // Obtención de valores desde hook
     const { isSelected, selectPage } = usePageSelector(index);

@@ -15,7 +15,7 @@ import Route from "./Route";
  *  - [ `function` ] `routeOnClick`: Función que se ejecuta cuando el
  *  componente un clic.
  */ 
-const Routes: React.FC<IACeleV2.Application._Sidebar.UI.Routes> = ({
+const Routes: React.FC<IACele.Application._Sidebar.UI.Routes> = ({
     isOpen,
     height,
     routes,

@@ -14,7 +14,7 @@ import { LABEL } from "../../../constants/app/ui";
  *  de componentes dentro del modal.
  *  - [ `string` ] `message`: Mensaje a mostrar en el modal.
  */ 
-const ModalDone: React.FC<IACeleV2.View.Modal.Component.Done> = ({
+const ModalDone: React.FC<IACele.View.Modal.Component.Done> = ({
     isOpen,
     onOpenChange,
     message,
