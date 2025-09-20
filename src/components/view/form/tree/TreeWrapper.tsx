@@ -1,5 +1,5 @@
 import FormTreeContext from "../../../../contexts/view/form/FormTreeContext";
-import useTree from "../../../../hooks/views/form/tree/useTree";
+import useFieldTree from "../../../../hooks/views/form/tree/useFieldTree";
 import Tree from "./Tree";
 import TreeContent from "./TreeContent";
 import TreeField from "./TreeField";
@@ -22,7 +22,7 @@ const TreeWrapper = <
         setDataLoaded,
         dataFromAPI,
         metadataFromAPI,
-    } = useTree<M, F, R>();
+    } = useFieldTree<M, F, R>();
 
     return (
         <FormTreeContext.Provider

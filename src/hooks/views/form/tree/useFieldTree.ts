@@ -3,8 +3,10 @@ import useFormRecordContext from "../useFormRecordContext";
 import APIContext from "../../../../contexts/apiContext";
 import useFieldContext from "../field/useFieldContext";
 import useRelatedModelName from "../field/useRelatedModelName";
+import useTreeConfig from "../../useTreeConfig";
+import useAddConfig from "../../useAddConfig";
 
-const useTree = <
+const useFieldTree = <
     M extends ModelName,
     F extends IACele.Data.Models.FieldName<M>,
     R extends IACele.Data.Models.RelatedModelName<M, F>,
@@ -26,7 +28,7 @@ const useTree = <
     // Inicialización de configuración del árbol
     const { treeConfig } = useTreeConfig<R>();
     // Inicialización de función para añadir datos de vista
-    const { addConfig } = AddConfig<R>(treeConfig);
+    const { addConfig } = useAddConfig<R>(treeConfig);
 
     // Inicialización de función de obtención de datos
     const getRecords = useCallback(
@@ -54,9 +56,9 @@ const useTree = <
     return { name, relatedModelName, treeConfig, addConfig, dataLoaded, setDataLoaded, dataFromAPI, metadataFromAPI };
 };
 
-export default useTree;
+export default useFieldTree;
 
-const useAPIData = <M extends ModelName>(): IACele.Hook.View.Form.TreeAPIData<M> => {
+const useAPIData = <M extends ModelName>(): IACele.Hook.View.Form.FieldTreeAPIData<M> => {
 
     // Inicialización de datos desde la API
     const [ dataFromAPI, setDataFromAPI ] = useState<IACele.Data.Models.Record<M>[]>([]);
@@ -84,32 +86,4 @@ const useRecordIds = <M extends ModelName>(
     );
 
     return { recordIds };
-};
-
-const useTreeConfig = <M extends ModelName>(): IACele.Hook.View.Form.TreeConfig<M> => {
-
-    // Inicialización de configuración del árbol
-    const treeConfig = useMemo<IACele.View.Form.Field.Tree.Config<M>[]>(
-        () => ([]), []
-    );
-
-    return { treeConfig };
-};
-
-const AddConfig = <M extends ModelName>(
-    treeConfig: IACele.View.Form.Field.Tree.Config<M>[],
-): IACele.Hook.View.Form.AddConfig<M> => {
-
-    // Inicialización de función para añadir datos de vista
-    const addConfig = useCallback(
-        (config: IACele.View.Form.Field.Tree.Config<M>) => {
-            // Si no se ha añadido la configuración de la vista...
-            if ( !treeConfig.find( (item) => (item.name === config.name) ) ) {
-                // Se añade ésta
-                treeConfig.push(config);
-            };
-        }, [treeConfig]
-    );
-
-    return { addConfig };
 };
