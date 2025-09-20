@@ -26,7 +26,7 @@ class Tree {
 
         // Obtención de los datos de los registros
         const dataResponse = await this.main.post<IACele.API.Request.Crud.Read<M>, IACele.View.Tree.Data<M>>(
-            API_PATH.TREE,
+            API_PATH.FRONTEND.TREE._,
             dataRequest,
         );
 
@@ -47,7 +47,7 @@ class Tree {
 
         // Obtención de los datos
         const dataResponse = await this.main.post<IACele.API.Request.Tree.Get<M>, IACele.View.Tree.Tree<M>>(
-            API_PATH.TREE_GET,
+            API_PATH.FRONTEND.TREE.GET,
             dataRequest,
         );
 

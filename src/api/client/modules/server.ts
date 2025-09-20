@@ -28,7 +28,7 @@ class Server {
 
         // Ejecución de la acción
         await this.main.post<IACele.API.Request.Server.Action<M>, true>(
-            API_PATH.EXECUTE_ACTION,
+            API_PATH.SERVER.ACTION,
             dataRequest,
         );
     };

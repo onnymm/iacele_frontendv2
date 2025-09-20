@@ -25,7 +25,7 @@ class Form {
 
         // Creación del registro y obtención de su ID
         const [ createdId ] = await this.main.post<IACele.API.Request.Form.Create<M>, number[]>(
-            API_PATH.CREATE,
+            API_PATH.CRUD.CREATE,
             data,
         );
 
@@ -45,7 +45,7 @@ class Form {
 
         // Lectura del registro
         const dataResponse = await this.main.post<IACele.API.Request.Form.Read<M>, IACele.View.Form.Data<M>>(
-            API_PATH.FORM,
+            API_PATH.FRONTEND.FORM,
             dataRequest,
         );
 
@@ -67,7 +67,7 @@ class Form {
 
         // Actualización del registro
         await this.main.patch<IACele.API.Request.Form.Update<M>, boolean>(
-            API_PATH.UPDATE,
+            API_PATH.CRUD.UPDATE,
             dataRequest,
         );
     };
@@ -85,7 +85,7 @@ class Form {
 
         // Eliminación del registro
         await this.main.delete<IACele.API.Request.Form.Delete<M>>(
-            API_PATH.DELETE,
+            API_PATH.CRUD.DELETE,
             dataRequest,
         );
     };
@@ -108,7 +108,7 @@ class Form {
         };
 
         const dataResponse = await this.main.post<IACele.API.Request.Form.SearchRead<M>, {id: number, name: string}[]>(
-            API_PATH.SEARCH_READ,
+            API_PATH.CRUD.SEARCH_READ,
             dataRequest,
         );
 

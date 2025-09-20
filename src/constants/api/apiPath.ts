@@ -1,16 +1,26 @@
 const API_PATH = {
     TOKEN: '/token/',
-    ME: '/account/me/',
-    CREATE: '/crud/create/',
-    READ: '/crud/read/',
-    SEARCH_READ: '/crud/search_read/',
-    UPDATE: '/crud/update/',
-    DELETE: '/crud/delete/',
-    EXECUTE_ACTION: '/server/action/',
-    EXECUTE_TASK: '/server/task/',
-    FORM: '/frontend/form/',
-    TREE: '/frontend/tree/',
-    TREE_GET: '/frontend/tree/get',
-};
+    ACCOUNT: {
+        ME: '/account/me/',
+    },
+    CRUD: {
+        CREATE: '/crud/create/',
+        READ: '/crud/read/',
+        SEARCH_READ: '/crud/search_read',
+        UPDATE: '/crud/update',
+        DELETE: '/crud/delete',
+    },
+    SERVER: {
+        ACTION: '/server/action/',
+        TASK: '/server/task/',
+    },
+    FRONTEND: {
+        FORM: '/frontend/form/',
+        TREE: {
+            _: '/frontend/tree/',
+            GET: '/frontend/tree/get/',
+        },
+    },
+}
 
 export default API_PATH;

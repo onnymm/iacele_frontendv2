@@ -90,7 +90,7 @@ class Auth {
 
             // Intento de obtención de los datos
             const userData = await this.main.get<undefined, IACele.Application.CurrentUserData>(
-                API_PATH.ME,
+                API_PATH.ACCOUNT.ME,
                 undefined,
             );
 
