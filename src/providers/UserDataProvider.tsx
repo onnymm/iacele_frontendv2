@@ -1,4 +1,4 @@
-import { UserContext } from "../contexts/userContext";
+import { UserContext } from "../contexts/UserContext";
 import useUserData from "../hooks/app/useUserData";
 
 const UserDataProvider: React.FC<IACele.Application.Provider> = ({

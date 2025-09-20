@@ -1,6 +1,6 @@
 import { useContext, useMemo, useState } from "react";
 import { TokenContext } from "../../contexts/tokenContext";
-import { UserContext as UserDataContext } from "../../contexts/userContext";
+import { UserContext as UserDataContext } from "../../contexts/UserContext";
 import Client from "../../api/client/client";
 
 export interface APIParams extends IACele.Application.Loading {

@@ -1,9 +1,9 @@
 import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, DropdownTrigger } from "@heroui/react";
 import { useContext } from "react";
-import { UserContext } from "../../../../contexts/userContext";
 import LogoutButton from "./LogoutButton";
 import DarkModeSwitch from "../../DarkModeSwitch";
 import { TITLE } from "../../../../constants/app/ui";
+import { UserContext } from "../../../../contexts/UserContext";
 
 const NavbarSettings = (): React.JSX.Element => {
 
