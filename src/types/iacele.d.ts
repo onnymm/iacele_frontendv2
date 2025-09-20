@@ -1157,6 +1157,7 @@ declare namespace IACele {
                 | 'date'
                 | 'time'
                 | 'one2many'
+                | 'many2many'
 
                 // Extensiones
                 | 'check'

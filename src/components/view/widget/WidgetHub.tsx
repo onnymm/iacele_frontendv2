@@ -13,6 +13,7 @@ const WidgetHub = {
     'date': DateWidget,
     'time': TimeWidget,
     'one2many': One2ManyTagsWidget,
+    'many2many': One2ManyTagsWidget,
 
     'check': CheckWidget,
     'switch': SwitchWidget,
