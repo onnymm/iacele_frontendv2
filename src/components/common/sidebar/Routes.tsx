@@ -29,7 +29,7 @@ const Routes: React.FC<IACele.Application._Sidebar.UI.Routes> = ({
             style={{'height': isOpen && height ? height : 0}}
             className="flex flex-col gap-2 mx-8 px-4 overflow-y-hidden text-gray-300/70 transition-height duration-300"
         >
-            <div ref={listRef} className="flex flex-col gap-2 py-2 w-full h-min">
+            <div ref={listRef} className="flex flex-col gap-1 py-2 w-full h-min">
                 {routes.map(
                     (route, index) => {
                         return (

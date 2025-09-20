@@ -19,7 +19,7 @@ const Route: React.FC<IACele.Application._Sidebar.UI.Route> = ({
     return (
         <button
             onClick={onClick}
-            className={`${isBaseRoute(location.pathname, route.path) ? "text-white" : ""} text-start sm:hover:text-white active:text-white duration-300`}
+            className={`${isBaseRoute(location.pathname, route.path) ? "text-white" : ""} text-start sm:hover:text-white active:text-white text-sm duration-300`}
         >
             {route.name}
         </button>

@@ -13,8 +13,8 @@ const StickySectionTag: React.FC<GenericWrapperComponent> = ({
 }) => {
 
     return (
-        <div className="top-0 z-10 sticky mb-2 select-none">
-            <span className="py-2 font-medium text-gray-300/50 text-sm uppercase">
+        <div className="top-0 z-10 sticky flex items-center pb-1 pl-2 h-min select-none">
+            <span className="font-medium text-gray-300/50 text-xs uppercase">
                 {children}
             </span>
         </div>

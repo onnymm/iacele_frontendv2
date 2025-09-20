@@ -28,9 +28,7 @@ const RouteSection: React.FC<IACele.Application.Navigation.RouteSection> = ({
             {/* Mapeo de grupos */}
             {groups.map(
                 (routeGroup, index) => (
-                    <span key={index}>
-                        <RouteGroup { ...routeGroup } />
-                    </span>
+                    <RouteGroup { ...routeGroup } key={index} />
                 )
             )}
         </div>

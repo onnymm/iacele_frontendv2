@@ -9,7 +9,7 @@ import RouteSection from "./RouteSection";
 const SidebarMenu = () => {
 
     return (
-        <div className="flex flex-col gap-4 px-4 border h-full">
+        <div className="flex flex-col gap-4 px-4 h-full overflow-y-scroll scrollbar-hide">
             {sidebarMenu.map(
                 (section, index) => (
                     <RouteSection {...section} key={index} />
