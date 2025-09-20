@@ -3,7 +3,7 @@ import React from "react";
 import Sizeable from "../common/Sizeable";
 import useComponentColor from "../../hooks/app/useComponentColor";
 
-const Button: React.FC<IACele.UI.Button.Params> = ({
+const Button: React.FC<IACele.UI.DeprecatedButton.Params> = ({
     isIconOnly,
     startContent,
     endContent,

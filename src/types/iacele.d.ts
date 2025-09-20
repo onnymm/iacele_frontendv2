@@ -103,7 +103,7 @@ declare namespace IACele {
                  *  ### Está deshabilitado
                  *  Estado que indica que el componente está deshabilitado para interactuar con él.
                  */ 
-                isDisabled?: boolean;
+                isDisabled: boolean;
             };
 
             interface _HasTTypeName {
@@ -128,6 +128,14 @@ declare namespace IACele {
                  *  Estado que indica si el modal está abierto.
                  */ 
                 isOpen: boolean;
+            };
+
+            interface IsAsync {
+                /** 
+                 *  ### Es asíncrono
+                 *  Parámetro que indica que el componente es asíncrono.
+                 */ 
+                isAsync: boolean;
             };
 
         };
@@ -3084,18 +3092,31 @@ declare namespace IACele {
 
         };
 
-        declare namespace Button {
+        declare namespace DeprecatedButton {
 
             type Params = (
                 & IACele._Base._EventCallback._OnPress
                 & IACele._Base._State._EndContent
-                & IACele._Base._State._IsDisabled
+                & OptionalAttribute<IACele._Base._State._IsDisabled>
                 & IACele._Base._State._IsIconOnly
                 & IACele._Base._State._StartContent
                 & IACele._Base._SupportsClassName
                 & IACele._Base._SupportsOptionalChildren
                 & IACele.UI._Base._Colorizable
             );
+
+        };
+
+        declare namespace Button {
+
+            type Params = (
+                & IACele.UI._Base._Colorizable
+                & IACele._Base._EventCallback._OnPress
+                & OptionalAttribute<GenericWrapperComponent>
+                & IACele.UI._Base._HasIcon
+                & OptionalAttribute<IACele._Base._State.IsAsync>
+                & OptionalAttribute<IACele._Base._State._IsDisabled>
+            )
 
         };
 
