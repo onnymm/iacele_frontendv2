@@ -67,6 +67,7 @@ declare namespace Backend {
 
         'base.model.access': {
             model_id: TType.Many2One<'not_null'>;
+            label: TType.Char<'not_null'>;
         };
 
         'base.model.access.groups': {
