@@ -1,5 +1,5 @@
 import { useState } from "react";
-import NavbarContext from "../contexts/navbarContext";
+import DynamicControlsContext from "../contexts/dynamicControlsContext";
 
 const DynamicControlsProvider: React.FC<GenericWrapperComponent> = ({
     children,
@@ -9,9 +9,9 @@ const DynamicControlsProvider: React.FC<GenericWrapperComponent> = ({
     const [ dynamicControls, setDynamicControls ] = useState<React.JSX.Element | null>(null);
 
     return (
-        <NavbarContext.Provider value={{ dynamicControls, setDynamicControls }}>
+        <DynamicControlsContext.Provider value={{ dynamicControls, setDynamicControls }}>
             {children}
-        </NavbarContext.Provider>
+        </DynamicControlsContext.Provider>
     );
 };
 

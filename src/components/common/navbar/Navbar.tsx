@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import ButtonSidebarMenu from "./ButtonSidebarMenu";
-import NavbarContext from "../../../contexts/navbarContext";
+import DynamicControlsContext from "../../../contexts/dynamicControlsContext";
 import Breadcrumb from "./breadcrumbs/Breadcrumb";
 import Search from "./Search";
 import MainControlsContext from "../../../contexts/mainControlsContext";
@@ -33,11 +33,13 @@ const Navbar = (): (React.JSX.Element) => {
         <nav id="navbar" className="top-0 z-20 sticky flex flex-col gap-2 bg-white dark:bg-[#1f2f3f] shadow p-2 w-full transition select-none">
 
             <div id="navbar-header" className="flex flex-row justify-between items-start h-min min-h-12">
-                <div className="flex flex-row justify-between items-center px-4 sm:w-72 h-12">
-                    <h1 onClick={() => navigate('/')} id="navbar-logo" className="hidden sm:block cursor-pointer">{APP_NAME}</h1>
-                    <ButtonSidebarMenu />
+                <div className="flex w-36 sm:w-72 h-full">
+                    <div className="flex flex-row justify-between items-center p-0 sm:px-4 sm:w-72 h-12">
+                        <h1 onClick={() => navigate('/')} id="navbar-logo" className="hidden sm:block cursor-pointer">{APP_NAME}</h1>
+                        <ButtonSidebarMenu />
+                    </div>
+                    <h1 onClick={() => navigate('/')} id="navbar-logo" className="sm:hidden flex justify-center items-center w-24 h-full cursor-pointer">{APP_NAME}</h1>
                 </div>
-                <h1 onClick={() => navigate('/')} id="navbar-logo" className="sm:hidden block cursor-pointer">{APP_NAME}</h1>
                 <div className="hidden lg:flex flex-row items-center min-h-12">
                     {superiorControls}
                 </div>
@@ -57,7 +59,7 @@ export default React.memo(Navbar);
 const DynamicNavbar = () => {
 
     // Obtención de estado para mostrar controles dinámicos en la barra de navegación
-    const { dynamicControls } = useContext(NavbarContext);
+    const { dynamicControls } = useContext(DynamicControlsContext);
     const { mainControls } = useContext(MainControlsContext);
     // Obtención de valores desde el contexto
     const { isSidebarOpen, isSidebarLocked } = useContext(SidebarContext);
@@ -90,6 +92,9 @@ const DynamicNavbar = () => {
                                 <div className="flex flex-row flex-grow justify-between h-10">
                                     <div className="flex flex-row flex-grow justify-between h-10">
                                         <Search />
+                                        <div className="px-2 w-full">
+                                            <Breadcrumb />
+                                        </div>
                                         <Options />
                                     </div>
                                 </div>
@@ -97,11 +102,10 @@ const DynamicNavbar = () => {
                             {( mainControls || dynamicControls ) &&
                                 <div className="flex flex-row flex-shrink">
                                     <div className={`${isSidebarOpen && isSidebarLocked ? "w-72" : "w-0"} h-full transition-width duration-300`}/>
-                                    <div className="flex flex-row items-center gap-1">
+                                    <div className="flex flex-row justify-between gap-1 w-full">
                                         <div className="flex flex-row items-center gap-1">
                                             {mainControls}
                                         </div>
-                                        <Breadcrumb />
                                         <DynamicControls />
                                     </div>
                                 </div>
@@ -134,7 +138,7 @@ const Options = () => {
 const DynamicControls = () => {
 
     // Obtención de estado para mostrar controles dinámicos en la barra de navegación
-    const { dynamicControls } = useContext(NavbarContext);
+    const { dynamicControls } = useContext(DynamicControlsContext);
 
     // Si no existe ningún componente dentro de los controles dinámicos se termina la ejecución
     if ( !dynamicControls ) return;
