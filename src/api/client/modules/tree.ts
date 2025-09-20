@@ -1,4 +1,5 @@
 import API_PATH from "../../../constants/api/apiPath";
+import settings from "../../../settings/app";
 import Client from "../client";
 
 class Tree {
@@ -21,12 +22,32 @@ class Tree {
         const dataRequest: IACele.API.Request.Crud.Read<M> = {
             'model_name': modelName,
             'record_ids': recordIds,
-            
         };
 
         // Obtención de los datos de los registros
         const dataResponse = await this.main.post<IACele.API.Request.Crud.Read<M>, IACele.View.Tree.Data<M>>(
             API_PATH.TREE,
+            dataRequest,
+        );
+
+        return dataResponse;
+    };
+
+    get = async <M extends ModelName>(
+        modelName: M,
+        page: number,
+    ) => {
+
+        // Se construyen los datos a enviar al backend
+        const dataRequest: IACele.API.Request.Tree.Get<M> = {
+            'model_name': modelName,
+            'page': page,
+            'items_per_page': settings.view.defaultItemsPerPage,
+        };
+
+        // Obtención de los datos
+        const dataResponse = await this.main.post<IACele.API.Request.Tree.Get<M>, IACele.View.Tree.Tree<M>>(
+            API_PATH.TREE_GET,
             dataRequest,
         );
 

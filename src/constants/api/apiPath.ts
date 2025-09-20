@@ -10,6 +10,7 @@ const API_PATH = {
     EXECUTE_TASK: '/server/task/',
     FORM: '/frontend/form/',
     TREE: '/frontend/tree/',
+    TREE_GET: '/frontend/tree/get',
 };
 
 export default API_PATH;
