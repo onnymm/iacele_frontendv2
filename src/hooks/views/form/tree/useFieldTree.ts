@@ -3,7 +3,6 @@ import useFormRecordContext from "../useFormRecordContext";
 import APIContext from "../../../../contexts/apiContext";
 import useFieldContext from "../field/useFieldContext";
 import useRelatedModelName from "../field/useRelatedModelName";
-import useTreeConfig from "../../useTreeConfig";
 import useAddConfig from "../../useAddConfig";
 
 const useFieldTree = <
@@ -87,3 +86,14 @@ const useRecordIds = <M extends ModelName>(
 
     return { recordIds };
 };
+
+const useTreeConfig = <M extends ModelName>(): IACele.Hook.View.Form.TreeConfig<M> => {
+
+    // Inicialización de configuración del árbol
+    const treeConfig = useMemo<IACele.View.List.Tree.Config<M>[]>(
+        () => ([]), []
+    );
+
+    return { treeConfig };
+};
+

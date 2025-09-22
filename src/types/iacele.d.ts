@@ -950,8 +950,6 @@ declare namespace IACele {
 
     };
 
-    // -------------------
-
     declare namespace View {
 
         declare namespace _Base {
@@ -1084,6 +1082,33 @@ declare namespace IACele {
                 step?: number;
             };
 
+            interface _OpenIn {
+                /** 
+                 *  ### Abrir en...
+                 *  Parámetro que especifica una ruta en donde se puede visualizar el detalle
+                 *  del registro.
+                 */ 
+                open: string;
+            };
+
+            interface _CanCreate {
+                /** 
+                 *  ### Puede crear
+                 *  Parámetro que indica que se puede realizar la creación de registros desde
+                 *  la vista.
+                 */ 
+                create: boolean;
+            };
+
+        };
+
+        declare namespace UI {
+
+            type NewRecord = (
+                & OptionalAttribute<IACele.View._Base._OpenIn>
+                & IACele.View._Base._CanCreate
+            );
+
         };
 
         interface HasFieldName<M extends ModelName> {
@@ -1115,25 +1140,25 @@ declare namespace IACele {
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como información.
              */ 
-            info?: _UsingRecord<M, boolean>;
+            info?: UsingRecord<M, boolean>;
             /** 
              *  #### Color de decoración (Éxito)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como éxito.
              */ 
-            success?: _UsingRecord<M, boolean>;
+            success?: UsingRecord<M, boolean>;
             /** 
              *  #### Color de decoración (Advertencia)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como advertencia.
              */ 
-            warning?: _UsingRecord<M, boolean>;
+            warning?: UsingRecord<M, boolean>;
             /** 
              *  #### Color de decoración (Peligro)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como peligro.
              */ 
-            danger?: _UsingRecord<M, boolean>;
+            danger?: UsingRecord<M, boolean>;
         };
 
         interface Reload {
@@ -1464,7 +1489,11 @@ declare namespace IACele {
 
                     };
 
-                    interface Config<M extends ModelName> extends IACele.View.HasFieldName<M>{
+                    type _Config<M extends ModelName> = (
+                        & IACele.View.HasFieldName<M>
+                        & IACele.View._Base._HasWidgetName
+                    )
+                    interface Config<M extends ModelName> extends _Config<M>{
                         /** 
                          *  ### Etiqueta de campo
                          *  Etiqueta de campo.
@@ -2343,6 +2372,118 @@ declare namespace IACele {
             & IACele.View.ComputedIsInvisible
         );
 
+        declare namespace List {
+
+            declare namespace Tree {
+
+                declare namespace _Object {
+
+                    type _Config<M extends ModelName> = (
+                        & IACele.View.HasFieldName<M>
+                        & IACele.View._Base._HasOptionalLabel
+                        & IACele.View._Base._ConditionalColorDecoration<M>
+                    );
+
+                };
+
+                declare namespace _State {
+
+                    interface _TotalRecords {
+                        /** 
+                         *  ### Total de registros
+                         *  Cantidad total de registros encontrados en el modelo que cumplen con los
+                         *  criterios especificados en la búsqueda.
+                         */ 
+                        totalRecords: number;
+                    };
+
+                    interface _SetTotalRecords {
+                        /** 
+                         *  ### Cambio de total de registros
+                         *  Función de cambio de estado de total de registros encontrados en el modelo
+                         *  que cumplen con los criterios especificados en la búsqueda.
+                         */ 
+                        setTotalRecords: React.Dispatch<React.SetStateAction<number>>;
+                    };
+
+                    interface ModelLabel {
+                        /** 
+                         *  ### Etiqueta de campo
+                         *  Etiqueta de campo usada para mostrar en nombre de vista.
+                         */ 
+                        modelLabel: string;
+                    };
+
+                    interface Page {
+                        /** 
+                         *  ### Número de página
+                         *  Número de página de registros a visualizar.
+                         */ 
+                        page: number;
+                    };
+
+                    interface SetPage {
+                        /** 
+                         *  ### Cambio de número de página
+                         *  Función de cambio de número de página de registros a visualizar.
+                         */ 
+                        setPage: React.Dispatch<React.SetStateAction<number>>;
+                    };
+
+                };
+
+                type Config<M extends ModelName> = _Object._Config<M>;
+
+                interface AddConfig <M extends ModelName>{
+                    /** 
+                     *  ### Añadir configuración de vista de árbol
+                     *  Función para añadir declaración de vista de columna y atributos de ésta
+                     *  para la renderización de vista de árbol.
+                     */ 
+                    addConfig: (config: Config<M>) => (void);
+                };
+
+                interface ViewConfig <M extends ModelName> {
+                    /** 
+                     *  ### Configuración de vista de árbol
+                     *  Declaración de vista de columna y atributos de ésta para la renderización
+                     *  de vista de árbol.
+                     */ 
+                    config: Config<M>[];
+                };
+
+                declare namespace Children {
+
+                    interface Params<M extends ModelName>{
+                        /** 
+                         *  ### Campo de árbol
+                         *  Componente que renderiza una columna de la vista de árbol.
+                         */ 
+                        Field: React.FC<Config<M>>;
+                        /** 
+                         *  ### Campos de árbol
+                         *  Componente que se usa para envolver declaraciones de campos.
+                         */ 
+                        Fields: React.FC<GenericWrapperComponent>;
+                    };
+
+                    type Callback<M extends ModelName> = (components: Params<M>) => (React.ReactNode);
+
+                };
+
+                type _Component<M extends ModelName> = (
+                    & View._Base._RequiresModelName<M>
+                    & OptionalAttribute<IACele.View._Base._OpenIn>
+                    & OptionalAttribute<IACele.View._Base._CanCreate>
+                )
+                interface Component <M extends ModelName> extends _Component<M>{
+                    children: IACele.View.List.Tree.Children.Callback<M>;
+                };
+
+            };
+
+        };
+
     };
 
     declare namespace API {
@@ -2376,7 +2517,7 @@ declare namespace IACele {
                 };
 
                 interface _SupportsSearchCriteria<M extends ModelName> {
-                    'search_criteria': IACele.Data.Models.CriteriaStructure<M>;
+                    'search_criteria'?: IACele.Data.Models.CriteriaStructure<M>;
                 };
 
                 interface _SupportSlicing {
@@ -2387,6 +2528,14 @@ declare namespace IACele {
                 interface _SupportSorting {
                     'sortby'?: boolean;
                     'ascending'?: boolean;
+                };
+
+                interface _RequiresPageNumber {
+                    'page': number;
+                };
+
+                interface _RequiresItemsPerPage {
+                    'items_per_page': number;
                 };
 
             };
@@ -2447,6 +2596,18 @@ declare namespace IACele {
 
             };
 
+            declare namespace Tree {
+
+                type Get<M extends ModelName> = (
+                    & _Base._RequiresModelName<M>
+                    & _Base._SupportsSearchCriteria<M>
+                    & _Base._SupportSorting
+                    & _Base._RequiresPageNumber
+                    & _Base._RequiresItemsPerPage
+                );
+
+            };
+
             declare namespace Server {
 
                 type Action<M extends ModelName> = (
@@ -2491,6 +2652,34 @@ declare namespace IACele {
                  *  Detalle del error.
                  */ 
                 detail: string;
+            };
+
+            declare namespace View {
+
+                interface Tree <M extends ModelName>{
+                    /** 
+                     *  ### Datos de registros
+                     *  Datos de los registros encontrados en la búsqueda.
+                     */ 
+                    'records': IACele.Data.Models.Record<M>[];
+                    /** 
+                     *  ### Campos del modelo
+                     *  Datos de los campos, usados para renderizar los widgets correspondientes en
+                     *  la vista.
+                     */ 
+                    'fields': IACele.Data.Models.Field<M>[];
+                    /** 
+                     *  ### Conteo de registros
+                     *  Conteo de los registros encontrados en la búsqueda.
+                     */ 
+                    'count': number;
+                    /** 
+                     *  ### Modelo
+                     *  Etiqueta del modelo.
+                     */ 
+                    'model': string;
+                };
+
             };
 
         };
@@ -3422,13 +3611,19 @@ declare namespace IACele {
                     & IACele.View.Form.Alert._Base._Close
                 );
 
-                type TreeAPIData<M extends ModelName> = (
+                type FieldTreeAPIData<M extends ModelName> = (
                     & IACele.View.Tree._Base._DataFromAPI<M>
                     & IACele.View.Tree._Base._MetadataFromAPI<M>
                     & IACele.View.Tree._Base._SetDataFromAPI<M>
                     & IACele.View.Tree._Base._SetMetadataFromAPI<M>
                     & IACele.View.Tree._Base._DataLoaded
                     & IACele.View.Tree._Base._SetDataLoaded
+                );
+
+                type TreeAPIData<M extends ModelName> = (
+                    & FieldTreeAPIData<M>
+                    & IACele.View.List.Tree._State._TotalRecords
+                    & IACele.View.List.Tree._State._SetTotalRecords
                 );
 
                 type TreeRecordIDs = IACele.View.Tree._Base.RecordIDs;
@@ -3471,6 +3666,30 @@ declare namespace IACele {
                 & IACele.View.Modal.ConfirmationModal
                 & IACele.View.Modal.DoneModal
             );
+
+        };
+
+        declare namespace List {
+
+            declare namespace Tree {
+
+                type AddConfig<M extends ModelName> = IACele.View.List.Tree.AddConfig<M>;
+
+                type Config<M extends ModelName> = IACele.View.List.Tree.ViewConfig<M>;
+
+                type Main<M extends ModelName> = (
+                    & IACele.View.List.Tree.ViewConfig<M>
+                    & IACele.View.List.Tree.AddConfig<M>
+                    & IACele.View.List.Tree._State.Page
+                    & IACele.View.List.Tree._State.SetPage
+                    & IACele.View.Tree._Base._DataLoaded
+                    & IACele.View.Tree._Base._SetDataLoaded
+                    & IACele.View.Tree._Base._DataFromAPI<M>
+                    & IACele.View.Tree._Base._MetadataFromAPI<M>
+                    & IACele.View.List.Tree._State._TotalRecords
+                );
+
+            };
 
         };
 
@@ -3573,6 +3792,23 @@ declare namespace IACele {
                 & IACele.View.Form.Notebook._Base._DisplayedPage
                 & IACele.View.Form.Notebook._Base._SetDisplayedPage
             );
+
+            declare namespace List {
+
+                type Tree<M extends ModelName> = (
+                    & IACele.View._Base._RequiresModelName<M>
+                    & IACele.View.List.Tree.ViewConfig<M>
+                    & IACele.View.List.Tree.AddConfig<M>
+                    & IACele.View.Tree._Base._DataFromAPI<M>
+                    & IACele.View.Tree._Base._MetadataFromAPI<M>
+                    & IACele.View.List.Tree._State._TotalRecords
+                    & IACele.View.Tree._Base._DataLoaded
+                    & IACele.View.List.Tree._State.ModelLabel
+                    & OptionalAttribute<IACele.View._Base._OpenIn>
+                    & IACele.View._Base._CanCreate
+                );
+
+            };
 
         };
 
