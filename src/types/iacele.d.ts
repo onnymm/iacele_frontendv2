@@ -2700,37 +2700,55 @@ declare namespace IACele {
 
         type Provider = IACele._Base._SupportsChildren;
 
+        interface _AccessGroups {
+            /** 
+             *  ### ID
+             *  ID del grupo.
+             */ 
+            id: Data.Models.TType.Integer<'not_null'>;
+            /** 
+             *  ### Nombre
+             *  Nombre del grupo.
+             */ 
+            name: Data.Models.TType.Char<'not_null'>;
+        };
+
         interface CurrentUserData {
             /** 
              *  ### ID
              *  ID del usuario.
              */ 
-            'id': number | undefined;
-            /** 
-             *  ### Correo
-             *  Correo del usuario.
-             */ 
-            'login': string;
+            'id': Data.Models.TType.Integer<'not_null'>;
             /** 
              *  ### Nombre
              *  Nombre del usuario.
              */ 
-            'name': string;
+            'name': Data.Models.TType.Char<'not_null'>;
             /** 
-             *  ### ID de Odoo
-             *  ID de usuario en Odoo del usuario.
+             *  ### Correo
+             *  Correo del usuario.
              */ 
-            'odoo_id'?: number;
+            'login': Data.Models.TType.Char<'not_null'>;
             /** 
-             *  ### Fecha de creación
-             *  Fecha de creación del registro del usuario.
+             *  ### Activo
+             *  El usuario es activo.
              */ 
-            'create_date': string;
+            'active': Data.Models.TType.Boolean<'not_null'>;
             /** 
-             *  ### Fecha de última modificación
-             *  Fecha de última modificación del registro del usuario.
+             *  ### Sincrpnización activa
+             *  La sincronización del usuario está activa.
              */ 
-            'write_date': string;
+            'sync': Data.Models.TType.Boolean<'not_null'>;
+            /** 
+             *  ### IDs de rol
+             *  IDs de rol de usuario
+             */ 
+            'role_ids': Data.Models.TType.Integer<'not_null'>[];
+            /** 
+             *  ### Grupos de acceso
+             *  Grupos de acceso a los que pertenece el usuario.
+             */ 
+            'groups': _AccessGroups[];
         };
 
         type _Breadcrumbs = (
