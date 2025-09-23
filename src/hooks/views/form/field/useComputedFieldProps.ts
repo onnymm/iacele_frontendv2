@@ -1,13 +1,15 @@
 import useFormRecordContext from "../useFormRecordContext";
 import useIsInvisible from "./useIsInvisible";
 import useExecuteFormValidation from "../useExecuteFormValidation";
+import useIsAuthorized from "../useIsAuthorized";
 
 const useComputedFieldProps = <M extends ModelName>(
     name: IACele.Data.Models.FieldName<M>,
     label: string | undefined,
-    readonly: IACele.View.UsingRecord<M, boolean> | undefined,
-    invisible: IACele.View.UsingRecord<M, boolean> | undefined,
+    readonly: IACele.View.UsingRecordAndUser<M, boolean> | undefined,
+    invisible: IACele.View.UsingRecordAndUser<M, boolean> | undefined,
     decoration: IACele.View.ColorDecoration<M> | undefined,
+    groups: string[] | undefined,
 ): IACele.Hook.View.Form.ComputedFieldProps => {
 
     // Obtención del tipo de dato del campo
@@ -20,8 +22,10 @@ const useComputedFieldProps = <M extends ModelName>(
     const { computedIsInvisible } = useIsInvisible<M>(invisible);
     // Obtención de color de decoración del campo
     const { computedDecorationColor } = useFieldDecoration<M>(decoration);
+    // Obtención de si el usuario está autorizado para visualizar el componente
+    const { computedIsAuthorized } = useIsAuthorized(groups);
 
-    return { ttype, computedLabel, computedReadonly, computedIsInvisible, computedDecorationColor };
+    return { ttype, computedLabel, computedReadonly, computedIsInvisible, computedDecorationColor, computedIsAuthorized };
 };
 
 export default useComputedFieldProps;
@@ -49,7 +53,7 @@ const useFieldDecoration = <M extends ModelName>(
 
 const useFieldComputedReadonly = <M extends ModelName>(
     name: IACele.Data.Models.FieldName<M>,
-    readonly: IACele.View.UsingRecord<M, boolean> | undefined,
+    readonly: IACele.View.UsingRecordAndUser<M, boolean> | undefined,
 ): IACele.View.ComputedReadonly => {
 
     // Obtención de los datos del formulario

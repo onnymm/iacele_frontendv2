@@ -3,9 +3,11 @@ import NotebookContext from "../../../../contexts/view/form/NotebookContext";
 import NotebookPage from "./NotebookPage";
 import PageSelector from "./PageSelector";
 import Pages from "./Pages";
+import useIsAuthorized from "../../../../hooks/views/form/useIsAuthorized";
 
 const Notebook = <M extends ModelName>({
     children,
+    groups,
 }: IACele.View.Form.Notebook.Params<M>) => {
 
     // Obtención de valores y funciones
@@ -18,6 +20,12 @@ const Notebook = <M extends ModelName>({
         displayedPage,
         setDisplayedPage,
     } = useNotebook();
+
+    // Obtención de si el usuario está autorizado para visualizar el componente
+    const { computedIsAuthorized } = useIsAuthorized(groups);
+
+    // Si el usuario no está autorizado para visualiar el componente se retorna un valor nulo
+    if ( !computedIsAuthorized ) return null;
 
     return (
         <NotebookContext.Provider value={{ addPageContent, reloadNotebook, displayedPage, setDisplayedPage }}>

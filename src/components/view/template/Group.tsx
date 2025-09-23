@@ -1,13 +1,20 @@
 import useIsInvisible from "../../../hooks/views/form/field/useIsInvisible";
+import useIsAuthorized from "../../../hooks/views/form/useIsAuthorized";
 
 const Group = <M extends ModelName>({
     children,
     label,
     invisible,
+    groups,
 }: IACele.View.Form.Group.Params<M>): React.ReactNode => {
 
     // Obtención del valor computado de si el componente es invisible
     const { computedIsInvisible } = useIsInvisible<M>(invisible);
+    // Obtención de si el usuario está autorizado para visualizar el componente
+    const { computedIsAuthorized } = useIsAuthorized(groups);
+
+    // Si el usuario no está autorizado para visualiar el componente se retorna un valor nulo
+    if ( !computedIsAuthorized ) return null;
 
     // Si el valor computado de invisibilidad es verdadero, se termina la ejecución
     if ( computedIsInvisible ) return;

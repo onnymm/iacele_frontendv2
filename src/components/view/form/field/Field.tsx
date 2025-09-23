@@ -20,6 +20,7 @@ const Field = <
     step,
     widget,
     domain = [],
+    groups,
     children,
 }: IACele.View.Form.Field.Params<M, F>) => {
 
@@ -30,10 +31,14 @@ const Field = <
         computedLabel,
         computedReadonly,
         ttype,
-    } = useComputedFieldProps<M>(name, label, readonly, invisible, decoration);
+        computedIsAuthorized,
+    } = useComputedFieldProps<M>(name, label, readonly, invisible, decoration, groups);
 
     // Obtención de los datos del formulario
     const { formRecord, formMode } = useFormRecordContext<M>();
+
+    // Si el usuario no está autorizado para visualiar el componente se retorna un valor nulo
+    if ( !computedIsAuthorized ) return null;
 
     // Si el campo se computa como invisible se retorna un valor nulo
     if ( computedIsInvisible ) return null;

@@ -27,7 +27,10 @@ const useNotebook = (): IACele.Hook.View.Form.Notebook => {
 
     // Inicialización de función para añadir contenido a notebook
     const addPageContent = useCallback<IACele.View.Form.Notebook.Callback.SetPageContent>(
-        (label, content, invisible) => {
+        (label, content, invisible, computedIsAuthorized) => {
+
+            // Si el contenido no está autorizado para ser mostrado...
+            if ( !computedIsAuthorized ) return;
 
             // Creación de copia de los datos
             const pagesCopy = [ ...pages ];

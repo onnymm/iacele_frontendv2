@@ -7,6 +7,7 @@ import useAsyncDisabled from "../../../../hooks/app/useAsyncDisabled";
 import Sizeable from "../../../common/Sizeable";
 import { Button } from "@heroui/react";
 import useExecuteFormValidation from "../../../../hooks/views/form/useExecuteFormValidation";
+import useIsAuthorized from "../../../../hooks/views/form/useIsAuthorized";
 
 const Action = <K extends ModelName>({
     name,
@@ -15,6 +16,7 @@ const Action = <K extends ModelName>({
     invisible,
     confirm,
     notify,
+    groups,
 }: IACele.View.Form.Action.Params<K>) => {
 
     // Obtención de color computado
@@ -25,7 +27,11 @@ const Action = <K extends ModelName>({
     const { computedIsInvisible } = useIsActionInvisible(invisible);
     // Inicialización de estado deshabilitado
     const [ isDisabled ] = useAsyncDisabled(false);
+    // Obtención de si el usuario está autorizado para visualizar el componente
+    const { computedIsAuthorized } = useIsAuthorized(groups);
 
+    // Si el usuario no está autorizado para visualiar el componente se retorna un valor nulo
+    if ( !computedIsAuthorized ) return null;
     // Si el componente es invisible se termina la ejecución
     if ( computedIsInvisible ) return;
 

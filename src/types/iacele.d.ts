@@ -1121,6 +1121,15 @@ declare namespace IACele {
                 create: boolean;
             };
 
+            interface _Groups {
+                /** 
+                 *  ### Grupos
+                 *  Atributo que indica grupos a los que debe pertenecer el usuario para que el
+                 *  componente le sea mostrado.
+                 */ 
+                groups: string[];
+            };
+
         };
 
         declare namespace UI {
@@ -1400,6 +1409,7 @@ declare namespace IACele {
                         & View._Base._HasMinValue
                         & View._Base._HasMaxValue
                         & View._Base._HasNumericStep
+                        & OptionalAttribute<IACele.View._Base._Groups>
                     );
                     /** 
                      *  ### Parámetros base de campo de formulario
@@ -1899,6 +1909,7 @@ declare namespace IACele {
                 type Params<M extends ModelName> = (
                     & IACele.View._Base._HasOptionalLabel
                     & IACele.View._Base._HasOptionalInvisible<M>
+                    & OptionalAttribute<IACele.View._Base._Groups>
                     & GenericWrapperComponent
                 );
 
@@ -1909,6 +1920,7 @@ declare namespace IACele {
                 type _Params<M extends ModelName> = (
                     & IACele.View._Base._HasOptionalInvisible<M>
                     & IACele.UI._Base._Colorizable
+                    & OptionalAttribute<IACele.View._Base._Groups>
                 );
                 interface Params<M extends ModelName> extends _Params<M>{
                     /** 
@@ -1948,6 +1960,7 @@ declare namespace IACele {
                             label: string,
                             content: React.ReactNode,
                             invisible: boolean,
+                            computedIsAuthorized: boolean,
                         ) => void;
 
                     };
@@ -2052,7 +2065,9 @@ declare namespace IACele {
 
                 declare namespace Object {
 
-                    type PageData = _Base.Object._PageData;
+                    type PageData = (
+                        & _Base.Object._PageData
+                    );
 
                     interface PageContent extends PageData {
                         /** 
@@ -2083,6 +2098,7 @@ declare namespace IACele {
                     type _Params<M extends ModelName> = (
                         & GenericWrapperComponent
                         & IACele.View._Base._HasOptionalInvisible<M>
+                        & OptionalAttribute<IACele.View._Base._Groups>
                     );
                     interface Params<M extends ModelName> extends _Params<M>{
                         /** 
@@ -2113,7 +2129,8 @@ declare namespace IACele {
 
                 };
 
-                interface Params<M extends ModelName> {
+                type _Params = OptionalAttribute<IACele.View._Base._Groups>;
+                interface Params<M extends ModelName> extends _Params{
                     children: Children.Callback<M>;
                 };
 
@@ -2144,6 +2161,7 @@ declare namespace IACele {
                 type _Params<M extends ModelName> = (
                     & IACele.View._Base._HasOptionalInvisible<M>
                     & IACele.UI._Base._Colorizable
+                    & OptionalAttribute<IACele.View._Base._Groups>
                 );
                 interface Params<M extends ModelName> extends _Params<M>{
                     /** 
@@ -2384,6 +2402,15 @@ declare namespace IACele {
             computedDecorationColor: IACele.UI.HeroUIColor;
         };
 
+        interface ComputedIsAuthorized {
+            /** 
+             *  ### Está autorizado
+             *  Atributo computado de si el usuario está autorizado a visualizar un
+             *  componente.
+             */ 
+            computedIsAuthorized: boolean;
+        };
+
         type _FieldMainProps = (
             & IACele._Base._State._HasTTypeName
             & IACele.View.ComputedLabel
@@ -2393,6 +2420,7 @@ declare namespace IACele {
         type ComputedFieldProps = (
             & _FieldMainProps
             & IACele.View.ComputedIsInvisible
+            & IACele.View.ComputedIsAuthorized
         );
 
         declare namespace List {
@@ -3698,6 +3726,8 @@ declare namespace IACele {
                     & IACele.View.Tree._Base.Callback.TreeRecordsIndex<R>
                     & IACele.View.Tree._Base.Callback.CreateSetFormRecordField<M>
                 );
+
+                type IsAuthorized = IACele.View.ComputedIsAuthorized;
 
             };
 
