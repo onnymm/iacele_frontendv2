@@ -952,6 +952,17 @@ declare namespace IACele {
 
     declare namespace View {
 
+        type RecordAndUID<M extends ModelName> = (
+            & Data.Models.Record<M>
+            & {
+                /** 
+                 *  ### ID de usuario
+                 *  ID del usuario de la sesión activa.
+                 */ 
+                uid: number;
+            }
+        )
+
         declare namespace _Base {
 
             /** 
@@ -972,6 +983,16 @@ declare namespace IACele {
              *  ```
              */ 
             type _ComputeFromRecord<M extends ModelName, T> = IACele._Base._DirectOrBuiltValue<Data.Models.Record<M>, T>
+
+            interface _HasUserID {
+                /** 
+                 *  ### ID de usuario
+                 *  ID del usuario de la sesión activa.
+                 */ 
+                uid: number;
+            };
+
+            type _ComputeFromRecordAndUser<M extends ModelName, T> = IACele._Base._DirectOrBuiltValue<Data.Models.Record<M> & _HasUserID, T>;
 
             /** 
              *  ### `[Interfaz base]` Solo lectura
@@ -1013,7 +1034,7 @@ declare namespace IACele {
                  *  Valor booleano o función de validación que define si el componente y su
                  *  contenido es de solo lectura.
                  */ 
-                readonly?: _ComputeFromRecord<M, boolean>;
+                readonly?: _ComputeFromRecordAndUser<M, boolean>;
             };
 
             interface _HasOptionalInvisible<M extends ModelName>{
@@ -1022,7 +1043,7 @@ declare namespace IACele {
                  *  Valor booleano o función de validación que define si el componente debe
                  *  mostrarse o no.
                  */ 
-                invisible?: _ComputeFromRecord<M, boolean>;
+                invisible?: _ComputeFromRecordAndUser<M, boolean>;
             };
 
             interface _ConditionalColorDecoration<M extends ModelName> {
@@ -1129,10 +1150,12 @@ declare namespace IACele {
              *  valor booleano y definir los comportamientos de un componente en la vista
              *  del formulario.
              */ 
-            executeFormValidation: (validation: _Base._ComputeFromRecord<M, boolean> | undefined) => (boolean);
+            executeFormValidation: (validation: _Base._ComputeFromRecordAndUser<M, boolean> | undefined) => (boolean);
         };
 
         type UsingRecord<M extends ModelName, T> = _Base._ComputeFromRecord<M, T>
+
+        type UsingRecordAndUser<M extends ModelName, T> = _Base._ComputeFromRecordAndUser<M, T>
 
         interface ColorDecoration <M extends ModelName>{
             /** 
@@ -1140,25 +1163,25 @@ declare namespace IACele {
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como información.
              */ 
-            info?: UsingRecord<M, boolean>;
+            info?: UsingRecordAndUser<M, boolean>;
             /** 
              *  #### Color de decoración (Éxito)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como éxito.
              */ 
-            success?: UsingRecord<M, boolean>;
+            success?: UsingRecordAndUser<M, boolean>;
             /** 
              *  #### Color de decoración (Advertencia)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como advertencia.
              */ 
-            warning?: UsingRecord<M, boolean>;
+            warning?: UsingRecordAndUser<M, boolean>;
             /** 
              *  #### Color de decoración (Peligro)
              *  Función o valor de validación para indicar que un componente debe
              *  o no colorearse en el color codificado como peligro.
              */ 
-            danger?: UsingRecord<M, boolean>;
+            danger?: UsingRecordAndUser<M, boolean>;
         };
 
         interface Reload {

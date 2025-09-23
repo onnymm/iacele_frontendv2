@@ -1,5 +1,6 @@
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import useFormRecordContext from "./useFormRecordContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 const useExecuteFormValidation = <M extends ModelName>(): IACele.Hook.View.Form.ExecuteFormValidation<M> => {
 
@@ -9,9 +10,12 @@ const useExecuteFormValidation = <M extends ModelName>(): IACele.Hook.View.Form.
     // Obtención de los nombres de los campos
     const fieldNames = fieldsMetadata.map( (fieldData) => (fieldData.name) );
 
+    // Obtención de la ID del usuario
+    const { userData } = useContext(UserContext)
+
     // Creación de la función de validación para ser utilizada en caso de requerirse
     const executeFormValidation = useCallback(
-        (validation: IACele.View.UsingRecord<M, boolean> | undefined) => {
+        (validation: IACele.View.UsingRecordAndUser<M, boolean> | undefined) => {
 
             // Si el valor de la validación es indefinido...
             if ( validation === undefined ) {
@@ -27,25 +31,28 @@ const useExecuteFormValidation = <M extends ModelName>(): IACele.Hook.View.Form.
             } else {
 
                 // Inicialización de un nuevo objeto en blanco
-                const formRecordData: Partial<IACele.Data.Models.Record<M>> = {};
+                const data: Partial<IACele.View.RecordAndUID<M>> = {};
 
                 // Se cambian todos los valores indefinidos a nulos en el objeto creado
                 fieldNames.forEach(
                     (fieldName) => {
                         if ( formRecord[fieldName] === undefined ) {
-                            formRecordData[fieldName] = null as never;
+                            data[fieldName] = null as never;
                         } else {
-                            formRecordData[fieldName] = formRecord[fieldName] as never;
+                            data[fieldName] = formRecord[fieldName] as never;
                         };
                     }
                 );
 
+                // Se añade la ID del usuario
+                data.uid = userData.id as never
+
                 // Ejecución de validación
-                const resolution = Boolean( validation(formRecordData as IACele.Data.Models.Record<M>) );
+                const resolution = Boolean( validation(data as IACele.View.RecordAndUID<M>) );
 
                 return resolution;
             };
-        }, [fieldNames, formRecord]
+        }, [fieldNames, formRecord, userData]
     );
 
     return { executeFormValidation };

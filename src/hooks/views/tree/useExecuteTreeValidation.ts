@@ -1,5 +1,6 @@
 import { useCallback, useContext } from "react";
 import TreeContext from "../../../contexts/view/tree/TreeContext";
+import { UserContext } from "../../../contexts/UserContext";
 
 const useExecuteTreeValidation = <M extends ModelName>(
     treeRecordsIndex: Record<number, IACele.Data.Models.Record<M>>,
@@ -11,11 +12,14 @@ const useExecuteTreeValidation = <M extends ModelName>(
     // Obtención de los nombres de los campos
     const fieldNames = metadataFromAPI.map( (fieldData) => (fieldData.name) );
 
+    // Obtención de la ID del usuario
+    const { userData } = useContext(UserContext)
+
     // Creación de la función de validación para ser usada en caso de requerirse
     const executeTreeValidation = useCallback(
         (
             id: number,
-            validation: IACele.View.UsingRecord<M, boolean> | undefined,
+            validation: IACele.View.UsingRecordAndUser<M, boolean> | undefined,
         ) => {
 
             // Si el valor de la validación es indefinido...
@@ -31,30 +35,30 @@ const useExecuteTreeValidation = <M extends ModelName>(
             // Si el valor de la validación es una función...
             } else {
 
-                console.log(treeRecordsIndex[id]);
-                console.log(fieldNames);
-
                 // Inicialización de un nuevo objeto en blanco
-                const recordData: Partial<IACele.Data.Models.Record<M>> = {};
+                const data: Partial<IACele.View.RecordAndUID<M>> = {};
 
                 // Se cambian todos los valores indefinidos a nulos en el objeto creado
                 fieldNames.forEach(
                     (fieldName) => {
                         if ( treeRecordsIndex[id][fieldName] === undefined ) {
-                            recordData[fieldName] = null as never;
+                            data[fieldName] = null as never;
                         } else {
-                            recordData[fieldName] = treeRecordsIndex[id][fieldName] as never;
+                            data[fieldName] = treeRecordsIndex[id][fieldName] as never;
                         };
                     }
                 );
 
+                // Se añade la ID del usuario
+                data.uid = userData.id as never;
+
                 // Ejecución de validación
-                const resolution = Boolean( validation(recordData as IACele.Data.Models.Record<M>) );
+                const resolution = Boolean( validation(data as IACele.View.RecordAndUID<M>) );
 
                 return resolution;
             };
 
-        }, [fieldNames, treeRecordsIndex]
+        }, [fieldNames, treeRecordsIndex, userData]
     );
 
     return { executeTreeValidation };

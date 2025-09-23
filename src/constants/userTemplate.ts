@@ -1,10 +1,11 @@
 const userTemplate: IACele.Application.CurrentUserData = {
-    id: undefined,
+    id: 0,
     login: '',
     name: '',
-    odoo_id: undefined,
-    'create_date': '',
-    'write_date': '',
+    active: false,
+    groups: [],
+    role_ids: [],
+    sync: false,
 };
 
 export default userTemplate;

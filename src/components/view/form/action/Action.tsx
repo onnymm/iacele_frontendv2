@@ -63,7 +63,7 @@ const useParseColor = (
 };
 
 const useIsActionInvisible = <M extends ModelName>(
-    invisible: IACele.View.UsingRecord<M, boolean> | undefined,
+    invisible: IACele.View.UsingRecordAndUser<M, boolean> | undefined,
 ) => {
 
     // Obtención de la función de validación
