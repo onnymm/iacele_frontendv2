@@ -40,12 +40,12 @@ const useTree = <M extends ModelName>(
             if ( dataLoaded ) return;
 
             // Obtención de la API
-            const { records, fields, count, model } = await api.tree.get<M>(modelName, page);
+            const { records, fields, count, model_label } = await api.tree.get<M>(modelName, page);
             // Se establecen los estados con los datos
             setDataFromAPI(records);
             setMetadataFromAPI(fields);
             setTotalRecords(count);
-            setViewName(model);
+            setViewName(model_label);
             // Se establece el estado de carga a verdadero
             setDataLoaded(true);
         }, [api.tree, dataLoaded, modelName, page, setDataFromAPI, setDataLoaded, setMetadataFromAPI, setTotalRecords, setViewName]

@@ -2543,49 +2543,203 @@ declare namespace IACele {
 
             declare namespace _Base {
 
+                /** 
+                 *  ### Acción
+                 *  Nombre de la acción de servidor.
+                 *  ```ts
+                 *  interface _RequiresActionName {
+                 *      // Acción
+                 *      'action': string;
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresActionName {
+                    /** 
+                     *  ### Acción
+                     *  Nombre de la acción de servidor.
+                     */ 
                     'action': string;
                 };
 
-                interface _SupportFieldsSpecification<K extends ModelName> {
-                    'fields'?: Data.Models.FieldName<K>[];
+                /** 
+                 *  ### Campos
+                 *  Nombres de campo del modelo.
+                 *  ```ts
+                 *  interface _SupportFieldsSpecification<M extends ModelName> {
+                 *      // Campos
+                 *      'fields'?: FieldName<M>[];
+                 *  };
+                 *  ```
+                 */ 
+                interface _SupportFieldsSpecification<M extends ModelName> {
+                    /** 
+                     *  ### Campos
+                     *  Nombres de campo del modelo.
+                     */ 
+                    'fields'?: Data.Models.FieldName<M>[];
                 };
 
+                /** 
+                 *  ### Modelo
+                 *  Nombre del modelo de base de datos.
+                 *  ```ts
+                 *  interface _RequiresModelName <M extends ModelName>{
+                 *      // Modelo
+                 *      'model_name': M;
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresModelName <M extends ModelName>{
+                    /** 
+                     *  ### Modelo
+                     *  Nombre del modelo de base de datos.
+                     */ 
                     'model_name': M;
                 };
 
+                /** 
+                 *  ### Datos
+                 *  Datos de registro.
+                 *  ```ts
+                 *  interface _RequiresRecordData <M extends ModelName>{
+                 *      // Datos
+                 *      'data': Partial<Record<M>>;
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresRecordData <M extends ModelName>{
+                    /** 
+                     *  ### Datos
+                     *  Datos de registro.
+                     */ 
                     'data': Partial<IACele.Data.Models.Record<M>>;
                 };
 
+                /** 
+                 *  ### ID de registro
+                 *  ID de registro del modelo especificado.
+                 *  ```ts
+                 *  interface _RequiresRecordID {
+                 *      // ID de registro
+                 *      'record_id': number;
+                 *  };
+                 *  ```
+                */ 
                 interface _RequiresRecordID {
+                    /** 
+                     *  ### ID de registro
+                     *  ID de registro del modelo especificado.
+                     */ 
                     'record_id': number;
                 };
 
+                /** 
+                 *  ### IDs de registro
+                 *  Array de IDs de registros del modelo especificado.
+                 *  ```ts
+                 *  interface _RequiresRecordIDs {
+                 *      // Ds de registro
+                 *      'record_ids': number | number[];
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresRecordIDs {
+                    /** 
+                     *  ### IDs de registro
+                     *  Array de IDs de registros del modelo especificado.
+                     */ 
                     'record_ids': number | number[];
                 };
 
+                /** 
+                 *  ### Criterio de búsqueda
+                 *  Criterio de búsqueda que filtra los resultados de la base de datos.
+                 *  ```ts
+                 *  interface _SupportsSearchCriteria<M extends ModelName> {
+                 *      // Criterio de búsqueda
+                 *      'search_criteria'?: CriteriaStructure<M>;
+                 *  };
+                 *  ```
+                 */ 
                 interface _SupportsSearchCriteria<M extends ModelName> {
+                    /** 
+                     *  ### Criterio de búsqueda
+                     *  Criterio de búsqueda que filtra los resultados de la base de datos.
+                     */ 
                     'search_criteria'?: IACele.Data.Models.CriteriaStructure<M>;
                 };
 
                 interface _SupportSlicing {
+                    /** 
+                     *  ### Desfase
+                     *  Desfase de índice de resultados encontrados.
+                     */ 
                     'offset'?: number;
+                    /** 
+                     *  ### Límite
+                     *  Límite de cantidad de registros a retornar desde el backend.
+                     */ 
                     'limit'?: number;
                 };
 
+                /** 
+                 *  ### Soporta ordenamiento
+                 *  Valores usados para ordenamiento de datos retornados por el backend.
+                 *  ```ts
+                 *  interface _SupportSlicing {
+                 *      // Desfase
+                 *      'offset'?: number;
+                 *      // Límite
+                 *      'limit'?: number;
+                 *  };
+                 *  ```
+                 */ 
                 interface _SupportSorting {
+                    /** 
+                     *  ### Ordenar por
+                     *  Campo usado para ordenar los resultados retornados.
+                     */ 
                     'sortby'?: boolean;
+                    /** 
+                     *  ### Orden ascendente
+                     *  Valor que indica si el ordenamiento realizado es ascendente o no.
+                     */ 
                     'ascending'?: boolean;
                 };
 
+                /** 
+                 *  ### Número de página
+                 *  Número de página de datos.
+                 *  ```ts
+                 *  interface _RequiresPageNumber {
+                 *      // Número de página
+                 *      'page': number;
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresPageNumber {
+                    /** 
+                     *  ### Número de página
+                     *  Número de página de datos.
+                     */ 
                     'page': number;
                 };
 
+                /** 
+                 *  ### Registros por página
+                 *  Límite de cantidad de registros a retornar por página.
+                 *  ```ts
+                 *  interface _RequiresItemsPerPage {
+                 *      // Registros por página
+                 *      'items_per_page': number;
+                 *  };
+                 *  ```
+                 */ 
                 interface _RequiresItemsPerPage {
+                    /** 
+                     *  ### Registros por página
+                     *  Límite de cantidad de registros a retornar por página.
+                     */ 
                     'items_per_page': number;
                 };
 
@@ -2662,9 +2816,9 @@ declare namespace IACele {
             declare namespace Server {
 
                 type Action<M extends ModelName> = (
-                    & _Base._RequiresActionName
                     & _Base._RequiresModelName<M>
                     & _Base._RequiresRecordID
+                    & _Base._RequiresActionName
                 );
 
             };
@@ -2672,6 +2826,84 @@ declare namespace IACele {
         };
 
         declare namespace Response {
+
+            declare namespace _Base {
+
+                /** 
+                 *  ### Datos de registros
+                 *  Datos de los registros encontrados en la búsqueda.
+                 *  ```ts
+                 *  interface _Records <M extends ModelName>{
+                 *      // Datos de registros
+                 *      'records': Record<M>[];
+                 *  };
+                 *  ```
+                 */ 
+                interface _Records <M extends ModelName>{
+                    /** 
+                     *  ### Datos de registros
+                     *  Datos de los registros encontrados en la búsqueda.
+                     */ 
+                    'records': IACele.Data.Models.Record<M>[];
+                };
+
+                /** 
+                 *  ### Campos del modelo
+                 *  Datos de los campos, usados para renderizar los widgets correspondientes en
+                 *  la vista.
+                 *  ```ts
+                 *  interface _Fields <M extends ModelName>{
+                 *      // Campos del modelo
+                 *      'fields': Field<M>[];
+                 *  };
+                 *  ```
+                 */ 
+                interface _Fields <M extends ModelName>{
+                    /** 
+                     *  ### Campos del modelo
+                     *  Datos de los campos, usados para renderizar los widgets correspondientes en
+                     *  la vista.
+                     */ 
+                    'fields': IACele.Data.Models.Field<M>[];
+                };
+
+                /** 
+                 *  ### Conteo de registros
+                 *  Conteo de los registros encontrados en la búsqueda.
+                 *  ```ts
+                 *  interface _Count {
+                 *      // Conteo de registros
+                 *      'count': number;
+                 *  };
+                 *  ```
+                 */ 
+                interface _Count {
+                    /** 
+                     *  ### Conteo de registros
+                     *  Conteo de los registros encontrados en la búsqueda.
+                     */ 
+                    'count': number;
+                };
+
+                /** 
+                 *  ### Etiqueta de modelo
+                 *  Etiqueta del modelo.
+                 *  ```ts
+                 *  interface _ModelLabel {
+                 *      // Etiqueta de modelo
+                 *      'model_label': string;
+                 *  };
+                 *  ```
+                 */ 
+                interface _ModelLabel {
+                    /** 
+                     *  ### Etiqueta de modelo
+                     *  Etiqueta del modelo.
+                     */ 
+                    'model_label': string;
+                };
+
+            };
 
             declare namespace _Authentication {
 
@@ -2707,29 +2939,12 @@ declare namespace IACele {
 
             declare namespace View {
 
-                interface Tree <M extends ModelName>{
-                    /** 
-                     *  ### Datos de registros
-                     *  Datos de los registros encontrados en la búsqueda.
-                     */ 
-                    'records': IACele.Data.Models.Record<M>[];
-                    /** 
-                     *  ### Campos del modelo
-                     *  Datos de los campos, usados para renderizar los widgets correspondientes en
-                     *  la vista.
-                     */ 
-                    'fields': IACele.Data.Models.Field<M>[];
-                    /** 
-                     *  ### Conteo de registros
-                     *  Conteo de los registros encontrados en la búsqueda.
-                     */ 
-                    'count': number;
-                    /** 
-                     *  ### Modelo
-                     *  Etiqueta del modelo.
-                     */ 
-                    'model': string;
-                };
+                type Tree <M extends ModelName> = (
+                    & _Base._Records<M>
+                    & _Base._Fields<M>
+                    & _Base._Count
+                    & _Base._ModelLabel
+                );
 
             };
 
