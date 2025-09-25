@@ -15,7 +15,10 @@ const API_PATH = {
         TASK: '/server/task/',
     },
     FRONTEND: {
-        FORM: '/frontend/form/',
+        FORM: {
+            _: '/frontend/form/',
+            GET: '/frontend/form/get/',
+        },
         TREE: {
             _: '/frontend/tree/',
             GET: '/frontend/tree/get/',

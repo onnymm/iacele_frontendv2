@@ -45,7 +45,7 @@ class Form {
 
         // Lectura del registro
         const dataResponse = await this.main.post<IACele.API.Request.Form.Read<M>, IACele.View.Form.Data<M>>(
-            API_PATH.FRONTEND.FORM,
+            API_PATH.FRONTEND.FORM.GET,
             dataRequest,
         );
 
@@ -90,7 +90,7 @@ class Form {
         );
     };
 
-    getFieldRelatedRecords = async <M extends ModelName>(
+    getMany2OneOptions = async <M extends ModelName>(
         modelName: M,
         domain: IACele.Data.Models.CriteriaStructure<M>,
         searchInput: string,

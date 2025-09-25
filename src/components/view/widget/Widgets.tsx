@@ -857,7 +857,7 @@ const useMany2OneOptions = <M extends ModelName, R extends ModelName>() => {
         async () => {
 
             // Obtención de registros para ser mostrados como opciones en el compónente
-            const records = await api.form.getFieldRelatedRecords(relatedModelName, memoizedDomain, search);
+            const records = await api.form.getMany2OneOptions(relatedModelName, memoizedDomain, search);
             // Conversión de los registros a formato de opciones
             const processedRecords: Option[] = records.map(
                 (record) => ({
