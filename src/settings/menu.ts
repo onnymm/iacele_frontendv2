@@ -12,6 +12,16 @@ export const sidebarMenu: IACele.Application._Sidebar.SidebarMenu = [
         ]
     },
     {
+        name: 'Carpintería',
+        groups: [
+            {
+                name: 'Proyectos',
+                icon: Hammer,
+                routes: '/projects'
+            }
+        ],
+    },
+    {
         name: 'Datos',
         groups: [
             {
