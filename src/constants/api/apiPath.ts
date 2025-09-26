@@ -16,12 +16,11 @@ const API_PATH = {
     },
     FRONTEND: {
         FORM: {
-            _: '/frontend/form/',
             GET: '/frontend/form/get/',
         },
-        TREE: {
+        LIST: {
             _: '/frontend/tree/',
-            GET: '/frontend/tree/get/',
+            GET: '/frontend/list/get/',
         },
     },
 }
