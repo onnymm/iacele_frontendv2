@@ -1,10 +1,11 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import getBackendUrl from "../core/backendURL";
 import Form from "./modules/form";
 import Tree from "./modules/tree";
 import Server from "./modules/server";
 import Auth from "./modules/auth";
 import iaCeleAxios from "../core/axiosInstance";
+import { addToast } from "@heroui/react";
 
 class Client {
 
@@ -133,12 +134,41 @@ class Client {
     ) => {
         // Se establece el estado de carga a verdadero
         this.setAppLoading(true);
-        // Obtención de los datos desde el backend
-        const data = await callback();
-        // Se establece el estado de carga a falso
-        this.setAppLoading(false);
+        try {
+            // Obtención de los datos desde el backend
+            const data = await callback();
 
-        return data;
+            return data;
+        } catch ( e ) {
+
+            // Tipado para Axios
+            if ( axios.isAxiosError(e) ) {
+                // Se muestra el error en la interfaz
+                this.displayError(e)
+            };
+
+            // Se lanza el error
+            throw e;
+
+        } finally {
+            // Se establece el estado de carga a falso
+            this.setAppLoading(false);
+        };
+
+    };
+
+    displayError = (
+        error: AxiosError<IACele.API.Response.Error>,
+    ) => {
+
+        // Se lanza notificación
+        addToast({
+            title: 'Ocurrió un error',
+            description: error.response?.data.detail,
+            color: 'danger',
+            variant: 'solid',
+            radius: 'sm'
+        });
     };
 };
 
