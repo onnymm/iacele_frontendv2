@@ -12,7 +12,7 @@ const RouteGroup: React.FC<IACele.Application.Navigation.RouteGroup> = ({
 }) => {
 
     // Obtención de función de cambio de estado de barra lateral
-    const { setIsSidebarOpen } = useContext(SidebarContext);
+    const { closeSidebar } = useContext(SidebarContext);
 
     // Inicialización de función de navegación
     const navigateTo = useNavigate();
@@ -33,7 +33,7 @@ const RouteGroup: React.FC<IACele.Application.Navigation.RouteGroup> = ({
         // Navegación a la ruta
         navigateTo(route);
         // Se intenta cerrar la barra lateral
-        setIsSidebarOpen(false);
+        closeSidebar();
     };
 
     // Función a ejecutar por el botón de grupo de rutas

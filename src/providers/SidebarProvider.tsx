@@ -6,10 +6,10 @@ const SidebarProvider: React.FC<IACele.Application.Provider> = ({
 }) => {
 
     // Inicialización de valores de apertura y bloqueo de barra lateral
-    const { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef } = useSidebar();
+    const { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef, closeSidebar } = useSidebar();
 
     return (
-        <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef }}>
+        <SidebarContext.Provider value={{ isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef, closeSidebar }}>
             {children}
         </SidebarContext.Provider>
     );

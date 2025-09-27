@@ -33,7 +33,7 @@ const useSidebar = (): IACele.Hook.Application.Sidebar => {
     );
 
     // Función para cerrar la barra lateral cuando se hace un clic por fuera y ésta está desbloqueada
-    const handleClickOutside = useCallback(
+    const closeSidebar = useCallback(
         () => {
 
             // Si la barra lateral no está bloqueada...
@@ -45,9 +45,9 @@ const useSidebar = (): IACele.Hook.Application.Sidebar => {
     );
 
     // Uso de hook para desencadenar efecto de clic fuera
-    useClickOutside(sidebarRef, handleClickOutside);
+    useClickOutside(sidebarRef, closeSidebar);
 
-    return { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef };
+    return { isSidebarOpen, setIsSidebarOpen, isSidebarLocked, setIsSidebarLocked, toggleSidebar, sidebarRef, closeSidebar };
 };
 
 export default useSidebar;

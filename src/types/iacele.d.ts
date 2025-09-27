@@ -3222,6 +3222,11 @@ declare namespace IACele {
                  *  Referencia para uso en componente de barra lateral.
                  */ 
                 sidebarRef: React.RefObject<HTMLElement | null>;
+                /** 
+                 *  ### Cerrrar barra lateral
+                 *  Función que intenta cerrar la barra lateral si ésta no está bloqueada.
+                 */ 
+                closeSidebar: () => void;
             };
 
             /** 
