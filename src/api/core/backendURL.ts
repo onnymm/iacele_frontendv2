@@ -16,8 +16,8 @@
  */ 
 const getBackendUrl: (route: string) => (string) = ( route ) => {
 
-    if ( !/\/.*\//.test(route) ) {
-        throw SyntaxError("La ruta proporcionada debe contener diagonales al inicio y al final");
+    if ( !/^\/.*[^/]$/.test(route) ) {
+        throw SyntaxError("La ruta proporcionada debe contener diagonal al inicio y no al final");
     };
 
     const apiHost = import.meta.env.VITE_API;
