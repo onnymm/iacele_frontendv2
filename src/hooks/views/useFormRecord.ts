@@ -278,6 +278,11 @@ const useUpdateFormRecord = <M extends ModelName>(
                 }
             );
 
+            // Se comprueba que existas cambios a ser realizados
+            const existingUpdates = Boolean( Object.keys(dataToWrite).length );
+
+            // Si no hay cambios a realizarse, se finaliza la ejecución
+            if ( !existingUpdates ) return;
             // Escritura del registro
             await api.form.update(
                 modelName,
