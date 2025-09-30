@@ -1227,6 +1227,7 @@ declare namespace IACele {
                 // Extensiones
                 | 'check'
                 | 'switch'
+                | 'profile'
             );
 
         };
@@ -1394,7 +1395,12 @@ declare namespace IACele {
                     & View.ComputedLabel
                 );
                 interface FormFieldParams <M extends ModelName> extends _FormFieldParams<M>{
-                    Widget: React.FC
+                    widget: React.FC
+                    /** 
+                     *  ### Ocultar etiqueta
+                     *  Ocultar etiqueta del nombre
+                     */ 
+                    hideLabel: boolean;
                 };
 
                 declare namespace _Base {
@@ -1421,6 +1427,11 @@ declare namespace IACele {
                          *  Nombre do etiqueta opcional para el campo
                          */ 
                         label?: string;
+                        /** 
+                         *  ### Ocultar etiqueta
+                         *  Ocultar etiqueta del nombre
+                         */ 
+                        hideLabel?: boolean;
                     };
 
                     /** 
@@ -3015,6 +3026,11 @@ declare namespace IACele {
              *  Grupos de acceso a los que pertenece el usuario.
              */ 
             'groups': _AccessGroups[];
+            /** 
+             *  ### Foto de perfil
+             *  Foto de perfil del usuario
+             */ 
+            'profile_picture': Data.Models.TType.File;
         };
 
         type _Breadcrumbs = (

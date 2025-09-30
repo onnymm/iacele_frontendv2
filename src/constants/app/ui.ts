@@ -13,3 +13,7 @@ export const LABEL = {
     CANCEL: 'Cancelar',
     CONFIRM: 'Confirmación'
 };
+
+export const DEFAULT_VALUE = {
+    PROFILE_PICTURE: '/cat.jpg',
+};

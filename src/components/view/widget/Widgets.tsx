@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { Autocomplete, AutocompleteItem, Checkbox, Chip, DateInput, NumberInput, Switch, Textarea, TimeInput, TimeInputValue } from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Button, Checkbox, Chip, DateInput, NumberInput, Switch, Textarea, TimeInput, TimeInputValue } from "@heroui/react";
 import useFormRecordContext from "../../../hooks/views/form/useFormRecordContext";
 import CharFieldInput from "./base/CharFieldInput";
 import GenericReadonlyField from "./base/GenericReadonlyField";
@@ -8,6 +8,9 @@ import { CalendarDate, CalendarDateTime, parseTime } from "@internationalized/da
 import useFieldContext from "../../../hooks/views/form/field/useFieldContext";
 import useFieldMetadata from "../../../hooks/views/useFieldMetadata";
 import useRelatedModelName from "../../../hooks/views/form/field/useRelatedModelName";
+import base64type from "../../../utils/base64type";
+import { DEFAULT_VALUE } from "../../../constants/app/ui";
+import { Camera } from "lucide-react";
 
 export const CharWidget = <M extends ModelName>() => {
 
@@ -517,6 +520,25 @@ export const One2ManyTagsWidget = <K extends ModelName>() => {
         </div>
     );
 };
+
+export const ProfilePicture = <M extends ModelName>() => {
+
+    // Obtención de los atributos generados para el widget
+    const { value } = useWidget<M, 'file', (string | undefined)>();
+
+    const content = (
+        value
+            ? base64type.jpg(value)
+            : DEFAULT_VALUE.PROFILE_PICTURE
+    );
+
+    return (
+        <div className="relative flex justify-end pr-8 w-full">
+            <img className="rounded-full max-w-24 h-24" src={content} />
+            <Button endContent={<Camera className="outline-none size-5" />} onPress={() => (null)} color="primary" className="bottom-0 absolute rounded-full" isIconOnly size="sm" />
+        </div>
+    )
+}
 
 // ----------------------------------------------------------------------------
 

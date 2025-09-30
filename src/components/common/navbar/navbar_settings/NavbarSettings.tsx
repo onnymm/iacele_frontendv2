@@ -2,8 +2,9 @@ import { Avatar, Dropdown, DropdownItem, DropdownMenu, DropdownSection, Dropdown
 import { useContext } from "react";
 import LogoutButton from "./LogoutButton";
 import DarkModeSwitch from "../../DarkModeSwitch";
-import { TITLE } from "../../../../constants/app/ui";
+import { DEFAULT_VALUE, TITLE } from "../../../../constants/app/ui";
 import { UserContext } from "../../../../contexts/UserContext";
+import base64type from "../../../../utils/base64type";
 
 const NavbarSettings = (): React.JSX.Element => {
 
@@ -77,6 +78,17 @@ const Profile: React.FC<DropdownItemChild> = ({
     // Obtención de los datos de perfil del usuario actual
     const { userData } = useContext(UserContext);
 
+    // Obtención de los valores
+    const userName = userData['name'];
+    const userLogin = userData['login'];
+    const userProfilePicture = userData['profile_picture'];
+
+    const profileSrc = (
+        userProfilePicture
+            ? base64type.jpg(userProfilePicture)
+            :  DEFAULT_VALUE.PROFILE_PICTURE
+    );
+
     return (
         <div
             onClick={onClick}
@@ -85,11 +97,15 @@ const Profile: React.FC<DropdownItemChild> = ({
             className="flex justify-end items-center gap-4 w-full cursor-pointer select-none"
         >
             <div className="flex flex-col">
-                <p className="justify-end font-semibold text-sm text-end text-ellipsis">{userData.name}</p>
-                <p className="text-gray-400 text-xs text-end">{`@${userData.login}`}</p>
+                <p className="justify-end font-semibold text-sm text-end text-ellipsis">{userName}</p>
+                <p className="text-gray-400 text-xs text-end">{`@${userLogin}`}</p>
             </div>
-            <Avatar size="sm" src="cat.jpg" isBordered color="success" />
+            <Avatar
+                size="sm"
+                color="success"
+                isBordered
+                src={profileSrc}
+            />
         </div>
     );
 };
-

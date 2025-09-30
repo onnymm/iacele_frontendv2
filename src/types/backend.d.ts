@@ -57,6 +57,7 @@ declare namespace Backend {
             active: TType.Boolean<'not_null'>;
             sync: TType.Boolean<'not_null'>;
             role_ids: TType.Many2Many<'base.users.role'>;
+            profile_picture: TType.File;
             odoo_id: TType.Integer;
             birthday_date: TType.Date;
         };

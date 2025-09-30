@@ -19,6 +19,9 @@ const User = () => {
                             <Field name="login" groups={['admin_user']}  />
                             <Field name="name" />
                         </Group>
+                        <Group label="Personalización">
+                            <Field name="profile_picture" widget="profile" />
+                        </Group>
                         <Notebook>
                             {({ Pages, Page }) => (
                                 <Pages>

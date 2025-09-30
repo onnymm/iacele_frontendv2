@@ -21,6 +21,7 @@ const Field = <
     widget,
     domain = [],
     groups,
+    hideLabel = false,
     children,
 }: IACele.View.Form.Field.Params<M, F>) => {
 
@@ -51,7 +52,7 @@ const Field = <
 
         return (
             <FieldContext.Provider value={{ name, computedLabel, placeholder, computedReadonly, ttype, computedDecorationColor, domain, min, max, step, }}>
-                <FormField Widget={Widget} computedLabel={computedLabel} name={name} />
+                <FormField widget={Widget} computedLabel={computedLabel} name={name} hideLabel={hideLabel} />
             </FieldContext.Provider>
         );
 

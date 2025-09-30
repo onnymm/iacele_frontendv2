@@ -1,4 +1,4 @@
-import { CharWidget, CheckWidget, DatetimeWidget, DateWidget, DurationWidget, FloatWidget, IntegerWidget, Many2OneWidget, One2ManyTagsWidget, SelectionWidget, SwitchWidget, TextWidget, TimeWidget } from "./Widgets";
+import { CharWidget, CheckWidget, DatetimeWidget, DateWidget, DurationWidget, FloatWidget, IntegerWidget, Many2OneWidget, One2ManyTagsWidget, ProfilePicture, SelectionWidget, SwitchWidget, TextWidget, TimeWidget } from "./Widgets";
 
 const WidgetHub = {
     'char': CharWidget,
@@ -17,6 +17,7 @@ const WidgetHub = {
 
     'check': CheckWidget,
     'switch': SwitchWidget,
+    'profile': ProfilePicture,
 };
 
 export default WidgetHub;
