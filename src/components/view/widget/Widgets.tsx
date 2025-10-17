@@ -713,7 +713,7 @@ const useDatetime = <K extends ModelName>() => {
     const displayTextDate = (value: CalendarDateTime | null) => {
 
         // Si el valor es nulo se retorna la nulidad
-        if ( value === null ) return null;
+        if ( value === null || value === undefined ) return null;
 
         // Destructuración de los valores
         const [ date, time ] = value.toString().split('T');
