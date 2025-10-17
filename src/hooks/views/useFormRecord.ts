@@ -117,9 +117,14 @@ const useFormName = <M extends ModelName>(
         () => {
 
             // Si el formulario está en modo de lectura...
-            if ( formMode === 'read' && recordInDatabase !== null ) {
-                // Se usa el nombre del registro como título de la vista
-                setViewName(recordInDatabase.name);
+            if ( formMode === 'read') {
+                if (recordInDatabase !== null) {
+                    // Se usa el nombre del registro como título de la vista
+                    setViewName(recordInDatabase.name);
+                } else {
+                    // Se usa el título de "Nuevo" sin guardar en rutas recientes
+                    setViewName('Nuevo', false);
+                };
 
             // Si el formulario está en modo de creación...
             } else {

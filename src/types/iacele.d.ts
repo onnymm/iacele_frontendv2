@@ -3200,7 +3200,7 @@ declare namespace IACele {
              *  ### Cambio de nombre de vista
              *  Función de cambio de estado de nombre de vista.
              */ 
-            setViewName: (name: string | null) => void;
+            setViewName: (name: string | null, saveOnMemory?: boolean) => void;
         };
 
         declare namespace _Sidebar {

@@ -24,14 +24,20 @@ const useViewName = (): IACele.Hook.Application.SetViewName => {
 
     // Función para establecer el nombre de la página
     const setViewName = useCallback(
-        (name: string | null) => {
+        (
+            name: string | null,
+            saveOnMemory: boolean = true,
+        ) => {
 
             // Si un nombre de ruta fue provisto...
             if ( name ) {
                 // Cambio de nombre de la pestaña
                 document.title = `${name} | ${APP_NAME}`;
-                // Se agrega la ruta al breadcrumb
-                addRoute({ name, to: location.pathname + location.search, data: {} })
+                // Si la función se debe guardar en memoria...
+                if ( saveOnMemory ) {
+                    // Se agrega la ruta al breadcrumb
+                    addRoute({ name, to: location.pathname + location.search, data: {} })
+                };
             } else {
                 // Se establece el nombre de la aplicación por defecto
                 document.title = APP_NAME;
