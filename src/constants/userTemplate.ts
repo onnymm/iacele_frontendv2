@@ -6,6 +6,7 @@ const userTemplate: IACele.Application.CurrentUserData = {
     groups: [],
     role_ids: [],
     sync: false,
+    profile_picture: null,
 };
 
 export default userTemplate;

@@ -7,6 +7,7 @@ const SidebarContext = createContext<IACele.Context.Application.Sidebar>({
     setIsSidebarOpen: () => (null),
     toggleSidebar: () => (null),
     sidebarRef: {current: null},
+    closeSidebar: () => (null),
 });
 
 export default SidebarContext;
